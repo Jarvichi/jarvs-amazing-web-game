@@ -23,8 +23,11 @@ function stock(ids: string[], count = 1): void {
 }
 
 describe('chefCooking recipe data', () => {
-  it('ships exactly eight secret recipes', () => {
-    expect(RECIPES).toHaveLength(8)
+  // A deliberate lock, not a fact worth asserting for its own sake: adding or
+  // dropping a recipe should make someone confirm the clue and the ingredient
+  // set landed too, rather than passing unnoticed.
+  it('ships exactly nine secret recipes', () => {
+    expect(RECIPES).toHaveLength(9)
   })
 
   it('every recipe/dish item id exists in the hub-item catalog', () => {
