@@ -12,7 +12,6 @@
       "basins": 1,
       "welded": 2,
       "seized": 0,
-      "ticketBase": 20,
       "crystalBase": 30,
       "cleanWater": 1
     },
@@ -27,7 +26,6 @@
       "basins": 2,
       "welded": 0,
       "seized": 0,
-      "ticketBase": 45,
       "crystalBase": 60,
       "cleanWater": 2
     },
@@ -42,14 +40,14 @@
       "basins": 3,
       "welded": 0,
       "seized": 2,
-      "ticketBase": 90,
       "crystalBase": 110,
       "cleanWater": 3
     }
   ],
   "scoring": {
     "efficiencyFloor": 0.4,
-    "underParBonus": 15,
-    "dowseMoveCost": 3
+    "underParCrystals": 25,
+    "dowseMoveCost": 3,
+    "reputation": 1
   }
 }

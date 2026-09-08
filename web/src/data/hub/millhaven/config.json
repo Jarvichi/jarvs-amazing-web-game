@@ -1648,6 +1648,17 @@
   ],
   "npcs": [
     {
+      "id": "millhaven-well-keeper",
+      "name": "Harbourmaster Dunn",
+      "sprite": "hub-npc-harbourmaster",
+      "tx": 16,
+      "ty": 12,
+      "dialogue": [
+        "Gear turns sweet as anything. Bucket still comes up dry.",
+        "Something under the harbour's choked. Been that way since the spring tides."
+      ]
+    },
+    {
       "id": "mill-owner",
       "name": "Miller Oswin",
       "sprite": "hub-npc-supplies",
@@ -3507,6 +3518,22 @@
     }
   ],
   "interactables": [
+    {
+      "id": "millhaven-well",
+      "tx": 15,
+      "ty": 12,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The winding gear turns, but the bucket comes up dry. Something below the harbour is choked."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-deep"
+        }
+      ]
+    },
     {
       "id": "millhaven-forage-bush-1",
       "tx": 4,

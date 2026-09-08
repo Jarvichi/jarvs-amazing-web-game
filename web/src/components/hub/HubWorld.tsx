@@ -59,7 +59,7 @@ import { getFlameType, setFlameType } from '../../game/hub/flames'
 import { recordGroupMember } from '../../game/hub/groupChallenges'
 import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
-import { canRestoreToday } from '../../game/hub/wellsprings'
+import { canRestoreToday, wellKeeperDialogue } from '../../game/hub/wellsprings'
 import { forageTable, rollForage } from '../../game/hub/forageLoot'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
@@ -477,6 +477,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
     ['poker-pete-int', getMiniGameChallengeNPCDialogue('videoPoker')],
     ['siege-master', getMiniGameChallengeNPCDialogue('towerDefence')],
   ])
+  // Well keepers are found by id rather than listed, so giving a new town a
+  // well needs no change here. Their line depends on whether the player is
+  // carrying the crank and whether this well is still dry today.
+  {
+    const keeperState = {
+      hasCrank:      hasHubItem('winding-crank'),
+      restoredToday: !canRestoreToday(town),
+    }
+    for (const npc of locationData.HUB_NPCS) {
+      if (npc.id.endsWith('-well-keeper')) {
+        npcProximityDialogueRef.current.set(npc.id, wellKeeperDialogue(keeperState))
+      }
+    }
+  }
 
   // Interactable indicator conditions (e.g. 'unread-news'): read imperatively by PixiJS ticker
   const indicatorConditionsRef = useRef(new Map<string, boolean>())

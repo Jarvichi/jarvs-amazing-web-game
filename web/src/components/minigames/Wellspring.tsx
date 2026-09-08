@@ -3,10 +3,10 @@
 // until water runs from the spring through every section with nothing
 // spilling. Scored on taps against par — no clock, no reflexes, no luck.
 //
-// Two reward modes, mirroring Fishing: 'tickets' is the arcade game (pay
-// crystals, earn tickets, pick your own depth), 'restore' is the hub-world
-// well, where the depth is authored per town and the payout is crystals and
-// standing rather than tickets. See docs/minigame-wellspring.md.
+// Surfaced only through the hub world — this is the screen behind a town's
+// well, not an arcade cabinet. The depth is authored per town rather than
+// chosen, and putting a well right pays crystals, clean water and standing
+// with that town. See docs/minigame-wellspring.md.
 
 import React, { useState, useMemo, useCallback } from 'react'
 import { MinigameShell } from './MinigameShell'
@@ -14,35 +14,28 @@ import { MinigameResultPanel } from './MinigameResultPanel'
 import { ConduitBoard } from './wellspring/ConduitBoard'
 import { canonicalMask } from './wellspring/ConduitTile'
 import { FlowStatusBar } from './wellspring/FlowStatusBar'
-import { DepthPicker } from './wellspring/DepthPicker'
 import { Button } from '../ui/Button'
 import { playMinigameCorrect, playCardFlip } from '../../game/sound'
 import {
   generateBoard, computeFlow, rotateCellAt, isRotatable, moveCost, dowse,
-  scoreRun, restorationCrystals, getDepth,
-  WELLSPRING_DEPTHS, WELLSPRING_SCORING,
+  scoreRun, getDepth, WELLSPRING_SCORING,
   type Board, type DepthId,
 } from './Wellspring.logic'
 
-/** What a finished board reports back, beyond the tickets it paid. */
+/** What a restored well reports back to the hub. */
 export interface WellspringResult {
-  moves:    number
-  par:      number
-  underPar: boolean
-  depthId:  DepthId
-  /** Solves in 'restore' mode pay these instead of tickets. */
+  moves:      number
+  par:        number
+  underPar:   boolean
+  depthId:    DepthId
   crystals:   number
   cleanWater: number
 }
 
 interface Props {
-  /** Tickets earned (always 0 in 'restore' mode) and how the board went. */
-  onDone:      (ticketsEarned: number, result: WellspringResult) => void
-  /** 'tickets' (default): arcade — pay crystals, earn tickets, choose a depth.
-   *  'restore': hub world — the well's own depth, paid in crystals and water. */
-  rewardMode?: 'tickets' | 'restore'
-  /** Fixed depth. Set per town in 'restore' mode; arcade opens on Deep. */
-  depth?:      DepthId
+  onDone: (result: WellspringResult) => void
+  /** Which shaft this town's well drops into — authored per town. */
+  depth:  DepthId
 }
 
 /** Everything that resets together when a new board is laid. */
@@ -80,20 +73,14 @@ function spinToward(spins: number[], index: number, mask: number): number[] {
   return next
 }
 
-export function Wellspring({ onDone, rewardMode = 'tickets', depth: fixedDepth }: Props) {
-  const arcade = rewardMode === 'tickets'
-  const [depthId, setDepthId] = useState<DepthId>(() => getDepth(fixedDepth ?? 'deep').id)
+export function Wellspring({ onDone, depth: depthProp }: Props) {
+  const depth = getDepth(depthProp)
+  const depthId = depth.id
   const [run, setRun] = useState<Run>(() => freshRun(depthId))
 
-  const depth = getDepth(depthId)
   const { board, spins, moves, dowsed, done } = run
   const flow = useMemo(() => computeFlow(board), [board])
   const score = scoreRun(depth, board.par, moves)
-
-  const startDepth = useCallback((id: DepthId) => {
-    setDepthId(id)
-    setRun(freshRun(id))
-  }, [])
 
   /** Put every piece back where the board opened. The taps already spent
    *  stand: there is no failure state here, so a reset is a way out of a
@@ -159,14 +146,7 @@ export function Wellspring({ onDone, rewardMode = 'tickets', depth: fixedDepth }
       stat={`Moves ${moves} · Par ${board.par}`}
       className="wellspring-screen"
     >
-      {arcade && (
-        <DepthPicker
-          depths={WELLSPRING_DEPTHS}
-          value={depthId}
-          onChange={startDepth}
-          disabled={moves > 0 && !done}
-        />
-      )}
+      <p className="wellspring-depth">{depth.label} — {depth.subtitle}</p>
 
       <div className="wellspring-board-wrap">
         <ConduitBoard board={board} flow={flow} spins={spins} onTapCell={handleTap} />
@@ -198,13 +178,13 @@ export function Wellspring({ onDone, rewardMode = 'tickets', depth: fixedDepth }
       {done && (
         <MinigameResultPanel
           headline="✨ WELLSPRING RESTORED"
-          ctaLabel={arcade ? 'COLLECT & EXIT' : 'LEAVE THE WELL'}
-          onCta={() => onDone(arcade ? score.tickets : 0, {
+          ctaLabel="LEAVE THE WELL"
+          onCta={() => onDone({
             moves,
             par:        board.par,
             underPar:   score.underPar,
             depthId,
-            crystals:   restorationCrystals(depth, board.par, moves),
+            crystals:   score.crystals,
             cleanWater: depth.cleanWater,
           })}
         >
@@ -212,17 +192,10 @@ export function Wellspring({ onDone, rewardMode = 'tickets', depth: fixedDepth }
             <div>Moves {moves} · Par {board.par}</div>
             <div>Efficiency: {Math.round(score.efficiency * 100)}%</div>
             {dowsed > 0 && <div>Dowsed {dowsed}×</div>}
-            {arcade ? (
-              <>
-                <div>Depth ({depth.label}): +{Math.round(depth.ticketBase * score.efficiency)} 🎫</div>
-                {score.underPar && <div>Under par! +{WELLSPRING_SCORING.underParBonus} 🎫</div>}
-                <div className="minigame-result-total">Total: {score.tickets} 🎫</div>
-              </>
-            ) : (
-              <div className="minigame-result-total">
-                +{restorationCrystals(depth, board.par, moves)} 💎 · +{depth.cleanWater} 💧 Clean Water
-              </div>
-            )}
+            {score.underPar && <div>Under par! +{WELLSPRING_SCORING.underParCrystals} 💎</div>}
+            <div className="minigame-result-total">
+              +{score.crystals} 💎 · +{depth.cleanWater} 💧 Clean Water · +{WELLSPRING_SCORING.reputation} standing
+            </div>
           </div>
         </MinigameResultPanel>
       )}

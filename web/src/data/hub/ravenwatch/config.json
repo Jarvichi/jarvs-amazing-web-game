@@ -10768,6 +10768,17 @@
   },
   "npcs": [
     {
+      "id": "ravenwatch-well-keeper",
+      "name": "Corvin Slate",
+      "sprite": "hub-npc-raven-keeper",
+      "tx": 21,
+      "ty": 22,
+      "dialogue": [
+        "Runs off the old aqueduct, this one. Half the town credits the ravens.",
+        "The ravens have not, to my knowledge, ever mended a channel."
+      ]
+    },
+    {
       "id": "elder",
       "name": "The Elder",
       "sprite": "hub-npc-elder",
@@ -13142,6 +13153,22 @@
     }
   ],
   "interactables": [
+    {
+      "id": "ravenwatch-well",
+      "tx": 21,
+      "ty": 21,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Ravenwatch draws off the old aqueduct. Half the town still swears it runs on the ravens' good will."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-deep"
+        }
+      ]
+    },
     {
       "id": "ravenwatch-rain-puddle",
       "tx": 44,

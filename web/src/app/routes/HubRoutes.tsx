@@ -4,14 +4,13 @@ import { OverlayScreen } from '../../components/ui/OverlayScreen'
 import { loadCrystals, saveCrystals } from '../../game/collection'
 import { addHubItem } from '../../game/itemStore'
 import { addTownReputation } from '../../game/hub/reputation'
+import { incrementAchievementProgress } from '../../game/achievements'
 import { recordRestore } from '../../game/hub/wellsprings'
 import { loadPlayerName } from '../../game/questline'
 import { isNodeCleared } from '../../game/world/worldState'
 import { auth } from '../../firebase'
+import { WELLSPRING_SCORING } from '../../components/minigames/Wellspring.logic'
 import type { Screen, SubScreen } from '../screens'
-
-/** Standing earned for putting a town's well right, once a day per town. */
-const WELLSPRING_REPUTATION = 1
 
 /**
  * Hub world, world map, and the hub's leisure screens.
@@ -41,7 +40,7 @@ export function HubRoutes() {
             setReturnScreen('hubworld')
             setShopBuildingId(buildingId)
             setShopTappedNpc(npc)
-            const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'wellspring', 'citybuilder', 'prizes']
+            const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
             if (HUB_MINIGAME_IDS.includes(s as SubScreen)) {
               setHubMiniGameEntry(s as SubScreen)
               setScreen('hub-minigame')
@@ -182,18 +181,20 @@ export function HubRoutes() {
       {(screen === 'hub-wellspring' || screen === 'hub-wellspring-deep' || screen === 'hub-wellspring-vault') && (
         <OverlayScreen title="💧 WELLSPRING" onBack={() => setScreen('hubworld')}>
           <Wellspring
-            rewardMode="restore"
             depth={screen === 'hub-wellspring-vault' ? 'vault' : screen === 'hub-wellspring-deep' ? 'deep' : 'shallow'}
-            onDone={(_tickets, result) => {
+            onDone={(result) => {
               const town = hubData?.locationRegistry[currentLocationKey]?.locationData.HUB_TOWN_NAME
               if (town) {
                 recordRestore(town)
-                addTownReputation(town, WELLSPRING_REPUTATION)
+                addTownReputation(town, WELLSPRING_SCORING.reputation)
               }
               addHubItem('clean-water', result.cleanWater)
               const next = loadCrystals() + result.crystals
               saveCrystals(next)
               setCrystals(next)
+              incrementAchievementProgress('hub:wellspring:restorations')
+              if (result.underPar) incrementAchievementProgress('hub:wellspring:underParSolves')
+              if (result.depthId === 'vault') incrementAchievementProgress('hub:wellspring:vaultSolves')
               setScreen('hubworld')
             }}
           />

@@ -1558,6 +1558,17 @@
   ],
   "npcs": [
     {
+      "id": "saltmereport-well-keeper",
+      "name": "Netta Brine",
+      "sprite": "hub-npc-sailor",
+      "tx": 19,
+      "ty": 13,
+      "dialogue": [
+        "Fresh water this close to the sea is somebody's careful work.",
+        "Coming up brackish these three weeks. Careful work's come undone."
+      ]
+    },
+    {
       "id": "harbourmaster-vane",
       "name": "Harbourmaster Vane",
       "dialogueTree": "vane-hat-trade",
@@ -2569,6 +2580,22 @@
     }
   },
   "interactables": [
+    {
+      "id": "saltmereport-well",
+      "tx": 19,
+      "ty": 12,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "Fresh water this close to the sea is somebody's careful work. Lately it has been coming up brackish."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-deep"
+        }
+      ]
+    },
     {
       "id": "chandlery-lantern",
       "tx": 5,

@@ -1531,6 +1531,17 @@
   ],
   "npcs": [
     {
+      "id": "harrowfield-well-keeper",
+      "name": "Goodwife Trent",
+      "sprite": "hub-npc-elder",
+      "tx": 13,
+      "ty": 9,
+      "dialogue": [
+        "Bucket comes up slower every season. We've taken to carrying from the stream.",
+        "There's a proper channel under there. Was, anyway."
+      ]
+    },
+    {
       "id": "elder-maeve",
       "name": "Elder Maeve",
       "sprite": "hub-npc-elder",
@@ -2535,6 +2546,22 @@
     }
   },
   "interactables": [
+    {
+      "id": "harrowfield-well",
+      "tx": 12,
+      "ty": 9,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "A low, mossy field well. What water there is goes down the bucket slower than it comes up."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring"
+        }
+      ]
+    },
     {
       "id": "harrowfield-forage-flower-1",
       "tx": 2,

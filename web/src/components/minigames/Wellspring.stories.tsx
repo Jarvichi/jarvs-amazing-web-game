@@ -5,21 +5,18 @@ import { Wellspring } from './Wellspring';
 const meta = {
   component: Wellspring,
   parameters: { layout: 'fullscreen' },
-  args: { onDone: () => {} },
+  args: { onDone: () => {}, depth: 'deep' },
 } satisfies Meta<typeof Wellspring>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** Arcade mode: the player picks a depth and the board pays tickets. */
-export const Arcade: Story = {};
+/** A village cistern: 4x4, no tees, two cells welded correct as a scaffold. */
+export const Cistern: Story = { args: { depth: 'shallow' } };
 
-export const ArcadeShallow: Story = { args: { depth: 'shallow' } };
-export const ArcadeAbyssal: Story = { args: { depth: 'vault' } };
+/** The middling depth most towns' wells drop into. */
+export const Aqueduct: Story = {};
 
-/** Hub-world mode at a town well: no depth picker (the well's depth is
- *  authored per town) and the payout is crystals and water, not tickets. */
-export const HubRestoration: Story = {
-  args: { rewardMode: 'restore', depth: 'deep' },
-};
+/** A ley vault: 6x6, crosses and seized cells, and edges that wrap. */
+export const LeyVault: Story = { args: { depth: 'vault' } };

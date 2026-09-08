@@ -246,32 +246,17 @@
   color: var(--color-orange);
 }
 
-/* ─── Depth picker ──────────────────────────────────────── */
+/* ─── Depth caption ─────────────────────────────────────── */
 
-.depth-picker {
-  display: flex;
-  justify-content: center;
-  gap: var(--gap-3);
-  flex-wrap: wrap;
-}
-
-.depth-picker-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--gap-1);
-  line-height: 1.2;
-}
-
-.depth-picker-label {
+/* Which shaft this town's well drops into. A caption, not a control: the
+   depth is authored per town, so there is nothing here to choose. */
+.wellspring-depth {
+  margin: 0;
   font-family: var(--font-display);
-  letter-spacing: 0.04em;
-}
-
-.depth-picker-sub {
-  font-family: var(--font-mono);
-  font-size: var(--font-xxs);
-  opacity: 0.75;
+  font-size: var(--font-md);
+  letter-spacing: 0.06em;
+  color: var(--color-gold-dim);
+  text-align: center;
 }
 
 /* ─── Screen layout ─────────────────────────────────────── */

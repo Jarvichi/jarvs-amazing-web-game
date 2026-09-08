@@ -1,8 +1,7 @@
 # Mini-game Design — **Wellspring** 💧
 
-> **Status:** in progress. §8 tracks what has landed. The puzzle logic and its
-> tests are in; the UI and the hub wiring are not. Read this in full before
-> picking up the next step.
+> **Status:** built. §8 tracks what landed. Wellspring is reached **only
+> through the hub world** — a town's well, not an arcade cabinet.
 
 A deterministic **conduit-routing puzzle** played at a town's stone well.
 Rotate the broken aqueduct sections beneath the well until water runs from the
@@ -127,28 +126,32 @@ text, and a new player learns the rules by touching things. There is no
 |---|---|
 | **Par** | The minimum taps needed to undo the scramble (computed exactly — see §3). Shown from the start. |
 | **Moves** | Taps the player actually spent. |
-| **Dowse** | Optional hint: reveals one cell's correct orientation. Costs **+3 moves**, not tickets. |
+| **Dowse** | Optional hint: snaps one cell into place. Costs **+3 moves**, never crystals. |
 
 ```
 efficiency = clamp(par / moves, 0.4, 1.0)
-tickets    = round(depthBase × efficiency)
-           + (moves < par ? UNDER_PAR_BONUS : 0)
-           + (first clear of today's Deep Draught board ? DAILY_BOARD_BONUS : 0)
+crystals   = round(depthCrystalBase × efficiency)
+           + (moves < par ? UNDER_PAR_CRYSTALS : 0)
 ```
 
-A sloppy solve still pays 40% — the floor exists so that brute-forcing a hard
-board is *worse* than solving an easy one cleanly, but never worthless. There
-is no failure state and no way to be locked out of finishing.
+Plus the depth's clean water and one point of town standing. A sloppy solve
+still pays 40% — the floor exists so that brute-forcing a hard board is
+*worse* than solving an easy one cleanly, but never worthless. There is no
+failure state and no way to be locked out of finishing.
 
 ### What is deliberately absent
 
 - **No countdown.** A clock turns a thinking game into a panicking game, and
   it is the single fastest way to make this indistinguishable from Crystal
   Catch. The roster has four timed games already.
-- **No hard move cap.** Going over par costs tickets. It never ends the run.
+- **No hard move cap.** Going over par costs crystals. It never ends the run.
 - **No randomised outcomes.** Every board has a known-good answer. This is the
   only mini-game where the player's result is entirely their own doing, and
   that is the point of adding it.
+- **No arcade cabinet.** Wellspring is not in the mini-games menu, has no
+  crystal entry fee, no ticket payout, no leaderboard and no daily
+  ticket-challenge. It exists where it makes sense in the fiction — at the
+  bottom of a town's well — and nowhere else.
 
 ---
 
@@ -205,17 +208,6 @@ Par is the distance to *the generated* solution. Where a board admits an
 alternative arrangement, the true optimum can be lower — which is exactly what
 the under-par bonus is for. It should be rare, and it should feel like a find.
 
-### Seeded daily board — the "Deep Draught"
-
-One board per real day, seeded `hashStr(<YYYY-MM-DD>:wellspring:<depth>)` via
-the existing `makeSeededRng` in `game/seededRandom.ts` — the same pattern
-`miniGameDailyChallenge.ts` and `hub/bounties.ts` already use.
-
-This is worth more here than in any other mini-game: for the first time the
-leaderboard compares players **on the same problem** instead of on unrelated
-random runs. Every other board (arcade replays, every hub well) uses an
-unseeded RNG.
-
 ### Correctness risks worth naming up front
 
 | Risk | Mitigation |
@@ -242,13 +234,13 @@ depth is a different board, not a modifier on the same one.
 | Welded cells | 2 (pre-solved scaffold) | — | — |
 | Seized cells | — | — | 2 (cost 2 taps each) |
 | Typical par | 10–19 (median 15) | 22–36 (median 28) | 38–56 (median 47) |
-| Ticket base | 20 | 45 | 90 |
+| Crystal base | 30 | 60 | 110 |
+| Clean water | 1 | 2 | 3 |
 | Solve time | ~30–60 s | ~2 min | ~4–6 min |
 
 Par figures are measured from the shipped generator over 400 boards per tier
 (10th–90th percentile), not estimated. Re-measure them if the tree style or
-grid size changes — the daily-challenge target band and the ticket bases are
-both derived from them.
+grid size changes — the crystal bases are derived from them.
 
 ### The four knobs, ranked by how much they actually add
 
@@ -281,7 +273,7 @@ like"). Same code path, opposite sign.
 
 - **A clock.** Covered in §2 — it converts the genre.
 - **A hard move cap that fails the run.** Punishes exploration, which is how
-  people learn a puzzle. The soft ticket penalty does the same job without
+  people learn a puzzle. The soft crystal penalty does the same job without
   ever taking the board away.
 - **Hiding the board / fog of war.** Turns deduction into trial and error.
 
@@ -320,7 +312,7 @@ gaps take an existing `stoneWell` decor tile, so **no new art is required**.
 
 Assigning depth per town gives places character (a village cistern is not the
 Capital's ley vault) and gives the world map a reason to exist: if you want
-the 90-ticket board, you travel for it.
+the deepest board and its best payout, you travel for it.
 
 ### How the tap is wired
 
@@ -343,13 +335,40 @@ The depth rides in the screen id — `hub-wellspring`, `hub-wellspring-deep`,
 `hub-wellspring-vault` — which is precisely how fishing already carries its
 locale variants (`hub-fishing-cave` / `-lake` / `-ocean`).
 
+### The well keeper
+
+A stone well is easy scenery. A player can walk past one a hundred times
+without ever thinking to tap it, and since the well is the *only* door into
+this game, that would be the whole feature invisible.
+
+So every town's well has an NPC loitering beside it —
+`<town>-well-keeper` — with proximity dialogue that changes with the state of
+the well:
+
+| Player state | At 8 tiles | At 4 tiles |
+|---|---|---|
+| No crank | *"The well's dry again."* | *"Winding gear's seized solid. You'd want a crank off Gearford to shift it."* |
+| Has the crank, well still dry | *"The well's dry again."* | *"Someone ought to climb down and see to the channels."* |
+| Already restored today | *"Water's running clean today."* | *"Whoever saw to the channels down there has my thanks."* |
+
+That covers the whole discovery path in the fiction: a player who has never
+heard of the crank learns it exists **and where to buy it**, a player carrying
+one gets pointed at the well, and a player who has already fixed it today is
+not nagged.
+
+Keepers are found by id (`endsWith('-well-keeper')`) rather than listed in
+`HubWorld.tsx`, so giving a new town a well needs no code change. Each is
+sprited from the existing `hub-npc-*` set and flavoured to its town — Gravemoor's
+is the sexton, Hollowmere's is a child who does not find the joke funny — so
+tapping one is worth doing on its own.
+
 ### Gating
 
 Two gates, each copied from a mechanism already in the codebase:
 
 1. **The Winding Crank** — a one-time tool purchase, mirroring the fishing rod.
-   Sold via `buyHubItem` at a stall (Gearford's works-yard is the natural
-   home). Checked in `HubWorld.tsx`'s `handleNodeInteract` with the same
+   Sold via `buyHubItem` on the shelf of Gearford's tool shop, beside the
+   spade. Checked in `HubWorld.tsx`'s `handleNodeInteract` with the same
    `screen.startsWith('hub-wellspring')` shape the rod/bait check already uses.
    Without it: *"The winding gear is seized. You'd need a crank to shift it."*
 2. **Once per well per real day** — reusing the `digs.ts` / `forages.ts`
@@ -359,17 +378,16 @@ Two gates, each copied from a mechanism already in the codebase:
    daily cooldown across 13 wells is a better reason to travel than a bait
    counter is.
 
-### Rewards — hub mode
+### Rewards
 
-Hub mode pays **no tickets**, exactly as fishing's `rewardMode: 'catch'` pays
-none. Instead, per solve:
+Per solve:
 
 | Reward | Amount |
 |---|---|
 | **Clean Water** (new `material` hub-item) | 1 / 2 / 3 by depth |
 | Crystals | depth base × efficiency |
 | **Town reputation** | +1 |
-| Dredged-up trinket | ~15%, reusing the `dig` loot shape |
+| **Under par** | +25 crystals on top |
 
 **Town reputation is the load-bearing one.** Reputation currently drives
 building upgrades and unlocked services (`docs/hubworld.md` §10) but has few
@@ -391,7 +409,7 @@ Portrait-first, inside the existing 740px column. Board is square and sized
 ┌─────────────────────────────────────────────┐
 │ 💧 WELLSPRING            Moves 12 · Par 18  │  MinigameShell (title + stat)
 ├─────────────────────────────────────────────┤
-│   DEPTH   [ Shallow ]  [ Deep ]  [ Abyssal ]│  filter-btn row — arcade only
+│            Deep — The Aqueduct               │  caption: the well's own depth
 ├─────────────────────────────────────────────┤
 │                                             │
 │      ╔═══════════════════════════╗          │
@@ -402,7 +420,7 @@ Portrait-first, inside the existing 740px column. Board is square and sized
 │      ╚═══════════════════════════╝          │
 │                                             │
 ├─────────────────────────────────────────────┤
-│  💧 Basins  1/3          ⚠  2 leaks         │  FlowStatusBar
+│  💧 Conduits 12/25       ⚠  2 leaking       │  FlowStatusBar
 ├─────────────────────────────────────────────┤
 │     [ 🔎 DOWSE  −3 ]      [ ↺ RESET ]       │  action-btn row
 └─────────────────────────────────────────────┘
@@ -440,20 +458,20 @@ Reuses `MinigameResultPanel` unchanged — headline, breakdown, one CTA.
 ```
             ✨  WELLSPRING RESTORED
               Moves 16  ·  Par 18
-
-        Depth (Deep) ..................  +45 🎫
-        Efficiency (100%) .............   +0 🎫
-        Under par! ....................  +15 🎫
+              Efficiency 100%
+              Under par!  +25 💎
         ─────────────────────────────────────
-        Total .........................   60 🎫
+        +85 💎  ·  +2 💧 Clean Water  ·  +1 standing
 
-               [ COLLECT & EXIT ]
+              [ LEAVE THE WELL ]
 ```
 
-Hub mode swaps the ticket rows for `+2 💧 Clean Water`, `+35 💎`,
-`Millhaven regards you a little better (+1)`.
-
 ### Accessibility
+
+The status bar counts **conduits carrying**, not basins fed: on a one-basin
+Shallow board that counter only flips at the very end, where the count of live
+pipe climbs the whole way and reads as progress. The basins keep their own
+payoff by visibly filling on the board.
 
 Each cell is a real `<button>` carrying a description of its own piece —
 *"Row 2, column 3: elbow, open north and east. Activate to rotate."* — plus
@@ -463,14 +481,13 @@ which is the main reason for the renderer decision below.
 
 ---
 
-## §7 — One decision to make before building
+## §7 — Renderer: a documented deviation
 
-**Render the board as DOM + inline SVG, or as a PixiJS canvas?**
+**The board is DOM + inline SVG, not a PixiJS canvas.**
 
 `AGENTS.md`'s framework table says *"tile/cell grids → PixiJS"*, and
-`towerdefence/GameGrid.tsx` is the precedent. This design **recommends
-deviating from that table here**, and the reasoning should be checked before
-any code is written:
+`towerdefence/GameGrid.tsx` is the precedent. Wellspring deviates from that
+table deliberately:
 
 - The rule's stated rationale is spatial grids with **moving entities and
   sprite animation**. Wellspring has neither — it is at most 36 static cells
@@ -483,25 +500,22 @@ any code is written:
 - DOM cells are directly testable and Storybook-inspectable per component,
   which is what the component-extraction rule in `AGENTS.md` is asking for.
 
-Pixi's real advantage would be the leak spray and a richer water shader. A CSS
-droplet keyframe covers that at a fraction of the cost.
-
-**Recommendation: DOM + SVG.** Flagging it rather than deciding it silently,
-because it reads against a documented convention.
+Pixi's real advantage would be a richer water shader. In practice the CSS
+`stroke-dashoffset` flow and a solid amber stroke on a spilling arm read
+better than the particle effects originally sketched here, and cost nothing.
 
 ---
 
-## §8 — Implementation plan
+## §8 — What was built
 
-Five commits, each independently green (`npm run build` + `npm run test`),
-pushed as they land per `AGENTS.md`'s small-steps rule.
+Five commits, each independently green (`npm run build` + `npm run test`).
 
 ### Commit 1 — Pure logic *(no UI, no React)*
 
 | File | Contents |
 |---|---|
 | `components/minigames/Wellspring.logic.ts` | Piece/mask model, `neighbourIndex()` (the single wrap-aware adjacency function), the three spanning-tree generators, scrambler, exact par, flood-fill solved-check, leak enumeration, rotation, dowse, scoring. Named for the existing `Fishing.physics.ts` / `HarbourRegatta.physics.ts` convention — minigame logic lives beside its screen, not in `game/`. |
-| `web/src/data/wellspringDepths.json` | The §4 table as config — grid, tree style, basin count, wrap, seized/welded counts, ticket and crystal bases. Per `AGENTS.md`, extensible constants belong in JSON. |
+| `web/src/data/wellspringDepths.json` | The §4 table as config — grid, tree style, basin count, wrap, seized/welded counts, crystal base, clean water. Per `AGENTS.md`, extensible constants belong in JSON. |
 | `components/minigames/Wellspring.logic.test.ts` | 50 tests: generation terminates and solves at every tier across hundreds of seeds; par equals the taps an honest playthrough actually spends; the piece mix matches each tree style; wrap adjacency is symmetric; welded/seized counts land only on turnable cells; `computeFlow` ignores the stored solution; scoring floors, bonuses and the crystal path. |
 
 ✅ **Landed.** This is the commit that had to be right. Everything after it is
@@ -513,23 +527,24 @@ presentation.
 |---|---|
 | `components/minigames/wellspring/ConduitTile.tsx` + `.stories.tsx` | One cell. Props only, no state. Story covers every §6 state. |
 | `components/minigames/wellspring/ConduitBoard.tsx` + `.stories.tsx` | The grid. Story covers each depth, plus a mid-solve board with leaks. |
-| `components/minigames/wellspring/FlowStatusBar.tsx` + `.stories.tsx` | Basins-fed / leak count. |
-| `components/minigames/wellspring/DepthPicker.tsx` + `.stories.tsx` | `filter-btn` row. |
+| `components/minigames/wellspring/FlowStatusBar.tsx` + `.stories.tsx` | Conduits-carrying / leak count. |
 | `web/src/styles/minigames-5.css` (+ `index.css` import) | The existing four are 1.2–1.5k lines each; a new game starts a new file. |
 
-Reuse before adding: `filter-btn`, `action-btn`, `Button`, `Panel`,
-`MinigameShell`, `MinigameResultPanel`. Every new clickable gets `:active`.
+Reuse before adding: `action-btn`, `Button`, `Panel`, `MinigameShell`,
+`MinigameResultPanel`. Every new clickable gets `:active`.
 
-### Commit 3 — Screen + arcade wiring
+Three findings only a screenshot caught: leak dots read as muddy olive over a
+blue pipe (a spilling arm now goes solid amber along its length instead), the
+spring was the least prominent thing on a board full of shouting gold basins,
+and `@keyframes` animating the SVG `r` geometry property silently does nothing
+in WebKit, which this repo tests against.
+
+### Commit 3 — The screen
 
 | File | Change |
 |---|---|
-| `components/minigames/Wellspring.tsx` + `.stories.tsx` | Orchestrator. Props mirror `Fishing`: `onDone(tickets, score)`, `rewardMode: 'tickets' \| 'restore'`, `depth`. |
-| `game/miniGames.ts` | `'wellspring'` into `MiniGameId`, `MINI_GAME_LABELS`, `_DESCRIPTIONS`, `_ICONS` (💧). |
-| `data/economy.json` | `miniGameCosts.wellspring: 20`. |
-| `game/miniGameDailyChallenge.ts` | `MINI_GAME_CHALLENGE_RANGE.wellspring: [30, 60]`. |
-| `game/achievements.ts` | First restore; a solve under par; an Abyssal solve. |
-| `components/screens/MiniGamesMenu.tsx` | Import, `SubScreen`, `handleGameDone` branch, and the **three** separate id arrays (grid, leaderboard tabs, `HUB_MINIGAME_IDS`). |
+| `components/minigames/Wellspring.tsx` + `.stories.tsx` | Orchestrator. `onDone(result)` and a `depth` set by the town — no reward mode and no depth picker, because there is only one way in. |
+| `game/achievements.ts` | First restore, an under-par solve, thirteen wells, three ley vaults. |
 
 ### Commit 4 — Hub wiring
 
@@ -537,26 +552,35 @@ Reuse before adding: `filter-btn`, `action-btn`, `Button`, `Panel`,
 |---|---|
 | `app/screens.ts` | `'hub-wellspring'`, `-deep`, `-vault`. |
 | `app/lazyScreens.ts` | Lazy `Wellspring` export. |
-| `app/routes/HubRoutes.tsx` | Three routes wrapped in `OverlayScreen`, mirroring the `hub-fishing*` block; add the ids to `HUB_MINIGAME_IDS`. |
-| `components/hub/HubWorld.tsx` | `SCREEN_ENTER_LABEL` entries (*"Look down the well?"*); crank + daily-cooldown gate in `handleNodeInteract`, alongside the existing rod/bait gate. |
-| `game/hub/wellsprings.ts` | `canRestoreToday` / `recordRestore`, a direct copy of `digs.ts`. |
+| `app/routes/HubRoutes.tsx` | Three routes wrapped in `OverlayScreen`, mirroring the `hub-fishing*` block, and the reward grant on completion. |
+| `components/hub/HubWorld.tsx` | `SCREEN_ENTER_LABEL` entries (*"Look down the well?"*); crank + daily-cooldown gate in `handleNodeInteract`, alongside the existing rod/bait gate; well-keeper proximity dialogue. |
+| `game/hub/wellsprings.ts` + `.test.ts` | `canRestoreToday` / `recordRestore` (a direct copy of `digs.ts`) and `wellKeeperDialogue`. |
+| `game/hub/reputation.ts` | `addTownReputation` — every point of standing was previously *bought* through `purchaseUpgrade`. |
 | `data/hubItems.json` | `winding-crank` (tool) and `clean-water` (material). |
 
 ### Commit 5 — Town data + docs
 
 | File | Change |
 |---|---|
-| `data/hub/*/config.json` × 13 | Well interactable per town at the depth from §5; a `stoneWell` decor tile added for Dreadspire, Ironhold and Thornwood; `buyHubItem` crank stall in Gearford. |
-| `data/hub/chefRecipes.json` | Optional — accept Clean Water as an ingredient. |
+| `data/hub/*/config.json` × 13 | Well interactable per town at the depth from §5; a well keeper NPC beside each; a `stoneWell` decor tile added for Dreadspire, Ironhold and Thornwood; the crank on Gearford's tool-shop shelf. |
 | `docs/hubworld.md` | New section for the well interactable + authoring checklist. |
-| `AGENTS.md` | Nothing needed unless the §7 renderer decision goes to DOM, in which case note the exception in the PixiJS table. |
 
 Watch out on commit 5: the loader integrity tests parse every town config, and
 a new interactable must not collide with an existing interactable, NPC spawn
 or animal tile. Tap the well, confirm it does not *also* walk the avatar.
 
-### Not in scope for a first cut
+The three *new* wells (Dreadspire, Ironhold, Thornwood) were placed by picking
+a free tile hugging the town's street network, not by looking at the map. They
+are the one thing here worth eyeballing in game.
 
-Deliberately deferred so the first version can ship: a **Deep Draught**
-seeded-daily board with its own leaderboard board (§3) — worth doing, but it
-is a leaderboard-schema change and should not gate the game itself.
+### Deliberately not built
+
+- **No arcade entry.** Wellspring was briefly wired into the mini-games menu
+  with a crystal cost, a ticket payout, a leaderboard tab and a daily
+  ticket-challenge. All of that came back out: the game is reached through a
+  town's well and nowhere else, so `MiniGameId`, `economy.json`'s
+  `miniGameCosts` and `miniGameDailyChallenge.ts` know nothing about it.
+- **No depth picker.** With the depth authored per town there is nothing to
+  choose, so `DepthPicker` was deleted rather than left unused.
+- **No seeded daily board.** A shared "board of the day" only pays off with a
+  leaderboard to compare on, and there isn't one.

@@ -3,7 +3,7 @@ import { hashStr, makeSeededRng } from '../../game/seededRandom'
 import {
   DIR_BIT, NORTH, EAST, SOUTH, WEST, opposite, rotate, rotationPeriod, stepsBetween,
   pieceKind, neighbourIndex, generateBoard, computeFlow, rotateCellAt, isRotatable,
-  moveCost, dowse, scoreRun, restorationCrystals, getDepth,
+  moveCost, dowse, scoreRun, getDepth,
   WELLSPRING_DEPTHS, WELLSPRING_SCORING,
   type Board, type DepthConfig, type Rng,
 } from './Wellspring.logic'
@@ -393,33 +393,28 @@ describe('scoreRun', () => {
     const score = scoreRun(depth, 20, 20)
     expect(score.efficiency).toBe(1)
     expect(score.underPar).toBe(false)
-    expect(score.tickets).toBe(depth.ticketBase)
+    expect(score.crystals).toBe(depth.crystalBase)
   })
 
   it('adds the bonus for finishing under par', () => {
     const score = scoreRun(depth, 20, 16)
     expect(score.underPar).toBe(true)
     expect(score.efficiency).toBe(1)
-    expect(score.tickets).toBe(depth.ticketBase + WELLSPRING_SCORING.underParBonus)
+    expect(score.crystals).toBe(depth.crystalBase + WELLSPRING_SCORING.underParCrystals)
   })
 
   it('never pays less than the floor, however sloppy the solve', () => {
     const score = scoreRun(depth, 20, 10_000)
     expect(score.efficiency).toBe(WELLSPRING_SCORING.efficiencyFloor)
-    expect(score.tickets).toBe(Math.round(depth.ticketBase * WELLSPRING_SCORING.efficiencyFloor))
-    expect(score.tickets).toBeGreaterThan(0)
+    expect(score.crystals).toBe(Math.round(depth.crystalBase * WELLSPRING_SCORING.efficiencyFloor))
+    expect(score.crystals).toBeGreaterThan(0)
   })
 
   it('scales between the floor and the base as moves drift past par', () => {
-    const tight = scoreRun(depth, 20, 25).tickets
-    const loose = scoreRun(depth, 20, 50).tickets
+    const tight = scoreRun(depth, 20, 25).crystals
+    const loose = scoreRun(depth, 20, 50).crystals
     expect(tight).toBeGreaterThan(loose)
-    expect(tight).toBeLessThan(depth.ticketBase)
-  })
-
-  it('pays crystals rather than tickets for a hub restoration', () => {
-    expect(restorationCrystals(depth, 20, 20)).toBe(depth.crystalBase)
-    expect(restorationCrystals(depth, 20, 40)).toBeLessThan(depth.crystalBase)
+    expect(tight).toBeLessThan(depth.crystalBase)
   })
 })
 
@@ -429,8 +424,8 @@ describe('depth configuration', () => {
     expect(WELLSPRING_DEPTHS).toHaveLength(3)
     expect(shallow.w).toBeLessThan(deep.w)
     expect(deep.w).toBeLessThan(vault.w)
-    expect(shallow.ticketBase).toBeLessThan(deep.ticketBase)
-    expect(deep.ticketBase).toBeLessThan(vault.ticketBase)
+    expect(shallow.crystalBase).toBeLessThan(deep.crystalBase)
+    expect(deep.crystalBase).toBeLessThan(vault.crystalBase)
     expect(shallow.wrap).toBe(false)
     expect(vault.wrap).toBe(true)
   })

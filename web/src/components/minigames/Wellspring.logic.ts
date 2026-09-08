@@ -156,7 +156,6 @@ export interface DepthConfig {
   basins:      number
   welded:      number
   seized:      number
-  ticketBase:  number
   crystalBase: number
   cleanWater:  number
 }
@@ -164,9 +163,10 @@ export interface DepthConfig {
 export const WELLSPRING_DEPTHS = DEPTH_DATA.depths as DepthConfig[]
 
 export const WELLSPRING_SCORING = DEPTH_DATA.scoring as {
-  efficiencyFloor: number
-  underParBonus:   number
-  dowseMoveCost:   number
+  efficiencyFloor:  number
+  underParCrystals: number
+  dowseMoveCost:    number
+  reputation:       number
 }
 
 export type DepthId = string
@@ -529,7 +529,7 @@ export function dowse(board: Board, rng: Rng = Math.random): { board: Board; ind
 
 export interface RunScore {
   efficiency: number
-  tickets:    number
+  crystals:   number
   underPar:   boolean
 }
 
@@ -538,20 +538,18 @@ export interface RunScore {
  * a hard board should be worse than solving an easy one cleanly, never
  * worthless. Finishing under par is possible where the board admits a shorter
  * arrangement than the one it was generated from.
+ *
+ * Wellspring is a hub-world game only, so a restoration pays crystals, clean
+ * water and town standing. There are no arcade tickets in it.
  */
 export function scoreRun(depth: DepthConfig, par: number, moves: number): RunScore {
-  const { efficiencyFloor, underParBonus } = WELLSPRING_SCORING
+  const { efficiencyFloor, underParCrystals } = WELLSPRING_SCORING
   const ratio = moves > 0 ? par / moves : 1
   const efficiency = Math.min(1, Math.max(efficiencyFloor, ratio))
   const underPar = moves < par
   return {
     efficiency,
     underPar,
-    tickets: Math.round(depth.ticketBase * efficiency) + (underPar ? underParBonus : 0),
+    crystals: Math.round(depth.crystalBase * efficiency) + (underPar ? underParCrystals : 0),
   }
-}
-
-/** Crystals paid by a hub-world restoration, which earns no tickets at all. */
-export function restorationCrystals(depth: DepthConfig, par: number, moves: number): number {
-  return Math.round(depth.crystalBase * scoreRun(depth, par, moves).efficiency)
 }

@@ -1123,6 +1123,17 @@
   ],
   "npcs": [
     {
+      "id": "gravemoor-well-keeper",
+      "name": "Sexton Mould",
+      "sprite": "hub-npc-gravedigger",
+      "tx": 19,
+      "ty": 14,
+      "dialogue": [
+        "Iron in the water. It runs under the burying ground, so you can imagine.",
+        "Nobody here is in a hurry to climb down. You look like you might be."
+      ]
+    },
+    {
       "id": "ghost-mayor-aldous",
       "name": "Mayor Aldous",
       "sprite": "hub-npc-elder",
@@ -2637,6 +2648,22 @@
     }
   },
   "interactables": [
+    {
+      "id": "gravemoor-well",
+      "tx": 18,
+      "ty": 14,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The water tastes of iron. Gravemoor's channels run under the burying ground, and they have not run properly in years."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring-vault"
+        }
+      ]
+    },
     {
       "id": "gravemoor-forage-tree-1",
       "tx": 0,

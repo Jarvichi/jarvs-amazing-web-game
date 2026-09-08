@@ -129,6 +129,7 @@
   ],
   "buildings": [],
   "exteriorDecor": [
+    { "tx": 10, "ty": 32, "tileId": "stoneWell" },
     {
       "comment": "the campfire at the heart of the camp is now a real interactable — see interactables[].thornwood-campfire"
     },
@@ -430,6 +431,17 @@
   ],
   "npcs": [
     {
+      "id": "thornwoodcamp-well-keeper",
+      "name": "Camp-cook Bray",
+      "sprite": "hub-npc-fisherman",
+      "tx": 11,
+      "ty": 32,
+      "dialogue": [
+        "We sank this well in a hurry and it has never let us forget it.",
+        "The channel down there is less a channel than a strong suggestion."
+      ]
+    },
+    {
       "id": "warden-rell",
       "name": "Warden Rell",
       "dialogueTree": "rell-pie-trade",
@@ -579,6 +591,22 @@
   ],
   "interiors": {},
   "interactables": [
+    {
+      "id": "thornwoodcamp-well",
+      "tx": 10,
+      "ty": 32,
+      "hitRect": { "w": 1, "h": 1 },
+      "reactions": [
+        {
+          "type": "dialogue",
+          "text": "The camp sank this well in a hurry and it shows. The channel below is more of a suggestion."
+        },
+        {
+          "type": "screen",
+          "screen": "hub-wellspring"
+        }
+      ]
+    },
     {
       "id": "thornwood-campfire",
       "tx": 10,
