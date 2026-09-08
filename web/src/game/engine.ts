@@ -280,13 +280,16 @@ export function newGame(
         `Enemy strategy: ${STRATEGY_LABELS[strategy]}`,
       ]
 
+  // The opening hand was spliced out of playerDeck above, so the mana floor has
+  // to look at both halves: a card costing more than BASE_MAX_MANA dealt into the
+  // opening hand would otherwise leave the cap at 5 and sit there unplayable all
+  // game — nobody can edit this deck to drop it.
+  const dailyCards = isDailyChallenge ? [...playerDeck, ...playerHand] : []
   if (isDailyChallenge) {
-    const badCards = playerDeck.filter(c => c.cost == null).map(c => c.name)
+    const badCards = dailyCards.filter(c => c.cost == null).map(c => c.name)
     if (badCards.length > 0) logError('Daily challenge deck has cards with null cost', { badCards })
   }
-  const rawDeckMaxMana = isDailyChallenge && playerDeck.length > 0
-    ? playerDeck.reduce((m, c) => Math.max(m, c.cost ?? 0), 0)
-    : 0
+  const rawDeckMaxMana = dailyCards.reduce((m, c) => Math.max(m, c.cost ?? 0), 0)
   // Include playerStats.maxMana so regenerateMana() (which reads s.deckMaxMana) respects stat upgrades
   const deckMaxMana = Math.max(rawDeckMaxMana, loadPlayerStats().maxMana)
   // No field bonuses/relics exist yet at game start, so pass 0 for those terms.
