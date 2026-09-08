@@ -215,6 +215,18 @@ export interface HubNpc {
   /** For exterior NPCs: id of the building whose upgrade level gates this NPC's visibility. */
   levelBuildingId?: string
   schedule?: NpcScheduleEntry[]
+  /**
+   * Makes this NPC drift around a beat centred on their authored tx/ty instead
+   * of standing on it forever (game/hub/npcPatrol.ts). Only applies to NPCs
+   * with no `schedule` — a scheduled NPC has somewhere to be.
+   *
+   * `landmark` is the thing they are there to talk about: the patrol never
+   * stops within its clearance ring, and their proximity dialogue is only
+   * spoken while they are near it. That is what stops a mini-game keeper's
+   * speech bubble — roughly five tiles wide — from parking on top of the well,
+   * barrel or crate it is pointing at.
+   */
+  patrol?: { radius: number; landmark?: { tx: number; ty: number } }
   homeBed?: { buildingId: string; tx: number; ty: number }
   /** Optional activity-specific dialogue pools. When the NPC's current schedule
    *  activity (getNpcActivity) has a non-empty entry here, those lines are
