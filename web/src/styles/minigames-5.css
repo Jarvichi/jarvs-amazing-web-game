@@ -1,0 +1,318 @@
+/* minigames-5.css — Wellspring (the conduit-routing puzzle).
+   See docs/minigame-wellspring.md §6 for the UI design this implements. */
+
+/* ─── Board ─────────────────────────────────────────────── */
+
+.wellspring-board-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.conduit-board {
+  display: grid;
+  gap: 3px;
+  width: min(100%, 420px);
+  padding: var(--gap-3);
+  background: var(--surface-1);
+  border: 1px solid var(--game-border);
+  border-radius: 8px;
+  /* The frame is the strongest solving anchor there is, so a wrapped board
+     says so: a dashed edge reads as "this carries on past here". */
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6);
+}
+
+.conduit-board--wrap {
+  border-style: dashed;
+  border-color: var(--color-gray-6);
+}
+
+.conduit-board--solved {
+  animation: conduit-board-pulse var(--dur-xslow) ease-out 1;
+}
+
+@keyframes conduit-board-pulse {
+  0%   { box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6); }
+  40%  { box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6), 0 0 26px var(--conduit-water); }
+  100% { box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6); }
+}
+
+/* ─── Tile ──────────────────────────────────────────────── */
+
+.conduit-board {
+  /* Scoped here rather than tokens.css: these are one screen's water palette,
+     not named design tokens anything else reaches for. */
+  --conduit-stone:   var(--color-gray-6);
+  --conduit-socket:  var(--surface-3);
+  --conduit-water:   #38bdf8;
+  /* The spring reads white-hot against an all-blue network; the basins own
+     gold. Two different hues so the start and the ends never trade places. */
+  --conduit-spring:  #f0f9ff;
+  --conduit-glow:    #7dd3fc;
+  --conduit-leak:    var(--color-orange);
+}
+
+.conduit-tile {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  background: var(--conduit-socket);
+  border: 1px solid #14141c;
+  border-radius: 5px;
+  cursor: pointer;
+  /* A fixed grid must not translate on press — moving one cell while its
+     neighbours hold still reads as a layout glitch (AGENTS.md). */
+  transition: filter var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.conduit-tile:hover:not(:disabled)  { filter: brightness(1.2); }
+.conduit-tile:active:not(:disabled) { filter: brightness(1.35); }
+
+.conduit-tile:disabled {
+  cursor: default;
+}
+
+.conduit-tile--filled {
+  background: color-mix(in srgb, var(--conduit-water) 12%, var(--conduit-socket));
+}
+
+.conduit-tile--welded {
+  border-color: var(--color-gold-dim);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-gold-dim) 40%, transparent);
+}
+
+.conduit-tile--seized {
+  border-color: #7a4a2a;
+  background:
+    repeating-linear-gradient(45deg, rgba(160, 82, 45, 0.16) 0 4px, transparent 4px 8px),
+    var(--conduit-socket);
+}
+
+.conduit-seized-pip {
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xxs);
+  color: #c8763c;
+  pointer-events: none;
+}
+
+.conduit-piece {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.conduit-piece-spin {
+  /* Explicit: with fill-box a one-armed piece would turn about its own
+     bounding box, not the socket centre. */
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+  transition: transform var(--dur-fast) cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+/* ─── Pipe ──────────────────────────────────────────────── */
+
+.conduit-arm {
+  fill: none;
+  stroke: var(--conduit-stone);
+  stroke-width: 21;
+  stroke-linecap: round;
+  transition: stroke var(--dur-fast) ease;
+}
+
+.conduit-hub {
+  fill: var(--conduit-stone);
+  transition: fill var(--dur-fast) ease;
+}
+
+.conduit-tile--filled .conduit-arm { stroke: var(--conduit-water); }
+.conduit-tile--filled .conduit-hub { fill: var(--conduit-water); }
+
+.conduit-arm-leak {
+  fill: none;
+  stroke: var(--conduit-leak);
+  stroke-width: 21;
+  stroke-linecap: round;
+}
+
+/* The travelling highlight that makes flow direction visible. pathLength=100
+   normalises every arm, so one dash pattern reads the same on a cap and on a
+   cross. Only drawn once the piece actually carries water. */
+.conduit-arm-flow {
+  fill: none;
+  stroke: var(--conduit-glow);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 9 15;
+  opacity: 0;
+}
+
+.conduit-tile--filled .conduit-arm-flow {
+  opacity: 0.9;
+  animation: conduit-flow 1.4s linear infinite;
+}
+
+@keyframes conduit-flow {
+  from { stroke-dashoffset: 24; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* ─── Source & basin ────────────────────────────────────── */
+
+.conduit-source-core {
+  fill: var(--conduit-spring);
+}
+
+/* Always drawn, so the spring never depends on catching the ripple at the
+   right frame to be findable. */
+.conduit-source-halo {
+  fill: none;
+  stroke: var(--conduit-spring);
+  stroke-width: 3;
+  opacity: 0.85;
+}
+
+.conduit-source-ripple {
+  fill: none;
+  stroke: var(--conduit-spring);
+  stroke-width: 3;
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+  animation: conduit-ripple 2.2s ease-out infinite;
+}
+
+.conduit-tile--source {
+  background: color-mix(in srgb, var(--conduit-spring) 16%, var(--conduit-socket));
+  border-color: color-mix(in srgb, var(--conduit-spring) 45%, transparent);
+}
+
+@keyframes conduit-ripple {
+  0%   { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+/* Lighter than the socket it sits in, so an empty basin reads as a stone
+   bowl waiting to fill rather than a hole in the board. */
+.conduit-basin-bowl {
+  fill: var(--surface-4);
+  stroke: var(--color-gold);
+  stroke-width: 3.5;
+}
+
+.conduit-basin-water {
+  fill: var(--conduit-water);
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+  transform: scale(0);
+  transition: transform var(--dur-slow) cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.conduit-tile--basin.conduit-tile--filled .conduit-basin-water {
+  transform: scale(1);
+}
+
+/* ─── Leaks ─────────────────────────────────────────────── */
+
+/* Amber along the whole spilling arm, and no pulsing bead at its tip: solid
+   amber against blue and grey is already unmistakable, and a board that can
+   carry a dozen leaks at once should not have a dozen things throbbing on it. */
+.conduit-tile--leaking {
+  border-color: color-mix(in srgb, var(--conduit-leak) 55%, transparent);
+}
+
+/* ─── Status bar ────────────────────────────────────────── */
+
+.flow-status {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-7);
+  padding: var(--gap-3) var(--gap-5);
+  font-family: var(--font-mono);
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  background: var(--surface-1);
+  border: 1px solid var(--game-border);
+  border-radius: 6px;
+}
+
+.flow-status--solved {
+  color: var(--conduit-glow, #7dd3fc);
+  border-color: color-mix(in srgb, #38bdf8 50%, transparent);
+}
+
+.flow-status-item--warn {
+  color: var(--color-orange);
+}
+
+/* ─── Depth picker ──────────────────────────────────────── */
+
+.depth-picker {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-3);
+  flex-wrap: wrap;
+}
+
+.depth-picker-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-1);
+  line-height: 1.2;
+}
+
+.depth-picker-label {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+.depth-picker-sub {
+  font-family: var(--font-mono);
+  font-size: var(--font-xxs);
+  opacity: 0.75;
+}
+
+/* ─── Screen layout ─────────────────────────────────────── */
+
+.wellspring-screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  align-items: center;
+}
+
+.wellspring-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-5);
+  flex-wrap: wrap;
+}
+
+.wellspring-hint {
+  max-width: 34rem;
+  font-size: var(--font-sm);
+  color: var(--game-text-color-muted);
+  text-align: center;
+}
+
+/* ─── Reduced motion (#2182) ────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .conduit-piece-spin,
+  .conduit-basin-water {
+    transition: none;
+  }
+
+  .conduit-arm-flow,
+  .conduit-source-ripple,
+  .conduit-board--solved {
+    animation: none;
+  }
+
+  /* Flow and leaks still have to be legible without their animation, so
+     they hold the lit state rather than disappearing into it. */
+  .conduit-tile--filled .conduit-arm-flow { opacity: 0.55; }
+  .conduit-source-ripple { opacity: 0.5; transform: scale(1); }
+}
