@@ -131,9 +131,12 @@
   pointer-events: none;
 }
 
-/* A reading's weight should track how loud it is: 0 is a quiet all-clear, a
-   high count is the loudest thing on the rack. */
-.cask-reading--n0 { color: var(--color-gray-6); }
+/* Warm as the count climbs, so a glance reads danger before it reads digits.
+   A 0 stays neutral rather than dim: it was first styled as a "quiet
+   all-clear" on --color-gray-6 and a screenshot showed it as the least legible
+   mark on the rack, which is backwards — every neighbour sound is one of the
+   strongest deductions in the game, not an absence of news. */
+.cask-reading--n0 { color: #9aa0a6; }
 .cask-reading--n1 { color: #7fb3d5; }
 .cask-reading--n2 { color: #9ccc8f; }
 .cask-reading--n3 { color: var(--accent-gold); }
@@ -237,4 +240,40 @@
   }
   /* The mark still has to be visible with its entrance animation gone. */
   .cask-mark-stroke { opacity: 0.92; }
+}
+
+/* ─── Screen ────────────────────────────────────────────── */
+
+.cask-screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-2);
+}
+
+.cask-tier {
+  margin: 0;
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.cask-board-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.cask-modes,
+.cask-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-3);
+}
+
+.cask-hint {
+  margin: 0;
+  color: var(--color-gray-6);
+  font-size: 0.8rem;
+  text-align: center;
 }
