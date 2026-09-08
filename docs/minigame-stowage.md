@@ -416,17 +416,26 @@ need a parallel invisible button grid to be usable at all.
 
 ## §8 — Measured, not estimated
 
-> **Pending measurement.** The table below is the design's *expectation*. It
-> is replaced with real figures from the shipped generator (400 boards per
-> tier) as soon as commit 1 lands, per the brief's "measure, don't estimate".
+Measured off the shipped generator, 400 boards per tier:
 
-| Tier | Free slots | Goods | Median slots/good | Rectangular goods | Median legal placements per good |
-|---|---|---|---|---|---|
-| Handcart | 25 | 5 | 5 | 1.4 / 5 | 26 |
-| Wagon Bed | 34 | 8 | 4 | 2.2 / 8 | 41 |
-| Ship's Hold | 37 | 9 | 4 | 2.5 / 9 | 40 |
+| Tier | Free slots | Goods | Slots/good (p10–median–p90) | Rectangular goods/board | Legal placements per good (p10–median–p90) | Generation |
+|---|---|---|---|---|---|---|
+| Handcart | 25 | 5 | 4 – **5** – 6 | 0.8 of 5 | 16 – **36** – 48 | 1.3 ms |
+| Wagon Bed | 34 | 8 | 3 – **4** – 5 | 2.2 of 8 | 21 – **50** – 76 | 2.0 ms |
+| Ship's Hold | 37 | 9 | 3 – **4** – 5 | 2.3 of 9 | 21 – **46** – 78 | 3.1 ms |
 
 "Legal placements per good" is the count of positions and turns at which a
 good fits in an *empty* crate — the size of the search space the player is
 reasoning over, and the closest cheap proxy for difficulty this game has.
-Dunnage is what pushes the Hold's figure below its slot count would suggest.
+
+Two things the measurement changed:
+
+- **§4's claim that dunnage is the real dial survives contact.** The Ship's
+  Hold is the biggest crate with the most goods, and its median good still has
+  *fewer* legal homes (46) than the Wagon Bed's (50). Five pieces of timber
+  take more freedom out of a crate than three extra slots put in — which is the
+  whole argument for making dunnage the thing that climbs between tiers.
+- **Generation is cheap enough to be synchronous.** At 1–3 ms a board there is
+  no need for Cask Sounding's deferred-generation dance (which exists because
+  its par solver costs ~0.4 s); the crate is laid out in a lazy `useState`
+  initialiser and the screen paints packed and ready.
