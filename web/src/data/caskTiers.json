@@ -1,0 +1,51 @@
+{
+  "_comment": "Cask Sounding tiers — see docs/minigame-cask-sounding.md §4. Only ROW counts are given free; column counts were measured to make boards self-solving (median par 2 on a 5x5) and are deliberately absent. 'gaps' are empty rack slots that break the 8-neighbourhood, which stops the top tier degenerating into pattern-matching. 'hiddenRows' is the Vault's real difficulty lever: rows whose count the ledger never gives. Density and gaps alone were measured to leave the Vault no harder than the Cellar (median par 9 for both); taking a free clue away is the dial that actually moves it — measured on the Vault geometry, hiding 0/1/2/3/4 rows gives median par 9/9/10/11/12. Grid size is capped at 6x6 because the par solver's cost grows about an order of magnitude per step up (§3).",
+  "tiers": [
+    {
+      "id": "taproom",
+      "label": "Tap Room",
+      "subtitle": "A publican's cellar",
+      "w": 5,
+      "h": 5,
+      "soured": 6,
+      "gaps": 0,
+      "hiddenRows": 0,
+      "parFloor": 3,
+      "crystalBase": 30,
+      "vinegar": 1
+    },
+    {
+      "id": "cellar",
+      "label": "Cellar",
+      "subtitle": "The town cellar",
+      "w": 6,
+      "h": 6,
+      "soured": 11,
+      "gaps": 0,
+      "hiddenRows": 0,
+      "parFloor": 5,
+      "crystalBase": 60,
+      "vinegar": 2
+    },
+    {
+      "id": "vault",
+      "label": "Vintner's Vault",
+      "subtitle": "The deep racks",
+      "w": 6,
+      "h": 6,
+      "soured": 14,
+      "gaps": 5,
+      "hiddenRows": 4,
+      "parFloor": 8,
+      "crystalBase": 110,
+      "vinegar": 3
+    }
+  ],
+  "scoring": {
+    "efficiencyFloor": 0.4,
+    "underParCrystals": 25,
+    "badChalkCost": 3,
+    "listenCost": 3,
+    "reputation": 1
+  }
+}

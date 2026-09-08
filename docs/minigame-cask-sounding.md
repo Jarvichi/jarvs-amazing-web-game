@@ -1,8 +1,9 @@
 # Mini-game Design — **Cask Sounding** 🛢️
 
-> **Status:** design, awaiting approval. Nothing is built yet.
-> Written to the process in [`docs/minigame-brief.md`](minigame-brief.md), against
-> the standard set by [`docs/minigame-wellspring.md`](minigame-wellspring.md).
+> **Status:** approved; commit 1 (pure logic + tests) landed. §8 tracks what is
+> built. Written to the process in [`docs/minigame-brief.md`](minigame-brief.md),
+> against the standard set by
+> [`docs/minigame-wellspring.md`](minigame-wellspring.md).
 
 A **deduction puzzle played in a town's cellar.** Some of the casks on the racks
 have gone to vinegar. You cannot see which. You strike a cask with a mallet and
@@ -84,14 +85,18 @@ putting off" is the shape of every hub interaction there is.
 A rack of casks laid out on a grid. Each cask is either **sound** or **soured**.
 Which is which is fixed when the board is generated and hidden from the player.
 
-Two things are given for free, chalked on the rack ends before you start:
+Three things are given for free before you start:
 
-- **Rack counts** — for every *row*, how many of its casks are soured.
-- Every cask the cellarer already got to — **one pre-struck sound cask**, so
-  there is always somewhere to reason from on the first look.
+- **Rack counts** — for a *row* of the rack, how many of its casks are soured,
+  chalked on the rack end. On the top tier the ledger is incomplete and most
+  rows carry no figure at all (§4) — that is where its difficulty comes from.
+- **The soured total.** The first thing the cellarer tells you. With every row
+  counted this is implied anyway; with rows missing it is not, so it is stated.
+- **One pre-struck sound cask**, the cellarer's own mark, so there is always
+  somewhere to reason from on the first look. It costs the player nothing.
 
-Column counts are deliberately **not** given. §3 explains why: with both axes the
-board solves itself.
+Column counts are deliberately **not** given, at any tier. §3 explains why: with
+both axes the board solves itself.
 
 ### The two verbs
 
@@ -111,13 +116,25 @@ striking costs, so it is strictly worse than the brute-force it would replace.
 
 ### Win condition
 
-> **Every cask on the rack is resolved** — struck, chalked, or forced.
+> **Every soured cask is chalked** (or was struck, which identifies it too).
 
-A cask is *forced* when the readings so far admit only one possibility for it.
-The board runs its solver continuously and resolves forced casks for you as soon
-as they become forced, which does two things: it removes Minesweeper's endgame
-busywork (clearing forty cells you already know are safe), and it makes your
-deduction visible — a well-chosen strike can cascade half the rack.
+Sound casks need no action at all. That is the whole of it: you are not clearing
+a rack, you are naming the bad ones, and the game ends the moment you have named
+them all.
+
+This is a correction to an earlier draft, and it matters more than it looks.
+The first version had the board auto-resolve every cask the moment it became
+logically forced, to kill Minesweeper's endgame busywork. But the solver that
+decides "forced" is exhaustive, so **anything the player could deduce, it has
+already deduced** — every bad cask would be chalked for them the instant it
+became knowable, and the chalk verb would be dead on arrival. What remained
+would be a game about choosing which cask to strike, with the deduction played
+by the machine. That is not the game in §1.
+
+Making the goal *only* the soured casks solves the busywork problem outright
+instead: there is no rack to clear, so there is nothing to auto-clear. The
+player does the deducing, chalk is the primary verb, and striking is what you
+buy when you cannot work it out.
 
 There is no submit button, no failure state, and no way to be locked out of
 finishing.
@@ -174,8 +191,13 @@ mechanic over the alternatives in §1.
 Par is what a **reference solver** spends, defined as:
 
 1. Enumerate every hidden layout consistent with the row counts and the readings
-   so far. Any cask with the same state in all of them is *forced* — resolve it.
-2. If nothing is left unresolved, stop.
+   so far. A cask is *forced* when it has the same state in all of them.
+2. If every **soured** cask is forced-soured, stop — the player can chalk the
+   rest for free from here, so no further strike is needed. Note this is a
+   weaker stopping condition than "the whole board is determined": undetermined
+   *sound* casks are fine, because nothing has to be done to them. Par is lower
+   than it would be under the earlier draft's win condition, and §4's measured
+   figures are re-measured against this rule in commit 1.
 3. Otherwise strike the cask whose **reading distribution has the highest
    entropy** over that solution set — the question whose answer you can predict
    least — and go to 1.
@@ -212,8 +234,8 @@ was **over**.
 
 | Risk | Mitigation |
 |---|---|
-| **Solution enumeration blows up.** The forced-cask check enumerates layouts consistent with the row counts. Early in a board that set is enormous, and it is recomputed after every tap. Measured in the Python prototype: **13 ms/board at 5×5, 940 ms at 6×6, 4.9 s at 7×7** — roughly an order of magnitude per step up. | Enumerate row-by-row over `C(width, rowCount)` placements with the readings pruning each row as it is laid — the prototype's approach, which is what keeps 5×5 cheap. In TypeScript over bitmasks this should be several times faster again, and it runs once per tap, not per frame. A hard solution cap with a documented fallback (propagate-only, which under-resolves rather than mis-resolves) keeps the worst case bounded. **This is the one number that decides the tier ceiling** — §4's top tier is 6×6, not 7×7, for this reason, and the real budget gets measured in commit 1 before any UI exists. |
-| **The solver resolves a cask the player could not have.** Enumeration is exhaustive, so it will spot deductions no human would see, and auto-resolving them steals the player's "aha". | Auto-resolve is what removes the endgame busywork, so it stays — but it is worth watching in playtesting, and the honest fallback if it feels bad is to auto-resolve only casks forced by a *single* constraint (the propagation rule a person actually uses) and leave the clever ones to be chalked. Flagged as the design's biggest open question. |
+| **Solution enumeration blows up.** The forced-cask check enumerates layouts consistent with the row counts. Early in a board that set is enormous, and it is recomputed after every tap. Measured in the Python prototype: 13 ms/board at 5×5, 940 ms at 6×6, 4.9 s at 7×7 — roughly an order of magnitude per step up. | Enumerate row-by-row over `C(width, rowCount)` placements with the readings pruning each row as it is laid — the prototype's approach, which is what keeps 5×5 cheap. In TypeScript over bitmasks this should be several times faster again, and it runs once per tap, not per frame. A hard solution cap with a documented fallback (propagate-only, which under-resolves rather than mis-resolves) keeps the worst case bounded. **This is the one number that decides the tier ceiling** — §4's top tier is 6×6, not 7×7, for this reason, and the real budget gets measured in commit 1 before any UI exists. |
+| **The exhaustive solver out-deduces the player.** Enumeration spots deductions no human would see. | **Resolved by removing auto-resolve entirely** (§2). The solver now runs in exactly two places, neither of them player-facing: computing par at generation time, and deciding when the reference solver may stop striking. Nothing it deduces is ever shown or acted on during play. |
 | **Par is computed from a strategy, not an optimum.** If the reference solver is weak, par inflates and under-par becomes free. If it is too strong, under-par becomes unreachable. | Measure the distribution per tier over ≥400 boards and report it, as above. Test that replaying the reference solver's own choices through the real game engine spends exactly par. |
 | **Wrong-chalk pricing leaks information cheaply.** At +3 a bad chalk is a paid probe; if the price were 1 it would be a free one. | Priced at 3× a strike, matching Wellspring's Dowse. Unit-test that the cheapest path to full information is always striking, never chalking. |
 | **The "resolved" check written as a comparison against the stored layout.** | Test that the resolve pass still behaves after the stored layout is scrubbed to garbage — proof it reads only the readings in front of it. Wellspring has the same test and it earned its place there. |
@@ -227,18 +249,38 @@ different board, not a modifier on the same one.
 
 | | **Tap Room** | **Cellar** | **Vintner's Vault** |
 |---|---|---|---|
-| Rack | 5 × 5 | 6 × 6 | 6 × 6 with gaps |
+| Rack | 5 × 5 | 6 × 6 | 6 × 6 |
 | Soured casks | 6 | 11 | 14 |
-| Free clues | row counts | row counts | row counts |
-| Empty rack slots | — | — | 4–6 (broken adjacency) |
-| Measured par | median 6 (3–8) | median 9 (5–12) | median 10 (5–14) *before gaps* |
+| Empty rack slots | — | — | 5 |
+| Rows the ledger counts | all 5 | all 6 | **2 of 6** |
+| Soured total given | yes | yes | yes |
+| **Measured par** | med 5 (3–8) | med 9 (5–13) | med 12 (8–15) |
+| Generation cost | 3 ms | 184 ms | 423 ms |
 | Crystal base | 30 | 60 | 110 |
 | Cask Vinegar | 1 | 2 | 3 |
 | Solve time | ~1 min | ~2–3 min | ~4 min |
 
-Par figures are measured from the prototype over 120–200 boards per tier, not
-estimated, and get re-measured against the shipped generator. The crystal bases
-are derived from them.
+Par figures are measured from the **shipped generator** over 120–200 boards per
+tier, not estimated. The crystal bases are derived from them. Re-measure on any
+change to a tier's shape.
+
+**The Vault had to be rebuilt after measuring.** As first designed — density up
+from 11 soured casks to 14, plus 5 gaps — it came out at *exactly* the Cellar's
+difficulty: median par 9, range 5–13, indistinguishable. Gaps remove casks, and
+that cancelled the density rise almost precisely. Since the top tier pays nearly
+double, a tier that is only nominally harder is a real problem, so the Vault now
+takes rows off the ledger instead — the §4 knob ranked first. Sweeping that dial
+on the same geometry:
+
+| Rows hidden | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| Median par | 9 | 9 | 10 | 11 | 12 |
+| Minimum par | 5 | 5 | 4 | 6 | 8 |
+| Generation cost | 110 ms | 140 ms | 206 ms | 308 ms | 423 ms |
+
+Four hidden rows is the shipped setting: it separates the Vault from the Cellar
+properly (median 12 against 9) and its *minimum* of 8 means no Vault board can
+arrive a pushover, which matters more at the top tier than the median does.
 
 ### The knobs, ranked by how much they actually add
 
@@ -429,16 +471,14 @@ Portrait-first, inside the existing 740px column. The rack is square and sized
 | Unresolved | Oak cask face, banded, on a recessed rack socket. Tappable. |
 | Rung (sound) | Cask fades back into the rack; its number sits proud in `--accent-blue`. |
 | Struck soured | Cask goes dark and stained, a slow drip at the rim. |
-| Chalked | Chalk ✕ scrawled across the face, slightly off-square. |
-| Forced (auto-resolved) | Same as rung/chalked, arriving on a 120 ms stagger outward from the strike that forced it, so the cascade reads as consequence. |
+| Chalked | Chalk ✕ scrawled across the face, slightly off-square. Not tappable again — a chalk that stayed on is correct by definition, since a wrong one rubs itself off immediately, so there is nothing to undo. |
 | Bad chalk | Chalk wipes off, cask rings sound, `−3` floats up in `--accent-danger`. |
 | Empty slot (Vault) | Open rack, no cask, not tappable, `aria-hidden`. |
 
 ### Motion
 
-- **Strike:** 150 ms shake of the cask only, not the socket.
-- **Cascade:** the stagger above — the single most satisfying moment in the game,
-  and worth the animation budget.
+- **Strike:** 150 ms shake of the cask only, not the socket, and a ring of dust
+  off the casks it names — so the reading and its subjects are visually linked.
 - **Press feedback:** `filter: brightness(1.35)`. Per `AGENTS.md`, cells in a
   fixed grid must **not** use `translateY` — one cell moving while its neighbours
   hold still reads as a layout glitch. `:active` alongside `:hover` is mandatory;
@@ -492,10 +532,11 @@ and exact par, chalk/strike/listen transitions, scoring.
 par matches an honest replay of the reference solver; the resolve pass ignores
 the stored layout; striking is always cheaper than chalk-probing; row counts are
 consistent; gap cells never carry a cask.
-**This commit also lands the §3 performance budget** — a measured solver timing
-per tier, and the 400-board par distributions that correct §4's table. If 6×6
-cannot be solved inside a sensible per-tap budget, the top tier shrinks here,
-before any UI exists to rework.
+**Landed.** The §3 performance risk resolved in the shipped TypeScript: 3 ms /
+184 ms / 423 ms per board by tier, against the Python prototype's 940 ms at 6×6.
+That is a once-per-board cost paid when the player opens the cellar, not per
+tap, so the 6×6 ceiling holds comfortably. The par distributions measured here
+corrected §4's table and forced the Vault rebuild described there.
 
 **2 — Board components + styling.**
 `caskSounding/CaskTile.tsx`, `RackBoard.tsx`, `RackStatusBar.tsx`, each with a
@@ -525,11 +566,11 @@ and check that tapping the barrel does not *also* walk the avatar.
 Then: play it end to end and report what that changed, and correct this document
 where the measurements disagree with it.
 
-### Open questions for review
+### Decisions taken
 
-1. **Auto-resolve** (§3, risk 2) is the design's biggest judgement call. It kills
-   the busywork and it may kill some of the satisfaction. Ship it and watch, or
-   restrict it to single-constraint deductions from the start?
-2. **Tier names.** "Tap Room / Cellar / Vintner's Vault" — happy, or would you
-   rather they were named per town?
-3. **Cask Vinegar** as the material, versus something the chef system wants more.
+1. **Auto-resolve: cut entirely**, and the win condition narrowed to *chalk every
+   soured cask* (§2). The exhaustive solver would have out-deduced the player on
+   every board and left the chalk verb with nothing to do. It now runs only at
+   generation time, for par.
+2. **Tier names:** Tap Room / Cellar / Vintner's Vault, assigned per town in §5.
+3. **Cask Vinegar** as the material reward, landing in chef cooking.
