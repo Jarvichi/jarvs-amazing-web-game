@@ -61,6 +61,7 @@ import { shuffled } from '../../game/hub/shuffle'
 import { canForageToday, recordForage } from '../../game/hub/forages'
 import { canRestoreToday, wellKeeperDialogue } from '../../game/hub/wellsprings'
 import { canSortToday, cellarerDialogue } from '../../game/hub/casks'
+import { canPackToday, stowhandDialogue } from '../../game/hub/stowages'
 import { forageTable, rollForage } from '../../game/hub/forageLoot'
 import { getReputationTier } from '../../data/hub/buildingUpgrades'
 import { resolveWeather } from '../../game/hub/weather'
@@ -167,6 +168,9 @@ const SCREEN_ENTER_LABEL: Record<string, string> = {
   'hub-casks':            'Sound the casks?',
   'hub-casks-cellar':     'Go down to the cellar?',
   'hub-casks-vault':      "Open the vintner's vault?",
+  'hub-stowage':          'Repack the crate?',
+  'hub-stowage-wagon':    "Repack the wagon's load?",
+  'hub-stowage-hold':     "Repack the hold's cargo?",
   marble:            'Play marbles?',
   marblerace:        'Watch a marble race?',
   regatta:           'Race a skiff in the regatta?',
@@ -508,6 +512,19 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
       }
     }
   }
+  // Stowhands, the same again: matched by id suffix so a town that gains a
+  // crate needs no change here.
+  {
+    const stowhandState = {
+      hasHook:     hasHubItem('stevedores-hook'),
+      packedToday: !canPackToday(town),
+    }
+    for (const npc of locationData.HUB_NPCS) {
+      if (npc.id.endsWith('-stowhand')) {
+        npcProximityDialogueRef.current.set(npc.id, stowhandDialogue(stowhandState))
+      }
+    }
+  }
 
   // Interactable indicator conditions (e.g. 'unread-news'): read imperatively by PixiJS ticker
   const indicatorConditionsRef = useRef(new Map<string, boolean>())
@@ -798,6 +815,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onCampaign2, onEndles
       }
       if (!canSortToday(town)) {
         setDialogueEvent({ speakerName: '', text: 'The bad casks are drawn off and the rest ring true. Nothing more to sort here today.' })
+        return
+      }
+    }
+    // The crate is gated exactly as the cellar is: a tool you buy once, then a
+    // cooldown. The hook is global (bought in Millhaven, works at every town's
+    // crate); the once-a-day limit is per town, which is what makes thirteen
+    // crates a reason to travel rather than one spot to farm.
+    if (screen.startsWith('hub-stowage')) {
+      if (!hasHubItem('stevedores-hook')) {
+        setDialogueEvent({ speakerName: '', text: "The goods are wedged in too tight to shift bare-handed. A stevedore's hook would do it — Millhaven's harbour stalls sell them." })
+        return
+      }
+      if (!canPackToday(town)) {
+        setDialogueEvent({ speakerName: '', text: 'The load is packed square and roped down. Nothing more to shift here today.' })
         return
       }
     }

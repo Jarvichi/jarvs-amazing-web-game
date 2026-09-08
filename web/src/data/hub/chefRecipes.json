@@ -82,6 +82,23 @@
       "relationship": { "track": "ally", "points": 5 }
     },
     {
+      "id": "harbour-pickle",
+      "name": "Harbour Pickle",
+      "dishItemId": "harbour-pickle",
+      "ingredients": [
+        "barrelled-salt",
+        "cask-vinegar",
+        "wild-berries"
+      ],
+      "text": "Salt out of a crate, vinegar off a soured cask, and a handful of hedgerow berries. He looks at the three of them for a long moment.\n\n\u201cThat's not a dish, that's a shipping problem.\u201d Then he starts packing the jar anyway, layer by layer, and does not stop talking about the salt until it is sealed.",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": {
+        "track": "ally",
+        "points": 5
+      }
+    },
+    {
       "id": "wellwater-tisane",
       "name": "Wellwater Tisane",
       "dishItemId": "wellwater-tisane",

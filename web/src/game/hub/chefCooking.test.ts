@@ -26,8 +26,8 @@ describe('chefCooking recipe data', () => {
   // A deliberate lock, not a fact worth asserting for its own sake: adding or
   // dropping a recipe should make someone confirm the clue and the ingredient
   // set landed too, rather than passing unnoticed.
-  it('ships exactly nine secret recipes', () => {
-    expect(RECIPES).toHaveLength(9)
+  it('ships exactly ten secret recipes', () => {
+    expect(RECIPES).toHaveLength(10)
   })
 
   it('every recipe/dish item id exists in the hub-item catalog', () => {

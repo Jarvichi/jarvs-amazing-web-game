@@ -595,6 +595,28 @@
     "unique": true
   },
   {
+    "id": "stevedores-hook",
+    "name": "Stevedore's Hook",
+    "icon": "\ud83e\ude9d",
+    "desc": "A dockhand's iron hook, worn smooth at the grip. Shifts a wedged crate anywhere in the realm.",
+    "category": "tool",
+    "unique": true
+  },
+  {
+    "id": "barrelled-salt",
+    "name": "Barrelled Salt",
+    "icon": "\ud83e\uddc2",
+    "desc": "Coarse grey salt out of a crate you packed yourself. Keeps a thing edible longer than it has any right to be.",
+    "category": "material"
+  },
+  {
+    "id": "harbour-pickle",
+    "name": "Harbour Pickle",
+    "icon": "\ud83e\udd52",
+    "desc": "Salt, vinegar and hedgerow berries in a stoppered jar. Sharp enough to wake a sleeping crew.",
+    "category": "material"
+  },
+  {
     "id": "cask-vinegar",
     "name": "Cask Vinegar",
     "icon": "🍶",
