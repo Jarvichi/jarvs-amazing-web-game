@@ -1,0 +1,55 @@
+{
+  "_comment": "Wellspring depth tiers — see docs/minigame-wellspring.md §4. treeStyle drives the piece mix: 'path' caps every cell at 2 connections (caps/elbows/straights only), 'sparse' at 3 (adds tees), 'dense' is uncapped (adds crosses). welded cells start pre-solved and un-rotatable (a beginner scaffold); seized cells cost 2 taps per turn.",
+  "depths": [
+    {
+      "id": "shallow",
+      "label": "Shallow",
+      "subtitle": "The Cistern",
+      "w": 4,
+      "h": 4,
+      "wrap": false,
+      "treeStyle": "path",
+      "basins": 1,
+      "welded": 2,
+      "seized": 0,
+      "ticketBase": 20,
+      "crystalBase": 30,
+      "cleanWater": 1
+    },
+    {
+      "id": "deep",
+      "label": "Deep",
+      "subtitle": "The Aqueduct",
+      "w": 5,
+      "h": 5,
+      "wrap": false,
+      "treeStyle": "sparse",
+      "basins": 2,
+      "welded": 0,
+      "seized": 0,
+      "ticketBase": 45,
+      "crystalBase": 60,
+      "cleanWater": 2
+    },
+    {
+      "id": "vault",
+      "label": "Abyssal",
+      "subtitle": "The Ley Vault",
+      "w": 6,
+      "h": 6,
+      "wrap": true,
+      "treeStyle": "dense",
+      "basins": 3,
+      "welded": 0,
+      "seized": 2,
+      "ticketBase": 90,
+      "crystalBase": 110,
+      "cleanWater": 3
+    }
+  ],
+  "scoring": {
+    "efficiencyFloor": 0.4,
+    "underParBonus": 15,
+    "dowseMoveCost": 3
+  }
+}

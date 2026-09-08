@@ -1,7 +1,8 @@
 # Mini-game Design — **Wellspring** 💧
 
-> **Status:** design proposal. Nothing here is implemented yet. Read this in
-> full before starting the build; the implementation plan is §8.
+> **Status:** in progress. §8 tracks what has landed. The puzzle logic and its
+> tests are in; the UI and the hub wiring are not. Read this in full before
+> picking up the next step.
 
 A deterministic **conduit-routing puzzle** played at a town's stone well.
 Rotate the broken aqueduct sections beneath the well until water runs from the
@@ -156,24 +157,38 @@ is no failure state and no way to be locked out of finishing.
 ### Generating a board
 
 1. **Lay a spanning tree** over the grid graph (all `w × h` cells; edges wrap
-   around the borders in torus mode). Randomised DFS is the right choice —
-   it produces long, snaking trees with naturally low branching, which read as
-   plausible plumbing rather than a starburst.
-2. **Cap the branching** per depth tier by rejecting trees whose maximum
-   degree exceeds the tier's cap, and retrying (see the risk note below).
-3. **Derive the pieces.** Each cell's mask is the union of its tree edges. A
+   around the borders in torus mode). The tree's shape *is* the piece mix, so
+   each depth picks a different algorithm rather than filtering one:
+
+   | `treeStyle` | Algorithm | Max degree | Pieces it yields |
+   |---|---|---|---|
+   | `path` | Backbite Hamiltonian path | 2 | caps, elbows, straights |
+   | `sparse` | Randomised DFS, degree-capped at 3 | 3 | + tees |
+   | `dense` | Randomised Prim, uncapped | 4 | + crosses |
+
+   DFS produces long snaking corridors that read as plausible plumbing; Prim
+   branches far more freely, which is what actually puts crosses and tees on
+   the board. Backbite is chosen over a self-avoiding random walk because
+   every backbite step yields *another* valid Hamiltonian path — so it always
+   terminates with a usable result instead of dead-ending and retrying.
+2. **Derive the pieces.** Each cell's mask is the union of its tree edges. A
    tree gives every cell at least one edge, so there are no orphans, and it
    has no cycles, so there are no ambiguous loops.
-4. **Place the Source** at the tree root (constrained to a border cell when
-   not in torus mode, so the spring reads as coming from outside).
-5. **Dress the deepest leaves as Basins** — the tier's basin count, chosen
+3. **Place the Source** at the tree root (constrained to a border cell when
+   not in torus mode, so the spring reads as coming from outside; on a `path`
+   board it has to be one of the two path endpoints).
+4. **Dress the deepest leaves as Basins** — the tier's basin count, chosen
    from the leaves furthest from the root by tree distance.
+5. **Weld and seize** the tier's counts, drawn only from cells that can
+   actually turn — a welded cross would be a mark the player can never read.
 6. **Scramble.** Rotate each rotatable cell by a uniform random amount in
    `[0, period)`, where `period` is 4 for caps/elbows/tees, 2 for straights
-   and 1 for crosses. The Source is never scrambled.
+   and 1 for crosses. The Source and any welded cell are never scrambled.
 
 Solvability is guaranteed by construction — the unscrambled board *is* a
-solution — so no solver is needed at generation time.
+solution — so no solver is needed at generation time. A scramble that happens
+to leave every piece already correct is rejected and regenerated, so the
+player is never handed a solved board.
 
 ### Computing par exactly
 
@@ -205,10 +220,10 @@ unseeded RNG.
 
 | Risk | Mitigation |
 |---|---|
-| **Degree-capped tree generation can dead-end.** At cap 2 the tree must be a Hamiltonian path, which randomised DFS will not always find. | Use a dedicated randomised path generator for cap 2, with a boustrophedon fallback at a random start/orientation. For caps 3–4, retry DFS up to *N* times then accept. Test that generation terminates for every tier across thousands of seeds. |
+| **Degree-capped tree generation can dead-end.** At cap 2 the tree must be a Hamiltonian path, which randomised DFS will not always find. | Backbite from a boustrophedon start handles cap 2 without a retry loop at all. Capped DFS (cap 3) *can* strand a cell, so it retries 60 times and then falls back to uncapped DFS, which always spans — the board stays valid, it may just carry a piece the tier would not normally show. Generation is tested to terminate and solve for every tier across hundreds of seeds. |
 | **Torus indexing is fiddly** — off-by-ones in wrap mode silently produce unsolvable-looking boards. | Wrap adjacency lives in one `neighbour(cell, dir)` function used by the generator, the flood-fill and the renderer alike. Separate test suite for wrap mode. |
 | **Par mis-computed via symmetry** (see above). | Unit-test par against a brute-force minimum over every piece's orientation set. |
-| **Solved-check written as an equality against the stored solution.** | Test that a hand-built alternative arrangement is accepted. |
+| **Solved-check written as an equality against the stored solution.** | Test that `computeFlow` still reports a solved board after every `solution` field is scrubbed to garbage — proof it reads only the arrangement in front of it. |
 
 ---
 
@@ -224,10 +239,16 @@ depth is a different board, not a modifier on the same one.
 | Pieces | caps, elbows, straights | + tees | + crosses |
 | Basins | 1 | 2 | 3 |
 | Wrap-around edges | no | no | **yes** |
+| Welded cells | 2 (pre-solved scaffold) | — | — |
 | Seized cells | — | — | 2 (cost 2 taps each) |
-| Typical par | 8–14 | 16–26 | 30–45 |
+| Typical par | 10–19 (median 15) | 22–36 (median 28) | 38–56 (median 47) |
 | Ticket base | 20 | 45 | 90 |
-| Solve time | ~30 s | ~1–2 min | ~3–5 min |
+| Solve time | ~30–60 s | ~2 min | ~4–6 min |
+
+Par figures are measured from the shipped generator over 400 boards per tier
+(10th–90th percentile), not estimated. Re-measure them if the tree style or
+grid size changes — the daily-challenge target band and the ticket bases are
+both derived from them.
 
 ### The four knobs, ranked by how much they actually add
 
@@ -479,11 +500,12 @@ pushed as they land per `AGENTS.md`'s small-steps rule.
 
 | File | Contents |
 |---|---|
-| `web/src/game/minigames/wellspring.ts` | Piece/mask model, `neighbour()` (the single wrap-aware adjacency function), spanning-tree generator, scrambler, exact par, flood-fill solved-check, leak enumeration, rotation. |
-| `web/src/data/minigames/wellspringDepths.json` | The §4 table as config — grid, degree cap, basin count, wrap, seized/welded counts, ticket base, crystal cost. Per `AGENTS.md`, extensible constants belong in JSON. |
-| `web/src/game/minigames/wellspring.test.ts` | Generation terminates and is solvable at every tier over thousands of seeds; par matches a brute-force minimum; an alternative valid arrangement is accepted; wrap adjacency is symmetric; scramble never touches the source. |
+| `components/minigames/Wellspring.logic.ts` | Piece/mask model, `neighbourIndex()` (the single wrap-aware adjacency function), the three spanning-tree generators, scrambler, exact par, flood-fill solved-check, leak enumeration, rotation, dowse, scoring. Named for the existing `Fishing.physics.ts` / `HarbourRegatta.physics.ts` convention — minigame logic lives beside its screen, not in `game/`. |
+| `web/src/data/wellspringDepths.json` | The §4 table as config — grid, tree style, basin count, wrap, seized/welded counts, ticket and crystal bases. Per `AGENTS.md`, extensible constants belong in JSON. |
+| `components/minigames/Wellspring.logic.test.ts` | 50 tests: generation terminates and solves at every tier across hundreds of seeds; par equals the taps an honest playthrough actually spends; the piece mix matches each tree style; wrap adjacency is symmetric; welded/seized counts land only on turnable cells; `computeFlow` ignores the stored solution; scoring floors, bonuses and the crystal path. |
 
-This is the commit that has to be right. Everything after it is presentation.
+✅ **Landed.** This is the commit that had to be right. Everything after it is
+presentation.
 
 ### Commit 2 — Board components + styling
 
