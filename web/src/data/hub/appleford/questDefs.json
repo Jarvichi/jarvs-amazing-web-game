@@ -1,5 +1,109 @@
 {
   "dialogues": [
+  {
+      "id": "orla-topic-wellwater-tisane",
+      "npcId": "appleford-well-keeper",
+      "start": "start",
+      "nodes": {
+          "start": {
+              "text": "You'd think water was water. It isn't. My grandmother could taste which well a cup came from, and she was right often enough that nobody argued.",
+              "choices": [
+                  {
+                      "label": "Does it matter that much?",
+                      "next": "recipe"
+                  },
+                  {
+                      "label": "Could you?",
+                      "next": "boast"
+                  },
+                  {
+                      "label": "Water's water.",
+                      "next": "blunt"
+                  }
+              ]
+          },
+          "boast": {
+              "text": "On a good day. Rainwater's flat, stream water's got the hill in it. Well water that's been put right, though — that tastes of nothing, and nothing is exactly what you want.",
+              "choices": [
+                  {
+                      "label": "Want it for what?",
+                      "next": "recipe"
+                  },
+                  {
+                      "label": "I'll take your word for it.",
+                      "effects": [
+                          {
+                              "type": "friendship",
+                              "xp": 4
+                          },
+                          {
+                              "type": "end"
+                          }
+                      ]
+                  }
+              ]
+          },
+          "recipe": {
+              "text": "Clean water, honey, wild berries. Give a cook those three and nothing else and you'll get a tisane worth sitting down for. Rainwater ruins it — you'll taste the difference the moment you've had it made properly.",
+              "choices": [
+                  {
+                      "label": "Clean water, honey, wild berries. Got it.",
+                      "effects": [
+                          {
+                              "type": "friendship",
+                              "xp": 8
+                          },
+                          {
+                              "type": "relationship",
+                              "track": "ally",
+                              "points": 2
+                          },
+                          {
+                              "type": "end"
+                          }
+                      ]
+                  },
+                  {
+                      "label": "And where do I get water that clean?",
+                      "effects": [
+                          {
+                              "type": "friendship",
+                              "xp": 4
+                          },
+                          {
+                              "type": "end"
+                          }
+                      ]
+                  }
+              ]
+          },
+          "blunt": {
+              "text": "Water's water until you've drunk from a well that's been seen to. Clean water, honey, wild berries — have a cook put those together and come tell me it's the same.",
+              "choices": [
+                  {
+                      "label": "Clean water, honey, wild berries. Noted.",
+                      "effects": [
+                          {
+                              "type": "friendship",
+                              "xp": 4
+                          },
+                          {
+                              "type": "end"
+                          }
+                      ]
+                  },
+                  {
+                      "label": "Perhaps I will.",
+                      "effects": [
+                          {
+                              "type": "end"
+                          }
+                      ]
+                  }
+              ]
+          }
+      }
+  },
     {
       "id": "bess-topic-orchard-crumble",
       "npcId": "orchard-keeper-bess",
@@ -3579,6 +3683,12 @@
     }
   },
   "conversationTopics": [
+    {
+      "id": "orla-topic-wellwater-tisane",
+      "npcId": "appleford-well-keeper",
+      "label": "\ud83c\udf75 Ask what clean water is good for",
+      "treeId": "orla-topic-wellwater-tisane"
+    },
     {
       "id": "bess-topic-orchard-crumble",
       "npcId": "orchard-keeper-bess",

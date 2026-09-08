@@ -1293,10 +1293,15 @@ item, nothing is taken and nothing is cooked.
 A recipe nobody can guess is a recipe nobody cooks, so each one is gossiped
 about by an NPC somewhere else in the world as an ordinary conversation topic
 (§7g) naming its exact ingredients — currently Baker Tovi (Harrowfield),
-Hedge-Witch Morwen (Hollowmere), Beekeeper Mabe and Keeper Bess (Appleford),
-Smokehouse Master Findlay (Saltmere Port), Old Pellan and Widow Tamsin
-(Millhaven) and Gardener Thom (Royal Palace). `chefRecipeClues.test.ts` fails
-if a recipe loses its clue.
+Hedge-Witch Morwen (Hollowmere), Beekeeper Mabe, Keeper Bess and Orla
+Redfurrow (Appleford), Smokehouse Master Findlay (Saltmere Port), Old Pellan
+and Widow Tamsin (Millhaven) and Gardener Thom (Royal Palace).
+`chefRecipeClues.test.ts` fails if a recipe loses its clue.
+
+Orla is Appleford's well keeper (`docs/minigame-wellspring.md` §5), which is
+deliberate: the Wellwater Tisane needs clean water specifically rather than
+rainwater, and the person who wants the well put right is the one who explains
+what the water is *for*.
 
 Several recipes take fruit picked from `fruit` forage spots (§7), which is
 what makes those trees worth revisiting.

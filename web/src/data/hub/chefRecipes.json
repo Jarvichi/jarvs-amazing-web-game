@@ -80,6 +80,16 @@
       "discoveryCrystals": 25,
       "friendshipXp": 12,
       "relationship": { "track": "ally", "points": 5 }
+    },
+    {
+      "id": "wellwater-tisane",
+      "name": "Wellwater Tisane",
+      "dishItemId": "wellwater-tisane",
+      "ingredients": ["clean-water", "honey", "wild-berries"],
+      "text": "Clean water, honey, wild berries. And I mean clean \u2014 not rainwater, not off the stream. Water somebody went down a well and put right.\n\nHe pours a cup, and it comes out pale gold and smelling of the hedgerow. \u201cRainwater would muddy that. You'd not notice until you'd tasted this.\u201d",
+      "discoveryCrystals": 25,
+      "friendshipXp": 12,
+      "relationship": { "track": "ally", "points": 5 }
     }
   ],
   "genericDishes": [
