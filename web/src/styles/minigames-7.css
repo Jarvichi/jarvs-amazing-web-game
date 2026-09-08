@@ -1,0 +1,291 @@
+/* minigames-7.css — Stowage (the crate packing puzzle).
+   See docs/minigame-stowage.md §6 for the UI design this implements. */
+
+:root {
+  --stow-crate:    #6b4b2a;
+  --stow-slat:     #3a2a1a;
+  --stow-socket:   #1c1611;
+  --stow-timber:   #8a7050;
+  /* Eight hues for the goods. Two neighbouring pieces must read as two things,
+     so these are spaced around the wheel rather than shaded from one colour. */
+  --stow-hue0: #c96f4a;
+  --stow-hue1: #64a6bd;
+  --stow-hue2: #93b56b;
+  --stow-hue3: #c8a049;
+  --stow-hue4: #9d7ab8;
+  --stow-hue5: #5fa98a;
+  --stow-hue6: #cf8fa7;
+  --stow-hue7: #8b95c4;
+}
+
+/* ─── Crate ─────────────────────────────────────────────── */
+
+.crate-grid {
+  display: grid;
+  gap: 3px;
+  width: min(100%, 420px);
+  padding: var(--gap-3);
+  background: var(--stow-slat);
+  border: 3px solid var(--stow-crate);
+  border-radius: 6px;
+  box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.7);
+}
+
+.crate-grid--packed {
+  animation: crate-packed var(--dur-xslow) ease-out 1;
+}
+
+@keyframes crate-packed {
+  0%   { box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.7); }
+  40%  { box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.7), 0 0 26px var(--accent-gold); }
+  100% { box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.7); }
+}
+
+/* ─── Slots ─────────────────────────────────────────────── */
+
+.crate-slot {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  background: var(--stow-socket);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: filter var(--dur-fast) ease, background-color var(--dur-fast) ease;
+}
+
+.crate-slot:disabled { cursor: default; }
+
+/* Cells in a fixed grid brighten rather than translate: moving one slot while
+   its neighbours hold still reads as a layout glitch (AGENTS.md). */
+.crate-slot:hover:not(:disabled)  { filter: brightness(1.2); }
+.crate-slot:active:not(:disabled) { filter: brightness(1.35); }
+
+.crate-slot:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+/* Packing timber: visibly part of the crate rather than an empty slot. */
+.crate-slot--dunnage {
+  background: var(--stow-crate);
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
+.crate-timber {
+  width: 100%;
+  height: 100%;
+  stroke: var(--stow-timber);
+  stroke-width: 1.4;
+  opacity: 0.55;
+}
+
+/* ─── Stowed goods ──────────────────────────────────────── */
+/* A good is one object, not four squares: a filled slot only draws its border
+   on the sides facing something that is not the same good, so the piece gets an
+   outline around its silhouette and nothing down the middle. Correct for any
+   polyomino, with no per-shape geometry anywhere. */
+
+.crate-slot--filled {
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: var(--stow-good, var(--stow-hue0));
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.35);
+  animation: crate-settle var(--dur-fast) ease-out backwards;
+}
+
+.crate-slot--hue0 { --stow-good: var(--stow-hue0); }
+.crate-slot--hue1 { --stow-good: var(--stow-hue1); }
+.crate-slot--hue2 { --stow-good: var(--stow-hue2); }
+.crate-slot--hue3 { --stow-good: var(--stow-hue3); }
+.crate-slot--hue4 { --stow-good: var(--stow-hue4); }
+.crate-slot--hue5 { --stow-good: var(--stow-hue5); }
+.crate-slot--hue6 { --stow-good: var(--stow-hue6); }
+.crate-slot--hue7 { --stow-good: var(--stow-hue7); }
+
+.crate-slot--filled.crate-slot--edge-n { border-top-color:    rgba(0, 0, 0, 0.55); }
+.crate-slot--filled.crate-slot--edge-e { border-right-color:  rgba(0, 0, 0, 0.55); }
+.crate-slot--filled.crate-slot--edge-s { border-bottom-color: rgba(0, 0, 0, 0.55); }
+.crate-slot--filled.crate-slot--edge-w { border-left-color:   rgba(0, 0, 0, 0.55); }
+
+.crate-slot--filled.crate-slot--edge-n { border-top-left-radius: 4px; border-top-right-radius: 4px; }
+.crate-slot--filled.crate-slot--edge-s { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
+
+/* `backwards`, never `both`: a filled animation keeps ownership of every
+   property it touches forever, which would silently kill the press feedback
+   above (AGENTS.md). */
+@keyframes crate-settle {
+  from { transform: scale(0.82); opacity: 0.4; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ─── Ghost ─────────────────────────────────────────────── */
+/* Where the held good would land. The bad variant matters as much as the good
+   one: a refused tap should say why *before* it is spent. */
+
+.crate-slot--ghost {
+  background: color-mix(in srgb, var(--accent-gold) 45%, var(--stow-socket));
+  border-color: var(--accent-gold);
+}
+
+.crate-slot--ghost-bad {
+  background: color-mix(in srgb, var(--accent-ember) 35%, var(--stow-socket));
+  border-color: var(--accent-ember);
+}
+
+/* ─── Tray ──────────────────────────────────────────────── */
+
+.goods-tray {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-2);
+  width: min(100%, 420px);
+  min-height: 64px;
+  margin: 0 auto;
+  padding: var(--gap-2);
+  background: var(--surface-1);
+  border: 1px solid var(--game-border);
+  border-radius: 6px;
+}
+
+.goods-tray--empty {
+  color: var(--color-gray-6);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.tray-good {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  min-height: 52px;
+  padding: var(--gap-1);
+  background: var(--surface-2);
+  border: 2px solid var(--game-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform var(--dur-fast) ease, border-color var(--dur-fast) ease,
+              filter var(--dur-fast) ease;
+}
+
+/* Not a fixed grid — the tray reflows as goods leave it — so a tray good takes
+   the ordinary press treatment rather than the grid's brightness one. */
+.tray-good:hover  { filter: brightness(1.15); }
+.tray-good:active { transform: translateY(1px); filter: brightness(1.15); }
+
+.tray-good:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.tray-good--selected {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+}
+
+.tray-good-shape {
+  display: grid;
+  gap: 2px;
+}
+
+.tray-slot {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+}
+
+.tray-slot--filled {
+  background: var(--stow-good, var(--stow-hue0));
+}
+
+/* The slot a tap lands on. The rule has to be visible rather than discovered. */
+.tray-slot--anchor {
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.55);
+}
+
+.tray-good--hue0 { --stow-good: var(--stow-hue0); }
+.tray-good--hue1 { --stow-good: var(--stow-hue1); }
+.tray-good--hue2 { --stow-good: var(--stow-hue2); }
+.tray-good--hue3 { --stow-good: var(--stow-hue3); }
+.tray-good--hue4 { --stow-good: var(--stow-hue4); }
+.tray-good--hue5 { --stow-good: var(--stow-hue5); }
+.tray-good--hue6 { --stow-good: var(--stow-hue6); }
+.tray-good--hue7 { --stow-good: var(--stow-hue7); }
+
+/* ─── Status bar ────────────────────────────────────────── */
+
+.stow-status {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--gap-2);
+  width: min(100%, 420px);
+  margin: var(--gap-2) auto 0;
+  padding: var(--gap-2) var(--gap-3);
+  background: var(--surface-1);
+  border: 1px solid var(--game-border);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.stow-status--packed {
+  border-color: var(--accent-gold);
+}
+
+.stow-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  color: var(--text-primary);
+}
+
+.stow-status-item--warn {
+  color: var(--accent-gold);
+}
+
+/* ─── Reduced motion ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .crate-grid--packed,
+  .crate-slot--filled {
+    animation: none;
+  }
+}
+
+/* ─── Screen ────────────────────────────────────────────── */
+
+.stow-screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-2);
+}
+
+.stow-tier {
+  margin: 0;
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.stow-board-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.stow-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-3);
+}
+
+.stow-hint {
+  margin: 0;
+  color: var(--color-gray-6);
+  font-size: 0.8rem;
+  text-align: center;
+}
