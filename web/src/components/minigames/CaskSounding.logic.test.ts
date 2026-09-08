@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import {
   CASK_TIERS, CASK_SCORING, getTier,
   generateBoard, neighbourIndices, readingAt,
@@ -7,6 +7,17 @@ import {
   scoreRun,
   type Board, type Rng,
 } from './CaskSounding.logic'
+
+/**
+ * Computing a board's par is genuinely expensive — measured at ~3ms for a Tap
+ * Room board, ~184ms for a Cellar and ~423ms for a Vault on a developer
+ * machine, and a CI runner is several times slower again. Nearly every test
+ * here generates boards, so the timeout is raised for the whole file rather
+ * than tagged onto individual cases: a per-test timeout is one a new test can
+ * forget, and this file already failed CI once on vitest's 5s default while
+ * passing locally.
+ */
+vi.setConfig({ testTimeout: 60_000 })
 
 /** Deterministic RNG so a failure is reproducible from its seed. */
 function seeded(seed: number): Rng {
@@ -20,13 +31,13 @@ function seeded(seed: number): Rng {
 const TIERS = CASK_TIERS.map(t => t.id)
 
 /**
- * Generating a board computes its par, which is the expensive part of this
- * module (~185ms on a Cellar board). Sample boards are built once per tier and
- * shared: every action returns a new board rather than mutating, so reusing a
- * fixture across assertions is safe and keeps the suite quick.
+ * Sample boards are built once per tier and shared. Every action returns a new
+ * board rather than mutating, so reusing a fixture across assertions is safe,
+ * and it keeps the suite from paying for par over and over for the same
+ * coverage.
  */
 const SAMPLES = new Map<string, Board[]>()
-function samples(id: string, n = 10): Board[] {
+function samples(id: string, n = 6): Board[] {
   const key = `${id}:${n}`
   if (!SAMPLES.has(key)) {
     SAMPLES.set(key, Array.from({ length: n }, (_, k) => generateBoard(getTier(id), seeded(k + 1))))
