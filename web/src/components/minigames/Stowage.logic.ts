@@ -229,6 +229,14 @@ export function turnGood(board: Board, id: number): Board {
   return replaceGood(board, id, { turn: (good.turn + 1) % 4 })
 }
 
+/** Whether a tap on (tapX, tapY) would be accepted — the same question `stow`
+ *  answers, asked without spending the tap. The screen uses it to keep a
+ *  refused ghost on screen, so the anchor rule lives in exactly one place. */
+export function canStowAtTap(board: Board, good: Good, tapX: number, tapY: number): boolean {
+  const origin = originForTap(good, tapX, tapY)
+  return canStow(board, good, origin.x, origin.y)
+}
+
 /** Stow the held good so its anchor lands on (tapX, tapY). A refused stow costs
  *  nothing — the board comes back unchanged. */
 export function stow(board: Board, id: number, tapX: number, tapY: number): Board {

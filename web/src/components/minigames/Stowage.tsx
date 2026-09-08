@@ -19,7 +19,7 @@ import { Button } from '../ui/Button'
 import { playMinigameCorrect, playMinigameWrong, playCardFlip } from '../../game/sound'
 import {
   generateBoard, stow, lift, turnGood, emptyCrate, manifest,
-  occupantAt, openSlots, stowedCount, isPacked, turnPeriod,
+  occupantAt, openSlots, stowedCount, isPacked, turnPeriod, canStowAtTap,
   scoreRun, getTier, STOWAGE_SCORING,
   type Board, type Cell, type TierId,
 } from './Stowage.logic'
@@ -49,6 +49,10 @@ interface Run {
   /** Stows the crate refused, for the "that does not fit" nudge. */
   refusals: number
 }
+
+const REFUSED_HINT = "That won't fit there — the goods would hang over the edge or clash with what is already stowed."
+const HELD_HINT = 'Tap a slot to stow it. The marked corner of the goods lands on the slot you tap; tap the goods again to turn them.'
+const IDLE_HINT = 'Take a good from the tray, or tap one in the crate to lift it back out. Turning and lifting are free.'
 
 export function Stowage({ onDone, tier: tierProp }: Props) {
   const tier = getTier(tierProp)
@@ -82,8 +86,17 @@ export function Stowage({ onDone, tier: tierProp }: Props) {
     }
     if (held === null) return
     const next = stow(board, held, x, y)
-    if (next === board) { setRun({ ...run, refusals: run.refusals + 1 }); return }
+    if (next === board) {
+      // Leave the ghost sitting on the slot that was refused. On a phone there
+      // is no hover, so the preview the ghost exists for never fires before the
+      // tap — showing it *after* one is what gives a touch player the same
+      // "here is what clashes" the pointer player gets for free.
+      setHovered({ x, y })
+      setRun({ ...run, refusals: run.refusals + 1 })
+      return
+    }
     setHeld(null)
+    setHovered(null)
     setRun({ ...run, board: next })
   }, [board, held, packed, run])
 
@@ -92,7 +105,7 @@ export function Stowage({ onDone, tier: tierProp }: Props) {
     // verbs, so picking up and orienting never means hunting for a second
     // control. The ↻ button below does the same thing for anyone who wants it.
     if (held === id) setRun({ ...run, board: turnGood(board, id) })
-    else setHeld(id)
+    else { setHeld(id); setHovered(null) }
   }, [board, held, run])
 
   const handleTurn = useCallback(() => {
@@ -124,6 +137,11 @@ export function Stowage({ onDone, tier: tierProp }: Props) {
     else if (board.stows !== last.stows) playCardFlip()
     lastRef.current = { stows: board.stows, refusals: run.refusals, packed }
   }, [board.stows, run.refusals, packed])
+
+  // The refusal that is still on screen: cleared by the next successful stow,
+  // by picking a different good, or by tipping the crate out.
+  const refusedGhost = heldGood !== null && hovered !== null
+    && !canStowAtTap(board, heldGood, hovered.x, hovered.y)
 
   const score = scoreRun(tier, board.par, board.stows)
   const loose = board.goods.filter(g => !g.at)
@@ -165,7 +183,7 @@ export function Stowage({ onDone, tier: tierProp }: Props) {
               ↻ TURN
             </Button>
             <Button onClick={handleManifest} title="Stow one good where the manifest says it goes">
-              📜 MANIFEST (+{STOWAGE_SCORING.manifestCost} stows)
+              📜 MANIFEST −{STOWAGE_SCORING.manifestCost}
             </Button>
             <Button onClick={handleEmpty} title="Tip the crate out and start again">
               ↺ EMPTY IT
@@ -173,9 +191,7 @@ export function Stowage({ onDone, tier: tierProp }: Props) {
           </div>
 
           <p className="stow-hint">
-            {heldGood
-              ? 'Tap a slot to stow it — the marked corner lands where you tap. Tap the goods again to turn them.'
-              : 'Take a good from the tray, or tap one in the crate to lift it back out. Turning and lifting are free.'}
+            {refusedGhost ? REFUSED_HINT : heldGood ? HELD_HINT : IDLE_HINT}
           </p>
         </>
       )}

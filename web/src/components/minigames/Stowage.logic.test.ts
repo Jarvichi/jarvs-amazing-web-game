@@ -3,7 +3,7 @@ import {
   STOWAGE_TIERS, STOWAGE_SCORING, getTier,
   generateBoard, normalise, turnCells, turnPeriod, goodCells, anchorOf,
   footprint, originForTap, occupancy, canStow, openSlots, stowedCount,
-  isPacked, stow, lift, turnGood, emptyCrate, occupantAt, manifest,
+  isPacked, stow, lift, turnGood, emptyCrate, occupantAt, manifest, canStowAtTap,
   isRectangular, scoreRun, slotIndex,
   type Board, type Cell, type Good, type StowageTier,
 } from './Stowage.logic'
@@ -338,6 +338,29 @@ describe('the manifest hint', () => {
     expect(isPacked(board)).toBe(true)
     expect(manifest(board, seeded(1))).toBeNull()
     expect(board.stows).toBe(tier.goods * STOWAGE_SCORING.manifestCost)
+  })
+})
+
+describe('canStowAtTap', () => {
+  // The screen asks this to keep a refused ghost on screen after a tap, so it
+  // has to agree with `stow` exactly — a preview that disagreed with the move
+  // would be worse than no preview at all.
+  it('agrees with stow on every slot of a crate', () => {
+    const board = generateBoard(getTier('handcart'), seeded(31))
+    const good = board.goods[0]
+    for (let y = 0; y < board.h; y++) {
+      for (let x = 0; x < board.w; x++) {
+        const allowed = canStowAtTap(board, good, x, y)
+        const moved = stow(board, good.id, x, y) !== board
+        expect(moved, `tap (${x}, ${y})`).toBe(allowed)
+      }
+    }
+  })
+
+  it('refuses a tap that would hang the goods over the edge', () => {
+    const board = generateBoard(getTier('handcart'), seeded(32))
+    // Every good is at least three slots, so the far corner always overhangs.
+    expect(canStowAtTap(board, board.goods[0], board.w - 1, board.h - 1)).toBe(false)
   })
 })
 

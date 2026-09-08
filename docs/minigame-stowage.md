@@ -387,6 +387,30 @@ Portrait-first inside the existing 740px column. The crate is sized
   `MinigameResultPanel`.
 - All of it behind `prefers-reduced-motion`.
 
+### What playing it changed
+
+Three things the tests could not have told us, found by driving the real screen
+in a browser (Playwright over the Storybook stories, DOM-measured rather than
+eyeballed):
+
+- **The ghost was a mouse-only affordance.** It previews on hover, and there is
+  no hover on a phone — so a touch player's refused tap did nothing visible at
+  all. A refused tap now *leaves* the ghost sitting on the slot it refused,
+  with the hint line saying why, which gives touch the same explanation the
+  pointer got for free. The good stays held and nothing is spent.
+- **The ghost was the same gold as a stowed good** (`--stow-hue3`), so on a
+  board with an amber piece the one mark that means "not yet" read as "done".
+  It is now a dashed outline over a much lighter wash.
+- **The tray thumbnails read as loose dots, not shapes** at a 2px gap, and the
+  anchor mark — a dark inset ring — read as a *different piece* rather than a
+  mark on this one. Now a 1px gap and a white centre pip.
+- **Turning was silent to a screen reader** on any shape with a square bounding
+  box: the accessible name said "5 slots, 3 by 3" before and after. It now
+  carries the orientation.
+
+Slot geometry, measured at a 430px viewport: 68px on a Handcart, 59px on a
+Ship's Hold, no horizontal page scroll at any tier.
+
 ### Accessibility
 
 Every slot is a real `<button>` describing itself and its contents — *"Row 3,

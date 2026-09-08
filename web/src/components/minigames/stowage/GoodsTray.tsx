@@ -46,6 +46,10 @@ export function GoodsTray({ goods, selectedId = null, onSelect }: Props) {
             aria-pressed={selected}
             aria-label={
               `Goods ${good.id + 1}: ${cells.length} slots, ${w} by ${h}.` +
+              // Orientation has to be in the name: turning is a real move, and
+              // without this a screen-reader player has no way to tell that a
+              // turn did anything on a shape whose bounding box is square.
+              (period > 1 && good.turn > 0 ? ` Turned ${good.turn * 90} degrees.` : '') +
               (period === 1 ? ' Square — turning does nothing.' : '') +
               (selected ? ' Held. Activate to turn.' : ' Activate to pick up.')
             }

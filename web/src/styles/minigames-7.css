@@ -122,16 +122,20 @@
 
 /* ─── Ghost ─────────────────────────────────────────────── */
 /* Where the held good would land. The bad variant matters as much as the good
-   one: a refused tap should say why *before* it is spent. */
+   one: a refused tap should say why *before* it is spent.
+   Dashed, and a much lighter wash than a stowed good — a screenshot of the
+   first version (a solid gold fill) put the ghost directly beside a stowed
+   amber good and the two were indistinguishable, which turns the one piece of
+   the board that means "not yet" into one that means "done". */
 
 .crate-slot--ghost {
-  background: color-mix(in srgb, var(--accent-gold) 45%, var(--stow-socket));
-  border-color: var(--accent-gold);
+  background: color-mix(in srgb, var(--accent-gold) 20%, var(--stow-socket));
+  border: 2px dashed var(--accent-gold);
 }
 
 .crate-slot--ghost-bad {
-  background: color-mix(in srgb, var(--accent-ember) 35%, var(--stow-socket));
-  border-color: var(--accent-ember);
+  background: color-mix(in srgb, var(--accent-ember) 18%, var(--stow-socket));
+  border: 2px dashed var(--accent-ember);
 }
 
 /* ─── Tray ──────────────────────────────────────────────── */
@@ -189,22 +193,26 @@
 
 .tray-good-shape {
   display: grid;
-  gap: 2px;
+  /* Nearly touching: at 2px the slots read as four loose dots rather than one
+     piece, which is the single thing a tray thumbnail has to communicate. */
+  gap: 1px;
 }
 
 .tray-slot {
-  width: 11px;
-  height: 11px;
-  border-radius: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 1px;
 }
 
 .tray-slot--filled {
   background: var(--stow-good, var(--stow-hue0));
 }
 
-/* The slot a tap lands on. The rule has to be visible rather than discovered. */
+/* The slot a tap lands on. The rule has to be visible rather than discovered —
+   and as a dark inset ring it read as a *different piece* rather than a mark on
+   this one, so it is a pip in the middle of the slot instead. */
 .tray-slot--anchor {
-  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.55);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 26%, transparent 28%);
 }
 
 .tray-good--hue0 { --stow-good: var(--stow-hue0); }
