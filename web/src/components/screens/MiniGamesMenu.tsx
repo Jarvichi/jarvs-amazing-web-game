@@ -30,6 +30,7 @@ import { CityBuilder } from '../minigames/CityBuilder'
 import { Fishing } from '../minigames/Fishing'
 import { TowerDefence, TowerPool } from '../minigames/TowerDefence'
 import { HarbourRegatta } from '../minigames/HarbourRegatta'
+import { Wellspring } from '../minigames/Wellspring'
 import { PageHeader } from '../ui/PageHeader'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
@@ -106,7 +107,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
   // ── Game completion handler ───────────────────────────────────────────────────
 
-  const handleGameDone = useCallback((gameId: MiniGameId, ticketsEarned: number, opts?: { perfect?: boolean; jackpot?: boolean; score?: number }) => {
+  const handleGameDone = useCallback((gameId: MiniGameId, ticketsEarned: number, opts?: { perfect?: boolean; jackpot?: boolean; score?: number; underPar?: boolean; depthId?: string }) => {
     if (ticketsEarned > 0) {
       addTickets(ticketsEarned)
       refreshTickets()
@@ -152,6 +153,10 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       setAchievementProgress('miniGame:towerDefence:bestScore', newBest)
     } else if (gameId === 'regatta') {
       setAchievementProgress('miniGame:regatta:bestScore', newBest)
+    } else if (gameId === 'wellspring') {
+      setAchievementProgress('miniGame:wellspring:bestScore', newBest)
+      if (opts?.underPar) incrementAchievementProgress('miniGame:wellspring:underParSolves')
+      if (opts?.depthId === 'vault') incrementAchievementProgress('miniGame:wellspring:vaultSolves')
     }
 
     // Publish to leaderboard if signed in
@@ -247,6 +252,14 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
   if (subScreen === 'regatta') {
     return <HarbourRegatta onDone={(t) => handleGameDone('regatta', t)} />
   }
+  if (subScreen === 'wellspring') {
+    return (
+      <Wellspring
+        onDone={(tickets, result) =>
+          handleGameDone('wellspring', tickets, { underPar: result.underPar, depthId: result.depthId })}
+      />
+    )
+  }
   if (subScreen === 'higherOrLower') {
     return <HigherOrLower onDone={(t) => handleGameDone('higherOrLower', t)} />
   }
@@ -303,7 +316,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
             {/* Game grid */}
             <div className="minigame-grid">
-              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => {
+              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'wellspring'] as MiniGameId[]).map(id => {
                 const cost = MINI_GAME_COSTS[id]
                 const locked = currentCrystals < cost
                 const best = loadLocalHighScore(id)
@@ -392,7 +405,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
             <div className="lb-controls u-col u-gap-3">
               <div className="lb-game-tabs">
-                {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => (
+                {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'wellspring'] as MiniGameId[]).map(id => (
                   <button
                     key={id}
                     className={`filter-btn${lbGame === id ? ' filter-btn--active' : ''}`}

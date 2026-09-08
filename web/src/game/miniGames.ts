@@ -21,7 +21,7 @@ export { getTickets as loadTickets, addTickets, spendTickets }
 
 // ── Game Costs ────────────────────────────────────────────────────────────────
 
-export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace' | 'higherOrLower' | 'fruitMachine' | 'videoPoker' | 'fishing' | 'towerDefence' | 'regatta'
+export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace' | 'higherOrLower' | 'fruitMachine' | 'videoPoker' | 'fishing' | 'towerDefence' | 'regatta' | 'wellspring'
 
 export const MINI_GAME_COSTS = _MINI_GAME_COSTS as Record<MiniGameId, number>
 
@@ -37,6 +37,7 @@ export const MINI_GAME_LABELS: Record<MiniGameId, string> = {
   fishing:        'Fishing',
   towerDefence:   'Tower Defence',
   regatta:        'Harbour Regatta',
+  wellspring:     'Wellspring',
 }
 
 export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
@@ -51,6 +52,7 @@ export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
   fishing:        'Cast your line and reel in a catch. Rare fish earn big tickets — and sometimes treasure!',
   towerDefence:   'Place your cards as towers and defend your base from 10 waves of enemies!',
   regatta:        'Row your skiff round the harbour buoys! Keep a steady oar rhythm to stay on course.',
+  wellspring:     'Turn the broken aqueduct sections until the water runs clear. No clock — just you and the puzzle.',
 }
 
 export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
@@ -65,6 +67,7 @@ export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
   fishing:        '🎣',
   towerDefence:   '🏰',
   regatta:        '⛵',
+  wellspring:     '💧',
 }
 
 // ── Ticket Prizes ─────────────────────────────────────────────────────────────

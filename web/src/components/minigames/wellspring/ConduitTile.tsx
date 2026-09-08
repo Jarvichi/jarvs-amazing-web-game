@@ -105,8 +105,8 @@ export function ConduitTile({
 
   const what = role === 'source' ? 'the spring' : role === 'basin' ? `basin, ${kind}` : kind
   const state = fixed
-    ? role === 'source' ? 'fixed' : 'welded in place'
-    : seized ? 'seized, costs two taps' : 'activate to rotate'
+    ? role === 'source' ? 'Fixed' : 'Welded in place'
+    : seized ? 'Seized, costs two taps' : 'Activate to rotate'
   const label = `Row ${row + 1}, column ${col + 1}: ${what}, ${openSidesLabel(mask)}. ${state}.`
 
   return (

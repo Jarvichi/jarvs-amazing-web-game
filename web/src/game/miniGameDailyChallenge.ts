@@ -29,6 +29,9 @@ const MINI_GAME_CHALLENGE_RANGE: Record<MiniGameId, [number, number]> = {
   fishing:       [15, 35],
   towerDefence:  [40, 80],
   regatta:       [20, 40],
+  // Deep pays 45 at par and Abyssal 90, so this band asks for a clean solve
+  // on the middle depth or a scrappy one further down.
+  wellspring:    [40, 70],
 }
 
 /** Today's ticket target to beat for a given mini-game, deterministic for the day. */

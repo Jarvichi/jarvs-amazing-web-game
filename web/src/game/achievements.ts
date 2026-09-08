@@ -2693,6 +2693,38 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // ─── Wellspring Achievements ─────────────────────────────
+  {
+    id: 'miniGame:wellspring_first',
+    name: 'The Water Runs',
+    description: 'Restore a Wellspring conduit for the first time.',
+    category: 'misc',
+    progressKey: 'miniGame:wellspring:bestScore',
+    target: 1,
+    reward: { type: 'crystals', crystals: 25 },
+    tier: 1,
+  },
+  {
+    id: 'miniGame:wellspring_under_par',
+    name: 'Fewer Turns Than That',
+    description: 'Finish a Wellspring board under par.',
+    category: 'misc',
+    progressKey: 'miniGame:wellspring:underParSolves',
+    target: 1,
+    reward: { type: 'cards', count: 1 },
+    tier: 1,
+  },
+  {
+    id: 'miniGame:wellspring_vault',
+    name: 'Keeper of the Ley Vault',
+    description: 'Restore three Abyssal boards — six by six, edges wrapping.',
+    category: 'misc',
+    progressKey: 'miniGame:wellspring:vaultSolves',
+    target: 3,
+    reward: { type: 'cards', count: 3 },
+    tier: 2,
+  },
+
   // ─── Higher or Lower Achievements ────────────────────────
   {
     id: 'miniGame:hol_first',
