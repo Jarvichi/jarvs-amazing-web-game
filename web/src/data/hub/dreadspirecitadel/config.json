@@ -532,6 +532,13 @@
   "npcs": [
     {
       "id": "dreadspirecitadel-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 28,
+          "ty": 9
+        }
+      },
       "name": "Drayman Kess",
       "sprite": "hub-npc-soldier",
       "tx": 28,
@@ -543,6 +550,13 @@
     },
     {
       "id": "dreadspirecitadel-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 19,
+          "ty": 33
+        }
+      },
       "name": "Vault-Warden Sess",
       "sprite": "hub-npc-warlock",
       "tx": 19,
@@ -554,6 +568,13 @@
     },
     {
       "id": "dreadspirecitadel-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 21,
+          "ty": 19
+        }
+      },
       "name": "Brother Ashen",
       "sprite": "hub-npc-cultist",
       "tx": 22,

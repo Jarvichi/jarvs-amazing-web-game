@@ -12,6 +12,7 @@ import { leftShiftToClear, type Rect } from './bubblePlacement'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation, getNpcActivity, getNpcDialoguePool, resolveNpcInteriorPresence } from '../../game/hub/hubNpcSchedule'
 import { recordDeparture, claimArrival } from '../../game/hub/townTravelers'
+import { pickPatrolTile, nextDwellMs, isAtLandmark } from '../../game/hub/npcPatrol'
 import { createAmbientRoster, buildUnitSlugPool } from '../../game/hub/ambientNpcIdentity'
 import type { AmbientNpcIdentity, AmbientNpcLook } from '../../game/hub/ambientNpcIdentity'
 import { townsfolkLayers } from '../../data/townsfolk'
@@ -1447,6 +1448,10 @@ export function HubTownCanvas({
     // building reaches minLevel (and again past hideAtLevel). Toggled in the ticker.
     const levelGatedNpcs: { buildingId: string; minLevel?: number; hideAtLevel?: number; container: PIXI.Container }[] = []
     // Walk state for named NPCs — tracks current tile and in-progress walk queue
+    /** A speech bubble that remembers its own size, so one belonging to a
+     *  walking NPC can be re-placed each frame and still dodge the minimap. */
+    type SpeechBubble = PIXI.Container & { bubbleW: number; bubbleH: number }
+
     interface NamedNpcWalkState {
       currentTx: number
       currentTy: number
@@ -1463,7 +1468,18 @@ export function HubTownCanvas({
     }
     const namedNpcWalkStates = new Map<string, NamedNpcWalkState>()
     // Proximity bubbles for named NPCs driven by npcProximityDialogue ref
-    const namedNpcProximityBubbles = new Map<string, { bubble: PIXI.Container | null; lastText: string | null }>()
+    const namedNpcProximityBubbles = new Map<string, { bubble: SpeechBubble | null; lastText: string | null }>()
+    // Patrol beats (npc.patrol) — when the next drift is due, per NPC. Seeded
+    // with staggered first steps so a town's patrollers don't all set off on
+    // the same frame.
+    const namedNpcPatrolNextAt = new Map<string, number>()
+    // The thing a patroller is there to talk about. Resolved once rather than
+    // looked up per frame, and consulted by both the beat (never stop on it)
+    // and the proximity line (only speak beside it).
+    const namedNpcLandmarks = new Map<string, { tx: number; ty: number }>()
+    for (const npc of EXTERIOR_NPCS) {
+      if (npc.patrol?.landmark) namedNpcLandmarks.set(npc.id, npc.patrol.landmark)
+    }
     // Schedule-driven activities: current activity + pose textures (swap sprite while active)
     const namedNpcActivity       = new Map<string, ReturnType<typeof getNpcActivity>>()
     const namedNpcBaseTex        = new Map<string, PIXI.Texture>()
@@ -3179,7 +3195,7 @@ export function HubTownCanvas({
     const SLOT_STAGGER_MS   = 4_000
     const MAX_BUBBLES       = 3
 
-    interface BubbleSlot { container: PIXI.Container; timer: number; phase: 'showing' | 'fading'; npcId: string }
+    interface BubbleSlot { container: SpeechBubble; timer: number; phase: 'showing' | 'fading'; npcId: string }
     const activeBubbles: BubbleSlot[] = []
     let lastMovedMs    = performance.now()
     let nextSpawnTimer = 0
@@ -3213,8 +3229,8 @@ export function HubTownCanvas({
       return leftShiftToClear(bubbleScreen, exclude, 6, maxShift)
     }
 
-    function createSpeechBubble(text: string, cx: number, cy: number): PIXI.Container {
-      const c   = new PIXI.Container()
+    function createSpeechBubble(text: string, cx: number, cy: number): SpeechBubble {
+      const c   = new PIXI.Container() as SpeechBubble
       const lbl = new PIXI.Text({
         text,
         style: { fontSize: 11, fill: '#111111', fontFamily: 'monospace', wordWrap: true, wordWrapWidth: 160 },
@@ -3233,7 +3249,17 @@ export function HubTownCanvas({
       const py = cy - SPRITE_SIZE - 4
       const shift = minimapAvoidanceShiftX(cx, py, bw, bh)
       c.position.set(cx - shift, py)
+      // Carried so a bubble belonging to a *moving* NPC can be re-placed every
+      // frame and still dodge the minimap — see moveSpeechBubble.
+      c.bubbleW = bw
+      c.bubbleH = bh
       return c
+    }
+
+    /** Re-place a bubble over a walking NPC, keeping its minimap avoidance. */
+    function moveSpeechBubble(bubble: SpeechBubble, cx: number, cy: number): void {
+      const py = cy - SPRITE_SIZE - 4
+      bubble.position.set(cx - minimapAvoidanceShiftX(cx, py, bubble.bubbleW, bubble.bubbleH), py)
     }
 
     // Tapping a wandering NPC shows one cosmetic flavour line prefixed with
@@ -3878,7 +3904,14 @@ export function HubTownCanvas({
           const dist = Math.max(Math.abs(ws.currentTx - atx), Math.abs(ws.currentTy - aty))
           dialogues.sort((a, b) => a.atDistance - b.atDistance)
           const match = dialogues.find(p => dist <= p.atDistance)
-          const newText = (match && !isNameTagBlockingBubble(npcId)) ? match.text : null
+          // A patroller with a landmark is only *about* that landmark while
+          // they are beside it: the mini-game keepers say their piece as their
+          // beat takes them past the well/barrel/crate, and are quiet the rest
+          // of the round. Without this they would announce it from anywhere on
+          // their beat, which is the standing-still behaviour with extra steps.
+          const landmark = namedNpcLandmarks.get(npcId) ?? null
+          const onTopic = !landmark || isAtLandmark({ tx: ws.currentTx, ty: ws.currentTy }, landmark)
+          const newText = (match && onTopic && !isNameTagBlockingBubble(npcId)) ? match.text : null
           const entry = namedNpcProximityBubbles.get(npcId) ?? { bubble: null, lastText: null }
           if (newText !== entry.lastText) {
             if (entry.bubble) { bubbleLayer.removeChild(entry.bubble); entry.bubble = null }
@@ -3891,6 +3924,42 @@ export function HubTownCanvas({
             entry.lastText = newText
             namedNpcProximityBubbles.set(npcId, entry)
           }
+          // Glue a live bubble to its NPC. These used to be placed once at
+          // creation, which was invisible while every named NPC with proximity
+          // lines stood still — a patroller would walk out from under theirs.
+          if (entry.bubble) {
+            const sprite = namedNpcContainers.get(npcId)?.children[0] as PIXI.Sprite | undefined
+            if (sprite) moveSpeechBubble(entry.bubble, sprite.x, sprite.y)
+          }
+        }
+      }
+
+      // Patrol beats — an NPC with `patrol` and no schedule drifts around its
+      // anchor instead of standing on one tile forever (game/hub/npcPatrol.ts).
+      // Movement reuses walkNamedNpc, so patrolling needs no pathfinding of its
+      // own and inherits its "route around other NPCs" behaviour.
+      if (!interiorActive) {
+        const now = performance.now()
+        for (const [npcId, container] of namedNpcContainers) {
+          const npc = EXTERIOR_NPCS.find(n => n.id === npcId)
+          if (!npc?.patrol || npc.schedule) continue
+          const ws = namedNpcWalkStates.get(npcId)
+          if (!ws || ws.isWalking || ws.isInside || ws.isTraveling) continue
+          const due = namedNpcPatrolNextAt.get(npcId)
+          if (due === undefined) { namedNpcPatrolNextAt.set(npcId, now + nextDwellMs(Math.random)); continue }
+          if (now < due) continue
+          namedNpcPatrolNextAt.set(npcId, now + nextDwellMs(Math.random))
+          const next = pickPatrolTile(
+            { tx: npc.tx, ty: npc.ty },
+            npc.patrol.radius,
+            { tx: ws.currentTx, ty: ws.currentTy },
+            exteriorWalkable(),
+            namedNpcLandmarks.get(npcId) ?? null,
+            Math.random,
+          )
+          // A beat with nowhere to go leaves the NPC where they are and tries
+          // again next dwell, which is exactly the old standing-still NPC.
+          if (next) walkNamedNpc(npc, ws, container, { type: 'exterior', tx: next.tx, ty: next.ty })
         }
       }
 
@@ -4313,6 +4382,14 @@ export function HubTownCanvas({
             activeBubbles.splice(i, 1)
             continue
           }
+          // Track the NPC's live sprite, the way friendship reactions below
+          // already do. These were placed once at the NPC's *start* tile and
+          // never moved — invisible while every named NPC stood still, but a
+          // patrolling one would leave their bubble hanging over the tile they
+          // set off from, which for a mini-game keeper is the well, barrel or
+          // crate they are meant to be pointing at.
+          const bubbleSprite = namedNpcContainers.get(slot.npcId)?.children[0] as PIXI.Sprite | undefined
+          if (bubbleSprite) moveSpeechBubble(slot.container, bubbleSprite.x, bubbleSprite.y)
           slot.timer -= ticker.deltaMS
           if (slot.phase === 'showing' && slot.timer <= 0) {
             slot.phase = 'fading'; slot.timer = BUBBLE_FADE_MS

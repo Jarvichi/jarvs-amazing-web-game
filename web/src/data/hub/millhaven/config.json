@@ -1649,6 +1649,13 @@
   "npcs": [
     {
       "id": "millhaven-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 33,
+          "ty": 4
+        }
+      },
       "name": "Stevedore Hollis",
       "sprite": "hub-npc-fisherman-2",
       "tx": 32,
@@ -1660,6 +1667,13 @@
     },
     {
       "id": "millhaven-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 13,
+          "ty": 9
+        }
+      },
       "name": "Dockhand Verity",
       "sprite": "hub-npc-sailor",
       "tx": 13,
@@ -1671,6 +1685,13 @@
     },
     {
       "id": "millhaven-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 15,
+          "ty": 12
+        }
+      },
       "name": "Harbourmaster Dunn",
       "sprite": "hub-npc-harbourmaster",
       "tx": 16,

@@ -433,7 +433,13 @@ already existed, so a fourth puzzle needs no engine work either. The shape:
    `interactableStoreKey(town, '<key>')` → `YYYY-MM-DD`. Key it by *town*, not
    by interactable id: the cooldown is what makes thirteen of them a reason to
    travel rather than one spot to farm.
-6. **Give every town an NPC beside the scenery**, matched by id suffix
+6. **Give every town an NPC beside the scenery, and give them a `patrol`**
+   (`{ radius, landmark }` — see `game/hub/npcPatrol.ts`). A speech bubble is
+   ~5 tiles wide and drawn over the world, so an NPC standing still beside the
+   scenery parks their bubble on top of the thing they are pointing at for as
+   long as the player is in range. A patrolling one walks a beat, never stops
+   inside the landmark's clearance ring, and speaks their proximity line only
+   while passing it. Match them by id suffix
    (`endsWith('-cellarer')`) rather than a list in `HubWorld.tsx`, so adding a
    town needs no code change. Their proximity dialogue must change with state:
    a far line that something is wrong, a nearer one naming the tool *and where
@@ -444,7 +450,11 @@ already existed, so a fourth puzzle needs no engine work either. The shape:
    stevedore's hook is Millhaven's (on the harbour row beside the rod and bait
    stalls).
 8. **Add a placement integrity test** — see `stowagePlacement.test.ts`,
-   `caskPlacement.test.ts` and `wellspringPlacement.test.ts`. It should fail the build when a town lacks the
+   `caskPlacement.test.ts` and `wellspringPlacement.test.ts`; `keeperPatrol.test.ts`
+   covers all three keepers' beats in one place, failing the build when one has no
+   patrol, when its landmark points at the wrong tile, or when its beat can never
+   reach speaking range of the scenery in some town's street layout.
+   A placement test should fail the build when a town lacks the
    interactable, when the interactable is not on the expected decor tile, when
    the NPC is missing or too far away to bubble, or when the NPC shares a tile
    or a sprite with something else. A missing entrance is otherwise invisible

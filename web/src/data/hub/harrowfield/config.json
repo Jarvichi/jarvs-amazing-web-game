@@ -1532,6 +1532,13 @@
   "npcs": [
     {
       "id": "harrowfield-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 34,
+          "ty": 22
+        }
+      },
       "name": "Waggoner Pell",
       "sprite": "hub-npc-merchant-2",
       "tx": 34,
@@ -1543,6 +1550,13 @@
     },
     {
       "id": "harrowfield-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 35,
+          "ty": 12
+        }
+      },
       "name": "Brewster Tamsin",
       "sprite": "hub-npc-elder-2",
       "tx": 34,
@@ -1554,6 +1568,13 @@
     },
     {
       "id": "harrowfield-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 12,
+          "ty": 9
+        }
+      },
       "name": "Goodwife Trent",
       "sprite": "hub-npc-elder",
       "tx": 13,

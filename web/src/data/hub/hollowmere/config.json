@@ -1145,6 +1145,13 @@
   "npcs": [
     {
       "id": "hollowmere-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 25,
+          "ty": 11
+        }
+      },
       "name": "Punt-Loader Sedge",
       "sprite": "hub-npc-fisherman",
       "tx": 25,
@@ -1156,6 +1163,13 @@
     },
     {
       "id": "hollowmere-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 16,
+          "ty": 11
+        }
+      },
       "name": "Brewer Ossory",
       "sprite": "hub-npc-elder-3",
       "tx": 15,
@@ -1167,6 +1181,13 @@
     },
     {
       "id": "hollowmere-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 10,
+          "ty": 12
+        }
+      },
       "name": "Little Pell",
       "sprite": "hub-npc-child",
       "tx": 11,

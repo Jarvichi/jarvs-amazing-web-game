@@ -1211,6 +1211,13 @@
   "npcs": [
     {
       "id": "appleford-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 8,
+          "ty": 9
+        }
+      },
       "name": "Carter Nan",
       "sprite": "hub-npc-trader",
       "tx": 7,
@@ -1222,6 +1229,13 @@
     },
     {
       "id": "appleford-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 3,
+          "ty": 9
+        }
+      },
       "name": "Cider-Master Bramwell",
       "sprite": "hub-npc-merchant",
       "tx": 4,
@@ -1233,6 +1247,13 @@
     },
     {
       "id": "appleford-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 20,
+          "ty": 12
+        }
+      },
       "name": "Orla Redfurrow",
       "sprite": "hub-npc-gardener",
       "tx": 19,

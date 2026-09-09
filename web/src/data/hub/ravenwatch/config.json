@@ -10769,6 +10769,13 @@
   "npcs": [
     {
       "id": "ravenwatch-stowhand",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 11,
+          "ty": 11
+        }
+      },
       "name": "Packer Wyn",
       "sprite": "hub-npc-merchant",
       "tx": 11,
@@ -10780,6 +10787,13 @@
     },
     {
       "id": "ravenwatch-cellarer",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 54,
+          "ty": 47
+        }
+      },
       "name": "Innkeep Corbin",
       "sprite": "hub-npc-trader",
       "tx": 53,
@@ -10791,6 +10805,13 @@
     },
     {
       "id": "ravenwatch-well-keeper",
+      "patrol": {
+        "radius": 4,
+        "landmark": {
+          "tx": 21,
+          "ty": 21
+        }
+      },
       "name": "Corvin Slate",
       "sprite": "hub-npc-raven-keeper",
       "tx": 21,
