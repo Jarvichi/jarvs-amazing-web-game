@@ -60,32 +60,41 @@ truth. `firebase.json` points the CLI at it. They cover player saves
 (`saves/{uid}`, readable/writable only by that authenticated user; anonymous
 users have no access) plus the daily/weekly leaderboards and other collections.
 
-### Automatic deploy
+### Deploying the rules — manual, and easy to forget
 
-The `deploy-firebase` job in `.github/workflows/deploy.yml` pushes the rules on
-every merge to `main`. It needs one repo secret:
-
-| Secret | What it is |
-|---|---|
-| `FIREBASE_SERVICE_ACCOUNT` | The **full JSON key** of a service account with the *Firebase Rules Admin* role (`roles/firebaserules.admin`; `roles/firebase.admin` also works) |
-
-Create it in the Google Cloud console under IAM → Service Accounts → Keys →
-Add key → JSON, then paste the whole file into the secret.
-
-If the secret is unset the job **warns and skips** rather than failing, so a
-green workflow does not by itself prove the rules deployed — check the job log.
-
-> **Why a JSON key and not Workload Identity Federation?** WIF is the better
-> practice, but `firebase-tools` currently discards ADC/WIF credentials and dies
-> with a misleading "Failed to authenticate, have you run firebase login?"
-> ([firebase-tools#10726](https://github.com/firebase/firebase-tools/issues/10726)).
-> A JSON key is long-lived — rotate it periodically.
-
-### Manual deploy
+**Editing `firestore.rules` changes nothing until someone runs this:**
 
 ```bash
 firebase deploy --only firestore:rules --project jawg-a3271
 ```
+
+There is **no CI job that deploys the rules.** `deploy-firebase` was removed on
+2026-08-09 (`497f2e5`) after it failed persistently with a 403 from
+`serviceusage.googleapis.com` that resisted diagnosis. Merging to `main` deploys
+the *site* and nothing else — a green workflow says nothing about the rules.
+
+So the committed rules and the rules Firestore actually enforces drift apart
+silently, and the failure mode is delayed and confusing: the code ships, the
+collection it needs is denied, and the error surfaces in Rollbar days later as a
+`permission-denied` nobody connects to a rules edit. That is exactly how
+`userIndex` (#2264) broke — the rule was committed on 2026-08-29 and never
+deployed, taking the account-deletion `allow delete` grants (#2090) and the
+`chronicleVotes` tally down with it.
+
+**Whenever a change adds or edits a `match` block, deploy the rules as part of
+shipping it, and say so in the PR.** Verify afterwards in the Firebase Console
+(Firestore → Rules) that the live text matches `firestore.rules` — the console
+shows the deployed version and its timestamp.
+
+> **If you ever revisit the CI job:** it needs a `FIREBASE_SERVICE_ACCOUNT`
+> secret holding the full JSON key of a service account with
+> `roles/firebaserules.admin`. Workload Identity Federation would be preferable,
+> but `firebase-tools` discards ADC/WIF credentials and dies with a misleading
+> "Failed to authenticate, have you run firebase login?"
+> ([firebase-tools#10726](https://github.com/firebase/firebase-tools/issues/10726)).
+> The 403 that killed the job last time is usually the service account lacking
+> `roles/serviceusage.serviceUsageConsumer`, or the CLI resolving no quota
+> project — untested against this project, so treat it as a starting point.
 
 ---
 

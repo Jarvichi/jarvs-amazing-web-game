@@ -28,6 +28,26 @@ If browser verification is genuinely warranted: the app needs Firebase env vars 
 
 `npm run test` (vitest) prints an `Unhandled Error` at the end about `browserType.launch: Executable doesn't exist at .../chrome-headless-shell` during browser-cleanup — this is Storybook's `@vitest/browser-playwright` addon looking for a Playwright browser variant that isn't preinstalled in this environment. It's noise, not a real failure: check the `Test Files`/`Tests` summary line (`N passed`) rather than treating this error as a regression to chase.
 
+## Editing `firestore.rules` — CI does not deploy it
+
+**A rules change is not shipped when it is merged. It is shipped when someone runs
+`firebase deploy --only firestore:rules --project jawg-a3271`.**
+
+There is no CI job for this — `deploy-firebase` was removed in `497f2e5`. Merging
+to `main` deploys the site and leaves Firestore enforcing whatever rules were last
+pushed by hand, so the committed rules and the live rules drift apart with nothing
+going red.
+
+The drift surfaces later as a `permission-denied` `FirebaseError` in Rollbar, on a
+collection whose rule looks perfectly correct in the repo. Before debugging such an
+error in code, check whether the rule was ever deployed. #2264 was one month of
+`userIndex` writes failing against a rule that had been committed and forgotten.
+
+So: if a task adds or edits a `match` block, the rules deploy is part of finishing
+it. Flag it in the PR body so it is not merged and forgotten, and — since the deploy
+needs credentials a cloud/mobile session does not have — say plainly that the change
+is inert until it runs. See [Firebase.md](Firebase.md#firestore-security-rules).
+
 ## Git Workflow — Avoiding Conflicts
 Before starting any new work, always rebase onto the latest `main`:
 ```bash
