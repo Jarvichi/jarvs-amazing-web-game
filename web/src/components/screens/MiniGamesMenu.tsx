@@ -344,7 +344,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                 🎁 PRIZE SHOP ({tickets} 🎫)
               </Button>
               <Button onClick={() => setSubScreen('leaderboard')}>
-                🏆 LEADERBOARDS
+                <Icon name="trophy" size={13} /> LEADERBOARDS
               </Button>
             </div>
           </>
@@ -387,7 +387,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         {subScreen === 'leaderboard' && (
           <div className="lb-screen u-col">
             <PageHeader
-              title="🏆 LEADERBOARDS"
+              title={<><Icon name="trophy" size={16} /> LEADERBOARDS</>}
               onBack={() => initialSubScreen === 'leaderboard' ? onBack() : setSubScreen('menu')}
             />
 

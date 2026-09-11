@@ -26,7 +26,7 @@ export function TitleIdentityFooter({ playerName, bestStreak, cardsLabel, crysta
       <div className="title-identity">
         <span className="title-identity-name">{playerName}</span>
         {bestStreak > 1 && (
-          <span className="title-identity-streak">🏆 {bestStreak} best streak</span>
+          <span className="title-identity-streak"><Icon name="trophy" size={13} /> {bestStreak} best streak</span>
         )}
       </div>
       <div className={`title-deck-info${glitch ? ' title-deck-info--glitch' : ''}`}>

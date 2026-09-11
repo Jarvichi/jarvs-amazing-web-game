@@ -28,8 +28,8 @@ function QuestChainCard({ status }: { status: QuestChainStatus }) {
       <div className="quest-chain-intro">{def.intro}</div>
       <div className="quest-chain-target">
         {completed
-          ? <>🏆 {def.targetCard} has been added to your collection.</>
-          : <>🏆 Completing all steps guarantees: <strong>{def.targetCard}</strong></>}
+          ? <><Icon name="trophy" size={13} /> {def.targetCard} has been added to your collection.</>
+          : <><Icon name="trophy" size={13} /> Completing all steps guarantees: <strong>{def.targetCard}</strong></>}
       </div>
 
       <div className="quest-steps">

@@ -149,7 +149,7 @@ export function AppOverlays() {
         <div className="ach-toast-stack">
           {achievementToasts.slice(0, 3).map((def, i) => (
             <div key={`${def.id}-${i}`} className="ach-toast" onClick={() => setAchievementToasts(prev => prev.filter((_, j) => j !== i))}>
-              🏆 <strong>{def.name}</strong>
+              <Icon name="trophy" size={14} /> <strong>{def.name}</strong>
               <span className="ach-toast-sub">Achievement unlocked!</span>
             </div>
           ))}

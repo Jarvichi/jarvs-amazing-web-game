@@ -228,7 +228,7 @@ export function AchievementsScreen({ onBack, onCrystalsChanged, embedded }: Prop
   if (embedded) return content
   return (
     <OverlayScreen
-      title="🏆 ACHIEVEMENTS"
+      title={<><Icon name="trophy" size={16} /> ACHIEVEMENTS</>}
       onBack={onBack}
       right={<div className="ach-summary">{totalUnlocked}/{total} · {totalClaimed} claimed</div>}
     >
