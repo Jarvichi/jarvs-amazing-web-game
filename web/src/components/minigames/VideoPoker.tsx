@@ -9,6 +9,7 @@ import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { Panel } from '../ui/Panel'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -315,7 +316,7 @@ export function VideoPoker({ onDone }: Props) {
 
       {canBuy && (
         <button className="fm-buy-credits" onClick={buyCredits}>
-          + Buy {BUY_AMOUNT} credits — {BUY_COST} 💎 (you have {availCrystals})
+          + Buy {BUY_AMOUNT} credits — {BUY_COST} <Icon name="crystal" size={12} /> (you have {availCrystals})
         </button>
       )}
 

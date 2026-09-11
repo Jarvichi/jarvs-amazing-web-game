@@ -5,6 +5,7 @@ import {
 } from '../../game/achievements'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 import { TabNav, type TabNavItem } from '../ui/TabNav'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../../game/collection'
 import { addToInventory, ALL_ITEMS } from '../../game/dailyLogin'
@@ -42,16 +43,17 @@ const CATEGORY_TAB_LABELS: Record<AchievementCategory, string> = {
 
 const CATEGORY_ORDER: AchievementCategory[] = ['daily', 'campaign', 'playtime', 'misc', 'events', 'kills', 'structures']
 
-function formatReward(def: AchievementDef): string {
+function formatReward(def: AchievementDef): React.ReactNode {
   const r = def.reward
-  const parts: string[] = []
+  const parts: React.ReactNode[] = []
   if (r.type === 'avatar' && r.avatarSlug)  parts.push(`🎭 New avatar`)
-  if (r.type === 'crystals' && r.crystals)  parts.push(`💎 ${r.crystals}`)
+  if (r.type === 'crystals' && r.crystals)  parts.push(<><Icon name="crystal" size={12} /> {r.crystals}</>)
   if (r.type === 'cards' && r.cardName)     parts.push(`${r.count}× ${r.cardName}`)
   if (r.type === 'item' && r.item)          parts.push(`${r.item.icon} ${r.item.name}`)
-  if (r.bonusCrystals)                      parts.push(`💎 ${r.bonusCrystals}`)
+  if (r.bonusCrystals)                      parts.push(<><Icon name="crystal" size={12} /> {r.bonusCrystals}</>)
   if (r.bonusCards)                         parts.push(r.bonusCards.map(c => `${c.count}× ${c.cardName}`).join(', '))
-  return parts.join(' + ') || ''
+  if (parts.length === 0) return ''
+  return parts.map((part, i) => <React.Fragment key={i}>{i > 0 && ' + '}{part}</React.Fragment>)
 }
 
 function ProgressBar({ value, target }: { value: number; target: number }) {

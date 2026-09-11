@@ -10,6 +10,7 @@
 
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { MinigameShell } from './MinigameShell'
+import { Icon } from '../ui/icons/Icon'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { RackBoard } from './casksounding/RackBoard'
 import { RackStatusBar } from './casksounding/RackStatusBar'
@@ -225,9 +226,9 @@ export function CaskSounding({ onDone, tier: tierProp }: Props) {
             <div>Efficiency: {Math.round(score.efficiency * 100)}%</div>
             {run.listened > 0 && <div>Listened {run.listened}×</div>}
             {run.misread > 0 && <div>Misread {run.misread}× (+{run.misread * CASK_SCORING.badChalkCost})</div>}
-            {score.underPar && <div>Under par! +{CASK_SCORING.underParCrystals} 💎</div>}
+            {score.underPar && <div>Under par! +{CASK_SCORING.underParCrystals} <Icon name="crystal" size={13} /></div>}
             <div className="minigame-result-total">
-              +{score.crystals} 💎 · +{tier.vinegar} 🍶 Cask Vinegar · +{CASK_SCORING.reputation} standing
+              +{score.crystals} <Icon name="crystal" size={13} /> · +{tier.vinegar} 🍶 Cask Vinegar · +{CASK_SCORING.reputation} standing
             </div>
           </div>
         </MinigameResultPanel>

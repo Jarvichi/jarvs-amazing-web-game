@@ -1,4 +1,5 @@
 import { FurnitureDef } from '../../../game/hub/furniture'
+import { Icon } from '../../ui/icons/Icon'
 
 export interface FurniturePickerProps {
   defs: FurnitureDef[]
@@ -25,7 +26,7 @@ export function FurniturePicker({ defs, ownedIds, armedId, onPick }: FurniturePi
           >
             <span className="furniture-picker-item-icon">{def.icon}</span>
             <span className="furniture-picker-item-name">{def.name}</span>
-            {!owned && <span className="furniture-picker-item-price">💎{def.price}</span>}
+            {!owned && <span className="furniture-picker-item-price"><Icon name="crystal" size={11} />{def.price}</span>}
           </button>
         )
       })}

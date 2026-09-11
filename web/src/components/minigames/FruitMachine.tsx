@@ -28,6 +28,7 @@ import {
 import { loadPlayerName } from '../../game/questline'
 import { LedScroller, LedScrollerMessage } from '../ui/LedScroller/LedScroller'
 import { MinigameShell } from './MinigameShell'
+import { Icon } from '../ui/icons/Icon'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { Button } from '../ui/Button'
 
@@ -1074,7 +1075,7 @@ function regressBoardBy(steps: number) {
 
       {canBuy && (
         <button className="fm-buy-credits" onClick={buyCredits}>
-          + Buy 5 credits — 25 💎 (you have {availCrystals})
+          + Buy 5 credits — 25 <Icon name="crystal" size={12} /> (you have {availCrystals})
         </button>
       )}
 

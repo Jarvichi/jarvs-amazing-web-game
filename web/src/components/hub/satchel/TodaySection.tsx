@@ -3,6 +3,7 @@ import type { QuestView } from '../../../game/hub/questBoard'
 import { GroupHeading } from '../../ui/rows/GroupHeading'
 import { ActionCard } from '../../ui/rows/ActionCard'
 import { ListRow } from '../../ui/rows/ListRow'
+import { Icon } from '../../ui/icons/Icon'
 import { SatchelEmpty } from './SatchelSheet'
 import { QuestReadyCard, QuestProgressRow } from './QuestRows'
 import type { SatchelSectionId } from './types'
@@ -69,7 +70,7 @@ export function TodaySection({
           {tributeReady && (
             <ActionCard
               title="Tribute is waiting"
-              detail={`+${tribute.amount.toLocaleString()} 💎 from ${townName} · today only`}
+              detail={<>+{tribute.amount.toLocaleString()} <Icon name="crystal" size={11} /> from {townName} · today only</>}
               actionLabel="COLLECT"
               onAction={tribute.onCollect}
             />

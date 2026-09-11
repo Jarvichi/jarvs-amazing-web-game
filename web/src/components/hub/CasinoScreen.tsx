@@ -10,6 +10,7 @@ import { loadCrystals, saveCrystals } from '../../game/collection'
 import { incrementAchievementProgress, setAchievementProgress } from '../../game/achievements'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 const SPIN_COST     = 10
 const SEGMENTS      = [2, 5, 10, 20, 5, 10, 50, 2]
@@ -253,7 +254,7 @@ export function CasinoScreen({ crystals, onCrystalsChange, onBack }: Props) {
         </div>
 
         {/* Crystal balance */}
-        <div className="casino-currency">💎 {balance.toLocaleString()} crystals</div>
+        <div className="casino-currency"><Icon name="crystal" size={14} /> {balance.toLocaleString()} crystals</div>
 
         {/* Controls */}
         {phase === 'ready' && (
@@ -263,7 +264,7 @@ export function CasinoScreen({ crystals, onCrystalsChange, onBack }: Props) {
             onClick={spin}
             disabled={!canSpin}
           >
-            {canSpin ? `SPIN — ${SPIN_COST} 💎` : `NEED ${SPIN_COST} 💎`}
+            {canSpin ? <>SPIN — {SPIN_COST} <Icon name="crystal" size={13} /></> : <>NEED {SPIN_COST} <Icon name="crystal" size={13} /></>}
           </Button>
         )}
 

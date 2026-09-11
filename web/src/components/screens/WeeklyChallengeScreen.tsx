@@ -7,6 +7,7 @@ import { getChronicleFragments, getExoticShards } from '../../game/itemStore'
 import { Button } from '../ui/Button'
 import { PageHeader } from '../ui/PageHeader'
 import { EmptyState } from '../ui/EmptyState'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onStart: () => void
@@ -99,7 +100,7 @@ export function WeeklyChallengeScreen({ onStart, onBack }: Props) {
               <span className="dc-card-rarity" title={card.rarity}>
                 {rarityIcon[card.rarity] ?? '○'}
               </span>
-              <span className="dc-card-cost">{card.cost}💎</span>
+              <span className="dc-card-cost">{card.cost}<Icon name="mana" size={11} /></span>
               <span className="dc-card-name u-grow">{card.name}</span>
             </li>
           ))}

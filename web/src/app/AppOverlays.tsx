@@ -1,5 +1,6 @@
 import React from 'react'
 import { useApp } from './AppContext'
+import { Icon } from '../components/ui/icons/Icon'
 import { CardTile } from '../components/cards/CardTile'
 import { ConfirmModal } from '../components/modals/ConfirmModal'
 import { StreakBrokenModal } from '../components/modals/StreakBrokenModal'
@@ -256,13 +257,13 @@ export function AppOverlays() {
                   <>
                     <p>{celebrationMilestone.toLocaleString()} battles won. A true legend.</p>
                     <p>The world bows. History remembers.</p>
-                    <p>You have earned {legendaryCount} legendary cards and {crystalBonus} 💎.</p>
+                    <p>You have earned {legendaryCount} legendary cards and {crystalBonus} <Icon name="crystal" size={14} aria-label="crystals" />.</p>
                   </>
                 ) : isMajor ? (
                   <>
                     <p>{celebrationMilestone.toLocaleString()} battles won. An epic achievement.</p>
                     <p>The enemy despairs. The chronicles take note.</p>
-                    <p>You have earned a legendary card and {crystalBonus} 💎.</p>
+                    <p>You have earned a legendary card and {crystalBonus} <Icon name="crystal" size={14} aria-label="crystals" />.</p>
                   </>
                 ) : (
                   <>

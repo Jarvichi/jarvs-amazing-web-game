@@ -10,6 +10,7 @@
 
 import React, { useState, useMemo, useCallback } from 'react'
 import { MinigameShell } from './MinigameShell'
+import { Icon } from '../ui/icons/Icon'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { ConduitBoard } from './wellspring/ConduitBoard'
 import { canonicalMask } from './wellspring/ConduitTile'
@@ -192,9 +193,9 @@ export function Wellspring({ onDone, depth: depthProp }: Props) {
             <div>Moves {moves} · Par {board.par}</div>
             <div>Efficiency: {Math.round(score.efficiency * 100)}%</div>
             {dowsed > 0 && <div>Dowsed {dowsed}×</div>}
-            {score.underPar && <div>Under par! +{WELLSPRING_SCORING.underParCrystals} 💎</div>}
+            {score.underPar && <div>Under par! +{WELLSPRING_SCORING.underParCrystals} <Icon name="crystal" size={13} /></div>}
             <div className="minigame-result-total">
-              +{score.crystals} 💎 · +{depth.cleanWater} 💧 Clean Water · +{WELLSPRING_SCORING.reputation} standing
+              +{score.crystals} <Icon name="crystal" size={13} /> · +{depth.cleanWater} 💧 Clean Water · +{WELLSPRING_SCORING.reputation} standing
             </div>
           </div>
         </MinigameResultPanel>

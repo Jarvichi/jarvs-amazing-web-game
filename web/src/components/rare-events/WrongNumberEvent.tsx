@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { RareEventEffect } from './types'
 import { loadPlayerName } from '../../game/questline'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onDone: (effect: RareEventEffect) => void
@@ -61,7 +62,7 @@ export function WrongNumberEvent({ onDone }: Props) {
           </>
         )}
         {phase === 'done' && (
-          <div className="wn-message">+25 💎 compensatory crystals received</div>
+          <div className="wn-message">+25 <Icon name="crystal" size={13} /> compensatory crystals received</div>
         )}
       </div>
     </div>

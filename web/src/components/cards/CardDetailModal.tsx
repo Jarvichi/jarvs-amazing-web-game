@@ -18,6 +18,7 @@ import { ALL_AUGMENT_SLOTS, AugmentSetDef, augmentSlotLabel, getAugmentCard, get
 import { getComboLinks, getSynergyGroups } from '../../game/synergies'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Icon } from '../ui/icons/Icon'
 import { MasteryBar } from '../ui/MasteryBar'
 import { StatRow } from '../ui/StatRow'
 import { CardDetailHeader } from './CardDetailHeader'
@@ -589,7 +590,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
           <div className="cdm-actions">
             {onDisenchant && (
               <button className="extra-btn extra-btn--disenchant" onClick={onDisenchant}>
-                Sell +{disenchantValue}💎
+                Sell +{disenchantValue}<Icon name="crystal" size={13} />
               </button>
             )}
             {onMasterCard && (

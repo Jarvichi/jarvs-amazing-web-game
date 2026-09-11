@@ -11,6 +11,7 @@ import { VARIANT_TIERS, VARIANT_TIER_HUB_ITEM, formatWeight, type FishVariant } 
 import { removeHubItem } from '../../game/itemStore'
 import { EmptyState } from '../ui/EmptyState'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 const TIER_BASE_PRICE = [3, 6, 12, 25, 45, 90]
 const SELL_STAR_THRESHOLD = 5
@@ -86,7 +87,7 @@ export function FishAppraisalScreen({ crystals, onCrystalsChange, onBack }: Prop
             </div>
             {selected.stars >= SELL_STAR_THRESHOLD ? (
               <Button onClick={() => sell(selected)}>
-                Sell for {tierPrice(selected.locale, selected.tier) * SELL_MULTIPLIER} 💎
+                Sell for {tierPrice(selected.locale, selected.tier) * SELL_MULTIPLIER} <Icon name="crystal" size={13} />
               </Button>
             ) : (
               <div className="inventory-detail-desc">

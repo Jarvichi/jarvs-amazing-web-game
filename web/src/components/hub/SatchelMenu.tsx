@@ -5,6 +5,7 @@ import { buildNpcHomeIndex, buildActiveQuestViews, type TownRegistry } from '../
 import { getActivePet, getTreatsRemainingToday } from '../../game/hub/pet'
 import { SatchelSheet } from './satchel/SatchelSheet'
 import { FilterChips } from '../ui/rows/FilterChips'
+import { Icon } from '../ui/icons/Icon'
 import { SATCHEL_NAV, type SatchelSectionId } from './satchel/types'
 import { QuestsContent, questsMeta } from './QuestsModal'
 import { HubInventoryContent } from './HubInventoryModal'
@@ -100,7 +101,7 @@ export function SatchelMenu(props: Props) {
   // second header line inside the content component itself.
   const meta =
       section === 'quests' ? questsMeta(allQuestDefs)
-    : section === 'town'   ? `💎 ${crystals.toLocaleString()}`
+    : section === 'town'   ? <><Icon name="crystal" size={12} /> {crystals.toLocaleString()}</>
     : section === 'codex'  ? `${journalPct(locationData)}% complete`
     : undefined
 

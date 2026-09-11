@@ -6,6 +6,7 @@ import { GroupHeading } from './GroupHeading'
 import { EntityChip } from './EntityChip'
 import { SatchelEmpty } from '../../hub/satchel/SatchelSheet'
 import { CloseButton } from '../CloseButton'
+import { Icon } from '../icons/Icon'
 
 interface Props {
   detail: ItemDetail
@@ -56,7 +57,7 @@ export function ItemDetailSheet({ detail, onClose }: Props) {
                   icon="🪙"
                   title={s.speaker}
                   subtitle={<EntityChip label={s.town} icon="🧭" tone="quiet" />}
-                  value={`${s.price} ${s.currency === 'tickets' ? '🎫' : '💎'}`}
+                  value={<>{s.price} {s.currency === 'tickets' ? '🎫' : <Icon name="crystal" size={12} />}</>}
                 />
               ))}
             </>

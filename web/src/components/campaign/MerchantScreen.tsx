@@ -6,6 +6,7 @@ import { MERCHANT_PRICES, ConsumableDef } from '../../game/questline'
 import { CardTile } from '../cards/CardTile'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 import { getCharacterDef, getCharacterStage, recordCharacterEncounter } from '../../game/characters'
 
 export type MerchantItem =
@@ -55,7 +56,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
   const nonCardItems     = items.filter(i => i.kind !== 'card')
 
   return (
-    <OverlayScreen title="MERCHANT" onBack={onDone} right={<span className="crystal-count">💎 {balance.toLocaleString()}</span>}>
+    <OverlayScreen title="MERCHANT" onBack={onDone} right={<span className="crystal-count"><Icon name="crystal" size={14} /> {balance.toLocaleString()}</span>}>
       <div className="shop-wrapper">
 
         <div className="merchant-character-banner">
@@ -98,7 +99,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                           onClick={() => handleBuy(item)}
                           disabled={!canBuy}
                         >
-                          {item.price} 💎
+                          {item.price} <Icon name="crystal" size={14} />
                         </Button>
                       )}
                     </div>
@@ -130,7 +131,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                           onClick={() => handleBuy(item)}
                           disabled={!canBuy}
                         >
-                          {item.price} 💎
+                          {item.price} <Icon name="crystal" size={14} />
                         </Button>
                       </div>
                     )
@@ -154,7 +155,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                           onClick={() => handleBuy(item)}
                           disabled={!canBuy}
                         >
-                          {item.price} 💎
+                          {item.price} <Icon name="crystal" size={14} />
                         </Button>
                       )}
                     </div>

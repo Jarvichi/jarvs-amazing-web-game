@@ -30,6 +30,7 @@ import { emitSound } from '../../game/sound'
 import { SpriteImg } from '../ui/SpriteImg'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 import { getCardCatalog } from '../../game/cards'
 import { CardTile } from '../cards/CardTile'
 
@@ -261,7 +262,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
   const npcSprite = tappedNpc?.sprite && npc.name === tappedNpc.name ? tappedNpc.sprite : undefined
 
   return (
-    <OverlayScreen title={category ? CATEGORY_TITLE[category] : 'SHOP'} onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
+    <OverlayScreen title={category ? CATEGORY_TITLE[category] : 'SHOP'} onBack={onBack} right={<span className="crystal-count"><Icon name="crystal" size={14} /> {crystals.toLocaleString()}</span>}>
       <div className="shop-wrapper">
 
       {/* NPC banner */}
@@ -309,7 +310,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                       disabled={!canAfford}
                     >
                       {discounted && <span className="shop-discount-badge">-10%</span>}
-                      {price} 💎
+                      {price} <Icon name="crystal" size={13} />
                     </Button>
                   )}
                 </div>
@@ -344,7 +345,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                     onClick={handleBuyAugment}
                     disabled={!canAfford}
                   >
-                    {dailyAugment.price} 💎
+                    {dailyAugment.price} <Icon name="crystal" size={13} />
                   </Button>
                 )}
               </div>
@@ -372,7 +373,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                     disabled={!canAfford}
                   >
                     {discounted && <span className="shop-discount-badge">-10%</span>}
-                    {effectivePrice} 💎
+                    {effectivePrice} <Icon name="crystal" size={13} />
                   </Button>
                 </div>
               )
@@ -412,8 +413,8 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
             disabled={false}
           >
             {canBuyPack
-              ? `Buy ${packQty > 1 ? `${packQty}× ` : ''}— ${CRYSTAL_PACK_COST * packQty} 💎`
-              : `Need ${CRYSTAL_PACK_COST * packQty - crystals} more 💎`}
+              ? <>Buy {packQty > 1 ? `${packQty}× ` : ''}— {CRYSTAL_PACK_COST * packQty} <Icon name="crystal" size={13} /></>
+              : <>Need {CRYSTAL_PACK_COST * packQty - crystals} more <Icon name="crystal" size={13} /></>}
           </Button>
 
           {/* Max buy confirmation modal */}
@@ -422,7 +423,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               <div className="shop-confirm-modal" onClick={e => e.stopPropagation()}>
                 <div className="shop-confirm-title">🎁 Card Packs</div>
                 <div className="shop-confirm-body">
-                  This will buy <strong>{packQty} card pack{packQty !== 1 ? 's' : ''}</strong> for <strong>{CRYSTAL_PACK_COST * packQty} 💎</strong>
+                  This will buy <strong>{packQty} card pack{packQty !== 1 ? 's' : ''}</strong> for <strong>{CRYSTAL_PACK_COST * packQty} <Icon name="crystal" size={13} /></strong>
                 </div>
                 <div className="shop-confirm-actions">
                   <Button onClick={() => setPendingPackBuy(false)}>Oh no</Button>
