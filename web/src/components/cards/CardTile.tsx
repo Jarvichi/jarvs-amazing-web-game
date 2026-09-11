@@ -6,6 +6,7 @@ import { SpriteImg } from '../ui/SpriteImg'
 import { useCardDetail } from './useCardDetail'
 import { getSynergyGroups } from '../../game/synergies'
 import { SynergyBadges } from './SynergyBadges'
+import { Icon } from '../ui/icons/Icon'
 
 const UPGRADE_SPRITE: Record<string, string> = {
   buffAttack: 'upgrade-attack',
@@ -269,7 +270,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
       )}
       {heroLocked && (
         <div className="card-hero-lock u-absolute u-col u-items-c u-just-c">
-          <span className="card-hero-lock-icon">⏳</span>
+          <span className="card-hero-lock-icon"><Icon name="timer" size={20} /></span>
           <span className="card-hero-lock-secs">{lockedSecs}s</span>
         </div>
       )}

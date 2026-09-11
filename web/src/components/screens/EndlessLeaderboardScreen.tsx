@@ -19,7 +19,7 @@ type DisplayEntry = EndlessLeaderboardEntry & { isGhost?: boolean }
 
 function EndlessTable({ entries, ghostWave }: { entries: EndlessLeaderboardEntry[] | null; ghostWave?: number }) {
   if (entries === null) return <EmptyState size="sm">Loading…</EmptyState>
-  if (entries.length === 0 && ghostWave === undefined) return <EmptyState size="sm" icon="⏳">No scores yet — be the first!</EmptyState>
+  if (entries.length === 0 && ghostWave === undefined) return <EmptyState size="sm" icon={<Icon name="timer" size={16} />}>No scores yet — be the first!</EmptyState>
 
   // Secret 7 — Score Ghost: inject a mysterious entry just above personal best
   const display: DisplayEntry[] = [...entries]
@@ -74,7 +74,7 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
           {dailyLb === null ? (
             <EmptyState size="sm">Loading…</EmptyState>
           ) : dailyLb.length === 0 ? (
-            <EmptyState size="sm" icon="⏳">No scores yet today.</EmptyState>
+            <EmptyState size="sm" icon={<Icon name="timer" size={16} />}>No scores yet today.</EmptyState>
           ) : (
             <ol className="el-leaderboard-list">
               {dailyLb.map((entry, i) => (

@@ -70,7 +70,7 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
         {leaderboard === null ? (
           <EmptyState size="sm">Loading…</EmptyState>
         ) : leaderboard.length === 0 ? (
-          <EmptyState size="sm" icon="⏳">Awaiting today's results.</EmptyState>
+          <EmptyState size="sm" icon={<Icon name="timer" size={16} />}>Awaiting today's results.</EmptyState>
         ) : (
           <ol className="dc-leaderboard-list">
             {leaderboard.map((entry, i) => (
