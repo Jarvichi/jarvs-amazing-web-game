@@ -131,7 +131,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged, embedded }: Props) 
           <Section title="RELICS">
             <div className="inventory-grid u-flex u-wrap u-gap-4 u-just-c u-grow">
               {earnedRelics.map(relic => (
-                <button
+                <Button
                   key={relic.name}
                   className="inventory-cell inventory-cell--relic"
                   onClick={() => setDetail({ kind: 'relic', relic, isActive: false })}
@@ -139,7 +139,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged, embedded }: Props) 
                   <div className="inventory-item-icon">{relic.icon}</div>
                   <div className="inventory-item-name">{relic.name}</div>
                   <div className="inventory-item-desc">{relic.desc}</div>
-                </button>
+                </Button>
               ))}
             </div>
           </Section>
@@ -151,7 +151,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged, embedded }: Props) 
           ) : (
             <div className="inventory-grid u-flex u-wrap u-gap-4 u-just-c u-grow">
               {items.map((item, idx) => (
-                <button
+                <Button
                   key={idx}
                   className="inventory-cell"
                   onClick={() => setDetail({ kind: 'item', item })}
@@ -159,7 +159,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged, embedded }: Props) 
                   <div className="inventory-item-icon">{item.icon}</div>
                   <div className="inventory-item-name">{item.name}</div>
                   <div className="inventory-item-desc">{item.desc}</div>
-                </button>
+                </Button>
               ))}
             </div>
           )}

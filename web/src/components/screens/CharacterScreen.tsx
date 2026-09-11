@@ -11,11 +11,12 @@ import type { Archetype } from '../../game/types'
 import { auth } from '../../firebase'
 import { claimPlayerName } from '../../game/playerName'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Panel } from '../ui/Panel'
+import { Section } from '../ui/Section'
 import { Button } from '../ui/Button'
 import { TabNav } from '../ui/TabNav'
-import { Icon } from '../ui/icons/Icon'
-
-const SPRITE_BASE = '/sprites/'
+import { AvatarGrid, type AvatarGridEntry } from './player/AvatarGrid'
+import { ArchetypeGrid } from './player/ArchetypeGrid'
 
 const BASE_AVATAR_LABELS: Record<string, string> = {
   'jarv':       'Blue Cloak',
@@ -34,24 +35,8 @@ function sanitiseName(raw: string): string {
   return raw.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, ' ')
 }
 
-function AvatarButton({ slug, chosen, onClick, lockHint }: { slug: string; chosen: boolean; onClick: () => void; lockHint?: string }) {
-  const unlocked = isAvatarUnlocked(slug)
-  const label = BASE_AVATAR_LABELS[slug] ?? STREAK_AVATAR_LABELS[slug] ?? BOSS_AVATAR_LABELS[slug] ?? slug
-  const hint = lockHint ?? 'locked'
-  return (
-    <button
-      className={`character-avatar-btn${chosen ? ' character-avatar-btn--chosen' : ''}${!unlocked ? ' character-avatar-btn--locked' : ''}`}
-      onClick={unlocked ? onClick : undefined}
-      title={unlocked ? label : `${label} — ${hint}`}
-    >
-      {unlocked ? (
-        <img src={`${SPRITE_BASE}${slug}.svg`} alt={label} className="character-avatar-img" />
-      ) : (
-        <span className="character-avatar-lock"><Icon name="lock" size={16} /></span>
-      )}
-      <span className="character-avatar-label">{unlocked ? label : '???'}</span>
-    </button>
-  )
+function toAvatarEntries(slugs: readonly string[], labels: Record<string, string>): AvatarGridEntry[] {
+  return slugs.map(slug => ({ slug, label: labels[slug] ?? slug, unlocked: isAvatarUnlocked(slug) }))
 }
 
 type AvatarTab = 'base' | 'streak' | 'boss'
@@ -103,31 +88,22 @@ export function CharacterScreen({ onDone, embedded }: Props) {
 
   const inner = (
     <div className="character-screen-scroll">
-      <div className="event-screen" >
-        <div className="event-title">Who are you?</div>
+      <Panel elevation="raised" runeCorners className="character-frame">
+        <div className="settings-panel-title">WHO ARE YOU?</div>
 
-        <div style={{ margin: '1rem 0 0.5rem' }}>
-          <label style={{ color: '#aaffaa', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>
-            NAME
-          </label>
+        <Section title="NAME">
           <input
             className="character-name-input"
             type="text"
             maxLength={20}
             value={name}
             placeholder="Jarv"
-            onChange={e =>handleNameChange(e.target.value)}
+            onChange={e => handleNameChange(e.target.value)}
           />
-          {nameError && (
-            <div style={{ color: '#ff6666', fontSize: '0.75rem', marginTop: '0.3rem' }}>
-              {nameError}
-            </div>
-          )}
-        </div>
+          {nameError && <div className="character-name-error">{nameError}</div>}
+        </Section>
 
-        <div style={{ margin: '1.2rem 0 0.5rem', width: '100%' }}>
-          <div style={{ color: '#aaffaa', fontSize: '0.8rem', marginBottom: '0.6rem' }}>APPEARANCE</div>
-
+        <Section title="APPEARANCE">
           <TabNav
             items={[
               { id: 'base',   label: 'Base' },
@@ -140,72 +116,44 @@ export function CharacterScreen({ onDone, embedded }: Props) {
           />
 
           {activeTab === 'base' && (
-            <div className="character-avatar-grid">
-              {BASE_AVATAR_SLUGS.map(slug => (
-                <AvatarButton key={slug} slug={slug} chosen={avatar === slug} onClick={() => setAvatar(slug)} />
-              ))}
-            </div>
+            <AvatarGrid
+              entries={toAvatarEntries(BASE_AVATAR_SLUGS, BASE_AVATAR_LABELS)}
+              chosen={avatar}
+              onChoose={slug => setAvatar(slug as AvatarSlug)}
+            />
           )}
 
           {activeTab === 'streak' && (
-            <div className="character-avatar-grid">
-              {STREAK_AVATAR_SLUGS.map(slug => (
-                <AvatarButton
-                  key={slug}
-                  slug={slug}
-                  chosen={avatar === slug}
-                  onClick={() => setAvatar(slug as AvatarSlug)}
-                  lockHint="complete a win streak achievement"
-                />
-              ))}
-            </div>
+            <AvatarGrid
+              entries={toAvatarEntries(STREAK_AVATAR_SLUGS, STREAK_AVATAR_LABELS)}
+              chosen={avatar}
+              onChoose={slug => setAvatar(slug as AvatarSlug)}
+              lockHint="complete a win streak achievement"
+            />
           )}
 
           {activeTab === 'boss' && (
-            <div className="character-avatar-grid">
-              {BOSS_AVATAR_SLUGS.map(slug => (
-                <AvatarButton
-                  key={slug}
-                  slug={slug}
-                  chosen={avatar === slug}
-                  onClick={() => setAvatar(slug as AvatarSlug)}
-                  lockHint="defeat this act's boss"
-                />
-              ))}
-            </div>
+            <AvatarGrid
+              entries={toAvatarEntries(BOSS_AVATAR_SLUGS, BOSS_AVATAR_LABELS)}
+              chosen={avatar}
+              onChoose={slug => setAvatar(slug as AvatarSlug)}
+              lockHint="defeat this act's boss"
+            />
           )}
-        </div>
+        </Section>
 
-        <div style={{ margin: '1.2rem 0 0.5rem', width: '100%' }}>
-          <div style={{ color: '#aaffaa', fontSize: '0.8rem', marginBottom: '0.6rem' }}>ARCHETYPE</div>
-          <div className="character-archetype-grid">
-            {archetypeDefs.map(def => (
-              <button
-                key={def.id}
-                className={`character-archetype-btn${archetype === def.id ? ' character-archetype-btn--chosen' : ''}${def.locked ? ' character-archetype-btn--locked' : ''}`}
-                onClick={def.locked ? undefined : () => { setArchetype(def.id); savePlayerArchetype(def.id) }}
-                title={def.locked ? `${def.name} — complete the campaign to unlock` : def.name}
-              >
-                {archetype === def.id && (
-                  <span className="character-archetype-selected-badge">✓ SELECTED</span>
-                )}
-                <span className="character-archetype-icon">{def.locked ? <Icon name="lock" size={18} /> : def.icon}</span>
-                <span className="character-archetype-name">{def.locked ? '???' : def.name}</span>
-                {!def.locked && <span className="character-archetype-identity">{def.identity}</span>}
-                {!def.locked && <span className="character-archetype-passive">{def.passive}</span>}
-              </button>
-            ))}
-          </div>
-        </div>
+        <Section title="ARCHETYPE">
+          <ArchetypeGrid
+            defs={archetypeDefs}
+            selected={archetype}
+            onChoose={id => { setArchetype(id); savePlayerArchetype(id) }}
+          />
+        </Section>
 
-        <Button
-          onClick={handleSave}
-          disabled={saving}
-          size={'lg'}
-        >
+        <Button onClick={handleSave} disabled={saving} size="lg">
           {saving ? 'CHECKING NAME…' : 'SAVE & CONTINUE ›'}
         </Button>
-      </div>
+      </Panel>
     </div>
   )
 

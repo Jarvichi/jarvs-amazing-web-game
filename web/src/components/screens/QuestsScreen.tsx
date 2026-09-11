@@ -1,56 +1,11 @@
 import React, { useMemo } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
-import { getQuestStatuses, QuestChainStatus } from '../../game/quests'
-import { getCardCatalog } from '../../game/cards'
-import { Icon } from '../ui/icons/Icon'
+import { getQuestStatuses } from '../../game/quests'
+import { QuestChainCard } from './player/QuestChainCard'
 
 interface Props {
   onBack: () => void
   embedded?: boolean
-}
-
-function QuestChainCard({ status }: { status: QuestChainStatus }) {
-  const { def, stepProgress, activeStep, completed } = status
-  const targetRarity = useMemo(
-    () => getCardCatalog().find(c => c.name === def.targetCard)?.rarity ?? 'legendary',
-    [def.targetCard]
-  )
-
-  return (
-    <div className={`quest-chain${completed ? ' quest-chain--completed' : ''}`}>
-      <div className="quest-chain-header">
-        <span className="quest-chain-icon">{def.icon}</span>
-        <span className="quest-chain-name">{def.name}</span>
-        <span className="quest-chain-reward">
-          {completed ? '✓ EARNED' : `REWARD: ${targetRarity.toUpperCase()}`}
-        </span>
-      </div>
-      <div className="quest-chain-intro">{def.intro}</div>
-      <div className="quest-chain-target">
-        {completed
-          ? <><Icon name="trophy" size={13} /> {def.targetCard} has been added to your collection.</>
-          : <><Icon name="trophy" size={13} /> Completing all steps guarantees: <strong>{def.targetCard}</strong></>}
-      </div>
-
-      <div className="quest-steps">
-        {def.steps.map((step, i) => {
-          const target = step.condition.type === 'defeat_boss' ? 1 : step.condition.count
-          const progress = stepProgress[i]
-          const done = progress >= target
-          const locked = !completed && i > activeStep
-          return (
-            <div key={i} className={`quest-step${done ? ' quest-step--done' : ''}${locked ? ' quest-step--locked' : ''}`}>
-              <span className="quest-step-status">{done ? '✓' : locked ? <Icon name="lock" size={11} /> : '▸'}</span>
-              <span className="quest-step-label">{step.label}</span>
-              {!locked && target > 1 && (
-                <span className="quest-step-progress">[{progress}/{target}]</span>
-              )}
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
 }
 
 export function QuestsScreen({ onBack, embedded }: Props) {
