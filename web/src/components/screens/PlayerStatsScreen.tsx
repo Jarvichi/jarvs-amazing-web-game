@@ -26,7 +26,7 @@ export function PlayerStatsScreen({ onBack, embedded }: Props) {
     },
     {
       label: 'Deck Capacity',
-      icon:  '🃏',
+      icon:  <Icon name="card" size={18} />,
       value: `${s.maxDeckSize} cards`,
       note:  s.maxDeckSize > 30 ? `+${s.maxDeckSize - 30} from upgrades` : 'Base',
     },

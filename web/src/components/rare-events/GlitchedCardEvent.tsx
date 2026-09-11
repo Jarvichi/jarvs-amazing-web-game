@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { RareEventEffect } from './types'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onDone: (effect: RareEventEffect) => void
@@ -36,7 +37,7 @@ export function GlitchedCardEvent({ onDone }: Props) {
 
   return (
     <div className="glitch-card-overlay u-absolute u-col u-items-c u-just-c">
-      <div className="glitch-card-label">⚠ CARD CORRUPTION DETECTED</div>
+      <div className="glitch-card-label"><Icon name="warning" size={14} /> CARD CORRUPTION DETECTED</div>
       <div
         className={`glitch-card-tile${revealed ? ' glitch-card-tile--revealed' : ''}`}
         onPointerEnter={() => setRevealed(true)}

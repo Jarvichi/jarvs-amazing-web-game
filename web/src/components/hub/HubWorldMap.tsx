@@ -97,7 +97,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         <StageChrome bar={
           <Toolbar>
             <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}><Icon name="crystal" size={13} /> {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
-            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}><Icon name="card" size={13} /> {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
             <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
             {previewingAsPlayer && (
               <ToolbarLabel className="title-deck-info">

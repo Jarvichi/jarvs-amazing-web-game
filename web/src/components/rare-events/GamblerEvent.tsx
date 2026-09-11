@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { RareEventEffect } from './types'
+import { Icon } from '../ui/icons/Icon'
 import { Button } from '../ui/Button'
 
 interface Props {
@@ -212,7 +213,7 @@ export function GamblerEvent({ onDone }: Props) {
               You tapped <strong style={{ color: '#ff4444' }}>{taps}</strong>.
             </div>
             <div className="ld-bid-text" style={{ textAlign: 'center', color: '#ff4444', fontWeight: 'bold' }}>
-              ⚠ ALL PROGRESS WILL BE ERASED ⚠
+              <Icon name="warning" size={14} /> ALL PROGRESS WILL BE ERASED <Icon name="warning" size={14} />
             </div>
             <Button
               size="lg"

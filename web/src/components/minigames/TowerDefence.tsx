@@ -41,6 +41,7 @@ import { UnitTemplate } from '../../game/types'
 import { incrementAugmentSouls } from '../../game/collection'
 import { Lives } from '../ui/Lives/Lives'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 import { BottomPanel } from './towerdefence/BottomPanel'
 import { TowerDefenceEndScreen } from './towerdefence/EndScreen'
 import { GameGrid } from './towerdefence/GameGrid'
@@ -386,7 +387,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
           )}
           {game.phase === 'between' && (
             <div className="td-wave-progress-wrap">
-              <span className="td-header-active">⏳ Next wave…</span></div>
+              <span className="td-header-active"><Icon name="timer" size={14} /> Next wave…</span></div>
           )}
           {game.phase === 'milestone' && (
             <div className="td-wave-progress-wrap">

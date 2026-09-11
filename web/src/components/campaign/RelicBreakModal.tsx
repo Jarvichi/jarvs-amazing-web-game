@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   relicName:   string
@@ -14,7 +15,7 @@ export function RelicBreakModal({ relicName, brokenName, brokenIcon, brokenDesc,
     <div className="relic-break-modal u-col u-items-c u-just-c u-gap-8 u-text-c">
       <div className="rbm-glow" />
 
-      <div className="rbm-header">⚠ RELIC DAMAGED</div>
+      <div className="rbm-header"><Icon name="warning" size={16} /> RELIC DAMAGED</div>
       <div className="rbm-divider">══════════════════════</div>
 
       <div className="rbm-relic">

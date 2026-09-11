@@ -327,7 +327,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 {u.weaknesses && u.weaknesses.length > 0 && (
                   <>
                     <button className="cdm-sw-row u-flex u-gap-3 cdm-sw-row--btn" onClick={() => toggleRow('weak')}>
-                      <span className="cdm-sw-label cdm-sw-label--weak">⚠ Weak to</span>
+                      <span className="cdm-sw-label cdm-sw-label--weak"><Icon name="warning" size={12} /> Weak to</span>
                       <span className="cdm-sw-tags">{u.weaknesses.join(', ')}</span>
                       <span className="cdm-sw-chevron">{expandedRow === 'weak' ? '▲' : '▼'}</span>
                     </button>

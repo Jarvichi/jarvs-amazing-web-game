@@ -6,6 +6,7 @@ import { loadWinStreak } from '../../game/collection'
 import { DailyChallengeState, fetchEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry } from '../../game/dailyChallenge'
 import { EmptyState } from '../ui/EmptyState'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 function formatSurvival(ms: number): string {
   const sec = Math.floor(ms / 1000)
@@ -154,7 +155,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
           {endlessLb === null ? (
             <EmptyState size="sm">Loading…</EmptyState>
           ) : endlessLb.length === 0 ? (
-            <EmptyState size="sm" icon="⏳">No scores yet — be the first!</EmptyState>
+            <EmptyState size="sm" icon={<Icon name="timer" size={16} />}>No scores yet — be the first!</EmptyState>
           ) : (
             <ol className="gameover-endless-lb-list u-col u-gap-1">
               {endlessLb.map((entry, i) => (

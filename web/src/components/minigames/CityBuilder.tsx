@@ -1827,7 +1827,7 @@ export function CityBuilder({ onBack }: Props) {
               <div className="city-info-modal-title">🌾 FARM — LOCKED</div>
               <div className="city-info-modal-body">
                 <p>Move production buildings to fertile land outside the city walls for a <strong>+50% resource bonus</strong>.</p>
-                <p style={{ color: '#cc9944' }}>⚠ Farms are raided every 3–4 hours with minimal defence.</p>
+                <p style={{ color: '#cc9944' }}><Icon name="warning" size={13} /> Farms are raided every 3–4 hours with minimal defence.</p>
                 <div className="city-info-modal-req">
                   <span className={population >= 10 ? 'req--met' : 'req--unmet'}>
                     {population >= 10 ? '✓' : '✗'} Population ≥ 10 (currently {population})

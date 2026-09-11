@@ -286,7 +286,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
         {/* ── Daily card deals ── */}
         {show('cards') && <div className="shop-section">
-          <div className="shop-section-header">Current Stock 🕐 refreshes in <span className="shop-countdown-time">{formatCountdown(countdown)}</span></div>
+          <div className="shop-section-header">Current Stock <Icon name="timer" size={14} /> refreshes in <span className="shop-countdown-time">{formatCountdown(countdown)}</span></div>
           <div className="shop-daily-cards u-flex u-gap-6 u-wrap u-just-c">
             {dailyCards.map(deal => {
               const bought = isShopItemSold(shopState, cardBuildingId, { kind: 'card', cardName: deal.cardName })
@@ -383,7 +383,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
         {/* ── Crystal pack ── */}
         {show('cards') && <div className="shop-item">
-          <div className="shop-item-icon">🎁</div>
+          <div className="shop-item-icon"><Icon name="pack" size={40} /></div>
           <div className="shop-item-name">Card Pack</div>
           <div className="shop-item-desc">
             5 cards · 2 Common · 1 Uncommon · 1 Rare · 1 Bonus
@@ -421,7 +421,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
           {pendingPackBuy && (
             <div className="shop-confirm-backdrop" onClick={() => setPendingPackBuy(false)}>
               <div className="shop-confirm-modal" onClick={e => e.stopPropagation()}>
-                <div className="shop-confirm-title">🎁 Card Packs</div>
+                <div className="shop-confirm-title"><Icon name="pack" size={16} /> Card Packs</div>
                 <div className="shop-confirm-body">
                   This will buy <strong>{packQty} card pack{packQty !== 1 ? 's' : ''}</strong> for <strong>{CRYSTAL_PACK_COST * packQty} <Icon name="crystal" size={13} /></strong>
                 </div>

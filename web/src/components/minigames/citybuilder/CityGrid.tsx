@@ -6,6 +6,7 @@ import {
   RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
 import { SpriteImg } from '../../ui/SpriteImg'
+import { Icon } from '../../ui/icons/Icon'
 import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
 import { CityZoomControls } from './CityZoomControls'
@@ -212,7 +213,7 @@ export function CityGrid({
                       />
                     )}
                     {despawned && <span className="city-cell-unhappy-icon">💀</span>}
-                    {!despawned && rage >= 60 && <span className="city-cell-unhappy-icon">⚠</span>}
+                    {!despawned && rage >= 60 && <span className="city-cell-unhappy-icon"><Icon name="warning" size={9} /></span>}
                     {city.activeDisaster?.type === 'fire' && city.activeDisaster.affectedCells.includes(i) && (
                       <span className="city-cell-fire">🔥</span>
                     )}

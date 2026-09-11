@@ -17,14 +17,14 @@ interface Props {
   embedded?: boolean
 }
 
-const CATEGORY_LABELS: Record<AchievementCategory, string> = {
+const CATEGORY_LABELS: Record<AchievementCategory, React.ReactNode> = {
   kills:      '⚔  UNIT KILLS',
   structures: '🏰  STRUCTURE DESTROYS',
   events:     '🎲  RARE EVENTS',
   campaign:   '🗺  CAMPAIGN',
   misc:       '✨  MISC',
   daily:      '📅  DAILY CHALLENGE',
-  playtime:   '⏱  PLAY TIME',
+  playtime:   <><Icon name="timer" size={16} />  PLAY TIME</>,
 }
 
 /* The strip carries the words; the emoji stay on the heading below it, which

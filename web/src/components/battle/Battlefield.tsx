@@ -12,6 +12,7 @@ import { SUDDEN_DEATH_FORCE_MS } from '../../game/engine/suddenDeath'
 import { getRelicDef } from '../../game/relics'
 import { getUnitLore, getCardCatalog } from '../../game/cards'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 import { ConfirmModal } from '../modals/ConfirmModal'
 import { loadPlayerName, loadPlayerAvatar } from '../../game/questline'
 import { loadBattlePopups } from '../screens/SettingsScreen'
@@ -317,7 +318,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       {paused && !showBattleTutorial && activeModifiers && activeModifiers.length > 0 && (
         <div className="replay-modifier-strip u-flex u-wrap u-gap-2">
           {activeModifiers.map((m, i) => (
-            <span key={i} className="replay-modifier-tag">⚠ {m.label}</span>
+            <span key={i} className="replay-modifier-tag"><Icon name="warning" size={12} /> {m.label}</span>
           ))}
         </div>
       )}

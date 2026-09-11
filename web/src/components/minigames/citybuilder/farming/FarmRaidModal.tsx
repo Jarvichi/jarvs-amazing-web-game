@@ -3,15 +3,16 @@ import { FarmRaidEvent } from '../../../../game/farmingSim'
 import { RESOURCE_ICONS, ResourceType } from '../../../../game/cityBuilder'
 import { ModalBackdrop } from '../../../ui/ModalBackdrop'
 import { Button } from '../../../ui/Button'
+import { Icon } from '../../../ui/icons/Icon'
 
 export interface Props {
   raid:    FarmRaidEvent
   onClose: () => void
 }
 
-const OUTCOME_META: Record<FarmRaidEvent['outcome'], { icon: string; cls: string; label: string }> = {
-  repelled: { icon: '🛡', cls: 'farm-raid--repelled', label: 'REPELLED' },
-  partial:  { icon: '⚠',  cls: 'farm-raid--partial',  label: 'PARTIAL RAID' },
+const OUTCOME_META: Record<FarmRaidEvent['outcome'], { icon: React.ReactNode; cls: string; label: string }> = {
+  repelled: { icon: <Icon name="shield" size={32} />,  cls: 'farm-raid--repelled', label: 'REPELLED' },
+  partial:  { icon: <Icon name="warning" size={32} />, cls: 'farm-raid--partial',  label: 'PARTIAL RAID' },
   defeated: { icon: '💀', cls: 'farm-raid--defeated',  label: 'OVERRUN' },
 }
 

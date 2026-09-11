@@ -8,7 +8,7 @@ import React from 'react'
  * `currentColor` so each icon themes with whatever text colour surrounds it.
  *
  * Mount <IconSprite /> once near the app root; every <Icon name="..." />
- * instance references a <symbol> here via <use>, so the markup for all 26
+ * instance references a <symbol> here via <use>, so the markup for all 38
  * icons is only ever parsed once regardless of how many places render them.
  */
 export const ICON_NAMES = [
@@ -16,7 +16,8 @@ export const ICON_NAMES = [
   'settings', 'trophy', 'minigames', 'sword', 'infinity', 'hub', 'crystal',
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
   'search', 'calendar', 'shield', 'bolt', 'pause', 'volume', 'display',
-  'database', 'star', 'satchel', 'scroll', 'town',
+  'database', 'star', 'satchel', 'scroll', 'town', 'warning', 'card', 'pack',
+  'timer',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -207,6 +208,45 @@ export function IconSprite() {
           <path d="M13 21v-8.5l4.5-3.5 4.5 3.5V21z" />
           <rect x="5" y="16.5" width="3" height="4.5" fill="var(--game-bg, #0a0a0a)" />
           <rect x="16" y="16.5" width="3" height="4.5" fill="var(--game-bg, #0a0a0a)" />
+        </symbol>
+
+        {/* Same exclamation-mark construction as icon-info (stem + dot cut
+            from the fill) but on a triangle rather than a circle, so the two
+            read as a matched pair — "for your information" vs. "heads up". */}
+        <symbol id="icon-warning" viewBox="0 0 24 24">
+          <path d="M12 2 22.5 21H1.5z" />
+          <rect x="10.8" y="8.5" width="2.4" height="6.3" rx="1" fill="var(--game-bg, #0a0a0a)" />
+          <circle cx="12" cy="17.7" r="1.4" fill="var(--game-bg, #0a0a0a)" />
+        </symbol>
+
+        {/* One upright card with a diamond pip — "you got a card", distinct
+            from icon-deck's two overlapping cards ("your whole deck"). */}
+        <symbol id="icon-card" viewBox="0 0 24 24">
+          <rect x="5" y="2" width="14" height="20" rx="2" />
+          <path d="M12 8l2.6 4.5L12 17l-2.6-4.5z" fill="var(--game-bg, #0a0a0a)" />
+        </symbol>
+
+        {/* A wrapped gift box — the card-pack purchase, distinct from
+            icon-collection's storage-box shape. Ribbon cross cut from the
+            fill; the bow is two circles plus a small knot rather than a
+            freehand loop, so it stays legible at 24x24. */}
+        <symbol id="icon-pack" viewBox="0 0 24 24">
+          <rect x="4" y="8" width="16" height="13" rx="2" />
+          <rect x="10.5" y="8" width="3" height="13" fill="var(--game-bg, #0a0a0a)" />
+          <rect x="4" y="12.5" width="16" height="3" fill="var(--game-bg, #0a0a0a)" />
+          <circle cx="9" cy="5.3" r="2.2" />
+          <circle cx="15" cy="5.3" r="2.2" />
+          <rect x="10.9" y="4" width="2.2" height="2.6" rx="0.6" />
+        </symbol>
+
+        {/* A clock face — hands cut from the fill, same construction as
+            icon-info's stem-and-dot — for any countdown or time-remaining
+            indicator (a locked hero card's cooldown, a shop restock, a
+            playtime stat). */}
+        <symbol id="icon-timer" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <rect x="11" y="5" width="2" height="8" rx="1" fill="var(--game-bg, #0a0a0a)" />
+          <rect x="12" y="11" width="6" height="2" rx="1" fill="var(--game-bg, #0a0a0a)" />
         </symbol>
       </defs>
     </svg>
