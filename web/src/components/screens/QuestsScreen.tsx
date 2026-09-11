@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { getQuestStatuses, QuestChainStatus } from '../../game/quests'
 import { getCardCatalog } from '../../game/cards'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onBack: () => void
@@ -27,8 +28,8 @@ function QuestChainCard({ status }: { status: QuestChainStatus }) {
       <div className="quest-chain-intro">{def.intro}</div>
       <div className="quest-chain-target">
         {completed
-          ? <>🏆 {def.targetCard} has been added to your collection.</>
-          : <>🏆 Completing all steps guarantees: <strong>{def.targetCard}</strong></>}
+          ? <><Icon name="trophy" size={13} /> {def.targetCard} has been added to your collection.</>
+          : <><Icon name="trophy" size={13} /> Completing all steps guarantees: <strong>{def.targetCard}</strong></>}
       </div>
 
       <div className="quest-steps">
@@ -39,7 +40,7 @@ function QuestChainCard({ status }: { status: QuestChainStatus }) {
           const locked = !completed && i > activeStep
           return (
             <div key={i} className={`quest-step${done ? ' quest-step--done' : ''}${locked ? ' quest-step--locked' : ''}`}>
-              <span className="quest-step-status">{done ? '✓' : locked ? '🔒' : '▸'}</span>
+              <span className="quest-step-status">{done ? '✓' : locked ? <Icon name="lock" size={11} /> : '▸'}</span>
               <span className="quest-step-label">{step.label}</span>
               {!locked && target > 1 && (
                 <span className="quest-step-progress">[{progress}/{target}]</span>

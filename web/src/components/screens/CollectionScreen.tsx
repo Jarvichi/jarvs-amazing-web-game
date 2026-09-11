@@ -27,6 +27,7 @@ import { OverlayScreen } from '../ui/OverlayScreen'
 import { CardCellFooter } from '../cards/CardCellFooter'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 import { ProgressBar } from '../ui/ProgressBar'
 import { useToast } from '../ui/Toast'
 import { FilterPopup } from '../ui/filters/FilterPopup'
@@ -574,12 +575,12 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
               {disenchantModal.map(({ cardName, crystals: val }) => (
                 <div key={cardName} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '3px 0', borderBottom: '1px solid #222' }}>
                   <span>{cardName}</span>
-                  <span style={{ color: '#88ccff' }}>+{val} 💎</span>
+                  <span style={{ color: '#88ccff' }}>+{val} <Icon name="crystal" size={12} /></span>
                 </div>
               ))}
             </div>
             <div className="daily-modal-desc" style={{ textAlign: 'center' }}>
-              Total: +{disenchantModal.reduce((s, i) => s + i.crystals, 0)} 💎
+              Total: +{disenchantModal.reduce((s, i) => s + i.crystals, 0)} <Icon name="crystal" size={13} />
             </div>
             <Button onClick={() => setDisenchantModal(null)}>OK</Button>
           </div>
@@ -620,7 +621,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
             Augments 👻
           </Button>
         )}
-        <span className="crystal-count">💎 {crystals.toLocaleString()}</span>
+        <span className="crystal-count"><Icon name="crystal" size={14} /> {crystals.toLocaleString()}</span>
       </div>
     }>
       {inner}

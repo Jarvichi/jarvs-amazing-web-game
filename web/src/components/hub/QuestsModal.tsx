@@ -13,6 +13,7 @@ import { GroupHeading } from '../ui/rows/GroupHeading'
 import { ListRow } from '../ui/rows/ListRow'
 import { QuestReadyCard, QuestProgressRow } from './satchel/QuestRows'
 import { CloseButton } from '../ui/CloseButton'
+import { Icon } from '../ui/icons/Icon'
 
 type QuestFilter = 'active' | 'ready' | 'bounties' | 'completed'
 
@@ -175,7 +176,7 @@ export function QuestsModal({ onClose, ...content }: Props & { onClose: () => vo
     <ModalBackdrop onClose={onClose} title="Quests">
       <Panel elevation="floating" className="quests-modal">
         <div className="quests-modal__header">
-          <span>📜 Quests</span>
+          <span><Icon name="scroll" size={13} /> Quests</span>
           <span className="quests-modal__meta">
             {questsMeta(content.questDefs)}
             <CloseButton onClick={onClose} />

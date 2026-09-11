@@ -5,6 +5,7 @@ import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarAccountMenu } from '../ui/Toolbar/ToolbarAccountMenu'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   townName: string
@@ -63,7 +64,7 @@ export function HubStatusBar({
           which left no cue as to which parts of the bar you could press. */}
       <div className="hub-status-bar__stats">
         <span className={`hub-status-bar__stat${glitching ? ' title-deck-info--glitch' : ''}`}>
-          <span aria-hidden="true">💎</span>
+          <Icon name="crystal" size={13} />
           {(glitching ? wrongSaveCrystals! : crystals).toLocaleString()}
         </span>
         <span className="hub-status-bar__stat">
@@ -80,7 +81,7 @@ export function HubStatusBar({
 
       <ToolbarButton icon="📋" title="Menu" onClick={onOpenMenu} />
       <ToolbarButton
-        icon={worldMapLocked ? '🔒🗺' : '🗺'}
+        icon={worldMapLocked ? <><Icon name="lock" size={12} />🗺</> : '🗺'}
         title={worldMapLocked ? 'World Map — locked' : 'World Map'}
         className={worldMapLocked ? 'hub-status-bar__map-btn--locked' : undefined}
         onClick={worldMapLocked ? onWorldMapLocked : onWorldMap}

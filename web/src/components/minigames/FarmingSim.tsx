@@ -45,6 +45,7 @@ import { ResourceStrip } from './citybuilder/ResourceStrip'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 // ── Walker constants ──────────────────────────────────────────────────────────
 
@@ -566,7 +567,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
         label={bulldozer ? 'DEMOLISH' : 'BUILD'}
         icon={bulldozer ? '🏗' : '👷'}
       />
-      <ToolbarButton onClick={() => setScreen('chronicle')} label="HISTORY" icon="📜" />
+      <ToolbarButton onClick={() => setScreen('chronicle')} label="HISTORY" icon={<Icon name="chronicle" size={16} />} />
       <ToolbarButton
         className={canAffordFarmExpansion(farm, city.gold, city.resources) ? 'city-expand-btn--ready' : undefined}
         onClick={() => setShowExpandModal(true)}
@@ -765,7 +766,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
                         showToast(`Farm expanded to ${next.rows}×${next.cols}!`)
                       }}
                     >
-                      {affordable ? '🌱 EXPAND NOW' : '🔒 NEED RESOURCES'}
+                      {affordable ? '🌱 EXPAND NOW' : <><Icon name="lock" size={13} /> NEED RESOURCES</>}
                     </Button>
                   )
                 })()}

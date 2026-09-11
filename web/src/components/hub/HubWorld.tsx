@@ -70,6 +70,7 @@ import { recordNpcMet, recordAnimalSeen, recordAreaSeen } from '../../game/hub/j
 import { getTodaysShopItems } from '../../game/hub/shopStock'
 import { loadDailyShopState, saveDailyShopState, isShopItemSold, markCardBought, markAugmentBought } from '../../game/shopSchedule'
 import rollbar from '../../rollbar'
+import { Icon } from '../ui/icons/Icon'
 interface QuestEvent {
   speakerName: string
   text: string
@@ -2709,7 +2710,7 @@ function hasOfferableQuest(giverId: string): boolean {
             <div className="title-logo">JARV'S</div>
             <div className="title-subtitle">AMAZING WEB GAME</div>
             <div className="title-logo-ornament">· · · · ·</div>
-            <div className="title-deck-info">{collectionCount}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals}</div>
+            <div className="title-deck-info">{collectionCount}/{catalogTotal} cards &nbsp;·&nbsp; <Icon name="crystal" size={13} /> {crystals}</div>
             <p className="hub-splash__hint">tap to continue</p>
           </div>
         )}

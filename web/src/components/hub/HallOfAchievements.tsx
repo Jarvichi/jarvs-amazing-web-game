@@ -9,6 +9,7 @@ import { addCardsToCollection, loadCrystals, saveCrystals } from '../../game/col
 import { addToInventory, ALL_ITEMS } from '../../game/dailyLogin'
 import { addUnlockedAvatar } from '../../game/questline'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onBack:              () => void
@@ -53,16 +54,19 @@ function PlinthIcon() {
   )
 }
 
-function formatRewardLine(def: AchievementDef): string {
+function formatRewardLine(def: AchievementDef): React.ReactNode {
   const r = def.reward
-  const parts: string[] = []
+  const parts: React.ReactNode[] = []
   if (r.type === 'avatar' && r.avatarSlug)  parts.push('New avatar')
-  if (r.type === 'crystals' && r.crystals)  parts.push(`💎 ${r.crystals}`)
+  if (r.type === 'crystals' && r.crystals)  parts.push(<><Icon name="crystal" size={12} /> {r.crystals}</>)
   if (r.type === 'cards' && r.cardName)     parts.push(`${r.count}× ${r.cardName}`)
   if (r.type === 'item' && r.item)          parts.push(`${r.item.icon} ${r.item.name}`)
-  if (r.bonusCrystals)                      parts.push(`💎 ${r.bonusCrystals}`)
+  if (r.bonusCrystals)                      parts.push(<><Icon name="crystal" size={12} /> {r.bonusCrystals}</>)
   if (r.bonusCards)  parts.push(r.bonusCards.map(c => `${c.count}× ${c.cardName}`).join(', '))
-  return parts.join(' + ') || '—'
+  if (parts.length === 0) return '—'
+  return parts.map((part, i) => (
+    <React.Fragment key={i}>{i > 0 && ' + '}{part}</React.Fragment>
+  ))
 }
 
 export function HallOfAchievements({ onBack, onCrystalsChanged }: Props) {

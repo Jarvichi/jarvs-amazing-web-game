@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Icon } from '../ui/icons/Icon'
 import {
   getChronicleStatus, markChapterRead, describeChallenge, describeReward,
   recordChronicleDecision, getChronicleAlignment, resolveChapterLore,
@@ -195,7 +196,7 @@ export function ChronicleScreen({ onBack }: Props) {
                 {chapter.available ? chapter.def.title : '???'}
               </span>
               <span className="chr-chapter-state">
-                {!chapter.available ? '🔒'
+                {!chapter.available ? <Icon name="lock" size={12} />
                   : chapter.completed ? '✓'
                   : !chapter.read ? 'NEW'
                   : `${chapter.progress}/${chapter.def.challenge.count}`}

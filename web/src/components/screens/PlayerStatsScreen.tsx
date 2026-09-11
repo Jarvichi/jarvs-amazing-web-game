@@ -1,6 +1,7 @@
 import React from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { loadPlayerStats } from '../../game/playerStats'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onBack: () => void
@@ -10,16 +11,16 @@ interface Props {
 export function PlayerStatsScreen({ onBack, embedded }: Props) {
   const s = loadPlayerStats()
 
-  const rows: { label: string; icon: string; value: string; note: string }[] = [
+  const rows: { label: string; icon: React.ReactNode; value: string; note: string }[] = [
     {
       label: 'Max Health',
-      icon:  '❤️',
+      icon:  <Icon name="heart" size={18} />,
       value: `${s.maxHp} HP`,
       note:  s.maxHp > 50 ? `+${s.maxHp - 50} from upgrades` : 'Base',
     },
     {
       label: 'Max Mana',
-      icon:  '✨',
+      icon:  <Icon name="mana" size={18} />,
       value: `${s.maxMana}`,
       note:  s.maxMana > 5 ? `+${s.maxMana - 5} from upgrades` : 'Base',
     },

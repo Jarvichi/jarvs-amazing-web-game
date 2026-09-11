@@ -5,6 +5,7 @@ import { getDailyBounties, isBountyAccepted, isBountyCompleted, acceptBounty, tu
 import type { RivalNpc } from '../../game/hub/relationships'
 import { CloseButton } from '../ui/CloseButton'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onClose: () => void
@@ -63,7 +64,7 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
                   </Button>
                 </div>
                 <div className="bounty-board-modal__desc">{bounty.desc}</div>
-                <div className="bounty-board-modal__reward">+{bounty.reward.crystals} 💎</div>
+                <div className="bounty-board-modal__reward">+{bounty.reward.crystals} <Icon name="crystal" size={13} /></div>
                 {formatExtraReward(bounty.reward, resolveNpcName) && (
                   <div className="bounty-board-modal__reward">{formatExtraReward(bounty.reward, resolveNpcName)}</div>
                 )}
@@ -89,7 +90,7 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
                   </div>
                   <div className="bounty-board-modal__desc">{bounty.desc}</div>
                   {hint && <div className="bounty-board-modal__hint">{hint}</div>}
-                  <div className="bounty-board-modal__reward">+{bounty.reward.crystals} 💎</div>
+                  <div className="bounty-board-modal__reward">+{bounty.reward.crystals} <Icon name="crystal" size={13} /></div>
                   {formatExtraReward(bounty.reward, resolveNpcName) && (
                     <div className="bounty-board-modal__reward">{formatExtraReward(bounty.reward, resolveNpcName)}</div>
                   )}
@@ -105,7 +106,7 @@ export function BountyBoardModal({ onClose, resolveNpcName = (id) => id, townNpc
             {completed.map(bounty => (
               <div key={bounty.id} className="bounty-board-modal__card bounty-board-modal__card--completed">
                 <div className="bounty-board-modal__title">✅ {bounty.icon} {bounty.title}</div>
-                <div className="bounty-board-modal__reward">+{bounty.reward.crystals} 💎</div>
+                <div className="bounty-board-modal__reward">+{bounty.reward.crystals} <Icon name="crystal" size={13} /></div>
                 {formatExtraReward(bounty.reward, resolveNpcName) && (
                   <div className="bounty-board-modal__reward">{formatExtraReward(bounty.reward, resolveNpcName)}</div>
                 )}

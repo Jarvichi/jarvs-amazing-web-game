@@ -33,6 +33,7 @@ import { HarbourRegatta } from '../minigames/HarbourRegatta'
 import { PageHeader } from '../ui/PageHeader'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 import { useToast } from '../ui/Toast'
 import { EmptyState } from '../ui/EmptyState'
 
@@ -285,7 +286,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       <div className="minigame-hub">
 
 
-        <div className="minigame-hub-currency">💎 {currentCrystals.toLocaleString()} crystals</div>
+        <div className="minigame-hub-currency"><Icon name="crystal" size={14} /> {currentCrystals.toLocaleString()} crystals</div>
 
         {subScreen === 'menu' && (
           <>
@@ -314,7 +315,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                     <div className="minigame-card-name">{MINI_GAME_LABELS[id]}</div>
                     <div className="minigame-card-desc">{MINI_GAME_DESCRIPTIONS[id]}</div>
                     <div className="minigame-card-meta u-flex u-gap-6">
-                      <span className="minigame-card-cost">💎 {cost}</span>
+                      <span className="minigame-card-cost"><Icon name="crystal" size={12} /> {cost}</span>
                       {best > 0 && <span className="minigame-card-best">Best: {best} 🎫</span>}
                     </div>
                     <div className={`minigame-card-challenge${challengeDone ? ' minigame-card-challenge--done' : ''}`}>
@@ -328,7 +329,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                       disabled={locked}
                       title={locked ? `Need ${cost} crystals to play` : undefined}
                     >
-                      {locked ? `NEED ${cost} 💎` : 'PLAY'}
+                      {locked ? <>NEED {cost} <Icon name="crystal" size={13} /></> : 'PLAY'}
                     </Button>
                   </div>
                 )
@@ -343,7 +344,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                 🎁 PRIZE SHOP ({tickets} 🎫)
               </Button>
               <Button onClick={() => setSubScreen('leaderboard')}>
-                🏆 LEADERBOARDS
+                <Icon name="trophy" size={13} /> LEADERBOARDS
               </Button>
             </div>
           </>
@@ -386,7 +387,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         {subScreen === 'leaderboard' && (
           <div className="lb-screen u-col">
             <PageHeader
-              title="🏆 LEADERBOARDS"
+              title={<><Icon name="trophy" size={16} /> LEADERBOARDS</>}
               onBack={() => initialSubScreen === 'leaderboard' ? onBack() : setSubScreen('menu')}
             />
 

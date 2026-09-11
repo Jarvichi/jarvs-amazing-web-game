@@ -1,4 +1,6 @@
       
+      import { Icon } from '../ui/icons/Icon'
+
       export interface WinStreakProps {
         winStreak: number;
         bestStreak: number;
@@ -16,7 +18,7 @@
       )}
       {bestStreak > 1 && winStreak === 0 && (
         <div className="streak-ribbon-wrap">
-          <div className="streak-ribbon streak-ribbon--faded">🏆 {bestStreak}</div>
+          <div className="streak-ribbon streak-ribbon--faded"><Icon name="trophy" size={13} /> {bestStreak}</div>
         </div>
       )}
             </>

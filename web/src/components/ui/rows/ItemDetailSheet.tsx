@@ -6,6 +6,7 @@ import { GroupHeading } from './GroupHeading'
 import { EntityChip } from './EntityChip'
 import { SatchelEmpty } from '../../hub/satchel/SatchelSheet'
 import { CloseButton } from '../CloseButton'
+import { Icon } from '../icons/Icon'
 
 interface Props {
   detail: ItemDetail
@@ -39,7 +40,7 @@ export function ItemDetailSheet({ detail, onClose }: Props) {
             <>
               <GroupHeading tone={isSatisfied(item) ? 'gold' : 'default'}>Wanted for</GroupHeading>
               <ListRow
-                icon="📜"
+                icon={<Icon name="scroll" size={13} />}
                 title={item.need.questTitle}
                 subtitle={isSatisfied(item) ? 'You have enough — hand it in.' : `${item.count} of ${item.need.required} gathered`}
                 progress={{ current: item.count, required: item.need.required }}
@@ -56,7 +57,7 @@ export function ItemDetailSheet({ detail, onClose }: Props) {
                   icon="🪙"
                   title={s.speaker}
                   subtitle={<EntityChip label={s.town} icon="🧭" tone="quiet" />}
-                  value={`${s.price} ${s.currency === 'tickets' ? '🎫' : '💎'}`}
+                  value={<>{s.price} {s.currency === 'tickets' ? '🎫' : <Icon name="crystal" size={12} />}</>}
                 />
               ))}
             </>

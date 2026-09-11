@@ -8,6 +8,7 @@ import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarAccountMenu } from '../ui/Toolbar/ToolbarAccountMenu'
+import { Icon } from '../ui/icons/Icon'
 import { StageChrome } from '../ui/StageChrome'
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime } from '../../game/hub/hubClock'
@@ -95,7 +96,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
       <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
         <StageChrome bar={
           <Toolbar>
-            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
+            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}><Icon name="crystal" size={13} /> {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
             <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
             <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
             {previewingAsPlayer && (
@@ -105,7 +106,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
                 </span>
               </ToolbarLabel>
             )}
-            <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
+            <ToolbarButton icon={<Icon name="scroll" size={16} />} title="Quests" onClick={() => setQuestsOpen(true)} />
             <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />
             <ToolbarSpacer />
 

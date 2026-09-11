@@ -5,6 +5,7 @@ import { getCardCatalog } from '../../game/cards'
 import { loadPlayerName } from '../../game/questline'
 import { Button } from '../ui/Button'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Icon } from '../ui/icons/Icon'
 import rollbar from '../../rollbar'
 
 interface Props {
@@ -61,7 +62,7 @@ export function DailyLoginModal({ reward, onClose }: Props) {
         <div className="daily-modal-reward u-col u-items-c u-gap-4">
           {reward.type === 'crystals' && (
             <>
-              <div className="daily-modal-icon">💎</div>
+              <div className="daily-modal-icon"><Icon name="crystal" size={40} /></div>
               <div className="daily-modal-value">+{reward.amount} Crystals</div>
               <div className="daily-modal-desc">{crystalMsg}</div>
             </>
@@ -106,7 +107,7 @@ export function DailyLoginModal({ reward, onClose }: Props) {
           )}
           {!hasContent && (
             <>
-              <div className="daily-modal-icon">💎</div>
+              <div className="daily-modal-icon"><Icon name="crystal" size={40} /></div>
               <div className="daily-modal-value">+10 Crystals</div>
               <div className="daily-modal-desc">A gift from the Shattered Dominion.</div>
             </>

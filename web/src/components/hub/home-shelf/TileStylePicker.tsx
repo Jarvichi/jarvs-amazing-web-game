@@ -1,4 +1,5 @@
 import { TileSwatch } from '../../shared/TileSwatch'
+import { Icon } from '../../ui/icons/Icon'
 
 export interface TileStyleOption {
   key: string
@@ -28,7 +29,7 @@ export function TileStylePicker({ options, selectedKey, price, onPick }: TileSty
         >
           <TileSwatch tileNumericId={opt.tileNumericId} size={24} />
           <span className="furniture-picker-item-name">{opt.label}</span>
-          {opt.key !== selectedKey && <span className="furniture-picker-item-price">💎{price}</span>}
+          {opt.key !== selectedKey && <span className="furniture-picker-item-price"><Icon name="crystal" size={11} />{price}</span>}
         </button>
       ))}
     </div>

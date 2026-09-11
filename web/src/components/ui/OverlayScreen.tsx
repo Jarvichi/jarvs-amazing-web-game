@@ -2,7 +2,7 @@ import React from 'react'
 import { PageHeader } from './PageHeader'
 
 interface Props {
-  title: string
+  title: React.ReactNode
   subtitle?: string
   onBack?: () => void
   right?: React.ReactNode

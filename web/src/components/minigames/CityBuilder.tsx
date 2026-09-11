@@ -71,6 +71,7 @@ import { isFarmUnlocked, loadFarmState, saveFarmState, getFarmProductionRate } f
 import { tickAll } from '../../game/tick'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -1755,7 +1756,7 @@ export function CityBuilder({ onBack }: Props) {
       <ToolbarDropdown label="⋯" title="More">
         <div className="toolbar-overflow-dropdown">{overflowToolbarButtons}</div>
         <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings" label="UPGRADES" icon="★" />
-        <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history" label="HISTORY" icon="📜" />
+        <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history" label="HISTORY" icon={<Icon name="chronicle" size={16} />} />
         <ToolbarButton onClick={() => setScreen('zones')} title="Set district zones per row" label="ZONES" icon="🗺" />
         {cityRows <= MAX_CITY_ROWS && (
           <ToolbarButton
@@ -1873,7 +1874,7 @@ export function CityBuilder({ onBack }: Props) {
                     disabled={!affordable}
                     title={affordable ? 'Expand the city now' : 'Not enough resources'}
                   >
-                    {affordable ? '🏢 EXPAND NOW' : '🔒 NEED RESOURCES'}
+                    {affordable ? '🏢 EXPAND NOW' : <><Icon name="lock" size={13} /> NEED RESOURCES</>}
                   </Button>
                 )}
                 <Button onClick={() => setShowExpandModal(false)}>CLOSE</Button>

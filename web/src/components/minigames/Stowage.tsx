@@ -11,6 +11,7 @@
 
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { MinigameShell } from './MinigameShell'
+import { Icon } from '../ui/icons/Icon'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { CrateGrid } from './stowage/CrateGrid'
 import { GoodsTray } from './stowage/GoodsTray'
@@ -214,9 +215,9 @@ export function Stowage({ onDone, tier: tierProp }: Props) {
             <div>Stows {board.stows} · Par {board.par}</div>
             <div>Efficiency: {Math.round(score.efficiency * 100)}%</div>
             {board.manifested > 0 && <div>Manifest read {board.manifested}×</div>}
-            {score.cleanStow && <div>Clean stow! +{STOWAGE_SCORING.cleanStowCrystals} 💎</div>}
+            {score.cleanStow && <div>Clean stow! +{STOWAGE_SCORING.cleanStowCrystals} <Icon name="crystal" size={13} /></div>}
             <div className="minigame-result-total">
-              +{score.crystals} 💎 · +{tier.salt} 🧂 Barrelled Salt · +{STOWAGE_SCORING.reputation} standing
+              +{score.crystals} <Icon name="crystal" size={13} /> · +{tier.salt} 🧂 Barrelled Salt · +{STOWAGE_SCORING.reputation} standing
             </div>
           </div>
         </MinigameResultPanel>

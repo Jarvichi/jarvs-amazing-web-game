@@ -1,6 +1,7 @@
 import React from 'react'
 import { OverlayScreen } from '../../ui/OverlayScreen'
 import { EmptyState } from '../../ui/EmptyState'
+import { Icon } from '../../ui/icons/Icon'
 
 export interface Props {
   chronicle: string[]
@@ -10,7 +11,7 @@ export interface Props {
 export function ChroniclePanel({ chronicle, onBack }: Props) {
   return (
     <OverlayScreen
-      title="📜 CITY CHRONICLE"
+      title={<><Icon name="chronicle" size={16} /> CITY CHRONICLE</>}
       onBack={onBack}
       className="city-screen u-relative u-col u-gap-2"
     >

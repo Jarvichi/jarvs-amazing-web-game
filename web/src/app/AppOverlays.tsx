@@ -1,5 +1,6 @@
 import React from 'react'
 import { useApp } from './AppContext'
+import { Icon } from '../components/ui/icons/Icon'
 import { CardTile } from '../components/cards/CardTile'
 import { ConfirmModal } from '../components/modals/ConfirmModal'
 import { StreakBrokenModal } from '../components/modals/StreakBrokenModal'
@@ -148,7 +149,7 @@ export function AppOverlays() {
         <div className="ach-toast-stack">
           {achievementToasts.slice(0, 3).map((def, i) => (
             <div key={`${def.id}-${i}`} className="ach-toast" onClick={() => setAchievementToasts(prev => prev.filter((_, j) => j !== i))}>
-              🏆 <strong>{def.name}</strong>
+              <Icon name="trophy" size={14} /> <strong>{def.name}</strong>
               <span className="ach-toast-sub">Achievement unlocked!</span>
             </div>
           ))}
@@ -256,13 +257,13 @@ export function AppOverlays() {
                   <>
                     <p>{celebrationMilestone.toLocaleString()} battles won. A true legend.</p>
                     <p>The world bows. History remembers.</p>
-                    <p>You have earned {legendaryCount} legendary cards and {crystalBonus} 💎.</p>
+                    <p>You have earned {legendaryCount} legendary cards and {crystalBonus} <Icon name="crystal" size={14} aria-label="crystals" />.</p>
                   </>
                 ) : isMajor ? (
                   <>
                     <p>{celebrationMilestone.toLocaleString()} battles won. An epic achievement.</p>
                     <p>The enemy despairs. The chronicles take note.</p>
-                    <p>You have earned a legendary card and {crystalBonus} 💎.</p>
+                    <p>You have earned a legendary card and {crystalBonus} <Icon name="crystal" size={14} aria-label="crystals" />.</p>
                   </>
                 ) : (
                   <>
@@ -372,7 +373,7 @@ export function AppOverlays() {
       {questCompletes.length === 0 && chronicleCompletes.length > 0 && (
         <div className="exotic-drop-overlay" onClick={() => setChronicleCompletes(prev => prev.slice(1))}>
           <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
-            <div className="exotic-drop-title">📜 CHAPTER COMPLETE 📜</div>
+            <div className="exotic-drop-title"><Icon name="chronicle" size={13} /> CHAPTER COMPLETE <Icon name="chronicle" size={13} /></div>
             <div className="exotic-drop-name">{chronicleCompletes[0].title}</div>
             <div className="exotic-drop-desc">
               The Chronicle remembers. You earned <strong>{describeReward(chronicleCompletes[0].reward)}</strong> and
@@ -387,8 +388,8 @@ export function AppOverlays() {
       {weeklyReward && (
         <div className="exotic-drop-overlay" onClick={() => setWeeklyReward(null)}>
           <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
-            <div className="exotic-drop-title">📜 WEEKLY CHALLENGE COMPLETE 📜</div>
-            <div className="exotic-drop-icon">{weeklyReward.combined ? '💠' : '📜'}</div>
+            <div className="exotic-drop-title"><Icon name="chronicle" size={13} /> WEEKLY CHALLENGE COMPLETE <Icon name="chronicle" size={13} /></div>
+            <div className="exotic-drop-icon">{weeklyReward.combined ? '💠' : <Icon name="chronicle" size={44} />}</div>
             <div className="exotic-drop-name">{getWeeklyChallenge().loreTitle}</div>
             <div className="exotic-drop-desc">
               {weeklyReward.combined

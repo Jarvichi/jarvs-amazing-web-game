@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { type StatUpgradeType } from '../../game/playerStats'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onSelect: (stat: StatUpgradeType) => void
@@ -8,7 +9,7 @@ interface Props {
 
 interface UpgradeOption {
   stat:  StatUpgradeType
-  icon:  string
+  icon:  React.ReactNode
   name:  string
   desc:  string
 }
@@ -16,13 +17,13 @@ interface UpgradeOption {
 const OPTIONS: UpgradeOption[] = [
   {
     stat: 'maxHp',
-    icon: '❤️',
+    icon: <Icon name="heart" size={28} />,
     name: 'Max Health',
     desc: 'Increase your starting and maximum campaign HP by 10.',
   },
   {
     stat: 'maxMana',
-    icon: '✨',
+    icon: <Icon name="mana" size={28} />,
     name: 'Max Mana',
     desc: 'Increase your maximum mana by 1, letting you play more powerful cards.',
   },

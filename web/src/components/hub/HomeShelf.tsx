@@ -26,6 +26,7 @@ import { WALL_TILES, WallMaterial } from '../../data/tiles/buildingMaterials'
 import { TileStylePicker, TileStyleOption } from './home-shelf/TileStylePicker'
 import { EmptyState } from '../ui/EmptyState'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onBack: () => void
@@ -340,7 +341,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
     <OverlayScreen
       title="HOME"
       onBack={onBack}
-      right={effectiveTab !== 'shelf' ? <span className="crystal-count">💎 {crystals.toLocaleString()}</span> : undefined}
+      right={effectiveTab !== 'shelf' ? <span className="crystal-count"><Icon name="crystal" size={14} /> {crystals.toLocaleString()}</span> : undefined}
     >
       <TabNav
         items={[
@@ -502,7 +503,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                 <div key={slot.id} className="town-directory__row">
                   <div className="town-directory__info">
                     <span className="town-directory__name">{slot.name}</span>
-                    {!owned && <span className="town-directory__place">💎 {slot.price.toLocaleString()}</span>}
+                    {!owned && <span className="town-directory__place"><Icon name="crystal" size={12} /> {slot.price.toLocaleString()}</span>}
                   </div>
                   <Button
                     variant="gold"
@@ -510,7 +511,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                     disabled={owned}
                     onClick={() => handlePickRoomSlot(slot)}
                   >
-                    {owned ? 'Built' : `Buy · 💎 ${slot.price.toLocaleString()}`}
+                    {owned ? 'Built' : <>Buy · <Icon name="crystal" size={13} /> {slot.price.toLocaleString()}</>}
                   </Button>
                 </div>
               )
@@ -553,7 +554,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
           <div className="shop-confirm-modal" onClick={e => e.stopPropagation()}>
             <div className="shop-confirm-title">{pendingBuy.icon} {pendingBuy.name}</div>
             <div className="shop-confirm-body">
-              Buy for {pendingBuy.price} 💎? You have {crystals.toLocaleString()} 💎.
+              Buy for {pendingBuy.price} <Icon name="crystal" size={13} />? You have {crystals.toLocaleString()} <Icon name="crystal" size={13} />.
             </div>
             <div className="shop-confirm-actions">
               <Button onClick={handleCancelBuy}>Cancel</Button>
@@ -562,7 +563,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                 className={`shop-card-buy-btn${crystals < pendingBuy.price ? ' shop-card-buy-btn--poor' : ''}`}
                 onClick={handleConfirmBuy}
               >
-                Buy for {pendingBuy.price} 💎
+                Buy for {pendingBuy.price} <Icon name="crystal" size={13} />
               </Button>
             </div>
           </div>
@@ -574,7 +575,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
           <div className="shop-confirm-modal" onClick={e => e.stopPropagation()}>
             <div className="shop-confirm-title">{pendingRoomBuy.name}</div>
             <div className="shop-confirm-body">
-              Build for {pendingRoomBuy.price.toLocaleString()} 💎? You have {crystals.toLocaleString()} 💎.
+              Build for {pendingRoomBuy.price.toLocaleString()} <Icon name="crystal" size={13} />? You have {crystals.toLocaleString()} <Icon name="crystal" size={13} />.
             </div>
             <div className="shop-confirm-actions">
               <Button onClick={handleCancelRoomBuy}>Cancel</Button>
@@ -583,7 +584,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                 className={`shop-card-buy-btn${crystals < pendingRoomBuy.price ? ' shop-card-buy-btn--poor' : ''}`}
                 onClick={handleConfirmRoomBuy}
               >
-                Build for {pendingRoomBuy.price.toLocaleString()} 💎
+                Build for {pendingRoomBuy.price.toLocaleString()} <Icon name="crystal" size={13} />
               </Button>
             </div>
           </div>
@@ -597,7 +598,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
               {humanizeCamelCase(pendingStyleBuy.kind === 'floor' ? pendingStyleBuy.tileId : pendingStyleBuy.material)}
             </div>
             <div className="shop-confirm-body">
-              Change {pendingStyleBuy.kind} for {STYLE_PRICE} 💎? You have {crystals.toLocaleString()} 💎.
+              Change {pendingStyleBuy.kind} for {STYLE_PRICE} <Icon name="crystal" size={13} />? You have {crystals.toLocaleString()} <Icon name="crystal" size={13} />.
             </div>
             <div className="shop-confirm-actions">
               <Button onClick={handleCancelStyleBuy}>Cancel</Button>
@@ -606,7 +607,7 @@ export function HomeShelf({ onBack, houseKey = 'default', initialTab = 'shelf' }
                 className={`shop-card-buy-btn${crystals < STYLE_PRICE ? ' shop-card-buy-btn--poor' : ''}`}
                 onClick={handleConfirmStyleBuy}
               >
-                Change for {STYLE_PRICE} 💎
+                Change for {STYLE_PRICE} <Icon name="crystal" size={13} />
               </Button>
             </div>
           </div>

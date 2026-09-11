@@ -2,6 +2,7 @@ import React from 'react'
 import { getKnownSellers, getKnownBuyers, SellerEntry, BuyerEntry } from '../../game/hub/tradeJournal'
 import { getHubItemCatalogEntry } from '../../game/itemStore'
 import { EmptyState } from '../ui/EmptyState'
+import { Icon } from '../ui/icons/Icon'
 
 function itemDisplay(itemId: string): { name: string; icon: string } {
   const catalog = getHubItemCatalogEntry(itemId)
@@ -14,7 +15,7 @@ export function TradeJournalContent() {
 
   const sellerRow = (entry: SellerEntry) => {
     const { name, icon } = itemDisplay(entry.itemId)
-    const currencyIcon = entry.currency === 'tickets' ? '🎫' : '💎'
+    const currencyIcon: React.ReactNode = entry.currency === 'tickets' ? '🎫' : <Icon name="crystal" size={12} />
     return (
       <div key={`${entry.itemId}:${entry.town}:${entry.speaker}`} className="quests-modal__card">
         <div className="quests-modal__title">{icon} {name}</div>

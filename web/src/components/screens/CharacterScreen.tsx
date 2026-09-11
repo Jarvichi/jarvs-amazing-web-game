@@ -13,6 +13,7 @@ import { claimPlayerName } from '../../game/playerName'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
 import { TabNav } from '../ui/TabNav'
+import { Icon } from '../ui/icons/Icon'
 
 const SPRITE_BASE = '/sprites/'
 
@@ -46,7 +47,7 @@ function AvatarButton({ slug, chosen, onClick, lockHint }: { slug: string; chose
       {unlocked ? (
         <img src={`${SPRITE_BASE}${slug}.svg`} alt={label} className="character-avatar-img" />
       ) : (
-        <span className="character-avatar-lock">🔒</span>
+        <span className="character-avatar-lock"><Icon name="lock" size={16} /></span>
       )}
       <span className="character-avatar-label">{unlocked ? label : '???'}</span>
     </button>
@@ -188,7 +189,7 @@ export function CharacterScreen({ onDone, embedded }: Props) {
                 {archetype === def.id && (
                   <span className="character-archetype-selected-badge">✓ SELECTED</span>
                 )}
-                <span className="character-archetype-icon">{def.locked ? '🔒' : def.icon}</span>
+                <span className="character-archetype-icon">{def.locked ? <Icon name="lock" size={18} /> : def.icon}</span>
                 <span className="character-archetype-name">{def.locked ? '???' : def.name}</span>
                 {!def.locked && <span className="character-archetype-identity">{def.identity}</span>}
                 {!def.locked && <span className="character-archetype-passive">{def.passive}</span>}

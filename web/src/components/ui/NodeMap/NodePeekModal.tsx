@@ -5,6 +5,7 @@ import { nodeEnemyTier, effectiveTierFor } from "../../../game/campaignHelpers";
 import { DECK_POWER_BANDS } from "../../../game/deckPower";
 import { StatRow } from "../StatRow";
 import { Button } from "../Button";
+import { Icon } from "../icons/Icon";
 import { NODE_ICON, NODE_LABEL } from "./constants";
 
 // ── Reward / difficulty helpers ───────────────────────────────────────────────
@@ -121,7 +122,7 @@ export function NodePeekModal({
             )}
             {!isAvailable && !isCleared && (
               <div style={{ color: '#888', fontSize: 12, textAlign: 'center', margin: '6px 0' }}>
-                🔒 Not yet accessible
+                <Icon name="lock" size={12} /> Not yet accessible
               </div>
             )}
             <div className="nm-peek-actions u-flex u-gap-4">

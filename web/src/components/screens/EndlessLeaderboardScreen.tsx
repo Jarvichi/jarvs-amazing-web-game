@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { fetchEndlessLeaderboard, fetchTodaysEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry, fetchDailyLeaderboard, LeaderboardEntry } from '../../game/dailyChallenge'
 import { PageHeader } from '../ui/PageHeader'
 import { EmptyState } from '../ui/EmptyState'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onBack: () => void
@@ -64,7 +65,7 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
 
   return (
     <div className="el-screen">
-      <PageHeader title="🏆 LEADERBOARDS" onBack={onBack} />
+      <PageHeader title={<><Icon name="trophy" size={16} /> LEADERBOARDS</>} onBack={onBack} />
 
       <div className="el-section u-col u-gap-3">
         <div className="el-section-title">📅 DAILY CHALLENGE</div>

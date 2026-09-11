@@ -8,6 +8,7 @@ import {
 import type { NextUpgrade } from '../../game/hub/reputation'
 import { EmptyState } from '../ui/EmptyState'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 /** One upgradeable building, pre-resolved by HubWorld. Pure-visual: props only. */
 export interface UpgradeRow {
@@ -59,7 +60,7 @@ export function HubTownUpgradesContent({
         {tributeAmount > 0 && (
           <div className="town-upgrades__tribute">
             <span className="town-upgrades__tribute-text">
-              🎁 Daily tribute from grateful townsfolk: <strong>💎 {tributeAmount}</strong>
+              🎁 Daily tribute from grateful townsfolk: <strong><Icon name="crystal" size={13} /> {tributeAmount}</strong>
             </span>
             <Button
               variant="gold"
@@ -81,19 +82,19 @@ export function HubTownUpgradesContent({
               const track = getUpgradeTrack(row.kind)
               const currentBenefit = row.level > 0 ? track[row.level - 1]?.benefit : null
 
-              let btnLabel = 'Upgrade'
+              let btnLabel: React.ReactNode = 'Upgrade'
               let disabled = false
               let reason: string | null = null
               if (next.maxed || !next.def) {
                 btnLabel = 'Fully upgraded'; disabled = true
               } else if (next.repLocked) {
-                btnLabel = `🔒 Needs ${next.repRequired} standing`; disabled = true
+                btnLabel = <><Icon name="lock" size={13} /> Needs {next.repRequired} standing</>; disabled = true
                 reason = `Raise the town's standing to ${next.repRequired}.`
               } else if (crystals < next.cost) {
-                btnLabel = `💎 ${next.cost}`; disabled = true
+                btnLabel = <><Icon name="crystal" size={13} /> {next.cost}</>; disabled = true
                 reason = 'Not enough crystals.'
               } else {
-                btnLabel = `Upgrade · 💎 ${next.cost}`
+                btnLabel = <>Upgrade · <Icon name="crystal" size={13} /> {next.cost}</>
               }
 
               return (
