@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { TabNav, type TabNavItem } from '../ui/TabNav'
+import { Button } from '../ui/Button'
 import { hasUnclaimedAchievements } from '../../game/achievements'
 import { PlayerStatsScreen } from './PlayerStatsScreen'
 import { CharacterScreen } from './CharacterScreen'
@@ -48,7 +49,7 @@ export function PlayerScreen({ crystals, onCrystalsChanged, onBack, onSignOut }:
         </div>
         {onSignOut && (
           <div className="player-signout-row">
-            <button className="title-auth-btn" onClick={onSignOut}>🔓 SIGN OUT</button>
+            <Button variant="ghost" onClick={onSignOut}>🔓 SIGN OUT</Button>
           </div>
         )}
       </div>
