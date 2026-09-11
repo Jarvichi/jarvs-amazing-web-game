@@ -208,6 +208,13 @@ rather than trusting a screenshot on sight). Read it before:
 - Adding a button/panel/modal/icon instead of reusing the shared primitive
 - Anything under `web/src/styles/` or `web/src/components/ui/`
 
+**[`docs/screen-audit.md`](docs/screen-audit.md)** is the companion gap list — every
+player-facing screen measured against the bar the satchel and settings redesigns set
+(shell owns chrome, shared row/tile vocabulary, tokens not literals, extracted and
+storied, one `TabNav`), with a priority order for closing it. Read it before picking
+up screen-redesign work, and re-derive its numbers rather than trusting them once the
+tree has moved on.
+
 ## CSS Styling Rules
 Reuse existing CSS classes before adding new ones. Check whether `action-btn`, `action-btn--gold`, `action-btn--danger`, or `filter-btn` can be used. Duplicate CSS causes visual inconsistency. If an existing class has a specific name that could be more generic, rename and refactor it.
 
