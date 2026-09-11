@@ -437,6 +437,13 @@
   overflow: hidden;
 }
 
+.player-stats-intro {
+  padding: 8px 12px 4px;
+  color: var(--game-text-color-dim);
+  font-size: 11px;
+  border-bottom: 1px solid var(--game-border);
+}
+
 
 
 

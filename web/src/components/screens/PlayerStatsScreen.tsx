@@ -1,5 +1,7 @@
 import React from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Panel } from '../ui/Panel'
+import { ListRow } from '../ui/rows/ListRow'
 import { loadPlayerStats } from '../../game/playerStats'
 import { Icon } from '../ui/icons/Icon'
 
@@ -46,30 +48,14 @@ export function PlayerStatsScreen({ onBack, embedded }: Props) {
 
   const content = (
     <>
-      <div style={{ padding: '8px 12px 4px', color: 'var(--game-text-color-dim)', fontSize: '11px', borderBottom: '1px solid var(--game-border)' }}>
+      <div className="player-stats-intro">
         Permanent upgrades earned by completing campaigns.
       </div>
-      <div style={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <Panel elevation="raised">
         {rows.map(row => (
-          <div
-            key={row.label}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '10px 14px',
-              background: 'var(--game-bg-raised)',
-              border: '1px solid var(--game-border)',
-              borderRadius: '4px',
-            }}
-          >
-            <span style={{ fontSize: '20px', minWidth: '28px', textAlign: 'center' }}>{row.icon}</span>
-            <span style={{ flex: 1, fontSize: '13px' }}>{row.label}</span>
-            <span style={{ fontSize: '13px', fontWeight: 'bold' }}>{row.value}</span>
-            <span style={{ fontSize: '10px', color: 'var(--game-text-color-dim)', minWidth: '80px', textAlign: 'right' }}>{row.note}</span>
-          </div>
+          <ListRow key={row.label} icon={row.icon} title={row.label} subtitle={row.note} value={row.value} />
         ))}
-      </div>
+      </Panel>
     </>
   )
 
