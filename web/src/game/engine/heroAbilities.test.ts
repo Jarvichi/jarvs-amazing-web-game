@@ -70,6 +70,18 @@ describe('Bulwark', () => {
     expect(archer.hp).toBe(60)
   })
 
+  it('marks a unit it kills with thorns as dying, so the body is not purged mid-tick', () => {
+    const s = emptyBattle()
+    put(s, 'player', { heroAbility: { bulwark: { damageReductionPct: 0, thornsPct: 100 } }, maxHp: 500 }, { x: 200 })
+    const attacker = put(s, 'opponent', { attack: 30, maxHp: 20, attackRange: 60 }, { x: 220 })
+
+    processAttacks(s, 16, [])
+
+    expect(attacker.hp).toBe(0)
+    expect(attacker.dyingTimer).toBeGreaterThan(0)
+    expect(s.field).toContain(attacker)
+  })
+
   it('never soaks a hit down to nothing', () => {
     const s = emptyBattle()
     const warden = put(s, 'player', { heroAbility: { bulwark: { damageReductionPct: 99, thornsPct: 0 } } })
@@ -416,6 +428,20 @@ describe('Deeproot', () => {
     expect(sentinel.hp).toBe(30)
   })
 
+  it('does not regenerate through damage-over-time, which never touches the attack path', () => {
+    const s = emptyBattle()
+    const sentinel = put(s, 'player', { heroAbility: deeproot, maxHp: 60 })
+    sentinel.hp = 30
+    tickHeroAbilities(s, 1000, [])      // calm: regenerates to 40
+    expect(sentinel.hp).toBe(40)
+
+    sentinel.hp -= 5                     // a burn tick, nowhere near afterHeroHit
+    s.gameTime += 1000
+    tickHeroAbilities(s, 1000, [])
+
+    expect(sentinel.hp).toBe(35)
+  })
+
   it('never overgrows her own maximum', () => {
     const s = emptyBattle()
     const sentinel = put(s, 'player', { heroAbility: deeproot, maxHp: 60 })
@@ -558,6 +584,22 @@ describe('Unbroken Vigil', () => {
 
     expect(knight.vigilChargesLeft).toBe(0)
     expect(allies.filter(a => a.hp === 1)).toHaveLength(2)
+  })
+
+  it('takes back the casualty the stats already booked for a saved ally', () => {
+    const s = emptyBattle()
+    put(s, 'player', { heroAbility: vigil }, { x: 200 })
+    const ally = put(s, 'player', { maxHp: 20 }, { x: 240 })
+    const killer = put(s, 'opponent', { attack: 50, attackRange: 60 }, { x: 250 })
+    expect(killer.attack).toBeGreaterThan(ally.maxHp)
+
+    processAttacks(s, 16, [])           // ally dies; stats book the loss
+    expect(s.battleStats.playerUnitsLost).toBe(1)
+
+    tickHeroAbilities(s, 16, [])        // the vigil refuses it
+
+    expect(ally.hp).toBe(1)
+    expect(s.battleStats.playerUnitsLost).toBe(0)
   })
 
   it('does not reach an ally outside the watch, or an enemy inside it', () => {

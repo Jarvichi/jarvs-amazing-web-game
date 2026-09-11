@@ -88,6 +88,15 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
         const landed = heroIncomingDamage(s, unit, target, dmg, log)
         target.hp -= landed
         afterHeroHit(s, unit, target)
+        // A thorns kill is a kill: mark the body dying so it lingers for the death
+        // animation and isn't purged before the commander/base HP sync sees it, the
+        // same way the AOE and half-health paths below do.
+        if (unit.hp <= 0) {
+          if (unit.moveSpeed > 0 && !unit.isWall && !unit.dyingTimer) unit.dyingTimer = DEATH_LINGER_MS
+          if (unit.isCommander && unit.owner === 'player') {
+            s.lastPlayerDamageSource = { kind: 'unit', name: target.name }
+          }
+        }
         const actualDamage = prevHp - Math.max(0, target.hp)
         if (isPlayer) s.playerScore += actualDamage
         else          s.opponentScore += actualDamage

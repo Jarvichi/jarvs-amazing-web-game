@@ -342,6 +342,8 @@ export interface Unit extends UnitTemplate {
   lastDamagedAt?: number
   /** Deeproot: fractional HP carried between regen ticks. */
   regenAccum?: number
+  /** Deeproot: HP as of the previous tick — a drop counts as a hit from any source. */
+  lastSeenHp?: number
   /** Unbroken Vigil: lethal-save charges left on the warden. */
   vigilChargesLeft?: number
   /** Unbroken Vigil: true once this unit has been saved — it cannot be saved twice. */

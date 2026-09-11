@@ -245,6 +245,11 @@ function applyVigilSaves(s: GameState, log: string[]): void {
       ally.dyingTimer = undefined
       ally.deathNotified = false
       knight.vigilChargesLeft--
+      // processAttacks already booked this unit as a casualty this tick — it did not
+      // actually die, so take the count back. (The Phantom Legion revive avoids this
+      // by running before the stat loop; the vigil runs a step later and cannot.)
+      if (ally.owner === 'player') s.battleStats.playerUnitsLost = Math.max(0, s.battleStats.playerUnitsLost - 1)
+      else                        s.battleStats.playerKills     = Math.max(0, s.battleStats.playerKills - 1)
       log.push(`!!🕯️ ${knight.name} keeps the vigil — ${ally.name} will not fall.`)
     }
   }
@@ -296,15 +301,24 @@ function applyLastLight(s: GameState, log: string[]): void {
 function applyDeeproot(s: GameState, deltaMs: number): void {
   for (const unit of s.field) {
     const deeproot = unit.heroAbility?.deeproot
-    if (!deeproot || unit.hp <= 0 || unit.hp >= unit.maxHp) continue
-    if (unit.lastDamagedAt != null && s.gameTime - unit.lastDamagedAt < deeproot.calmMs) continue
+    if (!deeproot || unit.hp <= 0) continue
 
-    unit.regenAccum = (unit.regenAccum ?? 0) + deeproot.hpPerSec * deltaMs / 1000
-    const healed = Math.floor(unit.regenAccum)
-    if (healed > 0) {
-      unit.regenAccum -= healed
-      unit.hp = Math.min(unit.maxHp, unit.hp + healed)
+    // "Without taking a hit" has to mean any damage, not just a melee swing. Burn,
+    // poison, gas, AOE splash and thorns never route through `afterHeroHit`, so watch
+    // her HP instead of the attack path — a drop since last tick is a hit, whatever
+    // dealt it. Without this she regenerates straight through a damage-over-time.
+    if (unit.lastSeenHp != null && unit.hp < unit.lastSeenHp) unit.lastDamagedAt = s.gameTime
+
+    const calm = unit.lastDamagedAt == null || s.gameTime - unit.lastDamagedAt >= deeproot.calmMs
+    if (calm && unit.hp < unit.maxHp) {
+      unit.regenAccum = (unit.regenAccum ?? 0) + deeproot.hpPerSec * deltaMs / 1000
+      const healed = Math.floor(unit.regenAccum)
+      if (healed > 0) {
+        unit.regenAccum -= healed
+        unit.hp = Math.min(unit.maxHp, unit.hp + healed)
+      }
     }
+    unit.lastSeenHp = unit.hp
   }
 }
 
