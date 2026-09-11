@@ -32255,10 +32255,10 @@
       "unit": {
         "name": "Marches Warden",
         "attack": 12,
-        "maxHp": 55,
+        "maxHp": 62,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 40,
+        "moveSpeed": 34,
         "attackRange": 5,
         "attackCooldownMs": 1400,
         "flying": false,
@@ -32271,13 +32271,19 @@
           "guardBase": true,
           "baseGuardRange": 100,
           "engageRange": 200
+        },
+        "heroAbility": {
+          "bulwark": {
+            "damageReductionPct": 35,
+            "thornsPct": 30
+          }
         }
       },
       "heroEffect": {
         "type": "buffMaxHp",
         "amount": 12
       },
-      "description": "HERO: Deploys the Marches Warden — a border commander who holds the line near your base and engages anything that crosses it. All units gain +12 max HP.",
+      "description": "HERO: Deploys the Marches Warden, who holds the line near your base and engages anything that crosses it. BULWARK: he soaks 35% of every blow, and turns 30% of it back on any attacker that closes to melee. All units gain +12 max HP.",
       "lore": "The Dominion never posted a warden to the eastern blank. Somebody took the job anyway."
     },
     {
@@ -32289,30 +32295,31 @@
       "isHero": true,
       "unit": {
         "name": "Grey Guide",
-        "attack": 13,
-        "maxHp": 58,
+        "attack": 11,
+        "maxHp": 50,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 42,
+        "moveSpeed": 46,
         "attackRange": 5,
-        "attackCooldownMs": 1400,
+        "attackCooldownMs": 1250,
         "flying": false,
         "tags": [
           "melee",
-          "armored"
+          "fast"
         ],
-        "size": "large",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 95,
-          "engageRange": 195
+        "size": "medium",
+        "heroAbility": {
+          "safePassage": {
+            "range": 110,
+            "speedBonus": 14
+          }
         }
       },
       "heroEffect": {
-        "type": "buffMaxHp",
-        "amount": 14
+        "type": "buffSpeed",
+        "amount": 16
       },
-      "description": "HERO: Deploys the Grey Guide — a causeway pathfinder who holds the line near your base and engages anything that crosses it. All units gain +14 max HP.",
+      "description": "HERO: Deploys the Grey Guide. SAFE PASSAGE: allies within 110 of her ignore moats, slow zones and gas clouds entirely, and march 14 faster. All units gain +16 speed.",
       "lore": "No map shows the causeway's true turns. She walked it before the mist had a name for it, and she still knows every unlit lamp by heart."
     },
     {
@@ -32324,30 +32331,31 @@
       "isHero": true,
       "unit": {
         "name": "First Reaper",
-        "attack": 14,
-        "maxHp": 56,
+        "attack": 13,
+        "maxHp": 54,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 44,
+        "moveSpeed": 42,
         "attackRange": 5,
-        "attackCooldownMs": 1350,
+        "attackCooldownMs": 1300,
         "flying": false,
         "tags": [
           "melee",
           "armored"
         ],
         "size": "large",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 95,
-          "engageRange": 195
+        "heroAbility": {
+          "harvest": {
+            "attackPerKill": 3,
+            "maxStacks": 8
+          }
         }
       },
       "heroEffect": {
         "type": "buffAttack",
-        "amount": 3
+        "amount": 4
       },
-      "description": "HERO: Deploys the First Reaper — the harvester who cut the very first sheaf of memory-wheat in the void. All units gain +3 attack.",
+      "description": "HERO: Deploys the First Reaper. HARVEST: every kill she lands raises her own attack by 3 for the rest of the battle, up to +24. All units gain +4 attack.",
       "lore": "Nobody ordained her the first. She simply refused to let the field go unharvested while there was still a hand left to hold the sickle. Three centuries on, the fields still cut the way she taught them."
     },
     {
@@ -32359,12 +32367,12 @@
       "isHero": true,
       "unit": {
         "name": "Returned Archivist",
-        "attack": 10,
-        "maxHp": 52,
+        "attack": 9,
+        "maxHp": 46,
         "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 34,
-        "attackRange": 120,
+        "bypassWall": true,
+        "moveSpeed": 30,
+        "attackRange": 130,
         "attackCooldownMs": 1500,
         "flying": false,
         "tags": [
@@ -32372,17 +32380,20 @@
           "magic"
         ],
         "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "heroAbility": {
+          "crossReference": {
+            "cooldownMs": 7000,
+            "range": 200,
+            "bonusDamagePct": 50,
+            "durationMs": 5000
+          }
         }
       },
       "heroEffect": {
-        "type": "buffMaxHp",
-        "amount": 8
+        "type": "buffRange",
+        "amount": 25
       },
-      "description": "HERO: Deploys the Returned Archivist — a Dominion archivist whose own name was gleaned back from the Archive's stacks. All units gain +8 max HP.",
+      "description": "HERO: Deploys the Returned Archivist. CROSS-REFERENCE: every 7s she files the most dangerous enemy in reach — everything on your side deals +50% damage to it for 5s. All ranged units gain +25 range.",
       "lore": "Campaign 1 knew an Archivist who never left the Crystal Spire. This one is not him — only someone who once did the same work, in a kingdom that no longer had a name to file her under. The Archive gave hers back. She has not stopped reading since."
     },
     {
@@ -32395,29 +32406,32 @@
       "unit": {
         "name": "Candle Sergeant",
         "attack": 10,
-        "maxHp": 52,
+        "maxHp": 50,
         "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 34,
-        "attackRange": 120,
-        "attackCooldownMs": 1500,
+        "bypassWall": true,
+        "moveSpeed": 32,
+        "attackRange": 110,
+        "attackCooldownMs": 1450,
         "flying": false,
         "tags": [
           "ranged",
           "magic"
         ],
         "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "heroAbility": {
+          "lastLight": {
+            "range": 120,
+            "healAmount": 12,
+            "attackBonus": 6,
+            "durationMs": 6000
+          }
         }
       },
       "heroEffect": {
-        "type": "buffMaxHp",
-        "amount": 8
+        "type": "buffHeal",
+        "amount": 6
       },
-      "description": "HERO: Deploys the Candle Sergeant — a lamplighter company officer who broke ranks rather than snuff a district on Court orders. All units gain +8 max HP.",
+      "description": "HERO: Deploys the Candle Sergeant. LAST LIGHT: when an ally falls within 120 of her, every surviving unit in range is healed 12 and swings 6 harder for 6s. Heals all friendly units by 6.",
       "lore": "She held the vigil-flame at Threadneedle Row when the writ came down to let it gutter. She refused, and the company did not report her — not one of them. She marches with Jarv now, still carrying the same candle."
     },
     {
@@ -32430,29 +32444,32 @@
       "unit": {
         "name": "Tide Warden",
         "attack": 10,
-        "maxHp": 52,
+        "maxHp": 48,
         "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 32,
+        "bypassWall": true,
+        "moveSpeed": 34,
         "attackRange": 120,
         "attackCooldownMs": 1500,
         "flying": false,
         "tags": [
           "ranged",
-          "magic"
+          "magic",
+          "swim"
         ],
         "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "heroAbility": {
+          "undertow": {
+            "cooldownMs": 6000,
+            "range": 150,
+            "pullPx": 45
+          }
         }
       },
       "heroEffect": {
-        "type": "buffSpeed",
-        "amount": 14
+        "type": "buffAttackCooldown",
+        "amount": -350
       },
-      "description": "HERO: Deploys the Tide Warden — a company guide who reads the misaligned tide better than the Court's own maps. All units move faster.",
+      "description": "HERO: Deploys the Tide Warden. UNDERTOW: every 6s the misaligned tide drags every enemy within 150 back toward the base they came from. All units attack faster.",
       "lore": "She crossed the causeway before the Court finished deciding it existed. She has been one step ahead of the tide ever since, and one step ahead of Jarv now."
     },
     {
@@ -32464,30 +32481,32 @@
       "isHero": true,
       "unit": {
         "name": "Marsh Pathfinder",
-        "attack": 9,
-        "maxHp": 56,
+        "attack": 10,
+        "maxHp": 48,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 40,
+        "moveSpeed": 44,
         "attackRange": 5,
-        "attackCooldownMs": 1300,
+        "attackCooldownMs": 1200,
         "flying": false,
         "tags": [
           "melee",
           "fast"
         ],
         "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "heroAbility": {
+          "mirrorStep": {
+            "cooldownMs": 8000,
+            "decoyHpPct": 50,
+            "durationMs": 5000
+          }
         }
       },
       "heroEffect": {
-        "type": "buffMaxHp",
-        "amount": 10
+        "type": "buffHp",
+        "amount": 12
       },
-      "description": "HERO: Deploys the Marsh Pathfinder — a guide who has crossed the Mirror Marsh so many times the reflection stopped bothering to mislead her. All units gain +10 max HP.",
+      "description": "HERO: Deploys the Marsh Pathfinder. MIRROR STEP: every 8s the marsh answers with a reflection of her that enemies attack instead, until it fades 5s later. All units gain +12 HP.",
       "lore": "She reads the marsh by what the water refuses to show back. She has never once led anyone into a reflection instead of a path."
     },
     {
@@ -32500,29 +32519,30 @@
       "unit": {
         "name": "Masked Duelist",
         "attack": 11,
-        "maxHp": 46,
+        "maxHp": 44,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 44,
+        "moveSpeed": 46,
         "attackRange": 5,
-        "attackCooldownMs": 1050,
+        "attackCooldownMs": 1000,
         "flying": false,
         "tags": [
           "melee",
           "fast"
         ],
         "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "heroAbility": {
+          "duel": {
+            "bonusDamagePct": 60
+          }
         }
       },
       "heroEffect": {
-        "type": "buffAttackCooldown",
-        "amount": -300
+        "type": "aoe",
+        "damage": 12,
+        "range": 140
       },
-      "description": "HERO: Deploys the Masked Duelist — a courtier who traded the Court's ceremony for a blade the moment the mask came off. All units attack faster.",
+      "description": "HERO: Deploys the Masked Duelist. DUEL: she always challenges the hardest hitter in reach, and deals +60% damage to anything that hits harder than she does. Her unmasking blasts nearby enemies for 12.",
       "lore": "She unmasked herself in front of the whole Court and dared them to still recognize her. Nobody did. She has been faster than the ceremony ever since."
     },
     {
@@ -32534,30 +32554,35 @@
       "isHero": true,
       "unit": {
         "name": "Winter Warden",
-        "attack": 9,
+        "attack": 10,
         "maxHp": 54,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 32,
+        "moveSpeed": 30,
         "attackRange": 5,
-        "attackCooldownMs": 1300,
+        "attackCooldownMs": 1350,
         "flying": false,
         "tags": [
           "melee",
-          "armored"
+          "armored",
+          "slow"
         ],
         "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "heroAbility": {
+          "coldSnap": {
+            "cooldownMs": 7000,
+            "range": 140,
+            "slowFactor": 0.5,
+            "attackSlowPct": 40,
+            "durationMs": 4000
+          }
         }
       },
       "heroEffect": {
-        "type": "buffHeal",
-        "amount": 5
+        "type": "healUnits",
+        "amount": 12
       },
-      "description": "HERO: Deploys the Winter Warden — a keeper who outlasted three centuries of stored cold without losing anyone under her watch. Heals all friendly units by 5.",
+      "description": "HERO: Deploys the Winter Warden. COLD SNAP: every 7s she lets three centuries of stored winter out — enemies within 140 move at half speed and attack 40% slower for 4s. Heals all friendly units by 12.",
       "lore": "She warded the winter in storage for three hundred years and never once let it take someone she was watching. She watches Jarv's line now the same way."
     },
     {
@@ -32570,29 +32595,30 @@
       "unit": {
         "name": "Grove Sentinel",
         "attack": 12,
-        "maxHp": 50,
+        "maxHp": 58,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 30,
+        "moveSpeed": 26,
         "attackRange": 5,
-        "attackCooldownMs": 1150,
+        "attackCooldownMs": 1200,
         "flying": false,
         "tags": [
           "melee",
           "armored"
         ],
-        "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "size": "large",
+        "heroAbility": {
+          "deeproot": {
+            "hpPerSec": 6,
+            "calmMs": 3000
+          }
         }
       },
       "heroEffect": {
-        "type": "buffAttack",
-        "amount": 4
+        "type": "buffMaxHp",
+        "amount": 16
       },
-      "description": "HERO: Deploys the Grove Sentinel — a tender who has stood watch over the bone orchards for three centuries and never once let a grave go undefended. All units gain +4 attack.",
+      "description": "HERO: Deploys the Grove Sentinel. DEEPROOT: 3s without taking a hit and she regrows 6 HP a second — and nothing can slow her, drag her or knock her back. All units gain +16 max HP.",
       "lore": "She has buried more names than she can count and defended every one of them since. She counts Jarv's line among the graves worth guarding now."
     },
     {
@@ -32608,26 +32634,27 @@
         "maxHp": 48,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 38,
+        "moveSpeed": 40,
         "attackRange": 5,
-        "attackCooldownMs": 1200,
+        "attackCooldownMs": 1250,
         "flying": false,
         "tags": [
           "melee",
           "fast"
         ],
         "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "heroAbility": {
+          "forcedMarch": {
+            "advancePx": 60,
+            "speedBonus": 10
+          }
         }
       },
       "heroEffect": {
-        "type": "buffRange",
-        "amount": 18
+        "type": "buffSpeed",
+        "amount": 14
       },
-      "description": "HERO: Deploys the Road Captain — an officer who has marched the vigil roads longer than any procession still keeping count. All ranged units gain +18 range.",
+      "description": "HERO: Deploys the Road Captain. FORCED MARCH: while he lives, every unit you deploy arrives 60 further up the field and 10 faster. All units gain +14 speed.",
       "lore": "He has walked every mile of every road three centuries running, and never once needed to be told which way the rite goes. He walks Jarv's road now the same way."
     },
     {
@@ -32639,30 +32666,32 @@
       "isHero": true,
       "unit": {
         "name": "Reach Breaker",
-        "attack": 13,
-        "maxHp": 44,
+        "attack": 14,
+        "maxHp": 50,
         "isWall": false,
         "bypassWall": false,
-        "moveSpeed": 34,
+        "moveSpeed": 32,
         "attackRange": 5,
-        "attackCooldownMs": 1250,
+        "attackCooldownMs": 1300,
         "flying": false,
         "tags": [
           "melee",
-          "armored"
+          "armored",
+          "siege"
         ],
-        "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "size": "large",
+        "heroAbility": {
+          "breach": {
+            "knockbackPx": 30,
+            "structureDamageMult": 2.5
+          }
         }
       },
       "heroEffect": {
         "type": "buffAttack",
         "amount": 5
       },
-      "description": "HERO: Deploys the Reach Breaker — a line-breaker who found the one gap in the Court's last fortified reach. All units gain +5 attack.",
+      "description": "HERO: Deploys the Reach Breaker. BREACH: her hits knock the target 30 backwards, and walls and buildings take 2.5x damage from her. All units gain +5 attack.",
       "lore": "She broke a line the Marshal swore couldn't be broken, and the reach has never once closed the gap she made. She breaks lines for Jarv now the same way."
     },
     {
@@ -32675,7 +32704,7 @@
       "unit": {
         "name": "Vigil Knight",
         "attack": 11,
-        "maxHp": 55,
+        "maxHp": 56,
         "isWall": false,
         "bypassWall": false,
         "moveSpeed": 32,
@@ -32687,17 +32716,18 @@
           "armored"
         ],
         "size": "medium",
-        "unitTrait": {
-          "guardBase": true,
-          "baseGuardRange": 90,
-          "engageRange": 185
+        "heroAbility": {
+          "vigil": {
+            "range": 130,
+            "charges": 3
+          }
         }
       },
       "heroEffect": {
-        "type": "buffMaxHp",
-        "amount": 15
+        "type": "buffHp",
+        "amount": 18
       },
-      "description": "HERO: Deploys the Vigil Knight — a knight who has kept watch over the City of Vigils for three centuries and never once let a candle go dark. All units gain +15 max HP.",
+      "description": "HERO: Deploys the Vigil Knight. UNBROKEN VIGIL: three times per battle a lethal blow on an ally within 130 of him is refused — that unit is left standing on 1 HP instead. All units gain +18 HP.",
       "lore": "He has stood the same watch since before the Fracture, and outlasted every reason the Court gave him for standing it. He stands watch for Jarv now the same way."
     }
   ]
