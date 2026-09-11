@@ -1,23 +1,34 @@
-/* rows.css — the row/tile/group vocabulary shared across list-style content:
-   ListRow, ItemTile/ItemGrid, GroupHeading, FilterChips, EntityChip,
-   ActionCard, CollapsibleGroup (web/src/components/ui/rows/).
+/* rows.css — the row/tile/group vocabulary promoted into
+   web/src/components/ui/rows/ (#2320) so any screen can reuse it, not just
+   the two screens it happened to be invented for:
 
-   Promoted out of satchel.css (#2320) — these were satchel-only until now,
-   with `.satchel-row`/`.satchel-tile`/etc. class names and a `--satchel-*`
-   custom-property palette that implied "satchel" even though the components
-   themselves carry no satchel-specific logic. Renamed here so any screen can
-   reuse them without importing something that says "satchel" in its name.
+   - ListRow, ItemTile/ItemGrid, GroupHeading, FilterChips, EntityChip,
+     ActionCard, CollapsibleGroup — the satchel sheet's list vocabulary.
+     Had `.satchel-row`/`.satchel-tile`/etc. class names and a `--satchel-*`
+     custom-property palette that implied "satchel" even though the
+     components themselves carry no satchel-specific logic.
+   - SettingsRow, SettingsToggle, SettingsSlider — the settings screen's
+     form-row vocabulary (label/sublabel + a right-hand control). Had
+     `.settings-*` names for the same reason.
 
-   Retinting: every color below reads from `--row-*`, which an ancestor
-   defines — the same pattern `CloseButton`'s `--close-btn-color` and
-   `EmptyState`'s `--empty-state-color` use, just as a small palette instead
-   of one property. `.satchel-sheet` and `.chef-cook` in satchel.css/hub.css
-   are the only definitions today (the hub's warm green ramp) — the same two
-   places `--satchel-*` was scoped to before this rename. There is
-   deliberately no CRT-green default here yet: this issue (#2320) is a move,
-   not an adoption pass. The first screen that wants these primitives outside
-   a satchel/chef-cook ancestor should define `--row-*` on its own root, the
-   same way satchel.css does, rather than relying on an implicit fallback. */
+   Renamed here so a screen can import either family without importing
+   something that says "satchel" or "settings" in its name.
+
+   Retinting differs between the two families:
+   - The satchel family reads colour from `--row-*`, which an ancestor
+     defines — the same pattern `CloseButton`'s `--close-btn-color` and
+     `EmptyState`'s `--empty-state-color` use, just as a small palette
+     instead of one property. `.satchel-sheet` and `.chef-cook` in
+     satchel.css/hub.css are the only definitions today (the hub's warm
+     green ramp) — the same two places `--satchel-*` was scoped to before
+     this rename. There is deliberately no CRT-green default here yet: this
+     issue is a move, not an adoption pass. The first screen that wants
+     these primitives outside a satchel/chef-cook ancestor should define
+     `--row-*` on its own root, the same way satchel.css does, rather than
+     relying on an implicit fallback.
+   - The form-row family reads global tokens (`--game-text-color` etc.)
+     directly, same as before the move — it was never satchel-scoped, so
+     there is no palette to rename, only class names. */
 
 /* ── Group headings ─────────────────────────────────────────────────────── */
 
@@ -273,3 +284,137 @@ button.item-tile:active { transform: scale(0.96); }
   padding: 4px 11px 8px;
 }
 .collapsible-group__body .list-row:last-child { border-bottom: none; }
+
+/* ── Form rows (label / sublabel / control) ─────────────────────────────── */
+
+/* `.settings-row`/`.settings-label`/`.settings-sublabel` are kept as extra
+   selectors, not migrated away — a dozen admin screens (GiftAdminScreen,
+   DevMenu, TerrainEditorPanel, TownAccessAdminScreen, SceneryAdminScreen,
+   CampaignAdminScreen, NewsAdminScreen) plus a few player-facing ones
+   (FeedbackModal, DeleteAccountModal, GameTab's reset-confirm copy) reuse
+   this exact look by writing the class name directly, never through the
+   SettingsRow/SettingsToggle components this promotion moved. Renaming
+   `.form-row` without them would silently unstyle every one of those. The
+   admin screens are explicitly out of scope for a design pass (they're
+   gated out of store builds — see docs/screen-audit.md); the player-facing
+   handful are small enough to fold in whenever they're next touched. Until
+   then this is the one legacy exception in an otherwise fully-renamed file. */
+.form-row,
+.settings-row {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--game-bg-raised);
+}
+
+.form-row:last-child,
+.settings-row:last-child { border-bottom: none; }
+
+/* Control under the text rather than beside it, for rows whose control is a
+   button group too wide to share a line (the cloud-save conflict prompt). */
+.form-row--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-4);
+}
+
+.form-row__text { flex: 1; min-width: 0; }
+
+.form-row__label,
+.settings-label {
+  font-size: var(--font-md);
+  color: var(--game-text-color-dim);
+  flex: 1;
+}
+
+/* Cloud-save-conflict prompt — the one label that isn't neutral. */
+.form-row__label--warn { color: var(--color-orange); }
+
+.form-row__sublabel,
+.settings-sublabel {
+  font-size: var(--font-xs);
+  color: var(--color-gray-9);
+  margin-top: 2px;
+}
+
+/* ── Form toggle ─────────────────────────────────────────────────────────── */
+
+/* Same legacy exception as the form row above — TownAccessAdminScreen builds
+   its own toggle from these raw class names rather than <SettingsToggle>. */
+.form-toggle__track,
+.settings-toggle-track {
+  width: 36px;
+  height: 18px;
+  border-radius: 9px;
+  border: 1px solid var(--color-gray-5);
+  background: var(--game-bg-card);
+  position: relative;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+/* Press feedback (#2185) — the switch had no reaction at all to being
+   pressed until the toggle finished flipping. */
+.form-toggle:active .form-toggle__track,
+.settings-toggle:active .settings-toggle-track {
+  transform: scale(0.92);
+}
+
+.form-toggle__track--on,
+.settings-toggle-track--on {
+  background: rgba(51,255,51,0.2);
+  border-color: var(--game-text-color);
+}
+
+.form-toggle__thumb,
+.settings-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-gray-6);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.form-toggle__track--on .form-toggle__thumb,
+.settings-toggle-track--on .settings-toggle-thumb {
+  transform: translateX(18px);
+  background: var(--game-text-color);
+}
+
+/* ── Form slider ─────────────────────────────────────────────────────────── */
+
+.form-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--game-border);
+  cursor: pointer;
+}
+.form-slider:focus:not(:focus-visible) { outline: none; }
+
+.form-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--game-text-color);
+  cursor: pointer;
+}
+
+.form-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--game-text-color);
+  border: none;
+  cursor: pointer;
+}
+
+.form-slider__value {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  min-width: 28px;
+  text-align: right;
+}

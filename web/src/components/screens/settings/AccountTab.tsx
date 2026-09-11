@@ -6,7 +6,7 @@ import { Button } from '../../ui/Button'
 import { LoginModal } from '../../modals/LoginModal'
 import { DeleteAccountModal } from '../../modals/DeleteAccountModal'
 import { deleteAccount } from '../../../game/deleteAccount'
-import { SettingsRow } from './SettingsRow'
+import { SettingsRow } from '../../ui/rows/SettingsRow'
 import { SettingsMessage, type SettingsStatus } from './SettingsMessage'
 
 interface Props {
@@ -109,7 +109,7 @@ export function AccountTab({ user, authLoading }: Props) {
             <SettingsRow
               stacked
               label={
-                <span className="settings-label--warn">
+                <span className="form-row__label--warn">
                   Cloud save found ({pendingCloudSave.savedAt.toDate().toLocaleString()})
                 </span>
               }

@@ -23,7 +23,7 @@ export function SettingsToggle({ checked, onChange, label, disabled = false }: P
 
   return (
     <div
-      className={`settings-toggle u-flex u-items-c u-gap-3 u-no-select${disabled ? '' : ' u-pointer'}`}
+      className={`form-toggle u-flex u-items-c u-gap-3 u-no-select${disabled ? '' : ' u-pointer'}`}
       onClick={() => { if (!disabled) onChange() }}
       onKeyDown={handleKeyDown}
       role="switch"
@@ -32,8 +32,8 @@ export function SettingsToggle({ checked, onChange, label, disabled = false }: P
       aria-disabled={disabled || undefined}
       tabIndex={disabled ? -1 : 0}
     >
-      <div className={`settings-toggle-track${checked ? ' settings-toggle-track--on' : ''}`}>
-        <div className="settings-toggle-thumb" />
+      <div className={`form-toggle__track${checked ? ' form-toggle__track--on' : ''}`}>
+        <div className="form-toggle__thumb" />
       </div>
     </div>
   )

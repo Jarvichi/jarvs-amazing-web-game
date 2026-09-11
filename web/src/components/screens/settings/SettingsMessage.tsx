@@ -19,7 +19,7 @@ interface Props {
  */
 export function SettingsMessage({ status }: Props) {
   return (
-    <div className={`settings-row settings-message settings-message--${status.kind}`} role="status">
+    <div className={`form-row settings-message settings-message--${status.kind}`} role="status">
       {status.text}
     </div>
   )

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { SettingsRow } from './SettingsRow';
 import { SettingsToggle } from './SettingsToggle';
-import { Button } from '../../ui/Button';
+import { Button } from '../Button';
 
 const meta = {
   component: SettingsRow,

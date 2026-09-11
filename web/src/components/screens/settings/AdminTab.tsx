@@ -8,7 +8,7 @@ import { unlockHubWorld } from '../../../game/codex'
 import { DevMenu } from '../../admin/DevMenu'
 import { Button } from '../../ui/Button'
 import { Panel } from '../../ui/Panel'
-import { SettingsRow } from './SettingsRow'
+import { SettingsRow } from '../../ui/rows/SettingsRow'
 import { SettingsMessage, type SettingsStatus } from './SettingsMessage'
 import { exportLocalStorage, isDebugMode } from './settingsStorage'
 

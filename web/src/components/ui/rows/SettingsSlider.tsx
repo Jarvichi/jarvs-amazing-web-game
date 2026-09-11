@@ -21,7 +21,7 @@ export function SettingsSlider({
     <div className="u-flex u-items-c u-gap-4">
       <input
         type="range"
-        className="settings-slider"
+        className="form-slider"
         min={min}
         max={max}
         step={step}
@@ -30,7 +30,7 @@ export function SettingsSlider({
         onChange={e => onChange(Number(e.target.value))}
         aria-label={label}
       />
-      <span className="settings-value">{readout}</span>
+      <span className="form-slider__value">{readout}</span>
     </div>
   )
 }
