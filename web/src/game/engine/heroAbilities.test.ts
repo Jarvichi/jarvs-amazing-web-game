@@ -14,7 +14,8 @@ import { findAttackTarget } from './targeting'
 import { deployCard } from './cards'
 import {
   tickHeroAbilities, heroOutgoingDamage, heroIncomingDamage, afterHeroHit,
-  onHeroKill, applyForcedMarch, hasSafePassage, chillMoveFactor, chillAttackFactor,
+  onHeroKill, applyForcedMarch, hasSafePassage, safePassageGuides,
+  chillMoveFactor, chillAttackFactor,
 } from './heroAbilities'
 import { GameState, HeroAbilities, Unit, UnitTemplate } from '../types'
 
@@ -102,9 +103,28 @@ describe('Safe Passage', () => {
     const far  = put(s, 'player', {}, { x: 350 })
     const enemy = put(s, 'opponent', {}, { x: 150 })
 
-    expect(hasSafePassage(s.field, near)).toBe(true)
-    expect(hasSafePassage(s.field, far)).toBe(false)
-    expect(hasSafePassage(s.field, enemy)).toBe(false)
+    const guides = safePassageGuides(s.field)
+    expect(hasSafePassage(guides, near)).toBe(true)
+    expect(hasSafePassage(guides, far)).toBe(false)
+    expect(hasSafePassage(guides, enemy)).toBe(false)
+  })
+
+  it('finds no guides at all in a battle without one, so the per-unit check is skipped', () => {
+    const s = emptyBattle()
+    put(s, 'player', {}, { x: 150 })
+    put(s, 'opponent', {}, { x: 300 })
+
+    expect(safePassageGuides(s.field)).toHaveLength(0)
+  })
+
+  it('does not count a dead guide or a reflection of one', () => {
+    const s = emptyBattle()
+    const dead = put(s, 'player', { heroAbility: passage }, { x: 100 })
+    dead.hp = 0
+    const reflection = put(s, 'player', { heroAbility: passage }, { x: 110 })
+    reflection.isDecoy = true
+
+    expect(safePassageGuides(s.field)).toHaveLength(0)
   })
 
   it('marches a covered ally faster than an uncovered one', () => {

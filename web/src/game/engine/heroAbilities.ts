@@ -53,28 +53,46 @@ function wardensOf<K extends keyof NonNullable<UnitTemplate['heroAbility']>>(
 
 // ─── Continuous: Safe Passage (Causeway Guide) ────────────
 
+const NO_GUIDES: readonly Unit[] = []
+
+/**
+ * The Safe Passage guides on the field right now.
+ *
+ * Hoist this ONCE per tick and hand the result to `hasSafePassage` /
+ * `safePassageSpeedBonus`, rather than letting each of them rescan the field
+ * per unit — that is O(n²) every tick to answer "no" in the overwhelmingly
+ * common case where no Causeway Guide has been played at all. The battlefield
+ * render budget (`Battlefield.stories.tsx` → Performance Profile) is measured
+ * around the real engine tick, so this is not a hypothetical cost.
+ */
+export function safePassageGuides(field: Unit[]): readonly Unit[] {
+  let guides: Unit[] | null = null
+  for (const u of field) {
+    if (u.hp > 0 && !u.isDecoy && u.heroAbility?.safePassage !== undefined) (guides ??= []).push(u)
+  }
+  return guides ?? NO_GUIDES
+}
+
 /**
  * True when `unit` is walking in the lee of a Safe Passage guide — the Causeway
  * Guide's allies ignore slow zones, moat drag and gas clouds entirely. Read by
  * `engine/units.ts` at the point it applies each of those.
  */
-export function hasSafePassage(field: Unit[], unit: Unit): boolean {
-  for (const guide of field) {
-    if (guide.owner !== unit.owner || guide.hp <= 0 || guide.isDecoy) continue
-    const passage = guide.heroAbility?.safePassage
-    if (!passage) continue
+export function hasSafePassage(guides: readonly Unit[], unit: Unit): boolean {
+  for (const guide of guides) {
+    if (guide.owner !== unit.owner) continue
+    const passage = guide.heroAbility!.safePassage!
     if (Math.hypot(guide.x - unit.x, guide.y - unit.y) <= passage.range) return true
   }
   return false
 }
 
 /** Move-speed bonus granted by a nearby Safe Passage guide (0 when none is in range). */
-export function safePassageSpeedBonus(field: Unit[], unit: Unit): number {
+export function safePassageSpeedBonus(guides: readonly Unit[], unit: Unit): number {
   let bonus = 0
-  for (const guide of field) {
-    if (guide.owner !== unit.owner || guide.hp <= 0 || guide.isDecoy) continue
-    const passage = guide.heroAbility?.safePassage
-    if (!passage) continue
+  for (const guide of guides) {
+    if (guide.owner !== unit.owner) continue
+    const passage = guide.heroAbility!.safePassage!
     if (Math.hypot(guide.x - unit.x, guide.y - unit.y) <= passage.range) {
       bonus = Math.max(bonus, passage.speedBonus)
     }
@@ -261,18 +279,21 @@ function applyVigilSaves(s: GameState, log: string[]): void {
  * Runs after the vigil saves so a rescued ally is not counted as a casualty.
  */
 function applyLastLight(s: GameState, log: string[]): void {
-  const fallen = s.field.filter(u =>
-    u.hp <= 0 && !u.deathNotified && !u.isDecoy && u.moveSpeed > 0 && !u.isWall,
-  )
-  if (fallen.length === 0) return
+  // Runs every tick, and almost every tick nobody has died — check before allocating.
+  let fallen: Unit[] | null = null
+  for (const u of s.field) {
+    if (u.hp <= 0 && !u.deathNotified && !u.isDecoy && u.moveSpeed > 0 && !u.isWall) (fallen ??= []).push(u)
+  }
+  if (!fallen) return
   for (const body of fallen) body.deathNotified = true
+  const dead = fallen
 
   for (const sergeant of s.field) {
     if (sergeant.hp <= 0 || sergeant.isDecoy) continue
     const lastLight = sergeant.heroAbility?.lastLight
     if (!lastLight) continue
 
-    const mourned = fallen.some(body =>
+    const mourned = dead.some(body =>
       body.owner === sergeant.owner &&
       Math.hypot(sergeant.x - body.x, sergeant.y - body.y) <= lastLight.range,
     )
@@ -324,8 +345,11 @@ function applyDeeproot(s: GameState, deltaMs: number): void {
 
 /** Drive the one periodic ability each hero may carry off the shared timer. */
 function firePeriodicAbilities(s: GameState, deltaMs: number, log: string[]): void {
-  // Snapshot: Mirror Step appends to s.field, and a decoy must not itself act this tick.
-  for (const unit of [...s.field]) {
+  // Mirror Step appends to s.field mid-loop and a decoy must not act on the tick it
+  // is born, so walk the original length by index rather than copying the field.
+  const count = s.field.length
+  for (let i = 0; i < count; i++) {
+    const unit = s.field[i]
     if (unit.hp <= 0 || unit.isDecoy) continue
     const ability = unit.heroAbility
     if (!ability) continue

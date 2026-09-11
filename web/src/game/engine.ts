@@ -19,7 +19,7 @@ import { generatePassableTerrain } from './engine/terrainGrid'
 import type { RoadDef, TerrainObstacle, BattlefieldDecorItem, TerrainPathDef } from './engine/terrain'
 import { processEndlessModeAdditions, triggerNextEndlessWave, spawnEndlessCommander } from './engine/endlessMode'
 import { handleSuddentDeath } from './engine/suddenDeath'
-import { tickHeroAbilities, hasSafePassage } from './engine/heroAbilities'
+import { tickHeroAbilities, hasSafePassage, safePassageGuides } from './engine/heroAbilities'
 
 
 
@@ -740,6 +740,8 @@ function validInterval(intervalMs: number | undefined, unitName: string): number
 function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
   // Combat has already resolved this tick, so the live-wall set is stable for the climbing check below.
   const walls = s.field.filter(w => w.isWall && w.hp > 0)
+  // Hoisted once: per-unit rescans of the field would make this O(n²) every tick.
+  const guides = safePassageGuides(s.field)
   for (const unit of s.field) {
     // Tick down simple animation/status countdowns
     unit.spawnGrowTimer   = tickDown(unit.spawnGrowTimer, deltaMs)
@@ -774,7 +776,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
     }
     // Ground hazard damage (gas clouds, etc.) — a unit walking with the Causeway
     // Guide is led clear of them entirely.
-    const shielded = hasSafePassage(s.field, unit)
+    const shielded = guides.length > 0 && hasSafePassage(guides, unit)
     for (const hazard of s.hazards) {
       if (hazard.owner === unit.owner || unit.hp <= 0 || shielded) continue
       if (Math.hypot(unit.x - hazard.x, unit.y - hazard.y) <= hazard.radius) {
