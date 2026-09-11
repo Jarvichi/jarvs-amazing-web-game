@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { RareEventEffect } from './types'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onDone: (effect: RareEventEffect) => void
@@ -51,7 +52,7 @@ export function DevBuildEvent({ onDone }: Props) {
   return (
     <div className="dev-build-overlay u-absolute u-col u-items-c u-just-c">
       <div className="dev-build-header">
-        ⚠ INTERNAL BUILD — NOT FOR DISTRIBUTION
+        <Icon name="warning" size={14} /> INTERNAL BUILD — NOT FOR DISTRIBUTION
       </div>
       <div className="dev-build-log">
         {visibleLines.map((line, i) => (

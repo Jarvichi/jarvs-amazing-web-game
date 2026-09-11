@@ -16,7 +16,7 @@ export const ICON_NAMES = [
   'settings', 'trophy', 'minigames', 'sword', 'infinity', 'hub', 'crystal',
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
   'search', 'calendar', 'shield', 'bolt', 'pause', 'volume', 'display',
-  'database', 'star', 'satchel', 'scroll', 'town',
+  'database', 'star', 'satchel', 'scroll', 'town', 'warning',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -207,6 +207,15 @@ export function IconSprite() {
           <path d="M13 21v-8.5l4.5-3.5 4.5 3.5V21z" />
           <rect x="5" y="16.5" width="3" height="4.5" fill="var(--game-bg, #0a0a0a)" />
           <rect x="16" y="16.5" width="3" height="4.5" fill="var(--game-bg, #0a0a0a)" />
+        </symbol>
+
+        {/* Same exclamation-mark construction as icon-info (stem + dot cut
+            from the fill) but on a triangle rather than a circle, so the two
+            read as a matched pair — "for your information" vs. "heads up". */}
+        <symbol id="icon-warning" viewBox="0 0 24 24">
+          <path d="M12 2 22.5 21H1.5z" />
+          <rect x="10.8" y="8.5" width="2.4" height="6.3" rx="1" fill="var(--game-bg, #0a0a0a)" />
+          <circle cx="12" cy="17.7" r="1.4" fill="var(--game-bg, #0a0a0a)" />
         </symbol>
       </defs>
     </svg>

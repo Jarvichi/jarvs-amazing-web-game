@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from '../../ui/icons/Icon'
 
 // ─── Flow status bar ──────────────────────────────────────────────────────────
 // How close the network is. Conduits-carrying rather than basins-fed: on a
@@ -31,7 +32,7 @@ export function FlowStatusBar({ fed, total, leaks, solved }: Props) {
         <span aria-hidden="true">💧</span> Conduits {fed}/{total}
       </span>
       <span className={`flow-status-item${leaks > 0 ? ' flow-status-item--warn' : ''}`}>
-        <span aria-hidden="true">{leaks > 0 ? '⚠' : '✓'}</span>{' '}
+        <span aria-hidden="true">{leaks > 0 ? <Icon name="warning" size={12} /> : '✓'}</span>{' '}
         {leaks > 0 ? `${leaks} leaking` : 'Sealed'}
       </span>
     </div>

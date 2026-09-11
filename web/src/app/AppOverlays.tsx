@@ -139,7 +139,7 @@ export function AppOverlays() {
       {/* Integrity warning */}
       {integrityWarning && (
         <div className="integrity-warning" role="alert">
-          <span>⚠ Inventory data was modified externally. Play nice!</span>
+          <span><Icon name="warning" size={14} /> Inventory data was modified externally. Play nice!</span>
           <button className="integrity-warning-dismiss" onClick={() => setIntegrityWarning(false)}>✕</button>
         </div>
       )}

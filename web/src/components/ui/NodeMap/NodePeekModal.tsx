@@ -161,7 +161,7 @@ export function NodePeekModal({
                 <div className="nm-peek-modifiers-label">— REPLAY MODIFIERS —</div>
                 {collapseModifiers(activeModifiers).map((m, i) => (
                   <div key={i} className="nm-peek-modifier-row u-flex u-items-c u-gap-3">
-                    <span className="nm-peek-modifier-icon">⚠</span>
+                    <span className="nm-peek-modifier-icon"><Icon name="warning" size={13} /></span>
                     <span className="nm-peek-modifier-text">{m.label}</span>
                   </div>
                 ))}

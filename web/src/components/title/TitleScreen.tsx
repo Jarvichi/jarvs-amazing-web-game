@@ -206,7 +206,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
   const quickBattleLabel = valid
     ? <><Icon name="sword" size={16} /> QUICK BATTLE</>
-    : `⚠ DECK (${count}/10)`
+    : <><Icon name="warning" size={15} /> DECK ({count}/10)</>
   const quickBattleHint = valid ? undefined : `Deck needs ${10 - count} more cards`
 
   return (

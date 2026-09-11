@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   relicName:   string
@@ -55,7 +56,7 @@ export function RelicSpinScreen({
       {phase === 'revealed' && (
         <>
           <div className={`rss-verdict ${breaks ? 'rss-verdict--break' : 'rss-verdict--survive'}`}>
-            {breaks ? '⚠ RELIC SHATTERS' : '✓ RELIC SURVIVES'}
+            {breaks ? <><Icon name="warning" size={15} /> RELIC SHATTERS</> : '✓ RELIC SURVIVES'}
           </div>
 
           <div className="rss-flavour">

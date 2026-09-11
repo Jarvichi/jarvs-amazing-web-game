@@ -45,6 +45,7 @@ import { FilterOption } from '../ui/filters/FilterOption'
 import { FilterPill } from '../ui/filters/FilterPill'
 import { EmptyState } from '../ui/EmptyState'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 import { DeckPowerBadge } from './DeckPowerBadge'
 
 const DECK_TUTORIAL_ID = 'deckbuilder'
@@ -497,7 +498,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
           <DeckPowerBadge power={deckPower} />
           {showManaWarning && (
             <span className="deckbuilder-mana-warn" title={`Deck has ${maxDeckCost}-cost cards but no mana structure`}>
-              ⚠ no mana building
+              <Icon name="warning" size={11} /> no mana building
             </span>
           )}
         </div>

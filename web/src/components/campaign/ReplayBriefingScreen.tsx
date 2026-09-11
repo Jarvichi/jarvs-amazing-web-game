@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Act, ReplayModifier } from '../../game/questline'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 interface TierOption {
   label: string
@@ -30,13 +31,13 @@ interface Props {
   onBack: () => void
 }
 
-function modifierIcon(type: ReplayModifier['type']): string {
+function modifierIcon(type: ReplayModifier['type']): React.ReactNode {
   switch (type) {
-    case 'enemyHpPercent':         return '🛡'
-    case 'enemyIntervalReduction': return '⚡'
+    case 'enemyHpPercent':         return <Icon name="shield" size={13} />
+    case 'enemyIntervalReduction': return <Icon name="bolt" size={13} />
     case 'enemyHandBonus':         return '🃏'
     case 'crystalBonus':           return '◆'
-    default:                       return '⚠'
+    default:                       return <Icon name="warning" size={13} />
   }
 }
 

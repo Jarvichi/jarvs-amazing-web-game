@@ -4,6 +4,7 @@ import {
   fireExtinguishCost, plagueCureCost, getCellTrait, getRowDistrict, CITY_COLS,
 } from '../../../game/cityBuilder'
 import { Button } from '../../ui/Button'
+import { Icon } from '../../ui/icons/Icon'
 
 interface Props {
   city:         CityState
@@ -84,7 +85,7 @@ export function DisasterModal({ city, disaster, onExtinguish, onCure, onClose }:
               )}
               {isIndustrialFire && (
                 <div className="city-disaster-context city-disaster-context--warning">
-                  ⚠ Industrial zone — fire is spreading faster than normal!
+                  <Icon name="warning" size={13} /> Industrial zone — fire is spreading faster than normal!
                 </div>
               )}
               {braveInFire > 0 && (
