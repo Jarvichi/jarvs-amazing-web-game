@@ -69,7 +69,7 @@ export function DailyLoginModal({ reward, onClose }: Props) {
           )}
           {reward.type === 'card' && cardObj && (
             <>
-              <div className="daily-modal-icon">🃏</div>
+              <div className="daily-modal-icon"><Icon name="card" size={40} /></div>
               <div className="daily-modal-value">New Card!</div>
               <div className="daily-modal-card-wrap">
                 <CardTile card={cardObj} canAfford={true} />

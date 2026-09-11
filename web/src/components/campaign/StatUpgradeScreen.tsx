@@ -29,7 +29,7 @@ const OPTIONS: UpgradeOption[] = [
   },
   {
     stat: 'maxDeckSize',
-    icon: '🃏',
+    icon: <Icon name="card" size={26} />,
     name: 'Deck Capacity',
     desc: 'Carry one additional card in your campaign deck.',
   },

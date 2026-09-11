@@ -1,5 +1,6 @@
 import React from 'react'
 import { Panel } from '../../ui/Panel'
+import { Icon } from '../../ui/icons/Icon'
 import { formatWeight, tierAccent, type Catch } from '../Fishing.data'
 
 // ─── Catch card ───────────────────────────────────────────────────────────────
@@ -31,7 +32,7 @@ function Stars({ count }: { count: number }) {
 export function CatchCard({ result, tierIndex = 0, stars = 1, reward }: Props) {
   const special = result.kind !== 'fish'
   const accent = special ? '#ffcc00' : tierAccent(tierIndex)
-  const icon = result.kind === 'fish' ? result.tierIcon : result.kind === 'item' ? result.icon : '🃏'
+  const icon = result.kind === 'fish' ? result.tierIcon : result.kind === 'item' ? result.icon : <Icon name="card" size={38} />
   const ribbon = result.kind === 'fish' ? result.tier
     : result.kind === 'item' ? 'SPECIAL FIND' : 'RARE CARD'
 

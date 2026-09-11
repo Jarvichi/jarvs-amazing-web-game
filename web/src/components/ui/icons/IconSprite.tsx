@@ -16,7 +16,7 @@ export const ICON_NAMES = [
   'settings', 'trophy', 'minigames', 'sword', 'infinity', 'hub', 'crystal',
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
   'search', 'calendar', 'shield', 'bolt', 'pause', 'volume', 'display',
-  'database', 'star', 'satchel', 'scroll', 'town', 'warning',
+  'database', 'star', 'satchel', 'scroll', 'town', 'warning', 'card',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -216,6 +216,13 @@ export function IconSprite() {
           <path d="M12 2 22.5 21H1.5z" />
           <rect x="10.8" y="8.5" width="2.4" height="6.3" rx="1" fill="var(--game-bg, #0a0a0a)" />
           <circle cx="12" cy="17.7" r="1.4" fill="var(--game-bg, #0a0a0a)" />
+        </symbol>
+
+        {/* One upright card with a diamond pip — "you got a card", distinct
+            from icon-deck's two overlapping cards ("your whole deck"). */}
+        <symbol id="icon-card" viewBox="0 0 24 24">
+          <rect x="5" y="2" width="14" height="20" rx="2" />
+          <path d="M12 8l2.6 4.5L12 17l-2.6-4.5z" fill="var(--game-bg, #0a0a0a)" />
         </symbol>
       </defs>
     </svg>

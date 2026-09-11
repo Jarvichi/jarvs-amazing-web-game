@@ -3,6 +3,7 @@ import { CardTile } from '../cards/CardTile'
 import { getCardCatalog } from '../../game/cards'
 import { SECRET_RARITIES } from '../../game/types'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 const ROUNDS = 8
 const CHOICES_PER_ROUND = 3
@@ -38,7 +39,7 @@ export function CardDraftScreen({ onComplete, onBack }: Props) {
   return (
     <div className="qb-screen">
       <div className="qb-header u-text-c">
-        <div className="qb-title">🃏  CARD DRAFT</div>
+        <div className="qb-title"><Icon name="card" size={16} />  CARD DRAFT</div>
         <div className="qb-subtitle">Pick 1 of 3 cards — round {round + 1}/{ROUNDS}</div>
       </div>
 

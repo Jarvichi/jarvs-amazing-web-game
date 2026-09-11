@@ -35,7 +35,7 @@ function modifierIcon(type: ReplayModifier['type']): React.ReactNode {
   switch (type) {
     case 'enemyHpPercent':         return <Icon name="shield" size={13} />
     case 'enemyIntervalReduction': return <Icon name="bolt" size={13} />
-    case 'enemyHandBonus':         return '🃏'
+    case 'enemyHandBonus':         return <Icon name="card" size={13} />
     case 'crystalBonus':           return '◆'
     default:                       return <Icon name="warning" size={13} />
   }
