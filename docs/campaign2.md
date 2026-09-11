@@ -88,6 +88,36 @@ Once campaign 1 is complete, talking to Elsben launches Campaign 2.
 > in `bossAIs.json` when the act is authored, and vary the trait types so
 > adjacent acts don't repeat.
 
+### 4a. Hero signature abilities
+
+Every campaign-2 hero carries exactly one signature ability, declared as
+`unit.heroAbility` in `cards.json` and implemented in
+`web/src/game/engine/heroAbilities.ts`. **No two heroes share one, and none of
+them reuses a chapter-1 mechanic** (`teleportAbility`, `invisibilityAbility`,
+`bloodSummonAbility`, `halfHealthEffect`, `onDeathEffect`, the
+`structureEffect` auras). The roster shipped once as thirteen recolours of a
+single `guardBase` card with a flat stat buff apiece; `heroAbilities.test.ts`
+now fails the build if it drifts back that way.
+
+| Act | Hero | Ability | What it does |
+|---|---|---|---|
+| 1 | Warden of the Marches | `bulwark` | Soaks 35% of every blow, reflects 30% back at melee attackers. The only hero that keeps the `guardBase` stance — holding the border is his card. |
+| 2 | Causeway Guide | `safePassage` | Allies in range ignore moats, slow zones and gas clouds entirely, and march faster. |
+| 3 | First Reaper | `harvest` | Each kill she lands permanently raises her own attack, up to a cap. |
+| 4 | The Archivist Returned | `crossReference` | Periodically marks the strongest enemy in reach; all allies deal bonus damage to it. |
+| 5 | Candle Sergeant | `lastLight` | An ally dying in range heals the survivors and gives them a timed attack surge. |
+| 6 | Tide Warden | `undertow` | Periodically drags every enemy in range back toward their own base. |
+| 7 | Marsh Pathfinder | `mirrorStep` | Periodically spawns a short-lived reflection that pulls enemy targeting. |
+| 8 | Masked Duelist | `duel` | Always targets the hardest hitter in reach, and hits anything stronger than her for bonus damage. |
+| 9 | Winter Warden | `coldSnap` | Periodic pulse slowing enemy movement *and* attack speed — chill is its own status, not the `freeze` on-hit effect. |
+| 10 | Grove Sentinel | `deeproot` | Regenerates after going untouched for a few seconds; cannot be slowed, dragged or knocked back. |
+| 11 | Road Captain | `forcedMarch` | Units deployed while he lives arrive further up the field and faster. |
+| 12 | Reach Breaker | `breach` | Hits knock the target backwards; walls and buildings take multiplied damage. |
+| 13 | Vigil Knight | `vigil` | A limited number of lethal blows on nearby allies are refused, leaving them on 1 HP. |
+
+Adding a hero to a later campaign means adding a *new* entry to `HeroAbilities`
+in `types.ts` and a rule to drive it — not repointing one of these.
+
 **Arc shape:** acts 1–4 are the border war (discovery, first contact, learning
 what Amarath is). Acts 5–8 go deep into the kingdom and humanise it — the
 player starts to see what the Dominion's forgetting cost these people. Acts

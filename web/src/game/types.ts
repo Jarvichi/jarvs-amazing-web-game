@@ -118,6 +118,48 @@ export interface UnitTemplate {
   bloodSummonAbility?: { cooldownMs: number; minionTemplate: UnitTemplate; range: number }
   /** Elemental on-hit effect applied when this unit attacks. Auto-derived from tags when not set. */
   attackEffect?: AttackEffect
+  /** Signature hero ability. Exactly one key is set per hero — see `HeroAbilities`. */
+  heroAbility?: HeroAbilities
+}
+
+/**
+ * Signature abilities for the campaign-2 heroes. Each hero card sets exactly one
+ * key here, and each key is a mechanic that exists nowhere else in the engine —
+ * the point is that no two heroes play the same, and none of them replays a
+ * chapter-1 trick (`teleportAbility`, `invisibilityAbility`, `bloodSummonAbility`,
+ * `halfHealthEffect`, `onDeathEffect`, the `structureEffect` auras).
+ *
+ * All of them are driven from `engine/heroAbilities.ts`: the periodic ones off a
+ * single shared `heroAbilityTimer`, the reactive ones off hooks in `combat.ts`,
+ * `units.ts`, `targeting.ts` and `engine/cards.ts`.
+ */
+export interface HeroAbilities {
+  /** Bulwark — soaks a share of every incoming hit and reflects part of it back at a melee attacker. */
+  bulwark?: { damageReductionPct: number; thornsPct: number }
+  /** Safe Passage — allies in range ignore slow zones, moat drag and ground hazards, and move faster. */
+  safePassage?: { range: number; speedBonus: number }
+  /** Harvest — every kill permanently raises this unit's own attack, up to maxStacks. */
+  harvest?: { attackPerKill: number; maxStacks: number }
+  /** Cross-Reference — periodically marks the strongest enemy in range; all allies hit it harder. */
+  crossReference?: { cooldownMs: number; range: number; bonusDamagePct: number; durationMs: number }
+  /** Last Light — when an ally dies in range, surviving allies are healed and gain a timed attack surge. */
+  lastLight?: { range: number; healAmount: number; attackBonus: number; durationMs: number }
+  /** Undertow — periodically drags every enemy in range back toward their own base. */
+  undertow?: { cooldownMs: number; range: number; pullPx: number }
+  /** Mirror Step — periodically spawns a short-lived reflection that enemies target instead. */
+  mirrorStep?: { cooldownMs: number; decoyHpPct: number; durationMs: number }
+  /** Duel — always challenges the highest-attack enemy in range and hits it harder. */
+  duel?: { bonusDamagePct: number }
+  /** Cold Snap — periodic pulse that slows enemy movement AND attack speed in an area. */
+  coldSnap?: { cooldownMs: number; range: number; slowFactor: number; attackSlowPct: number; durationMs: number }
+  /** Deeproot — regenerates HP while it has not been hit recently, and cannot be slowed or displaced. */
+  deeproot?: { hpPerSec: number; calmMs: number }
+  /** Forced March — friendly units deployed while this unit lives arrive further forward and faster. */
+  forcedMarch?: { advancePx: number; speedBonus: number }
+  /** Breach — hits knock the target backwards, and walls/structures take multiplied damage. */
+  breach?: { knockbackPx: number; structureDamageMult: number }
+  /** Unbroken Vigil — negates a lethal blow on a nearby ally, leaving it on 1 HP. Limited charges. */
+  vigil?: { range: number; charges: number }
 }
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
@@ -271,6 +313,44 @@ export interface Unit extends UnitTemplate {
   moatDamageTimer?: number
   /** True once this unit's Phantom Legion revive chance has been rolled (one roll per death). */
   reviveRolled?: boolean
+
+  // ─── Hero ability runtime state (see HeroAbilities / engine/heroAbilities.ts) ───
+  /** ms until this unit's periodic hero ability fires again. One timer is enough:
+   *  a hero carries at most one periodic ability. */
+  heroAbilityTimer?: number
+  /** Harvest: attack permanently gained from kills so far. */
+  harvestStacks?: number
+  /** Cross-Reference: absolute game-time this unit stops being marked. */
+  markedUntil?: number
+  /** Cross-Reference: bonus damage multiplier applied to hits on this unit while marked. */
+  markedBonusPct?: number
+  /** Last Light: attack added on top of `attack` until `tempAttackUntil`. */
+  tempAttackBonus?: number
+  /** Last Light: absolute game-time the temporary attack bonus expires. */
+  tempAttackUntil?: number
+  /** Mirror Step: true for a reflection — draws fire, deals no damage, expires on its own. */
+  isDecoy?: boolean
+  /** Mirror Step: absolute game-time this decoy evaporates. */
+  decoyExpiresAt?: number
+  /** Cold Snap: ms remaining chilled — attack cooldown is divided by `chillAtkMult` while > 0. */
+  chillTimer?: number
+  /** Cold Snap: 0-1 attack-speed multiplier while chilled. */
+  chillAtkMult?: number
+  /** Cold Snap: 0-1 move-speed multiplier while chilled. */
+  chillMoveMult?: number
+  /** Deeproot: absolute game-time this unit last took damage. */
+  lastDamagedAt?: number
+  /** Deeproot: fractional HP carried between regen ticks. */
+  regenAccum?: number
+  /** Deeproot: HP as of the previous tick — a drop counts as a hit from any source. */
+  lastSeenHp?: number
+  /** Unbroken Vigil: lethal-save charges left on the warden. */
+  vigilChargesLeft?: number
+  /** Unbroken Vigil: true once this unit has been saved — it cannot be saved twice. */
+  vigilSaved?: boolean
+  /** True once this unit's death has been reported to the hero-ability hooks (Last Light
+   *  fires once per fallen ally, not once per tick while the body lingers). */
+  deathNotified?: boolean
 }
 
 // ─── Ground Hazards ───────────────────────────────────────

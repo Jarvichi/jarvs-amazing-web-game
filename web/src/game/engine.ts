@@ -19,6 +19,7 @@ import { generatePassableTerrain } from './engine/terrainGrid'
 import type { RoadDef, TerrainObstacle, BattlefieldDecorItem, TerrainPathDef } from './engine/terrain'
 import { processEndlessModeAdditions, triggerNextEndlessWave, spawnEndlessCommander } from './engine/endlessMode'
 import { handleSuddentDeath } from './engine/suddenDeath'
+import { tickHeroAbilities, hasSafePassage, safePassageGuides } from './engine/heroAbilities'
 
 
 
@@ -644,6 +645,10 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 5. Tick spawn-grow timers, death/damage animation timers, climb flag, spawner/aura buildings
   performUnitMaintenance(s, deltaMs, log)
 
+  // 5b. Hero signature abilities (chapter-2 heroes) — runs after maintenance so a unit
+  // killed this tick is still on the field for Unbroken Vigil and Last Light to see.
+  tickHeroAbilities(s, deltaMs, log)
+
   // 6. Opponent timer
   processOpponentTurn(s, deltaMs, log)
 
@@ -735,6 +740,8 @@ function validInterval(intervalMs: number | undefined, unitName: string): number
 function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
   // Combat has already resolved this tick, so the live-wall set is stable for the climbing check below.
   const walls = s.field.filter(w => w.isWall && w.hp > 0)
+  // Hoisted once: per-unit rescans of the field would make this O(n²) every tick.
+  const guides = safePassageGuides(s.field)
   for (const unit of s.field) {
     // Tick down simple animation/status countdowns
     unit.spawnGrowTimer   = tickDown(unit.spawnGrowTimer, deltaMs)
@@ -767,9 +774,11 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         killByDoT(s, unit, 'poison', `${unit.name} succumbs to poison!`, log)
       }
     }
-    // Ground hazard damage (gas clouds, etc.)
+    // Ground hazard damage (gas clouds, etc.) — a unit walking with the Causeway
+    // Guide is led clear of them entirely.
+    const shielded = guides.length > 0 && hasSafePassage(guides, unit)
     for (const hazard of s.hazards) {
-      if (hazard.owner === unit.owner || unit.hp <= 0) continue
+      if (hazard.owner === unit.owner || unit.hp <= 0 || shielded) continue
       if (Math.hypot(unit.x - hazard.x, unit.y - hazard.y) <= hazard.radius) {
         const hazardDmg = Math.max(1, Math.round(hazard.dps * deltaMs / 1000))
         unit.hp = Math.max(0, unit.hp - hazardDmg)

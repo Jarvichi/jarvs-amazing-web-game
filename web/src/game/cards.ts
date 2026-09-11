@@ -1,4 +1,4 @@
-import { AttackEffect, Card, CardRarity, CardType, UnitTemplate, UpgradeEffect } from './types'
+import { AttackEffect, Card, CardRarity, CardType, UnitTemplate, UpgradeEffect, HeroAbilities } from './types'
 import { logError } from '../logger'
 import cardsData from '../data/cards.json'
 
@@ -59,6 +59,8 @@ interface RawUnitDef {
   teleportAbility?: { cooldownMs: number; distancePx: number }
   invisibilityAbility?: { activeMs: number; cooldownMs: number }
   bloodSummonAbility?: { cooldownMs: number; minionTemplate: RawUnitDef; range: number }
+  /** Signature hero ability — exactly one key set. See `HeroAbilities` in types.ts. */
+  heroAbility?: HeroAbilities
 }
 
 /** Radius (game units) of the lingering gas cloud dropped by `gascloud`-tagged units. */
@@ -105,7 +107,7 @@ interface RawHeroCard {
   cardType: string
   isHero?: true
   unit?: RawUnitDef
-  heroEffect?: { type: string; amount: number }
+  heroEffect?: { type: string; amount?: number; damage?: number; range?: number }
   upgradeEffect?: { type: string; amount?: number; damage?: number; range?: number }
   description: string
   lore?: string

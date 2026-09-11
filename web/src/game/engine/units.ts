@@ -4,6 +4,7 @@ import {
 } from './constants'
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
+import { hasSafePassage, safePassageSpeedBonus, safePassageGuides, chillMoveFactor } from './heroAbilities'
 import { computeRoadWaypoints } from './roads'
 import {
   gameToContainingTile, buildObstacleTileMap, buildRoadTileMap, isTilePassable,
@@ -96,6 +97,11 @@ export function moveUnits(s: GameState, deltaMs: number): void {
   const stance = s.playerStance ?? 'auto'
 
   const guardDecisionCount: Record<string, number> = {}
+
+  // Hoisted for the same reason as the blood-pool clusters below: rescanning the
+  // field per unit would make Safe Passage O(n²) every tick, to answer "no" in every
+  // battle without a Causeway Guide in it.
+  const passageGuides = safePassageGuides(s.field)
 
   // Pre-compute which active blood pools are part of a dense cluster.
   // Done once per tick rather than per unit to keep cost O(pools²).
@@ -490,8 +496,10 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const inWallZone = unit.climber && s.field.some(w =>
       w.isWall && w.owner !== unit.owner && w.hp > 0 && Math.abs(unit.x - w.x) <= WALL_CLIMB_ZONE
     )
+    // Safe Passage (Causeway Guide): her column is led round the drag entirely.
+    const guided = passageGuides.length > 0 && hasSafePassage(passageGuides, unit)
     let moatSlowFactor = 1
-    if (!unit.flying) {
+    if (!unit.flying && !guided) {
       for (const m of s.field) {
         if (!m.isMoat) continue
         const effect = m.structureEffect as { type: 'slowZone'; slowFactor: number; radius: number; damagePerSec?: number } | undefined
@@ -524,8 +532,10 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       ? unit.affinity.effectAmount : 1
     const freezeFactor = (unit.freezeTimer != null && unit.freezeTimer > 0 && unit.freezeSlow != null)
       ? unit.freezeSlow : 1
-    const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed)
-      * deltaSec * fogMult * affMoveMult * clampedMoatFactor * freezeFactor
+    const chillFactor = chillMoveFactor(unit)
+    const guidedSpeed = unit.moveSpeed + (guided ? safePassageSpeedBonus(passageGuides, unit) : 0)
+    const speed = (inWallZone ? guidedSpeed * CLIMB_SPEED_FACTOR : guidedSpeed)
+      * deltaSec * fogMult * affMoveMult * clampedMoatFactor * freezeFactor * chillFactor
 
     // Steering repulsion, folded into the step below.
     let avoidX = 0

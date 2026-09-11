@@ -5,6 +5,10 @@ import { DAMAGE_FLASH_MS, BLOOD_POOL_MAX } from './constants'
 import { getAttackAura } from './bonusEffects'
 import { animUid, spawnUnit } from './helpers'
 import { findAttackTarget, unitDist } from './targeting'
+import {
+  heroOutgoingDamage, heroIncomingDamage, afterHeroHit, onHeroKill,
+  tempAttackBonus, chillAttackFactor,
+} from './heroAbilities'
 
 // ─── Combat Constants ─────────────────────────────────────
 
@@ -54,7 +58,11 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
       const affDmgMult     = (unit.affinityActive && unit.affinity?.effectType === 'damage')
         ? unit.affinity.effectAmount : 1
       const masteryEliteMult = (unit.masteryLevel ?? 0) >= 5 ? 1.1 : 1
-      const dmg = Math.round((unit.attack + atkAura) * bloodMoonMult * swMult * affDmgMult * masteryEliteMult)
+      // Last Light's timed surge rides on top of the attack stat, like the attack aura does.
+      const baseAttack = unit.attack + atkAura + tempAttackBonus(s, unit)
+      const rawDmg = Math.round(baseAttack * bloodMoonMult * swMult * affDmgMult * masteryEliteMult)
+      // Hero signature abilities: Duel / Breach on the attacker, Cross-Reference on the target.
+      const dmg = heroOutgoingDamage(s, unit, target, rawDmg)
 
       // Emit projectile animation for ranged (bypassWall) attackers
       if (unit.bypassWall && !unit.isWall) {
@@ -76,7 +84,19 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
       if (target.owner === 'player' && isNoDamageMode()) {
         log.push(`${unit.name} would damage ${target.name} (dev mode — no damage)`)
       } else {
-        target.hp -= dmg
+        // Bulwark soaks part of the blow and reflects thorns at a melee attacker.
+        const landed = heroIncomingDamage(s, unit, target, dmg, log)
+        target.hp -= landed
+        afterHeroHit(s, unit, target)
+        // A thorns kill is a kill: mark the body dying so it lingers for the death
+        // animation and isn't purged before the commander/base HP sync sees it, the
+        // same way the AOE and half-health paths below do.
+        if (unit.hp <= 0) {
+          if (unit.moveSpeed > 0 && !unit.isWall && !unit.dyingTimer) unit.dyingTimer = DEATH_LINGER_MS
+          if (unit.isCommander && unit.owner === 'player') {
+            s.lastPlayerDamageSource = { kind: 'unit', name: target.name }
+          }
+        }
         const actualDamage = prevHp - Math.max(0, target.hp)
         if (isPlayer) s.playerScore += actualDamage
         else          s.opponentScore += actualDamage
@@ -192,6 +212,7 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
             }
             log.push(`!!💥 ${target.name} explodes! ${blastTargets.length} unit${blastTargets.length !== 1 ? 's' : ''} caught in the blast!`)
           }
+          onHeroKill(unit, target, log)
           log.push(`${unit.name} destroyed ${target.name}!`)
           if (target.moveSpeed === 0) playBuildingDestroyed()
           else                        playUnitDeath()
@@ -211,7 +232,8 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
       }
       const affSpeedMult = (unit.affinityActive && unit.affinity?.effectType === 'attackSpeed')
         ? unit.affinity.effectAmount : 1
-      unit.attackTimer = unit.attackCooldownMs / affSpeedMult
+      // Cold Snap's chill drags on the swing as well as the step.
+      unit.attackTimer = unit.attackCooldownMs / affSpeedMult / chillAttackFactor(unit)
     }
   }
 
@@ -242,7 +264,7 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
 
   // Count kills for battle stats
   for (const u of s.field) {
-    if (u.hp <= 0 && u.moveSpeed > 0 && !u.isWall) {
+    if (u.hp <= 0 && u.moveSpeed > 0 && !u.isWall && !u.isDecoy) {
       if (u.owner === 'opponent') s.battleStats.playerKills++
       else                        s.battleStats.playerUnitsLost++
     }

@@ -114,6 +114,18 @@ export function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
 
   if (candidates.length === 0) return null
 
+  // Duel (Masked Duelist): she picks the biggest hitter in reach, not the closest body.
+  if (unit.heroAbility?.duel) {
+    const worthy = candidates.filter(c => c.other.attack > 0 && !c.other.isDecoy)
+    if (worthy.length > 0) {
+      return worthy.reduce((a, b) => (b.other.attack > a.other.attack ? b : a)).other
+    }
+  }
+
+  // Mirror Step (Marsh Pathfinder): a reflection pulls fire off the real column.
+  const reflections = candidates.filter(c => c.other.isDecoy)
+  if (reflections.length > 0) return reflections.reduce((a, b) => a.d < b.d ? a : b).other
+
   const pri = unit.targetPriority
   if (pri) {
     let preferred: Array<{ other: Unit; d: number }> = []
