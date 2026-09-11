@@ -114,6 +114,34 @@ Reach for these before writing new markup+CSS from scratch:
   filter menus. `useClickOutsideToClose` (`web/src/hooks/`) is the extracted
   outside-click/Escape hook if you need that behaviour without the rest of
   `FilterPopup`.
+- **`rows/`** — the row/tile/group vocabulary a browsing or settings screen is
+  built from (#2320), promoted here from the satchel sheet and the settings
+  screen so any screen can reuse it. Two families:
+  - **List/browse:** `ListRow` (icon + title + optional subtitle/progress bar
+    + right-aligned value — the ~40px workhorse row; reserve a bordered card
+    for something the player can act on), `ItemTile`/`ItemGrid` (a square
+    icon tile in an auto-filling grid), `GroupHeading` (uppercase section
+    label with an optional count), `CollapsibleGroup` (collapses to one line
+    past ~10 entries), `ActionCard` (a bordered "something can be done here"
+    card — deliberately scarce, at most ~3 per screen), `EntityChip` (a
+    tappable proper noun — NPC/item/town), `FilterChips` (horizontal
+    scrolling toggle chips — the "show me a subset" job, distinct from
+    `filters/FilterPopup`'s dropdown), `ItemDetailSheet` (a small
+    `ModalBackdrop` dialog explaining one item). These read colour from a
+    `--row-*` palette an ancestor defines — `.satchel-sheet`/`.chef-cook` in
+    satchel.css/hub.css are the only definitions today (the hub's warm green
+    ramp); a screen elsewhere needs to define its own `--row-*` on its root
+    the same way before using them, since there's no CRT-green default yet.
+  - **Form row:** `SettingsRow` (label/sublabel + a right-hand control,
+    `stacked` for a control too wide to share a line), `SettingsToggle`
+    (an accessible switch — owns `role="switch"`/`aria-checked`/Enter-Space),
+    `SettingsSlider` (a range input plus its readout). These read global
+    tokens (`--game-text-color` etc.) directly rather than a retint palette.
+  - Both families' CSS lives in `styles/rows.css`. A handful of admin
+    screens and a few player-facing modals still write `.settings-row`/
+    `.settings-label`/`.settings-toggle*` directly instead of using the
+    components — `rows.css` keeps those as extra selectors alongside the
+    renamed ones rather than sweeping every call site in a promotion pass.
 
 ## Utility classes — `web/src/styles/utilities.css`
 
@@ -128,12 +156,14 @@ or a single-purpose class that just sets `gap`/`padding`.
 ## Stylesheet organization — `web/src/styles/`
 
 Split by domain (#2169), not one monolith: `tokens.css`, `base.css`,
-`buttons.css`, `panels.css`, `modals.css`, `utilities.css`, then one file per
-screen family — `battle.css`, `battle-screens.css`, `cards.css`, `campaign.css`,
-`campaign-events.css`, `collection.css`, `collection-meta.css`, `hub.css`,
-`minigames-1.css` through `-4.css`, `rare-events.css`, `title.css`. Add new
-rules to the file matching their domain; only start a new file for a genuinely
-new domain, not a handful of rules that fit an existing one.
+`buttons.css`, `panels.css`, `rows.css`, `modals.css`, `utilities.css`, then
+one file per screen family — `battle.css`, `battle-screens.css`, `cards.css`,
+`campaign.css`, `campaign-events.css`, `collection.css`, `collection-meta.css`,
+`hub.css`, `minigames-1.css` through `-4.css`, `rare-events.css`, `title.css`.
+Add new rules to the file matching their domain; only start a new file for a
+genuinely new domain, not a handful of rules that fit an existing one.
+`rows.css` (#2320) is the shared-primitive tier alongside `buttons.css`/
+`panels.css` — the `ui/rows/` component vocabulary's CSS, not a screen domain.
 
 ## Component extraction & Storybook
 
