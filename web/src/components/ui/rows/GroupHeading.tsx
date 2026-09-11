@@ -11,9 +11,9 @@ interface Props {
 /** Small uppercase label that separates groups inside a section. */
 export function GroupHeading({ children, count, tone = 'default' }: Props) {
   return (
-    <h3 className={`satchel-group satchel-group--${tone}`}>
+    <h3 className={`group-heading group-heading--${tone}`}>
       <span>{children}</span>
-      {count != null && <span className="satchel-group__count">{count}</span>}
+      {count != null && <span className="group-heading__count">{count}</span>}
     </h3>
   )
 }

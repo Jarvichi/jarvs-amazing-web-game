@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { loadPlaytime, formatPlaytime } from '../../../game/playtime'
 import { Button } from '../../ui/Button'
-import { SettingsRow } from './SettingsRow'
+import { SettingsRow } from '../../ui/rows/SettingsRow'
 
 interface Props {
   onCheckForUpdates?: () => Promise<void>

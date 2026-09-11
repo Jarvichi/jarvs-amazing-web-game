@@ -1,0 +1,420 @@
+/* rows.css — the row/tile/group vocabulary promoted into
+   web/src/components/ui/rows/ (#2320) so any screen can reuse it, not just
+   the two screens it happened to be invented for:
+
+   - ListRow, ItemTile/ItemGrid, GroupHeading, FilterChips, EntityChip,
+     ActionCard, CollapsibleGroup — the satchel sheet's list vocabulary.
+     Had `.satchel-row`/`.satchel-tile`/etc. class names and a `--satchel-*`
+     custom-property palette that implied "satchel" even though the
+     components themselves carry no satchel-specific logic.
+   - SettingsRow, SettingsToggle, SettingsSlider — the settings screen's
+     form-row vocabulary (label/sublabel + a right-hand control). Had
+     `.settings-*` names for the same reason.
+
+   Renamed here so a screen can import either family without importing
+   something that says "satchel" or "settings" in its name.
+
+   Retinting differs between the two families:
+   - The satchel family reads colour from `--row-*`, which an ancestor
+     defines — the same pattern `CloseButton`'s `--close-btn-color` and
+     `EmptyState`'s `--empty-state-color` use, just as a small palette
+     instead of one property. `.satchel-sheet` and `.chef-cook` in
+     satchel.css/hub.css are the only definitions today (the hub's warm
+     green ramp) — the same two places `--satchel-*` was scoped to before
+     this rename. There is deliberately no CRT-green default here yet: this
+     issue is a move, not an adoption pass. The first screen that wants
+     these primitives outside a satchel/chef-cook ancestor should define
+     `--row-*` on its own root, the same way satchel.css does, rather than
+     relying on an implicit fallback.
+   - The form-row family reads global tokens (`--game-text-color` etc.)
+     directly, same as before the move — it was never satchel-scoped, so
+     there is no palette to rename, only class names. */
+
+/* ── Group headings ─────────────────────────────────────────────────────── */
+
+.group-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--gap-4);
+  margin: 18px 0 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--row-text-dim);
+}
+.group-heading:first-child { margin-top: 0; }
+.group-heading--gold { color: var(--row-gold-dim); }
+.group-heading__count { font-variant-numeric: tabular-nums; }
+
+/* ── Filter chips ───────────────────────────────────────────────────────── */
+
+.filter-chips {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  margin-bottom: 12px;
+  padding-bottom: 2px;
+}
+.filter-chips::-webkit-scrollbar { display: none; }
+.filter-chip {
+  flex: 0 0 auto;
+  background: none;
+  border: 1px solid var(--row-line);
+  border-radius: 99px;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: var(--row-text-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  white-space: nowrap;
+}
+.filter-chip:hover { color: var(--row-text-mid); border-color: var(--hub-line-on); }
+.filter-chip:active { transform: translateY(1px); }
+.filter-chip--on {
+  border-color: var(--row-gold);
+  color: var(--row-gold);
+  background: color-mix(in srgb, var(--row-gold) 7%, transparent);
+}
+.filter-chip__count { margin-left: 5px; color: var(--row-text-off); font-variant-numeric: tabular-nums; }
+.filter-chip--on .filter-chip__count { color: var(--row-gold-dim); }
+
+/* ── Entity chips ───────────────────────────────────────────────────────── */
+
+.entity-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--row-line);
+  border-radius: 99px;
+  padding: 1px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--row-text-mid);
+  vertical-align: baseline;
+}
+button.entity-chip { background: none; cursor: pointer; }
+.entity-chip--tappable:hover { border-color: var(--hub-line-on); color: var(--row-text); }
+.entity-chip--tappable:active { transform: translateY(1px); }
+.entity-chip--gold { border-color: var(--row-gold-dim); color: var(--row-gold); }
+.entity-chip--away { border-color: #4a4430; color: var(--row-gold-dim); }
+.entity-chip--quiet { border-color: var(--row-line-soft); color: var(--row-text-dim); }
+.entity-chip[disabled] { opacity: 0.45; cursor: default; }
+
+/* ── List rows ──────────────────────────────────────────────────────────── */
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-3);
+  border-bottom: 1px solid var(--row-line-soft);
+}
+.list-row__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 2px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+}
+.list-row__main--tappable { cursor: pointer; }
+.list-row__main--tappable:hover { background: color-mix(in srgb, var(--row-text-mid) 6%, transparent); }
+.list-row__main--tappable:active { transform: translateY(1px); }
+.list-row__icon { flex: 0 0 auto; width: 18px; text-align: center; font-size: 13px; }
+.list-row__label { flex: 1 1 auto; min-width: 0; }
+.list-row__title {
+  display: block;
+  font-size: 11.5px;
+  color: var(--row-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list-row__subtitle {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--row-text-dim);
+  line-height: 1.4;
+}
+.list-row__value {
+  flex: 0 0 auto;
+  font-size: 10.5px;
+  color: var(--row-text-mid);
+  font-variant-numeric: tabular-nums;
+}
+.list-row__actions { flex: 0 0 auto; display: flex; gap: var(--gap-3); }
+.list-row--gold .list-row__title { color: var(--row-gold); }
+.list-row--dim { opacity: 0.65; }
+
+.list-row__bar {
+  display: block;
+  height: 3px;
+  margin-top: 5px;
+  background: var(--row-line-soft);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.list-row__bar i { display: block; height: 100%; background: #4f9a4f; transition: width var(--dur-normal); }
+.list-row__bar--gold i { background: var(--row-gold); }
+
+/* ── Action cards ───────────────────────────────────────────────────────── */
+
+.action-card {
+  border: 1px solid var(--row-line);
+  border-left: 2px solid var(--row-text-dim);
+  border-radius: var(--radius-sm);
+  padding: 10px 11px;
+  margin-bottom: 8px;
+}
+.action-card--gold {
+  border-color: #6d5510;
+  border-left-color: var(--row-gold);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--row-gold) 6%, transparent), transparent 60%);
+}
+.action-card__title { font-size: 12px; font-weight: 700; color: #e8e0c0; margin-bottom: 3px; }
+.action-card--quiet .action-card__title { color: var(--row-text); font-weight: 400; }
+.action-card__detail { font-size: 10px; color: #a08840; line-height: 1.5; }
+.action-card--quiet .action-card__detail { color: var(--row-text-dim); }
+.action-card__cta {
+  display: inline-block;
+  margin-top: 8px;
+  background: none;
+  border: 1px solid var(--row-gold);
+  border-radius: var(--radius-sm);
+  color: var(--row-gold);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 5px 10px;
+}
+.action-card__cta:hover { background: color-mix(in srgb, var(--row-gold) 12%, transparent); }
+.action-card__cta:active { transform: translateY(1px); }
+
+/* ── Item grid ──────────────────────────────────────────────────────────── */
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 6px;
+}
+.item-tile {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: var(--row-bg-raised);
+  border: 1px solid var(--row-line);
+  border-radius: var(--radius-sm);
+  color: inherit;
+  font: inherit;
+}
+button.item-tile { cursor: pointer; }
+button.item-tile:hover { border-color: var(--hub-line-on); }
+button.item-tile:active { transform: scale(0.96); }
+.item-tile__glyph { font-size: 19px; line-height: 1; }
+.item-tile__count { font-size: 9.5px; color: var(--row-text-mid); font-variant-numeric: tabular-nums; }
+.item-tile--flagged { border-color: #6d5510; }
+.item-tile--flagged::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top: 8px solid var(--row-gold);
+  border-left: 8px solid transparent;
+}
+.item-tile--complete .item-tile__count { color: var(--row-gold); }
+.item-tile--selected {
+  border-color: var(--row-gold);
+  background: #2a2a18;
+  box-shadow: inset 0 0 0 1px var(--row-gold);
+}
+.item-tile--selected::before {
+  content: "\2713";
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--row-gold);
+}
+
+/* ── Collapsible groups ─────────────────────────────────────────────────── */
+
+.collapsible-group { margin-top: 12px; }
+.collapsible-group__toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-4);
+  background: none;
+  border: 1px solid var(--row-line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  padding: 10px 11px;
+  color: var(--row-text-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.collapsible-group__toggle:hover { color: var(--row-text-mid); border-color: var(--hub-line-on); }
+.collapsible-group__toggle:active { transform: translateY(1px); }
+.collapsible-group__meta { display: flex; align-items: center; gap: 8px; }
+.collapsible-group__meta b { color: var(--row-text-mid); font-variant-numeric: tabular-nums; }
+.collapsible-group--open .collapsible-group__toggle { border-bottom-color: transparent; border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+.collapsible-group__body {
+  border: 1px solid var(--row-line);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: 4px 11px 8px;
+}
+.collapsible-group__body .list-row:last-child { border-bottom: none; }
+
+/* ── Form rows (label / sublabel / control) ─────────────────────────────── */
+
+/* `.settings-row`/`.settings-label`/`.settings-sublabel` are kept as extra
+   selectors, not migrated away — a dozen admin screens (GiftAdminScreen,
+   DevMenu, TerrainEditorPanel, TownAccessAdminScreen, SceneryAdminScreen,
+   CampaignAdminScreen, NewsAdminScreen) plus a few player-facing ones
+   (FeedbackModal, DeleteAccountModal, GameTab's reset-confirm copy) reuse
+   this exact look by writing the class name directly, never through the
+   SettingsRow/SettingsToggle components this promotion moved. Renaming
+   `.form-row` without them would silently unstyle every one of those. The
+   admin screens are explicitly out of scope for a design pass (they're
+   gated out of store builds — see docs/screen-audit.md); the player-facing
+   handful are small enough to fold in whenever they're next touched. Until
+   then this is the one legacy exception in an otherwise fully-renamed file. */
+.form-row,
+.settings-row {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--game-bg-raised);
+}
+
+.form-row:last-child,
+.settings-row:last-child { border-bottom: none; }
+
+/* Control under the text rather than beside it, for rows whose control is a
+   button group too wide to share a line (the cloud-save conflict prompt). */
+.form-row--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-4);
+}
+
+.form-row__text { flex: 1; min-width: 0; }
+
+.form-row__label,
+.settings-label {
+  font-size: var(--font-md);
+  color: var(--game-text-color-dim);
+  flex: 1;
+}
+
+/* Cloud-save-conflict prompt — the one label that isn't neutral. */
+.form-row__label--warn { color: var(--color-orange); }
+
+.form-row__sublabel,
+.settings-sublabel {
+  font-size: var(--font-xs);
+  color: var(--color-gray-9);
+  margin-top: 2px;
+}
+
+/* ── Form toggle ─────────────────────────────────────────────────────────── */
+
+/* Same legacy exception as the form row above — TownAccessAdminScreen builds
+   its own toggle from these raw class names rather than <SettingsToggle>. */
+.form-toggle__track,
+.settings-toggle-track {
+  width: 36px;
+  height: 18px;
+  border-radius: 9px;
+  border: 1px solid var(--color-gray-5);
+  background: var(--game-bg-card);
+  position: relative;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+/* Press feedback (#2185) — the switch had no reaction at all to being
+   pressed until the toggle finished flipping. */
+.form-toggle:active .form-toggle__track,
+.settings-toggle:active .settings-toggle-track {
+  transform: scale(0.92);
+}
+
+.form-toggle__track--on,
+.settings-toggle-track--on {
+  background: rgba(51,255,51,0.2);
+  border-color: var(--game-text-color);
+}
+
+.form-toggle__thumb,
+.settings-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-gray-6);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.form-toggle__track--on .form-toggle__thumb,
+.settings-toggle-track--on .settings-toggle-thumb {
+  transform: translateX(18px);
+  background: var(--game-text-color);
+}
+
+/* ── Form slider ─────────────────────────────────────────────────────────── */
+
+.form-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--game-border);
+  cursor: pointer;
+}
+.form-slider:focus:not(:focus-visible) { outline: none; }
+
+.form-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--game-text-color);
+  cursor: pointer;
+}
+
+.form-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--game-text-color);
+  border: none;
+  cursor: pointer;
+}
+
+.form-slider__value {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+  min-width: 28px;
+  text-align: right;
+}

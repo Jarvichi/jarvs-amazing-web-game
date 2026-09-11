@@ -18,16 +18,16 @@ interface Props {
 /**
  * The label / sublabel / control row every settings section is built from.
  * Was 38 hand-repeated copies of the same
- * `settings-row u-flex u-items-c u-just-sb u-gap-7` markup before #2165's
+ * `form-row u-flex u-items-c u-just-sb u-gap-7` markup before #2165's
  * settings pass.
  */
 export function SettingsRow({ label, sublabel, children, stacked = false }: Props) {
   return (
-    <div className={`settings-row u-flex u-gap-7${stacked ? ' settings-row--stacked' : ' u-items-c u-just-sb'}`}>
+    <div className={`form-row u-flex u-gap-7${stacked ? ' form-row--stacked' : ' u-items-c u-just-sb'}`}>
       {(label !== undefined || sublabel !== undefined) && (
-        <div className="settings-row-text">
-          {label !== undefined && <div className="settings-label">{label}</div>}
-          {sublabel !== undefined && <div className="settings-sublabel">{sublabel}</div>}
+        <div className="form-row__text">
+          {label !== undefined && <div className="form-row__label">{label}</div>}
+          {sublabel !== undefined && <div className="form-row__sublabel">{sublabel}</div>}
         </div>
       )}
       {children}

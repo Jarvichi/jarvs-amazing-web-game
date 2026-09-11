@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { isHubWorldUnlocked, loadHubDefault, saveHubDefault } from '../../../game/codex'
 import { Button } from '../../ui/Button'
 import { Modal } from '../../ui/Modal'
-import { SettingsRow } from './SettingsRow'
-import { SettingsToggle } from './SettingsToggle'
+import { SettingsRow } from '../../ui/rows/SettingsRow'
+import { SettingsToggle } from '../../ui/rows/SettingsToggle'
 import { loadSkipIntro, saveSkipIntro } from './settingsStorage'
 
 interface Props {

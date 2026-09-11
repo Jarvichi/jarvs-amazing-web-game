@@ -4,9 +4,9 @@ import {
   getSoundVolume, setSoundVolume,
   getMusicVolume, setMusicVolume,
 } from '../../../game/sound'
-import { SettingsRow } from './SettingsRow'
-import { SettingsToggle } from './SettingsToggle'
-import { SettingsSlider } from './SettingsSlider'
+import { SettingsRow } from '../../ui/rows/SettingsRow'
+import { SettingsToggle } from '../../ui/rows/SettingsToggle'
+import { SettingsSlider } from '../../ui/rows/SettingsSlider'
 
 /**
  * Audio settings. Owns its own state — nothing outside the settings screen

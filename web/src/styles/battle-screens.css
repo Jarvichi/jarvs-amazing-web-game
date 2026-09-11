@@ -323,39 +323,16 @@
   }
   /* A stacked row (the cloud-save conflict prompt) carries its own buttons
      and needs the full width. */
-  .settings-rows > .settings-row--stacked,
+  .settings-rows > .form-row--stacked,
   .settings-rows > .settings-message {
     grid-column: 1 / -1;
   }
   /* The per-row bottom rule reads as a stray dash between columns once the
      rows sit side by side. */
-  .settings-rows > .settings-row {
+  .settings-rows > .form-row {
     border-bottom: none;
     border-top: 1px solid var(--game-bg-raised);
   }
-}
-
-.settings-row {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--game-bg-raised);
-}
-
-.settings-row:last-child { border-bottom: none; }
-
-/* Control under the text rather than beside it, for rows whose control is a
-   button group too wide to share a line (the cloud-save conflict prompt). */
-.settings-row--stacked {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--gap-4);
-}
-
-.settings-row-text { flex: 1; min-width: 0; }
-
-.settings-label {
-  font-size: var(--font-md);
-  color: var(--game-text-color-dim);
-  flex: 1;
 }
 
 /* Status line under a settings action. The kind picks the token; every call
@@ -367,9 +344,6 @@
 .settings-message--ok    { color: var(--color-green-bright); }
 .settings-message--error { color: var(--accent-ember); }
 .settings-message--warn  { color: var(--color-orange); }
-
-/* Cloud-save-conflict prompt — the one label that isn't neutral. */
-.settings-label--warn { color: var(--color-orange); }
 
 /* Text-colour presets. The preset's own colour arrives as --swatch so the
    selected/unselected treatment lives in CSS rather than a pair of inline
@@ -383,81 +357,8 @@
   box-shadow: 0 0 0 1px var(--swatch) inset;
 }
 
-.settings-sublabel {
-  font-size: var(--font-xs);
-  color: var(--color-gray-9);
-  margin-top: 2px;
-}
-
-.settings-toggle-track {
-  width: 36px;
-  height: 18px;
-  border-radius: 9px;
-  border: 1px solid var(--color-gray-5);
-  background: var(--game-bg-card);
-  position: relative;
-  transition: background 0.2s, border-color 0.2s, transform 0.1s;
-}
-
-/* Press feedback (#2185) — the switch had no reaction at all to being
-   pressed until the toggle finished flipping. */
-.settings-toggle:active .settings-toggle-track {
-  transform: scale(0.92);
-}
-
-.settings-toggle-track--on {
-  background: rgba(51,255,51,0.2);
-  border-color: var(--game-text-color);
-}
-
-.settings-toggle-thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-gray-6);
-  transition: transform 0.2s, background 0.2s;
-}
-
-.settings-toggle-track--on .settings-toggle-thumb {
-  transform: translateX(18px);
-  background: var(--game-text-color);
-}
-
-.settings-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 120px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--game-border);
-  cursor: pointer;
-}
-.settings-slider:focus:not(:focus-visible) { outline: none; }
-
-
-.settings-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--game-text-color);
-  cursor: pointer;
-}
-
-.settings-slider::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--game-text-color);
-  border: none;
-  cursor: pointer;
-}
-
 /* Text inputs on settings-family surfaces. LoginModal used to reach for
-   .settings-slider here — a range-input class — plus inline padding, which
+   .form-slider here — a range-input class — plus inline padding, which
    happened to look right only because that rule sets a background and
    radius. */
 .settings-input {
@@ -472,13 +373,6 @@
   font-size: var(--font-md);
 }
 .settings-input:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.settings-value {
-  font-size: var(--font-sm);
-  color: var(--game-text-color-dim);
-  min-width: 28px;
-  text-align: right;
-}
 
 /* Uses action-btn--danger; size overrides only */
 .settings-danger-btn {

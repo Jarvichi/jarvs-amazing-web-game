@@ -205,10 +205,10 @@
 /* The satchel sheet carries its own green ramp; the strip picks it up rather
    than reverting that surface to the global palette. */
 .satchel-sheet .tab-nav {
-  --tab-nav-idle:  var(--satchel-text-dim);
-  --tab-nav-hover: var(--satchel-text-mid);
-  --tab-nav-on:    var(--satchel-gold);
-  --tab-nav-line:  var(--satchel-line);
+  --tab-nav-idle:  var(--row-text-dim);
+  --tab-nav-hover: var(--row-text-mid);
+  --tab-nav-on:    var(--row-gold);
+  --tab-nav-line:  var(--row-line);
 }
 
 /* ── Panel ──────────────────────────────────────────────────────────────── */

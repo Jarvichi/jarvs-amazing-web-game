@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import type { HubLocationBundle } from '../../data/hub/loader'
 import { ANIMAL_TYPES, TINT_PALETTES, type AnimalType } from '../../game/hub/animals'
 import { getFriendshipLevel } from '../../game/hub/friendship'
-import { FilterChips } from './satchel/FilterChips'
+import { FilterChips } from '../ui/rows/FilterChips'
 import { getRelationship } from '../../game/hub/relationships'
 import {
   hasMetNpc, getMetNpcIds,

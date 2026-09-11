@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { isHapticsSupported, isHapticsEnabled, setHapticsEnabled } from '../../../game/haptics'
-import { SettingsRow } from './SettingsRow'
-import { SettingsToggle } from './SettingsToggle'
-import { SettingsSlider } from './SettingsSlider'
+import { SettingsRow } from '../../ui/rows/SettingsRow'
+import { SettingsToggle } from '../../ui/rows/SettingsToggle'
+import { SettingsSlider } from '../../ui/rows/SettingsSlider'
 import {
   loadBattlePopups, saveBattlePopups,
   loadTextSize, saveTextSize,
