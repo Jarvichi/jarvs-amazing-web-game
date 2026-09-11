@@ -71,6 +71,7 @@ import { isFarmUnlocked, loadFarmState, saveFarmState, getFarmProductionRate } f
 import { tickAll } from '../../game/tick'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { Button } from '../ui/Button'
+import { Icon } from '../ui/icons/Icon'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -1873,7 +1874,7 @@ export function CityBuilder({ onBack }: Props) {
                     disabled={!affordable}
                     title={affordable ? 'Expand the city now' : 'Not enough resources'}
                   >
-                    {affordable ? '🏢 EXPAND NOW' : '🔒 NEED RESOURCES'}
+                    {affordable ? '🏢 EXPAND NOW' : <><Icon name="lock" size={13} /> NEED RESOURCES</>}
                   </Button>
                 )}
                 <Button onClick={() => setShowExpandModal(false)}>CLOSE</Button>

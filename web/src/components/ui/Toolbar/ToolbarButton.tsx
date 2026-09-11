@@ -1,5 +1,6 @@
 import React from 'react';
 import { ReactNode } from 'react';
+import { Icon } from '../icons/Icon';
 
 export interface ToolbarButtonProps {
   onClick?: () => void
@@ -31,7 +32,7 @@ export function ToolbarButton({ onClick, active, disabled, label, icon, locked, 
 
   return (
     <button className={cls} onClick={onClick} disabled={disabled} title={title} style={style}>
-      {locked ? <div className="filter-btn-icon">🔒</div> : icon ? <div className="filter-btn-icon">{icon}</div> : null}
+      {locked ? <div className="filter-btn-icon"><Icon name="lock" size={14} /></div> : icon ? <div className="filter-btn-icon">{icon}</div> : null}
       {label && <span>{label}</span>}
     </button>
   )

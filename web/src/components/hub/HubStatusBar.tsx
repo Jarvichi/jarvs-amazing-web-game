@@ -81,7 +81,7 @@ export function HubStatusBar({
 
       <ToolbarButton icon="📋" title="Menu" onClick={onOpenMenu} />
       <ToolbarButton
-        icon={worldMapLocked ? '🔒🗺' : '🗺'}
+        icon={worldMapLocked ? <><Icon name="lock" size={12} />🗺</> : '🗺'}
         title={worldMapLocked ? 'World Map — locked' : 'World Map'}
         className={worldMapLocked ? 'hub-status-bar__map-btn--locked' : undefined}
         onClick={worldMapLocked ? onWorldMapLocked : onWorldMap}

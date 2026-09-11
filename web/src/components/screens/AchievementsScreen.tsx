@@ -215,7 +215,7 @@ export function AchievementsScreen({ onBack, onCrystalsChanged, embedded }: Prop
                     {justDone ? '✓ DONE' : 'CLAIM'}
                   </Button>
                 ) : (
-                  <span className="ach-status-locked">🔒</span>
+                  <span className="ach-status-locked"><Icon name="lock" size={13} /></span>
                 )}
               </div>
             </div>

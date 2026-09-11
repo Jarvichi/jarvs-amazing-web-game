@@ -1,5 +1,7 @@
 import { User } from "firebase/auth";
+import type { ReactNode } from "react";
 import { Button } from "./Button";
+import { Icon } from "./icons/Icon";
 
 export interface Props {
     onSignIn: () => void;
@@ -18,7 +20,7 @@ export interface Props {
 
 export function LoginButton({ onSignIn, onPlayerTap, user, playerName, className }: Props) {
     const signedIn = !!user && !user.isAnonymous
-    const icon  = signedIn ? '👤' : '🔒'
+    const icon: ReactNode = signedIn ? '👤' : <Icon name="lock" size={13} />
     const label = signedIn ? (playerName ?? user!.displayName ?? user!.email) : 'SIGN IN'
     const body  = (
         <>

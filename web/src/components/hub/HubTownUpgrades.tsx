@@ -88,7 +88,7 @@ export function HubTownUpgradesContent({
               if (next.maxed || !next.def) {
                 btnLabel = 'Fully upgraded'; disabled = true
               } else if (next.repLocked) {
-                btnLabel = `🔒 Needs ${next.repRequired} standing`; disabled = true
+                btnLabel = <><Icon name="lock" size={13} /> Needs {next.repRequired} standing</>; disabled = true
                 reason = `Raise the town's standing to ${next.repRequired}.`
               } else if (crystals < next.cost) {
                 btnLabel = <><Icon name="crystal" size={13} /> {next.cost}</>; disabled = true

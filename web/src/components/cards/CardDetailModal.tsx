@@ -344,7 +344,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                   <>
                     <button className="cdm-sw-row u-flex u-gap-3 cdm-sw-row--btn" onClick={() => toggleRow('affinity')}>
                       <span className="cdm-sw-label cdm-sw-label--affinity">
-                        {masteryLvl < 1 ? '🔒' : '✦'} Affinity
+                        {masteryLvl < 1 ? <Icon name="lock" size={12} /> : '✦'} Affinity
                       </span>
                       <span className="cdm-sw-tags">{u.affinity.label}</span>
                       <span className="cdm-sw-chevron">{expandedRow === 'affinity' ? '▲' : '▼'}</span>

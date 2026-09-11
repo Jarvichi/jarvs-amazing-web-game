@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { getQuestStatuses, QuestChainStatus } from '../../game/quests'
 import { getCardCatalog } from '../../game/cards'
+import { Icon } from '../ui/icons/Icon'
 
 interface Props {
   onBack: () => void
@@ -39,7 +40,7 @@ function QuestChainCard({ status }: { status: QuestChainStatus }) {
           const locked = !completed && i > activeStep
           return (
             <div key={i} className={`quest-step${done ? ' quest-step--done' : ''}${locked ? ' quest-step--locked' : ''}`}>
-              <span className="quest-step-status">{done ? '✓' : locked ? '🔒' : '▸'}</span>
+              <span className="quest-step-status">{done ? '✓' : locked ? <Icon name="lock" size={11} /> : '▸'}</span>
               <span className="quest-step-label">{step.label}</span>
               {!locked && target > 1 && (
                 <span className="quest-step-progress">[{progress}/{target}]</span>
