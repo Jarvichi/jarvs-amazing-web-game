@@ -16,7 +16,7 @@ export const ICON_NAMES = [
   'settings', 'trophy', 'minigames', 'sword', 'infinity', 'hub', 'crystal',
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
   'search', 'calendar', 'shield', 'bolt', 'pause', 'volume', 'display',
-  'database', 'star', 'satchel', 'scroll', 'town', 'warning', 'card',
+  'database', 'star', 'satchel', 'scroll', 'town', 'warning', 'card', 'pack',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -223,6 +223,19 @@ export function IconSprite() {
         <symbol id="icon-card" viewBox="0 0 24 24">
           <rect x="5" y="2" width="14" height="20" rx="2" />
           <path d="M12 8l2.6 4.5L12 17l-2.6-4.5z" fill="var(--game-bg, #0a0a0a)" />
+        </symbol>
+
+        {/* A wrapped gift box — the card-pack purchase, distinct from
+            icon-collection's storage-box shape. Ribbon cross cut from the
+            fill; the bow is two circles plus a small knot rather than a
+            freehand loop, so it stays legible at 24x24. */}
+        <symbol id="icon-pack" viewBox="0 0 24 24">
+          <rect x="4" y="8" width="16" height="13" rx="2" />
+          <rect x="10.5" y="8" width="3" height="13" fill="var(--game-bg, #0a0a0a)" />
+          <rect x="4" y="12.5" width="16" height="3" fill="var(--game-bg, #0a0a0a)" />
+          <circle cx="9" cy="5.3" r="2.2" />
+          <circle cx="15" cy="5.3" r="2.2" />
+          <rect x="10.9" y="4" width="2.2" height="2.6" rx="0.6" />
         </symbol>
       </defs>
     </svg>
