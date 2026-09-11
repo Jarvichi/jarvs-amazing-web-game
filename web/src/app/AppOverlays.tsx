@@ -373,7 +373,7 @@ export function AppOverlays() {
       {questCompletes.length === 0 && chronicleCompletes.length > 0 && (
         <div className="exotic-drop-overlay" onClick={() => setChronicleCompletes(prev => prev.slice(1))}>
           <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
-            <div className="exotic-drop-title">📜 CHAPTER COMPLETE 📜</div>
+            <div className="exotic-drop-title"><Icon name="chronicle" size={13} /> CHAPTER COMPLETE <Icon name="chronicle" size={13} /></div>
             <div className="exotic-drop-name">{chronicleCompletes[0].title}</div>
             <div className="exotic-drop-desc">
               The Chronicle remembers. You earned <strong>{describeReward(chronicleCompletes[0].reward)}</strong> and
@@ -388,8 +388,8 @@ export function AppOverlays() {
       {weeklyReward && (
         <div className="exotic-drop-overlay" onClick={() => setWeeklyReward(null)}>
           <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
-            <div className="exotic-drop-title">📜 WEEKLY CHALLENGE COMPLETE 📜</div>
-            <div className="exotic-drop-icon">{weeklyReward.combined ? '💠' : '📜'}</div>
+            <div className="exotic-drop-title"><Icon name="chronicle" size={13} /> WEEKLY CHALLENGE COMPLETE <Icon name="chronicle" size={13} /></div>
+            <div className="exotic-drop-icon">{weeklyReward.combined ? '💠' : <Icon name="chronicle" size={44} />}</div>
             <div className="exotic-drop-name">{getWeeklyChallenge().loreTitle}</div>
             <div className="exotic-drop-desc">
               {weeklyReward.combined

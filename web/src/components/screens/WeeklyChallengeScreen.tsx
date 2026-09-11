@@ -51,11 +51,11 @@ export function WeeklyChallengeScreen({ onStart, onBack }: Props) {
 
       <div className="dc-rule">
         <strong>This week's constraint:</strong> {challenge.constraint.label}.
-        Everyone faces the same challenge — win once to claim a 📜 Chronicle Fragment.
+        Everyone faces the same challenge — win once to claim a <Icon name="chronicle" size={13} /> Chronicle Fragment.
       </div>
 
       <div className="wc-fragments u-flex u-items-c u-gap-6">
-        <span>📜 Fragments: {fragments} / 3</span>
+        <span><Icon name="chronicle" size={13} /> Fragments: {fragments} / 3</span>
         <span>💠 Shards: {shards}</span>
       </div>
 

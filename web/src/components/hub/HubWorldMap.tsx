@@ -106,7 +106,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
                 </span>
               </ToolbarLabel>
             )}
-            <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
+            <ToolbarButton icon={<Icon name="scroll" size={16} />} title="Quests" onClick={() => setQuestsOpen(true)} />
             <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />
             <ToolbarSpacer />
 

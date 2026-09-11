@@ -28,7 +28,7 @@ export function ChronicleRow({ number, title, teaser, date, reward, unread = fal
   const label = `Chapter ${number} — ${title}`
   const body = (
     <>
-      <span className="news-chapter__icon" aria-hidden="true">📜</span>
+      <span className="news-chapter__icon" aria-hidden="true"><Icon name="chronicle" size={16} /></span>
       <span className="news-chapter__label">
         <span className="news-chapter__title">
           {label}

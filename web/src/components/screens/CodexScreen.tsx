@@ -7,6 +7,7 @@ import {
 import { RARITY_COLOR } from '../../theme'
 import type { CardRarity } from '../../game/types'
 import { EmptyState } from '../ui/EmptyState'
+import { Icon } from '../ui/icons/Icon'
 
 type CodexTab = 'cards' | 'relics' | 'world' | 'fragments' | 'conversations' | 'chronicle'
 type CardTypeFilter = 'all' | 'unit' | 'structure' | 'upgrade'
@@ -60,7 +61,7 @@ function ChronicleLorePanel({ entry }: { entry: CodexChronicleEntry }) {
   if (!entry.unlocked) {
     return (
       <div className="codex-entry codex-entry--locked">
-        <div className="codex-entry-name">📜 Chapter {entry.number} — ???</div>
+        <div className="codex-entry-name"><Icon name="chronicle" size={13} /> Chapter {entry.number} — ???</div>
         <div className="codex-entry-locked-hint">Complete this Fracture Chronicle chapter to unlock its entry.</div>
       </div>
     )
@@ -68,7 +69,7 @@ function ChronicleLorePanel({ entry }: { entry: CodexChronicleEntry }) {
   return (
     <div className="codex-entry">
       <div className="codex-entry-header">
-        <span className="codex-entry-name" style={{ color: '#ffd54f' }}>📜 {entry.title}</span>
+        <span className="codex-entry-name" style={{ color: '#ffd54f' }}><Icon name="chronicle" size={13} /> {entry.title}</span>
         <span className="codex-entry-tag">CHAPTER {entry.number}</span>
       </div>
       {entry.lore.split('\n\n').map((para, i) => (

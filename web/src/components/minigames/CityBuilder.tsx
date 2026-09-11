@@ -1756,7 +1756,7 @@ export function CityBuilder({ onBack }: Props) {
       <ToolbarDropdown label="⋯" title="More">
         <div className="toolbar-overflow-dropdown">{overflowToolbarButtons}</div>
         <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings" label="UPGRADES" icon="★" />
-        <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history" label="HISTORY" icon="📜" />
+        <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history" label="HISTORY" icon={<Icon name="chronicle" size={16} />} />
         <ToolbarButton onClick={() => setScreen('zones')} title="Set district zones per row" label="ZONES" icon="🗺" />
         {cityRows <= MAX_CITY_ROWS && (
           <ToolbarButton

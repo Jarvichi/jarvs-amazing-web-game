@@ -567,7 +567,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
         label={bulldozer ? 'DEMOLISH' : 'BUILD'}
         icon={bulldozer ? '🏗' : '👷'}
       />
-      <ToolbarButton onClick={() => setScreen('chronicle')} label="HISTORY" icon="📜" />
+      <ToolbarButton onClick={() => setScreen('chronicle')} label="HISTORY" icon={<Icon name="chronicle" size={16} />} />
       <ToolbarButton
         className={canAffordFarmExpansion(farm, city.gold, city.resources) ? 'city-expand-btn--ready' : undefined}
         onClick={() => setShowExpandModal(true)}

@@ -3,6 +3,7 @@ import { rewardSummary, type QuestTarget, type QuestView } from '../../../game/h
 import { ActionCard } from '../../ui/rows/ActionCard'
 import { ListRow } from '../../ui/rows/ListRow'
 import { EntityChip } from '../../ui/rows/EntityChip'
+import { Icon } from '../../ui/icons/Icon'
 
 interface TargetProps {
   target: QuestTarget
@@ -62,7 +63,7 @@ export function QuestProgressRow({ view, onShowOnMap, actions }: ProgressProps) 
 
   return (
     <ListRow
-      icon={view.kind === 'bounty' ? '🎯' : '📜'}
+      icon={view.kind === 'bounty' ? '🎯' : <Icon name="scroll" size={13} />}
       title={view.title}
       subtitle={
         <>

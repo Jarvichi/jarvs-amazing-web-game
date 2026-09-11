@@ -40,7 +40,7 @@ export function ItemDetailSheet({ detail, onClose }: Props) {
             <>
               <GroupHeading tone={isSatisfied(item) ? 'gold' : 'default'}>Wanted for</GroupHeading>
               <ListRow
-                icon="📜"
+                icon={<Icon name="scroll" size={13} />}
                 title={item.need.questTitle}
                 subtitle={isSatisfied(item) ? 'You have enough — hand it in.' : `${item.count} of ${item.need.required} gathered`}
                 progress={{ current: item.count, required: item.need.required }}
