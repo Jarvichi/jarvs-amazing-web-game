@@ -181,9 +181,22 @@
   width: 100%;
 }
 
+.character-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 36px 20px;
+  max-width: 580px;
+  margin: 0 auto;
+  width: 100%;
+}
 
-
-
+.character-name-error {
+  color: var(--accent-ember);
+  font-size: 0.75rem;
+  margin-top: 0.3rem;
+}
 
 .character-name-input {
   background: var(--game-bg-raised);
