@@ -11,6 +11,7 @@ import {
   ARCH_SCHOLAR_UPGRADE_MULT, CAST_WINDUP_MS,
 } from './constants';
 import { DEATH_LINGER_MS } from './combat';
+import { applyForcedMarch } from './heroAbilities';
 
 /** Returns the mana cost the player actually pays for a card, after archetype passives. */
 export function getEffectiveCardCost(card: Card, state: GameState): number {
@@ -137,6 +138,8 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
       );
       unit.y = STRUCTURE_Y_SLOTS.find(y => !usedY.has(y)) ?? STRUCTURE_Y_SLOTS[0];
     }
+    // Forced March (Road Captain): units deployed while he lives arrive further forward
+    applyForcedMarch(s.field, unit);
     s.field.push(unit);
     const verb = card.cardType === 'structure' ? 'built' : 'deployed';
     const who = owner === 'player' ? 'You' : 'Opponent';
