@@ -7,26 +7,32 @@
    steps this sheet shares with it exactly are aliases rather than copies. The
    three below that stay literal are deliberate: the sheet sits closer to the
    camera than a hub modal does, and wants a darker dim/off pair and a tighter
-   hairline than the hub's own. */
+   hairline than the hub's own.
 
-/* The ramp is shared by anything reusing the satchel's tiles/grid outside the
-   sheet itself (e.g. the chef's cooking picker, .chef-cook in hub.css). */
+   The row/tile/group vocabulary this sheet's content is built from — ListRow,
+   ItemTile, GroupHeading, FilterChips, EntityChip, ActionCard,
+   CollapsibleGroup — moved to rows.css (#2320); this file now defines only
+   the sheet's own shell (background, header, search field, body scroll,
+   tablet layout) plus the --row-* palette those promoted components read. */
+
+/* The ramp is shared by anything reusing the row vocabulary outside the sheet
+   itself (e.g. the chef's cooking picker, .chef-cook in hub.css). */
 .satchel-sheet,
 .chef-cook {
-  --satchel-text:     var(--hub-text);
-  --satchel-text-mid: var(--hub-text-on);
-  --satchel-text-dim: #5f8a5f;
-  --satchel-text-off: #3d573d;
-  --satchel-line:     #223022;
-  --satchel-line-soft:#162016;
+  --row-text:     var(--hub-text);
+  --row-text-mid: var(--hub-text-on);
+  --row-text-dim: #5f8a5f;
+  --row-text-off: #3d573d;
+  --row-line:     #223022;
+  --row-line-soft:#162016;
   --satchel-bg:       #0a0f0a;
-  --satchel-bg-raised:#0d130d;
-  --satchel-gold:     var(--color-gold-alt);
-  --satchel-gold-dim: var(--color-gold-dim);
+  --row-bg-raised:#0d130d;
+  --row-gold:     var(--color-gold-alt);
+  --row-gold-dim: var(--color-gold-dim);
 
-  --close-btn-color:    var(--satchel-text-dim);
-  --close-btn-color-on: var(--satchel-text-mid);
-  --empty-state-color:  var(--satchel-text-dim);
+  --close-btn-color:    var(--row-text-dim);
+  --close-btn-color-on: var(--row-text-mid);
+  --empty-state-color:  var(--row-text-dim);
 
   /* One header height for every section. Sections put different things in
      the header — a search field (Satchel, Quests), a figure (Town, Codex),
@@ -44,8 +50,8 @@
   display: flex;
   flex-direction: column;
   background: var(--satchel-bg);
-  border: 1px solid var(--satchel-line);
-  color: var(--satchel-text);
+  border: 1px solid var(--row-line);
+  color: var(--row-text);
   font-family: var(--font-mono);
   font-size: 12px;
   overflow: hidden;
@@ -103,7 +109,7 @@
   gap: var(--gap-4);
   padding: 10px 12px;
   min-height: var(--satchel-header-h);
-  border-bottom: 1px solid var(--satchel-line);
+  border-bottom: 1px solid var(--row-line);
 }
 .satchel-sheet__title {
   margin: 0;
@@ -118,7 +124,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--satchel-text-mid);
+  color: var(--row-text-mid);
   white-space: nowrap;
 }
 .satchel-sheet__search {
@@ -131,33 +137,33 @@
   display: flex;
   align-items: center;
   gap: var(--gap-2);
-  background: var(--satchel-bg-raised);
-  border: 1px solid var(--satchel-line);
+  background: var(--row-bg-raised);
+  border: 1px solid var(--row-line);
   border-radius: var(--radius-sm);
   padding: 0 8px;
 }
 .satchel-sheet__search:focus-within { border-color: var(--hub-line-on); }
-.satchel-sheet__search-glyph { color: var(--satchel-text-off); flex: 0 0 auto; }
+.satchel-sheet__search-glyph { color: var(--row-text-off); flex: 0 0 auto; }
 .satchel-sheet__search input {
   flex: 1 1 auto;
   min-width: 0;
   background: none;
   border: none;
   outline: none;
-  color: var(--satchel-text);
+  color: var(--row-text);
   font-family: var(--font-mono);
   /* iOS Safari zooms the whole page when a focused field is under 16px. This
      is the one place in the sheet that must not go smaller. */
   font-size: 16px;
   padding: 0;
 }
-.satchel-sheet__search input::placeholder { color: var(--satchel-text-off); }
+.satchel-sheet__search input::placeholder { color: var(--row-text-off); }
 .satchel-sheet__search input::-webkit-search-cancel-button { filter: grayscale(1) opacity(0.5); }
 
 .satchel-sheet__meta {
   flex: 0 0 auto;
   font-size: 11px;
-  color: var(--satchel-text-mid);
+  color: var(--row-text-mid);
   font-variant-numeric: tabular-nums;
 }
 
@@ -176,262 +182,6 @@
 }
 .satchel-sheet__body:focus { outline: none; }
 .satchel-sheet__body:focus-visible { outline: var(--focus-ring); outline-offset: calc(-1 * var(--focus-ring-offset)); }
-
-
-/* ── Group headings ─────────────────────────────────────────────────────── */
-
-.satchel-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--gap-4);
-  margin: 18px 0 8px;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--satchel-text-dim);
-}
-.satchel-group:first-child { margin-top: 0; }
-.satchel-group--gold { color: var(--satchel-gold-dim); }
-.satchel-group__count { font-variant-numeric: tabular-nums; }
-
-/* ── Filter chips ───────────────────────────────────────────────────────── */
-
-.satchel-chips {
-  display: flex;
-  gap: 5px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  margin-bottom: 12px;
-  padding-bottom: 2px;
-}
-.satchel-chips::-webkit-scrollbar { display: none; }
-.satchel-chip {
-  flex: 0 0 auto;
-  background: none;
-  border: 1px solid var(--satchel-line);
-  border-radius: 99px;
-  padding: 5px 10px;
-  cursor: pointer;
-  color: var(--satchel-text-dim);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  white-space: nowrap;
-}
-.satchel-chip:hover { color: var(--satchel-text-mid); border-color: var(--hub-line-on); }
-.satchel-chip:active { transform: translateY(1px); }
-.satchel-chip--on {
-  border-color: var(--satchel-gold);
-  color: var(--satchel-gold);
-  background: color-mix(in srgb, var(--satchel-gold) 7%, transparent);
-}
-.satchel-chip__count { margin-left: 5px; color: var(--satchel-text-off); font-variant-numeric: tabular-nums; }
-.satchel-chip--on .satchel-chip__count { color: var(--satchel-gold-dim); }
-
-/* ── Entity chips ───────────────────────────────────────────────────────── */
-
-.entity-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  border: 1px solid var(--satchel-line);
-  border-radius: 99px;
-  padding: 1px 8px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--satchel-text-mid);
-  vertical-align: baseline;
-}
-button.entity-chip { background: none; cursor: pointer; }
-.entity-chip--tappable:hover { border-color: var(--hub-line-on); color: var(--satchel-text); }
-.entity-chip--tappable:active { transform: translateY(1px); }
-.entity-chip--gold { border-color: var(--satchel-gold-dim); color: var(--satchel-gold); }
-.entity-chip--away { border-color: #4a4430; color: var(--satchel-gold-dim); }
-.entity-chip--quiet { border-color: var(--satchel-line-soft); color: var(--satchel-text-dim); }
-.entity-chip[disabled] { opacity: 0.45; cursor: default; }
-
-/* ── List rows ──────────────────────────────────────────────────────────── */
-
-.satchel-row {
-  display: flex;
-  align-items: center;
-  gap: var(--gap-3);
-  border-bottom: 1px solid var(--satchel-line-soft);
-}
-.satchel-row__main {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 9px 2px;
-  text-align: left;
-  background: none;
-  border: none;
-  color: inherit;
-  font: inherit;
-}
-.satchel-row__main--tappable { cursor: pointer; }
-.satchel-row__main--tappable:hover { background: color-mix(in srgb, var(--satchel-text-mid) 6%, transparent); }
-.satchel-row__main--tappable:active { transform: translateY(1px); }
-.satchel-row__icon { flex: 0 0 auto; width: 18px; text-align: center; font-size: 13px; }
-.satchel-row__label { flex: 1 1 auto; min-width: 0; }
-.satchel-row__title {
-  display: block;
-  font-size: 11.5px;
-  color: var(--satchel-text);
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.satchel-row__subtitle {
-  display: block;
-  margin-top: 2px;
-  font-size: 10px;
-  color: var(--satchel-text-dim);
-  line-height: 1.4;
-}
-.satchel-row__value {
-  flex: 0 0 auto;
-  font-size: 10.5px;
-  color: var(--satchel-text-mid);
-  font-variant-numeric: tabular-nums;
-}
-.satchel-row__actions { flex: 0 0 auto; display: flex; gap: var(--gap-3); }
-.satchel-row--gold .satchel-row__title { color: var(--satchel-gold); }
-.satchel-row--dim { opacity: 0.65; }
-
-.satchel-row__bar {
-  display: block;
-  height: 3px;
-  margin-top: 5px;
-  background: var(--satchel-line-soft);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-.satchel-row__bar i { display: block; height: 100%; background: #4f9a4f; transition: width var(--dur-normal); }
-.satchel-row__bar--gold i { background: var(--satchel-gold); }
-
-/* ── Action cards ───────────────────────────────────────────────────────── */
-
-.satchel-action {
-  border: 1px solid var(--satchel-line);
-  border-left: 2px solid var(--satchel-text-dim);
-  border-radius: var(--radius-sm);
-  padding: 10px 11px;
-  margin-bottom: 8px;
-}
-.satchel-action--gold {
-  border-color: #6d5510;
-  border-left-color: var(--satchel-gold);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--satchel-gold) 6%, transparent), transparent 60%);
-}
-.satchel-action__title { font-size: 12px; font-weight: 700; color: #e8e0c0; margin-bottom: 3px; }
-.satchel-action--quiet .satchel-action__title { color: var(--satchel-text); font-weight: 400; }
-.satchel-action__detail { font-size: 10px; color: #a08840; line-height: 1.5; }
-.satchel-action--quiet .satchel-action__detail { color: var(--satchel-text-dim); }
-.satchel-action__cta {
-  display: inline-block;
-  margin-top: 8px;
-  background: none;
-  border: 1px solid var(--satchel-gold);
-  border-radius: var(--radius-sm);
-  color: var(--satchel-gold);
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 5px 10px;
-}
-.satchel-action__cta:hover { background: color-mix(in srgb, var(--satchel-gold) 12%, transparent); }
-.satchel-action__cta:active { transform: translateY(1px); }
-
-/* ── Item grid ──────────────────────────────────────────────────────────── */
-
-.satchel-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-  gap: 6px;
-}
-.satchel-tile {
-  position: relative;
-  aspect-ratio: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  background: var(--satchel-bg-raised);
-  border: 1px solid var(--satchel-line);
-  border-radius: var(--radius-sm);
-  color: inherit;
-  font: inherit;
-}
-button.satchel-tile { cursor: pointer; }
-button.satchel-tile:hover { border-color: var(--hub-line-on); }
-button.satchel-tile:active { transform: scale(0.96); }
-.satchel-tile__glyph { font-size: 19px; line-height: 1; }
-.satchel-tile__count { font-size: 9.5px; color: var(--satchel-text-mid); font-variant-numeric: tabular-nums; }
-.satchel-tile--flagged { border-color: #6d5510; }
-.satchel-tile--flagged::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-top: 8px solid var(--satchel-gold);
-  border-left: 8px solid transparent;
-}
-.satchel-tile--complete .satchel-tile__count { color: var(--satchel-gold); }
-.satchel-tile--selected {
-  border-color: var(--satchel-gold);
-  background: #2a2a18;
-  box-shadow: inset 0 0 0 1px var(--satchel-gold);
-}
-.satchel-tile--selected::before {
-  content: "\2713";
-  position: absolute;
-  top: 2px;
-  left: 3px;
-  font-size: 9px;
-  line-height: 1;
-  color: var(--satchel-gold);
-}
-
-/* ── Collapsible groups ─────────────────────────────────────────────────── */
-
-.satchel-collapse { margin-top: 12px; }
-.satchel-collapse__toggle {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--gap-4);
-  background: none;
-  border: 1px solid var(--satchel-line);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  padding: 10px 11px;
-  color: var(--satchel-text-dim);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.satchel-collapse__toggle:hover { color: var(--satchel-text-mid); border-color: var(--hub-line-on); }
-.satchel-collapse__toggle:active { transform: translateY(1px); }
-.satchel-collapse__meta { display: flex; align-items: center; gap: 8px; }
-.satchel-collapse__meta b { color: var(--satchel-text-mid); font-variant-numeric: tabular-nums; }
-.satchel-collapse--open .satchel-collapse__toggle { border-bottom-color: transparent; border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
-.satchel-collapse__body {
-  border: 1px solid var(--satchel-line);
-  border-top: none;
-  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-  padding: 4px 11px 8px;
-}
-.satchel-collapse__body .satchel-row:last-child { border-bottom: none; }
 
 /* ── Tablet and up: nav becomes a left rail ─────────────────────────────── */
 

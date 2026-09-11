@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { FilterChips, type FilterOption } from './FilterChips'
+import { FilterChips, type FilterChipOption } from './FilterChips'
 
-const QUEST_FILTERS: FilterOption[] = [
+const QUEST_FILTERS: FilterChipOption[] = [
   { id: 'active',   label: 'Active',   count: 2 },
   { id: 'ready',    label: 'Ready',    count: 1 },
   { id: 'bounties', label: 'Bounties', count: 1 },
   { id: 'done',     label: 'Done',     count: 108 },
 ]
 
-function Interactive({ options }: { options: FilterOption[] }) {
+function Interactive({ options }: { options: FilterChipOption[] }) {
   const [activeId, setActiveId] = useState(options[0].id)
   return <FilterChips options={options} activeId={activeId} onChange={setActiveId} label="Filter quests" />
 }

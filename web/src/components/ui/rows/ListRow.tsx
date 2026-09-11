@@ -24,26 +24,26 @@ export function ListRow({ icon, title, subtitle, value, progress, onClick, actio
 
   const body = (
     <>
-      {icon != null && <span className="satchel-row__icon" aria-hidden="true">{icon}</span>}
-      <span className="satchel-row__label">
-        <span className="satchel-row__title">{title}</span>
-        {subtitle != null && <span className="satchel-row__subtitle">{subtitle}</span>}
+      {icon != null && <span className="list-row__icon" aria-hidden="true">{icon}</span>}
+      <span className="list-row__label">
+        <span className="list-row__title">{title}</span>
+        {subtitle != null && <span className="list-row__subtitle">{subtitle}</span>}
         {progress && (
-          <span className={`satchel-row__bar satchel-row__bar--${progress.tone ?? 'green'}`}>
+          <span className={`list-row__bar list-row__bar--${progress.tone ?? 'green'}`}>
             <i style={{ width: `${pct}%` }} />
           </span>
         )}
       </span>
-      {value != null && <span className="satchel-row__value">{value}</span>}
+      {value != null && <span className="list-row__value">{value}</span>}
     </>
   )
 
   return (
-    <div className={`satchel-row satchel-row--${tone}`}>
+    <div className={`list-row list-row--${tone}`}>
       {onClick
-        ? <button type="button" className="satchel-row__main satchel-row__main--tappable" onClick={onClick}>{body}</button>
-        : <div className="satchel-row__main">{body}</div>}
-      {actions != null && <div className="satchel-row__actions">{actions}</div>}
+        ? <button type="button" className="list-row__main list-row__main--tappable" onClick={onClick}>{body}</button>
+        : <div className="list-row__main">{body}</div>}
+      {actions != null && <div className="list-row__actions">{actions}</div>}
     </div>
   )
 }

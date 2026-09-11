@@ -4,10 +4,10 @@ import {
   questItems, carriedItems, itemDetail, isSatisfied, type SatchelItem,
 } from '../../game/hub/satchelItems'
 import { SatchelEmpty } from './satchel/SatchelSheet'
-import { FilterChips } from './satchel/FilterChips'
-import { GroupHeading } from './satchel/GroupHeading'
-import { ItemTile, ItemGrid } from './satchel/ItemTile'
-import { ItemDetailSheet } from './satchel/ItemDetailSheet'
+import { FilterChips } from '../ui/rows/FilterChips'
+import { GroupHeading } from '../ui/rows/GroupHeading'
+import { ItemTile, ItemGrid } from '../ui/rows/ItemTile'
+import { ItemDetailSheet } from '../ui/rows/ItemDetailSheet'
 
 type ItemFilter = 'all' | 'quest' | 'material' | 'tool'
 

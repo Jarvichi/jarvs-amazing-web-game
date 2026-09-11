@@ -1412,14 +1412,14 @@
 
 .chef-cook__prompt {
   margin: 0 0 10px;
-  color: var(--satchel-text-mid);
+  color: var(--row-text-mid);
   font-size: 12px;
   line-height: 1.5;
 }
 
 .chef-cook__counter {
   margin-bottom: 8px;
-  color: var(--satchel-text-dim);
+  color: var(--row-text-dim);
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -1427,14 +1427,14 @@
 }
 
 .chef-cook__counter-full {
-  color: var(--satchel-gold);
+  color: var(--row-gold);
 }
 
 .chef-cook__pot {
   margin-top: 12px;
   padding-top: 10px;
-  border-top: 1px solid var(--satchel-line);
-  color: var(--satchel-text-mid);
+  border-top: 1px solid var(--row-line);
+  color: var(--row-text-mid);
   font-size: 11px;
   line-height: 1.5;
   min-height: 1.5em;

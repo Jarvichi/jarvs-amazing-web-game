@@ -19,16 +19,16 @@ interface Props {
  *  count at a glance beat text rows you have to read. */
 export function ItemTile({ icon, count, label, flagged, complete, selected, onClick }: Props) {
   const className = [
-    'satchel-tile',
-    flagged && 'satchel-tile--flagged',
-    complete && 'satchel-tile--complete',
-    selected && 'satchel-tile--selected',
+    'item-tile',
+    flagged && 'item-tile--flagged',
+    complete && 'item-tile--complete',
+    selected && 'item-tile--selected',
   ].filter(Boolean).join(' ')
 
   const inner = (
     <>
-      <span className="satchel-tile__glyph" aria-hidden="true">{icon}</span>
-      {count != null && <span className="satchel-tile__count">{count}</span>}
+      <span className="item-tile__glyph" aria-hidden="true">{icon}</span>
+      {count != null && <span className="item-tile__count">{count}</span>}
     </>
   )
 
@@ -51,5 +51,5 @@ export function ItemTile({ icon, count, label, flagged, complete, selected, onCl
 
 /** Grid container for ItemTiles — 4 across on a phone, more as width allows. */
 export function ItemGrid({ children }: { children: React.ReactNode }) {
-  return <div className="satchel-grid">{children}</div>
+  return <div className="item-grid">{children}</div>
 }

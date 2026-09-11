@@ -17,11 +17,11 @@ interface Props {
  *  a ListRow. */
 export function ActionCard({ title, detail, actionLabel, onAction, tone = 'gold' }: Props) {
   return (
-    <div className={`satchel-action satchel-action--${tone}`}>
-      <div className="satchel-action__title">{title}</div>
-      {detail != null && <div className="satchel-action__detail">{detail}</div>}
+    <div className={`action-card action-card--${tone}`}>
+      <div className="action-card__title">{title}</div>
+      {detail != null && <div className="action-card__detail">{detail}</div>}
       {actionLabel && onAction && (
-        <button type="button" className="satchel-action__cta" onClick={onAction}>
+        <button type="button" className="action-card__cta" onClick={onAction}>
           {actionLabel}
         </button>
       )}

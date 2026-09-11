@@ -15,20 +15,20 @@ export function CollapsibleGroup({ title, count, children, defaultOpen = false }
   const [open, setOpen] = useState(defaultOpen)
 
   return (
-    <div className={`satchel-collapse${open ? ' satchel-collapse--open' : ''}`}>
+    <div className={`collapsible-group${open ? ' collapsible-group--open' : ''}`}>
       <button
         type="button"
-        className="satchel-collapse__toggle"
+        className="collapsible-group__toggle"
         aria-expanded={open}
         onClick={() => setOpen(v => !v)}
       >
-        <span className="satchel-collapse__title">{title}</span>
-        <span className="satchel-collapse__meta">
+        <span className="collapsible-group__title">{title}</span>
+        <span className="collapsible-group__meta">
           {count != null && <b>{count}</b>}
-          <span className="satchel-collapse__caret" aria-hidden="true">{open ? '▾' : '▸'}</span>
+          <span className="collapsible-group__caret" aria-hidden="true">{open ? '▾' : '▸'}</span>
         </span>
       </button>
-      {open && <div className="satchel-collapse__body">{children}</div>}
+      {open && <div className="collapsible-group__body">{children}</div>}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal } from '../ui/Modal'
-import { ItemTile, ItemGrid } from './satchel/ItemTile'
+import { ItemTile, ItemGrid } from '../ui/rows/ItemTile'
 import { Button } from '../ui/Button'
 import type { CookIngredient } from '../../game/hub/chefCooking'
 

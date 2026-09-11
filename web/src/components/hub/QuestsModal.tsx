@@ -8,9 +8,9 @@ import {
   type QuestView, type TownRegistry,
 } from '../../game/hub/questBoard'
 import { SatchelEmpty } from './satchel/SatchelSheet'
-import { FilterChips } from './satchel/FilterChips'
-import { GroupHeading } from './satchel/GroupHeading'
-import { ListRow } from './satchel/ListRow'
+import { FilterChips } from '../ui/rows/FilterChips'
+import { GroupHeading } from '../ui/rows/GroupHeading'
+import { ListRow } from '../ui/rows/ListRow'
 import { QuestReadyCard, QuestProgressRow } from './satchel/QuestRows'
 import { CloseButton } from '../ui/CloseButton'
 

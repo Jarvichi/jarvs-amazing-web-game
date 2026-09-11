@@ -1,13 +1,13 @@
 import React from 'react'
 
-export interface FilterOption {
+export interface FilterChipOption {
   id: string
   label: string
   count?: number
 }
 
 interface Props {
-  options: FilterOption[]
+  options: FilterChipOption[]
   activeId: string
   onChange: (id: string) => void
   /** Accessible name for the group (e.g. "Filter quests"). */
@@ -19,17 +19,17 @@ interface Props {
  *  — the wrapping tab bar taking three rows on a phone is what this fixes. */
 export function FilterChips({ options, activeId, onChange, label }: Props) {
   return (
-    <div className="satchel-chips" role="group" aria-label={label}>
+    <div className="filter-chips" role="group" aria-label={label}>
       {options.map(opt => (
         <button
           key={opt.id}
           type="button"
-          className={`satchel-chip${opt.id === activeId ? ' satchel-chip--on' : ''}`}
+          className={`filter-chip${opt.id === activeId ? ' filter-chip--on' : ''}`}
           aria-pressed={opt.id === activeId}
           onClick={() => onChange(opt.id)}
         >
           {opt.label}
-          {opt.count != null && <span className="satchel-chip__count">{opt.count}</span>}
+          {opt.count != null && <span className="filter-chip__count">{opt.count}</span>}
         </button>
       ))}
     </div>

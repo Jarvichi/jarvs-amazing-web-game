@@ -1,11 +1,11 @@
 import React from 'react'
-import { ModalBackdrop } from '../../ui/ModalBackdrop'
+import { ModalBackdrop } from '../ModalBackdrop'
 import { isSatisfied, type ItemDetail } from '../../../game/hub/satchelItems'
 import { ListRow } from './ListRow'
 import { GroupHeading } from './GroupHeading'
 import { EntityChip } from './EntityChip'
-import { SatchelEmpty } from './SatchelSheet'
-import { CloseButton } from '../../ui/CloseButton'
+import { SatchelEmpty } from '../../hub/satchel/SatchelSheet'
+import { CloseButton } from '../CloseButton'
 
 interface Props {
   detail: ItemDetail

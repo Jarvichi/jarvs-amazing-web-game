@@ -1,8 +1,8 @@
 import React from 'react'
 import { rewardSummary, type QuestTarget, type QuestView } from '../../../game/hub/questBoard'
-import { ActionCard } from './ActionCard'
-import { ListRow } from './ListRow'
-import { EntityChip } from './EntityChip'
+import { ActionCard } from '../../ui/rows/ActionCard'
+import { ListRow } from '../../ui/rows/ListRow'
+import { EntityChip } from '../../ui/rows/EntityChip'
 
 interface TargetProps {
   target: QuestTarget
