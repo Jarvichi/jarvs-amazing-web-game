@@ -63,6 +63,7 @@ const ALLOWED_HOVER_ONLY = new Map<string, string>([
   ['::-webkit-scrollbar-thumb', 'not a touch target — touch scrolling never grabs the thumb'],
   ['.card-tile--disabled', 'disabled: its hover rule exists to cancel the lift, not to invite a press'],
   ['.action-btn--noborder-disabled', 'disabled'],
+  ['.filter-chip:disabled', 'disabled: its hover rule exists to cancel the hover tint, not to invite a press'],
   ['.event-choice .event-choice-consequence',
     'styles a child of the tap target; the pressable parent .event-choice carries the :active'],
   ['.news-chapter__main--tappable .news-chapter__title',
