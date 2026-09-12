@@ -39,6 +39,33 @@ body {
 /* ─── Game Container ─────────────────────────────────── */
 
 .game-container {
+  /* Default for the row/tile vocabulary (ListRow, ItemTile, FilterChips,
+     EntityChip, ActionCard, GroupHeading — rows.css, #2320): those read
+     colour from --row-*, which rows.css's own comment says an ancestor
+     must define ("the same way satchel.css does") — .satchel-sheet and
+     .chef-cook do, with the hub's warm green ramp, but every other screen
+     was left with the custom properties undefined, which doesn't fall
+     back quietly: a `border: 1px solid var(--row-line)` with an unset
+     --row-line drops the *entire* shorthand, not just its colour, so
+     rows/chips rendered with no border and no active-state tint at all
+     (caught via #2323's Shop screenshots; #2322's Player screen shipped
+     the same gap). Defining sane app-wide defaults here — aliased to the
+     game's own text/border/gold tokens, same choice Shop's own
+     .shop-wrapper already makes locally — means the next screen that
+     adopts this vocabulary gets it for free instead of rediscovering the
+     bug. .satchel-sheet/.chef-cook's own --row-* still wins for their
+     descendants via normal cascade (more specific selector, defined
+     deeper in the tree). */
+  --row-text:      var(--game-text-color);
+  --row-text-mid:  var(--game-text-color-dim);
+  --row-text-dim:  var(--game-text-color-dim);
+  --row-text-off:  var(--game-text-color-muted);
+  --row-line:      var(--game-border);
+  --row-line-soft: var(--game-border);
+  --row-bg-raised: var(--game-bg-raised);
+  --row-gold:      var(--color-gold-alt);
+  --row-gold-dim:  var(--color-gold-dim);
+
   max-width: 740px;
   margin: 0 auto;
   padding: var(--container-pad-y) var(--container-pad-x);

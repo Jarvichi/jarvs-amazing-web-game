@@ -19,13 +19,19 @@
      defines — the same pattern `CloseButton`'s `--close-btn-color` and
      `EmptyState`'s `--empty-state-color` use, just as a small palette
      instead of one property. `.satchel-sheet` and `.chef-cook` in
-     satchel.css/hub.css are the only definitions today (the hub's warm
-     green ramp) — the same two places `--satchel-*` was scoped to before
-     this rename. There is deliberately no CRT-green default here yet: this
-     issue is a move, not an adoption pass. The first screen that wants
-     these primitives outside a satchel/chef-cook ancestor should define
-     `--row-*` on its own root, the same way satchel.css does, rather than
-     relying on an implicit fallback.
+     satchel.css/hub.css define their own (the hub's warm green ramp);
+     `.game-container` in base.css defines an app-wide default (aliased to
+     the game's own text/border/gold tokens) so a screen outside either
+     ancestor doesn't need to know it must define one — the original plan
+     here was "the first screen that wants this should define its own
+     root", but #2323 (Shop) and #2322 (Player) both shipped the same gap
+     before anyone reached for it, because an unset custom property doesn't
+     fail quietly: `border: 1px solid var(--row-line)` with `--row-line`
+     undefined drops the whole shorthand, not just its colour, so rows/
+     chips rendered with no border and no active-state tint at all. A
+     screen can still override `--row-*` on its own root for a different
+     palette (Shop does, on `.shop-wrapper`, matching its own economy
+     tokens instead of restating `.game-container`'s).
    - The form-row family reads global tokens (`--game-text-color` etc.)
      directly, same as before the move — it was never satchel-scoped, so
      there is no palette to rename, only class names. */
