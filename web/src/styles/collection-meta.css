@@ -10,12 +10,6 @@
   gap: 0.5rem;
 }
 
-.codex-tabs {
-  display: flex;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
 .codex-controls {
   display: flex;
   flex-direction: column;
@@ -33,7 +27,7 @@
   width: 100%;
   max-width: 320px;
 }
-.codex-search:focus { outline: 1px solid #aaffaa; }
+.codex-search:focus { outline: 1px solid var(--hub-text-on); }
 
 .codex-filters {
   display: flex;
@@ -72,13 +66,26 @@
 .codex-entry-name {
   font-size: 0.95rem;
   font-weight: bold;
-  color: #aaffaa;
+  color: var(--hub-text-on);
+}
+
+/* World lore's subtitle and the Memory Fragment/Chronicle accents below
+   are each a one-off flavour colour with no existing semantic token to
+   reuse — kept as literal hex here rather than invented tokens nothing
+   else would share. */
+.codex-entry-name--soft  { color: #aaffaa; }
+.codex-entry-name--frost { color: #aaddff; }
+.codex-entry-name--gold  { color: var(--accent-gold); }
+
+.codex-relic-exotic-tag {
+  position: static;
+  margin-left: 8px;
 }
 
 .codex-entry-tag {
   font-size: 0.65rem;
-  color: #668866;
-  border: 1px solid #335533;
+  color: var(--hub-text-dim);
+  border: 1px solid var(--hub-line);
   padding: 1px 5px;
 }
 
@@ -90,16 +97,16 @@
 
 .codex-entry-lore {
   font-size: 0.78rem;
-  color: #99cc99;
+  color: var(--hub-text-mid);
   font-style: italic;
-  border-left: 2px solid #2a5a2a;
+  border-left: 2px solid var(--hub-line);
   padding-left: 8px;
   margin-top: 4px;
 }
 
 .codex-entry-locked-hint {
   font-size: 0.72rem;
-  color: #556655;
+  color: var(--hub-text-off);
   margin-top: 2px;
 }
 
@@ -110,9 +117,11 @@
   gap: 6px;
   margin-top: 6px;
   padding-top: 6px;
-  border-top: 1px solid #1a3a1a;
+  border-top: 1px solid var(--hub-line);
 }
 
+/* Guardian callout is a deliberate warning accent (amber/orange) — the
+   --hub-* palette is all green, so there's no token to reuse here. */
 .codex-entry-boss-label {
   font-size: 0.65rem;
   color: #ff8844;
@@ -134,12 +143,12 @@
 }
 
 .codex-conversation-stage {
-  border-left: 2px solid #2a5a2a;
+  border-left: 2px solid var(--hub-line);
   padding-left: 0.6rem;
 }
 
 .codex-conversation-stage--locked {
-  border-left-color: #1a3a1a;
+  border-left-color: var(--hub-line);
   opacity: 0.5;
 }
 
@@ -159,18 +168,18 @@
 
 .codex-conversation-choice {
   padding-left: 0.5rem;
-  border-left: 1px solid #1a3a1a;
+  border-left: 1px solid var(--hub-line);
 }
 
 .codex-conversation-choice-label {
   font-size: 0.72rem;
-  color: #aaddaa;
+  color: var(--hub-text-on);
   margin-bottom: 0.15rem;
 }
 
 .codex-conversation-choice-response {
   font-size: 0.7rem;
-  color: #778877;
+  color: var(--hub-text-dim);
   font-style: italic;
 }
 
