@@ -1,33 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Weathered causeway pathfinder, vigil-grey coat with pale trim -->
-  <circle cx="16" cy="8.5" r="5" fill="#E3D9CF"/>
-  <path d="M11,8.5 Q16,2.5 21,8.5 L21,7 Q16,3.5 11,7 Z" fill="#5E6A8C"/>
-  <rect x="11" y="7.6" width="10" height="1.3" fill="#454E6B"/>
-  <circle cx="14" cy="9.5" r="0.8" fill="#3A3F55"/>
-  <circle cx="18" cy="9.5" r="0.8" fill="#3A3F55"/>
-  <path d="M13.5,12 L18.5,12 L17.5,13.5 L14.5,13.5 Z" fill="#8A6F4D"/>
-  <!-- Weathered grey coat -->
-  <path d="M11,14 L10,25 L22,25 L21,14 Q16,16.5 11,14 Z" fill="#5E6A8C"/>
-  <rect x="11" y="17.5" width="10.5" height="1.3" fill="#454E6B"/>
-  <rect x="11" y="21" width="10.5" height="1.3" fill="#454E6B"/>
-  <!-- Pale trim: the causeway posting -->
-  <rect x="15" y="14.5" width="2.4" height="10" fill="#C9CBDA" opacity="0.85"/>
-  <circle cx="16.2" cy="19.2" r="1.5" fill="#E8B94A"/>
-  <!-- Guide's lantern on hip -->
-  <rect x="20.6" y="21" width="2.2" height="2" rx="0.4" fill="#3A3F55"/>
-  <circle cx="21.7" cy="22" r="1" fill="#FFB347"/>
-  <!-- Sword arm -->
-  <rect x="22" y="14" width="3.5" height="6.5" rx="1" fill="#5E6A8C"/>
-  <rect x="23.8" y="6.5" width="1.7" height="14" rx="0.8" fill="#C9CBDA"/>
-  <rect x="22.2" y="19.4" width="4.8" height="1.5" rx="0.7" fill="#8A6F4D"/>
-  <!-- Shield arm with round shield -->
-  <rect x="6.5" y="14" width="3.5" height="6.5" rx="1" fill="#5E6A8C"/>
-  <circle cx="7" cy="18" r="3.6" fill="#7E8299"/>
-  <circle cx="7" cy="18" r="2.2" fill="#454E6B"/>
-  <circle cx="7" cy="18" r="0.9" fill="#E8B94A"/>
-  <!-- Legs (neutral) -->
-  <rect x="12" y="25" width="4" height="5.5" rx="1" fill="#454E6B"/>
-  <rect x="16.5" y="25" width="4" height="5.5" rx="1" fill="#454E6B"/>
-  <rect x="11" y="28.5" width="6" height="2.8" rx="1" fill="#3A3F55"/>
-  <rect x="15.5" y="28.5" width="6" height="2.8" rx="1" fill="#3A3F55"/>
+  <!-- Grey Guide — Safe Passage: lantern pole, deep hood — static fallback -->
+  <rect x="14.0" y="23.0" width="3.2" height="6.0" fill="#3A4361"/><rect x="13.5" y="27.8" width="4.2" height="1.2" fill="#20242F"/><rect x="17.0" y="23.0" width="3.2" height="6.0" fill="#3A4361"/><rect x="16.5" y="27.8" width="4.2" height="1.2" fill="#20242F"/>
+  <g transform="translate(0,-1.0)"><path d="M12,12.5 L10.6,23 L20.4,23 L19.4,12.5 Q16,14.6 12,12.5 Z" fill="#5E6A8C"/><path d="M12,12.5 Q16,14.6 19.4,12.5 L19.4,15 Q16,17 12,15 Z" fill="#3A4361"/><path d="M11.6,10.8 Q11,4.2 16,3.2 Q21,4.2 20.4,10.8 Q16,12.6 11.6,10.8 Z" fill="#5E6A8C"/><path d="M13,10.2 Q12.6,6 16,5.2 Q19.4,6 19,10.2 Q16,11.6 13,10.2 Z" fill="#20242F"/><circle cx="14.7" cy="8.6" r="0.75" fill="#C9CBDA"/><circle cx="17.3" cy="8.6" r="0.75" fill="#C9CBDA"/><rect x="21.4" y="2.6" width="1.2" height="21" fill="#6B4F3A" transform="rotate(9,22,13)"/><path d="M20.6,2.4 Q22,1 23.4,2.4 L23.4,3.4 L20.6,3.4 Z" fill="#3A4361"/><rect x="20.3" y="3.4" width="4" height="4.6" rx="0.6" fill="#3A4361"/><rect x="21" y="4.1" width="2.6" height="3.2" fill="#FFC15E"/><circle cx="22.3" cy="5.7" r="2.9" fill="#FFC15E" opacity="0.22"/><rect x="9.8" y="14" width="2.6" height="5.6" rx="1" fill="#5E6A8C"/><circle cx="11" cy="20.4" r="1.7" fill="none" stroke="#C9CBDA" stroke-width="0.8"/></g>
 </svg>
