@@ -1,12 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="6" r="5.2" fill="#8A97A0"/>
-  <path d="M13,1 Q16,-5 19,1 Z" fill="#E8C468"/>
-  <rect x="10.5" y="2" width="11" height="7" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="7" r="0.9" fill="#E8C468"/>
-  <circle cx="18" cy="7" r="0.9" fill="#E8C468"/>
-  <path d="M8,11 L6.5,24 L25.5,24 L24,11 Q16,17 8,11 Z" fill="#5E6A8C"/>
-  <rect x="12" y="14" width="8" height="1.8" fill="#E8C468"/>
-  <path d="M16,14 L13,21 L19,21 Z" fill="#E8B4C8" opacity="0.7"/>
-  <rect x="10.5" y="24" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="16" y="24" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Road Captain — Forced March: hip drum, plumed helm, baton — frame 3 — stride B -->
+  <rect x="11.0" y="22.8" width="3.2" height="6.0" fill="#26375A"/>
+  <rect x="10.5" y="27.6" width="4.2" height="1.2" fill="#1A2740"/>
+  <rect x="19.6" y="22.8" width="3.2" height="4.9" fill="#5375AC"/>
+  <rect x="19.1" y="26.5" width="4.2" height="1.2" fill="#1A2740"/>
+  <path d="M11.8,13.4 L11,22.8 L21,22.8 L20.2,13.4 Q16,15.4 11.8,13.4 Z" fill="#3D5A8C"/>
+  <path d="M12.4,15 L19.6,15 M12.2,17 L19.8,17" stroke="#D9A441" stroke-width="0.85"/>
+  <circle cx="16" cy="9.4" r="3.7" fill="#E8C9A8"/>
+  <path d="M12.1,8.8 Q12.1,4.6 16,4.4 Q19.9,4.6 19.9,8.8 Z" fill="#26375A"/>
+  <rect x="11.9" y="8.6" width="8.2" height="1.1" fill="#D9A441"/>
+  <path d="M15.2,4.4 Q15.6,0.6 17.8,0.2 Q17,2.4 16.8,4.4 Z" fill="#C4453F"/>
+  <circle cx="14.6" cy="10.4" r="0.7" fill="#26375A"/>
+  <circle cx="17.4" cy="10.4" r="0.7" fill="#26375A"/>
+  <ellipse cx="8.8" cy="19.4" rx="3.5" ry="3.9" fill="#C9B89A"/>
+  <ellipse cx="8.8" cy="19.4" rx="3.5" ry="3.9" fill="none" stroke="#26375A" stroke-width="0.7"/>
+  <path d="M6,16.6 L11.6,22.2 M11.6,16.6 L6,22.2" stroke="#D9A441" stroke-width="0.7"/>
+  <path d="M20.6,14.2 L23.8,9.6 L25,10.6 L22,15.2 Z" fill="#3D5A8C"/>
+  <rect x="24.2" y="7" width="0.9" height="3.6" fill="#6B4F3A" transform="rotate(18,24.6,8.8)"/>
+  <circle cx="25.4" cy="6.6" r="1.05" fill="#D9A441"/>
 </svg>
