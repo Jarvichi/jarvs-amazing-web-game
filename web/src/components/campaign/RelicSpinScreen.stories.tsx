@@ -6,6 +6,11 @@ import { RelicSpinScreen } from './RelicSpinScreen';
 const meta = {
   component: RelicSpinScreen,
   parameters: { layout: 'fullscreen' },
+  decorators: [(Story) => (
+    <div className="game-container" style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  )],
 } satisfies Meta<typeof RelicSpinScreen>;
 
 export default meta;

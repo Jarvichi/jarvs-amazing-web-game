@@ -1,4 +1,6 @@
 import React from 'react'
+import { NodeScreen } from './node/NodeScreen'
+import { Button } from '../ui/Button'
 
 export type CampChoice = 'heal' | 'rest' | 'meditate'
 
@@ -28,39 +30,27 @@ export function CampScreen({
   const atMaxHp = playerHp >= maxHp
   const atMaxLives = livesRemaining >= maxLives
   const hasRestingCards = fatiguedCards.length > 0
+  const stats = { hp: playerHp, maxHp, lives: livesRemaining, maxLives }
 
   if (result) {
     return (
-      <div className="overlay-screen camp-screen">
-        <div className="camp-header u-text-c">
-          <div className="camp-title">— CAMP —</div>
-          <div className="camp-stats u-flex u-gap-8 u-just-c">
-            <span>HP: {playerHp}/{maxHp}</span>
-            <span>Lives: {livesRemaining}/{maxLives}</span>
-          </div>
-        </div>
+      <NodeScreen title="CAMP" stats={stats} actions={<Button size="lg" onClick={onContinue}>CONTINUE</Button>}>
         <div className="camp-result">
           <div className="camp-result-message">{result}</div>
-          <button className="camp-continue" onClick={onContinue}>CONTINUE</button>
         </div>
-      </div>
+      </NodeScreen>
     )
   }
 
   return (
-    <div className="overlay-screen camp-screen">
+    <NodeScreen title="CAMP" stats={stats}>
       <div className="camp-header u-text-c">
-        <div className="camp-title">— CAMP —</div>
         <div className="camp-sub">Rest your weary troops. Choose wisely.</div>
-        <div className="camp-stats u-flex u-gap-8 u-just-c">
-          <span>HP: {playerHp}/{maxHp}</span>
-          <span>Lives: {livesRemaining}/{maxLives}</span>
-          {fatiguedCards.length > 0 && <span>Resting: {fatiguedCards.join(', ')}</span>}
-        </div>
+        {fatiguedCards.length > 0 && <div className="camp-stats">Resting: {fatiguedCards.join(', ')}</div>}
       </div>
 
       <div className="camp-choices u-col">
-        <button className="camp-choice" onClick={() => onChoose('heal')}>
+        <Button className="camp-choice" onClick={() => onChoose('heal')}>
           <div className="camp-choice-icon">⛺</div>
           <div className="camp-choice-name">HEAL</div>
           <div className="camp-choice-desc">
@@ -68,9 +58,9 @@ export function CampScreen({
               ? `You're already at full health — gain +${healAmount} bonus HP above your maximum.`
               : `Restore ${healAmount} HP. (${playerHp} → ${Math.min(playerHp + healAmount, maxHp)})`}
           </div>
-        </button>
+        </Button>
 
-        <button
+        <Button
           className="camp-choice"
           onClick={() => onChoose('rest')}
           disabled={!hasRestingCards}
@@ -83,9 +73,9 @@ export function CampScreen({
               ? '50% chance to recover one of your resting cards and return it to the deck.'
               : 'No cards are currently resting — nothing to recover.'}
           </div>
-        </button>
+        </Button>
 
-        <button
+        <Button
           className="camp-choice"
           onClick={() => onChoose('meditate')}
           disabled={atMaxLives}
@@ -98,8 +88,8 @@ export function CampScreen({
               ? 'You are already at maximum lives.'
               : '50% chance to gain an extra life.'}
           </div>
-        </button>
+        </Button>
       </div>
-    </div>
+    </NodeScreen>
   )
 }

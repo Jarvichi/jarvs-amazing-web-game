@@ -7,6 +7,11 @@ import { exampleAct } from '../../game/types.sample';
 const meta = {
   component: ReplayBriefingScreen,
   parameters: { layout: 'fullscreen' },
+  decorators: [(Story) => (
+    <div className="game-container" style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  )],
 } satisfies Meta<typeof ReplayBriefingScreen>;
 
 export default meta;

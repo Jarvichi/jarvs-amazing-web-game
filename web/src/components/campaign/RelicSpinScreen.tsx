@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { NodeScreen } from './node/NodeScreen'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
 
@@ -33,41 +34,41 @@ export function RelicSpinScreen({
   ].join(' ')
 
   return (
-    <div className="relic-spin-screen u-col u-items-c u-just-c u-gap-8 u-text-c">
-      <div className="rss-bg-glow" />
+    <NodeScreen
+      title="RELIC CHECK"
+      actions={phase === 'revealed' && <Button size="lg" onClick={onContinue}>CONTINUE</Button>}
+    >
+      <div className="relic-spin-screen u-col u-items-c u-just-c u-gap-8 u-text-c u-grow">
+        <div className="rss-bg-glow" />
 
-      <div className="rss-header">RELIC CHECK</div>
-      <div className="rss-divider">══════════════════════</div>
+        <div className={iconWrapClass}>
+          <div className="rss-icon">{displayIcon}</div>
+        </div>
 
-      <div className={iconWrapClass}>
-        <div className="rss-icon">{displayIcon}</div>
+        <div className="rss-relic-name">{displayName}</div>
+
+        <div className="rss-subtitle">
+          {phase === 'spinning'
+            ? 'The fates deliberate…'
+            : breaks
+            ? 'The relic could not endure.'
+            : 'The relic holds firm.'}
+        </div>
+
+        {phase === 'revealed' && (
+          <>
+            <div className={`rss-verdict ${breaks ? 'rss-verdict--break' : 'rss-verdict--survive'}`}>
+              {breaks ? <><Icon name="warning" size={15} /> RELIC SHATTERS</> : '✓ RELIC SURVIVES'}
+            </div>
+
+            <div className="rss-flavour">
+              {breaks
+                ? (brokenDesc ?? `The ${relicName} could not withstand the strain.`)
+                : `The ${relicName} endures. It lives to fight another day.`}
+            </div>
+          </>
+        )}
       </div>
-
-      <div className="rss-relic-name">{displayName}</div>
-
-      <div className="rss-subtitle">
-        {phase === 'spinning'
-          ? 'The fates deliberate\u2026'
-          : breaks
-          ? 'The relic could not endure.'
-          : 'The relic holds firm.'}
-      </div>
-
-      {phase === 'revealed' && (
-        <>
-          <div className={`rss-verdict ${breaks ? 'rss-verdict--break' : 'rss-verdict--survive'}`}>
-            {breaks ? <><Icon name="warning" size={15} /> RELIC SHATTERS</> : '✓ RELIC SURVIVES'}
-          </div>
-
-          <div className="rss-flavour">
-            {breaks
-              ? (brokenDesc ?? `The ${relicName} could not withstand the strain.`)
-              : `The ${relicName} endures. It lives to fight another day.`}
-          </div>
-
-          <Button size="lg" onClick={onContinue}>CONTINUE</Button>
-        </>
-      )}
-    </div>
+    </NodeScreen>
   )
 }

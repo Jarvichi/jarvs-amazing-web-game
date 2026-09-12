@@ -901,12 +901,14 @@
 /* ── Relic Spin Screen ───────────────────────────────────── */
 
 .relic-spin-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
+  /* Used to be its own fixed full-screen takeover, back when this was the
+     only chrome around it; now it's NodeScreen's content (#2324), so it
+     just fills that content area — position:relative keeps .rss-bg-glow's
+     absolute top:0 anchored to this box rather than the viewport. */
+  position: relative;
+  flex: 1;
+  min-height: 0;
   padding: 24px 16px;
-  background: rgba(0, 0, 0, 0.95);
-  animation: fadeIn 0.35s ease-out;
 }
 
 .rss-bg-glow {

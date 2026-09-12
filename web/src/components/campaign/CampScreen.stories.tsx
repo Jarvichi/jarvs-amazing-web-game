@@ -6,6 +6,13 @@ import { CampScreen } from './CampScreen';
 const meta = {
   component: CampScreen,
   parameters: { layout: 'fullscreen' },
+  // Real usage always sits inside .game-container (#2183) — without it this
+  // story showed the shell at true unconstrained fullscreen width.
+  decorators: [(Story) => (
+    <div className="game-container" style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  )],
 } satisfies Meta<typeof CampScreen>;
 
 export default meta;

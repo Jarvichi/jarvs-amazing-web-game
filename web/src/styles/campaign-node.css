@@ -1,0 +1,49 @@
+/* campaign-node.css — the shared frame for the eight campaign run-loop
+   screens (#2324): NodeScreen (title bar via PageHeader + a consistent
+   content/actions layout) and NodeStatsStrip (the header's HP/lives
+   readout). Each node screen's own content styling stays in
+   campaign.css/campaign-events.css; this file only owns the shell. */
+
+.node-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.node-screen-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.node-screen-actions {
+  flex-shrink: 0;
+  padding: 4px 16px 16px;
+}
+
+.node-stats-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 10px;
+  min-width: 0;
+}
+
+.node-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  white-space: nowrap;
+}
