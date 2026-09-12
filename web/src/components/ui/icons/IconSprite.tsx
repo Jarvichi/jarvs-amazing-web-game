@@ -8,7 +8,7 @@ import React from 'react'
  * `currentColor` so each icon themes with whatever text colour surrounds it.
  *
  * Mount <IconSprite /> once near the app root; every <Icon name="..." />
- * instance references a <symbol> here via <use>, so the markup for all 38
+ * instance references a <symbol> here via <use>, so the markup for all 39
  * icons is only ever parsed once regardless of how many places render them.
  */
 export const ICON_NAMES = [
@@ -17,7 +17,7 @@ export const ICON_NAMES = [
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
   'search', 'calendar', 'shield', 'bolt', 'pause', 'volume', 'display',
   'database', 'star', 'satchel', 'scroll', 'town', 'warning', 'card', 'pack',
-  'timer',
+  'timer', 'compass',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -247,6 +247,14 @@ export function IconSprite() {
           <circle cx="12" cy="12" r="10" />
           <rect x="11" y="5" width="2" height="8" rx="1" fill="var(--game-bg, #0a0a0a)" />
           <rect x="12" y="11" width="6" height="2" rx="1" fill="var(--game-bg, #0a0a0a)" />
+        </symbol>
+
+        {/* A compass — an outlined ring (same open-circle technique as
+            icon-search) with a kite-shaped needle pointing off-center — for
+            a trader role that isn't tied to one shop. */}
+        <symbol id="icon-compass" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" strokeWidth="2" />
+          <path d="M15.5 8.5 13.5 14 8.5 15.5 10.5 10z" />
         </symbol>
       </defs>
     </svg>

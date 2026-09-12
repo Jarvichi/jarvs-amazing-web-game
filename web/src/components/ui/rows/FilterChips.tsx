@@ -4,6 +4,9 @@ export interface FilterChipOption {
   id: string
   label: string
   count?: number
+  disabled?: boolean
+  /** Tooltip shown on hover — e.g. why a disabled chip can't be picked. */
+  title?: string
 }
 
 interface Props {
@@ -27,6 +30,8 @@ export function FilterChips({ options, activeId, onChange, label }: Props) {
           className={`filter-chip${opt.id === activeId ? ' filter-chip--on' : ''}`}
           aria-pressed={opt.id === activeId}
           onClick={() => onChange(opt.id)}
+          disabled={opt.disabled}
+          title={opt.title}
         >
           {opt.label}
           {opt.count != null && <span className="filter-chip__count">{opt.count}</span>}

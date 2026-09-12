@@ -249,11 +249,11 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
     setInventory(loadInventory())
   }
 
-  const roleLabel: Record<string, string> = {
-    owner:      '🏪',
-    apprentice: '🌟',
-    specialist: '📚',
-    wanderer:   '🌍',
+  const roleLabel: Record<string, React.ReactNode> = {
+    owner:      <Icon name="shop" size={32} />,
+    apprentice: <Icon name="star" size={32} />,
+    specialist: <Icon name="scroll" size={32} />,
+    wanderer:   <Icon name="compass" size={32} />,
   }
 
   // Only show the tapped NPC's own sprite when the banner is still displaying
@@ -270,7 +270,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
         <div className="shop-npc-icon">
           {npcSprite
             ? <SpriteImg name={npcSprite} className="shop-npc-sprite" />
-            : (roleLabel[npc.role] ?? '🏪')}
+            : (roleLabel[npc.role] ?? <Icon name="shop" size={32} />)}
         </div>
         <div className="shop-npc-info">
           <div className="shop-npc-name">

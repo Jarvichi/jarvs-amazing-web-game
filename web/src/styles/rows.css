@@ -75,6 +75,8 @@
 }
 .filter-chip:hover { color: var(--row-text-mid); border-color: var(--hub-line-on); }
 .filter-chip:active { transform: translateY(1px); }
+.filter-chip:disabled { opacity: 0.4; cursor: not-allowed; }
+.filter-chip:disabled:hover { color: var(--row-text-dim); border-color: var(--row-line); }
 .filter-chip--on {
   border-color: var(--row-gold);
   color: var(--row-gold);
