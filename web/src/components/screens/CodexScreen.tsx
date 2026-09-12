@@ -1,13 +1,19 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { TabNav, type TabNavItem } from '../ui/TabNav'
+import { FilterChips } from '../ui/rows/FilterChips'
+import { Button } from '../ui/Button'
 import {
   getCodexCards, getCodexRelics, getCodexWorld, getCodexFragments, getCodexConversations, getCodexChronicle,
-  CodexCardEntry, CodexRelicEntry, CodexWorldEntry, CodexFragmentEntry, CodexConversationEntry, CodexChronicleEntry,
+  CodexCardEntry, CodexWorldEntry,
 } from '../../game/codex'
-import { RARITY_COLOR } from '../../theme'
-import type { CardRarity } from '../../game/types'
 import { EmptyState } from '../ui/EmptyState'
-import { Icon } from '../ui/icons/Icon'
+import { CardLorePanel } from './codex/CardLorePanel'
+import { RelicLorePanel } from './codex/RelicLorePanel'
+import { WorldLorePanel } from './codex/WorldLorePanel'
+import { FragmentLorePanel } from './codex/FragmentLorePanel'
+import { ConversationLorePanel } from './codex/ConversationLorePanel'
+import { ChronicleLorePanel } from './codex/ChronicleLorePanel'
 
 type CodexTab = 'cards' | 'relics' | 'world' | 'fragments' | 'conversations' | 'chronicle'
 type CardTypeFilter = 'all' | 'unit' | 'structure' | 'upgrade'
@@ -17,166 +23,15 @@ const RARITY_ORDER: Record<string, number> = {
   legendary: 5, mythic: 6, shiny: 7, holofoil: 8, glass: 9,
 }
 
-
-function ConversationLorePanel({ entry }: { entry: CodexConversationEntry }) {
-  return (
-    <div className="codex-entry">
-      <div className="codex-entry-header">
-        <span className="codex-entry-name">{entry.icon} {entry.name}</span>
-        <span className="codex-entry-tag">{entry.title.toUpperCase()}</span>
-        <span className="codex-entry-tag">{entry.seenCount} / {entry.stages.length} ENCOUNTERS</span>
-      </div>
-      <div className="codex-conversation-stages">
-        {entry.stages.map((stage) => (
-          stage.seen ? (
-            <div key={stage.index} className="codex-conversation-stage">
-              <div className="codex-conversation-stage-label">ENCOUNTER {stage.index + 1}</div>
-              {stage.greeting.split('\n\n').map((para, i) => (
-                <div key={i} className="codex-entry-desc">{para}</div>
-              ))}
-              {stage.choices && (
-                <div className="codex-conversation-choices">
-                  {stage.choices.map((choice, j) => (
-                    <div key={j} className="codex-conversation-choice">
-                      <div className="codex-conversation-choice-label">› {choice.label}</div>
-                      <div className="codex-conversation-choice-response">{choice.response}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <div key={stage.index} className="codex-conversation-stage codex-conversation-stage--locked">
-              <div className="codex-conversation-stage-label">ENCOUNTER {stage.index + 1}</div>
-              <div className="codex-entry-locked-hint">Meet {entry.name} again to unlock this encounter.</div>
-            </div>
-          )
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function ChronicleLorePanel({ entry }: { entry: CodexChronicleEntry }) {
-  if (!entry.unlocked) {
-    return (
-      <div className="codex-entry codex-entry--locked">
-        <div className="codex-entry-name"><Icon name="chronicle" size={13} /> Chapter {entry.number} — ???</div>
-        <div className="codex-entry-locked-hint">Complete this Fracture Chronicle chapter to unlock its entry.</div>
-      </div>
-    )
-  }
-  return (
-    <div className="codex-entry">
-      <div className="codex-entry-header">
-        <span className="codex-entry-name" style={{ color: '#ffd54f' }}><Icon name="chronicle" size={13} /> {entry.title}</span>
-        <span className="codex-entry-tag">CHAPTER {entry.number}</span>
-      </div>
-      {entry.lore.split('\n\n').map((para, i) => (
-        <div key={i} className="codex-entry-desc">{para}</div>
-      ))}
-    </div>
-  )
-}
-
-function FragmentLorePanel({ entry }: { entry: CodexFragmentEntry }) {
-  if (!entry.discovered) {
-    return (
-      <div className="codex-entry codex-entry--locked">
-        <div className="codex-entry-name">◆ ??? — {entry.actId.toUpperCase()}</div>
-        <div className="codex-entry-locked-hint">Find this memory fragment on the campaign map to unlock its entry.</div>
-      </div>
-    )
-  }
-  return (
-    <div className="codex-entry">
-      <div className="codex-entry-header">
-        <span className="codex-entry-name" style={{ color: '#aaddff' }}>◆ {entry.title}</span>
-        <span className="codex-entry-tag">{entry.actId.toUpperCase()}</span>
-      </div>
-      {entry.body.split('\n\n').map((para, i) => (
-        <div key={i} className="codex-entry-desc">{para}</div>
-      ))}
-    </div>
-  )
-}
+const TYPE_FILTER_OPTIONS: { id: CardTypeFilter; label: string }[] = [
+  { id: 'all', label: 'ALL' },
+  { id: 'unit', label: 'UNIT' },
+  { id: 'structure', label: 'STRUCTURE' },
+  { id: 'upgrade', label: 'UPGRADE' },
+]
 
 interface Props {
   onDone: () => void
-}
-
-function CardLorePanel({ card }: { card: CodexCardEntry }) {
-  if (!card.unlocked) {
-    return (
-      <div className="codex-entry codex-entry--locked">
-        <div className="codex-entry-name">??? — {card.cardType}</div>
-        <div className="codex-entry-locked-hint">Discover this card to unlock its entry.</div>
-      </div>
-    )
-  }
-  return (
-    <div className="codex-entry">
-      <div className="codex-entry-header">
-        <span className="codex-entry-name" style={{ color: RARITY_COLOR[card.rarity as CardRarity] ?? '#aaffaa' }}>
-          {card.name}
-        </span>
-        <span className="codex-entry-tag">{card.rarity.toUpperCase()}</span>
-        <span className="codex-entry-tag">{card.cardType.toUpperCase()}</span>
-      </div>
-      <div className="codex-entry-desc">{card.description}</div>
-      {card.lore && <div className="codex-entry-lore">"{card.lore}"</div>}
-    </div>
-  )
-}
-
-function RelicLorePanel({ relic }: { relic: CodexRelicEntry }) {
-  if (!relic.unlocked) {
-    return (
-      <div className="codex-entry codex-entry--locked">
-        <div className="codex-entry-name">{relic.icon} ???</div>
-        <div className="codex-entry-locked-hint">Earn this relic to unlock its entry.</div>
-      </div>
-    )
-  }
-  return (
-    <div className="codex-entry">
-      <div className="codex-entry-header">
-        <span className="codex-entry-name">{relic.icon} {relic.name}</span>
-        {relic.exotic && <span className="relic-exotic-tag" style={{ position: 'static', marginLeft: 8 }}>EXOTIC</span>}
-      </div>
-      <div className="codex-entry-desc">{relic.desc}</div>
-      {relic.lore && <div className="codex-entry-lore">"{relic.lore}"</div>}
-    </div>
-  )
-}
-
-function WorldLorePanel({ entry }: { entry: CodexWorldEntry }) {
-  if (!entry.unlocked) {
-    return (
-      <div className="codex-entry codex-entry--locked">
-        <div className="codex-entry-name">??? — {entry.title}</div>
-        <div className="codex-entry-locked-hint">Complete this act to unlock its entry.</div>
-      </div>
-    )
-  }
-  return (
-    <div className="codex-entry">
-      <div className="codex-entry-header">
-        <span className="codex-entry-name" style={{ color: '#aaffaa' }}>{entry.subtitle}</span>
-        <span className="codex-entry-tag">{entry.title}</span>
-      </div>
-      {entry.shardLore && <div className="codex-entry-lore">"{entry.shardLore}"</div>}
-      {entry.bossName !== '???' && (
-        <div className="codex-entry-boss">
-          <span className="codex-entry-boss-label">GUARDIAN</span>
-          <span className="codex-entry-boss-name">{entry.bossName}</span>
-          {entry.bossDescription && (
-            <span className="codex-entry-desc"> — {entry.bossDescription}</span>
-          )}
-        </div>
-      )}
-    </div>
-  )
 }
 
 export function CodexScreen({ onDone }: Props) {
@@ -232,26 +87,25 @@ export function CodexScreen({ onDone }: Props) {
     ? `${unlockedChapterCount} / ${chronicle.length} chapters chronicled`
     : `${metNpcCount} / ${conversations.length} characters met`
 
+  const tabItems: TabNavItem<CodexTab>[] = [
+    { id: 'cards', label: 'CARDS', icon: 'card', badge: unlockedCardCount },
+    { id: 'relics', label: 'RELICS', icon: 'crystal', badge: unlockedRelicCount },
+    { id: 'world', label: 'WORLD', icon: 'town', badge: unlockedWorldCount },
+    { id: 'fragments', label: 'FRAGMENTS', icon: 'scroll', badge: discoveredFragCount },
+    { id: 'conversations', label: 'NPCS', icon: 'player', badge: metNpcCount },
+    { id: 'chronicle', label: 'CHRONICLE', icon: 'chronicle', badge: unlockedChapterCount },
+  ]
+
   return (
     <OverlayScreen title="CODEX" subtitle={subtitle} onBack={onDone}>
       <div className="codex-screen">
-        {/* Tab bar */}
-        <div className="codex-tabs">
-          {(['cards', 'relics', 'world', 'fragments', 'conversations', 'chronicle'] as CodexTab[]).map(t => (
-            <button
-              key={t}
-              className={`filter-btn${tab === t ? ' filter-btn--active' : ''}`}
-              onClick={() => setTab(t)}
-            >
-              {t === 'cards'          ? `CARDS (${unlockedCardCount})` :
-               t === 'relics'         ? `RELICS (${unlockedRelicCount})` :
-               t === 'world'          ? `WORLD (${unlockedWorldCount})` :
-               t === 'fragments'      ? `FRAGMENTS (${discoveredFragCount})` :
-               t === 'chronicle'      ? `CHRONICLE (${unlockedChapterCount})` :
-               `NPCS (${metNpcCount})`}
-            </button>
-          ))}
-        </div>
+        <TabNav
+          items={tabItems}
+          activeId={tab}
+          onSelect={setTab}
+          ariaLabel="Codex sections"
+          panelId="codex-panel"
+        />
 
         {/* Cards tab controls */}
         {tab === 'cards' && (
@@ -264,27 +118,21 @@ export function CodexScreen({ onDone }: Props) {
               onChange={e => setSearch(e.target.value)}
             />
             <div className="codex-filters">
-              {(['all', 'unit', 'structure', 'upgrade'] as CardTypeFilter[]).map(t => (
-                <button
-                  key={t}
-                  className={`filter-btn filter-btn--sm${typeFilter === t ? ' filter-btn--active' : ''}`}
-                  onClick={() => setTypeFilter(t)}
-                >
-                  {t.toUpperCase()}
-                </button>
-              ))}
-              <button
-                className={`filter-btn filter-btn--sm${!showLocked ? ' filter-btn--active' : ''}`}
-                onClick={() => setShowLocked(v => !v)}
-              >
+              <FilterChips
+                options={TYPE_FILTER_OPTIONS}
+                activeId={typeFilter}
+                onChange={id => setTypeFilter(id as CardTypeFilter)}
+                label="Filter card type"
+              />
+              <Button size="sm" variant={!showLocked ? 'gold' : 'default'} onClick={() => setShowLocked(v => !v)}>
                 {showLocked ? 'HIDE LOCKED' : 'SHOW LOCKED'}
-              </button>
+              </Button>
             </div>
           </div>
         )}
 
         {/* Content */}
-        <div className="codex-list">
+        <div className="codex-list" id="codex-panel">
           {tab === 'cards' && filteredCards.map(card => (
             <CardLorePanel key={card.name} card={card} />
           ))}
