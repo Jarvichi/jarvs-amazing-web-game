@@ -1,5 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Winter Warden — Cold Snap: heavy pauldrons, icicle fringe, breath plume — frame 1 — stride A -->
-  <rect x="19.6" y="23.6" width="3.2" height="5.4" fill="#3A5C6E"/><rect x="19.1" y="27.8" width="4.2" height="1.2" fill="#24404E"/><rect x="11.0" y="23.6" width="3.2" height="4.3" fill="#8FBECE"/><rect x="10.5" y="26.7" width="4.2" height="1.2" fill="#24404E"/>
-  <path d="M13,14.4 L12.4,21.8 L19.6,21.8 L19,14.4 Z" fill="#6FA3B8"/><path d="M12.4,21.8 L13.2,24.4 L14,21.9 L14.9,23.8 L15.8,21.9 L16.7,24.2 L17.6,21.9 L18.5,23.6 L19.6,21.8 Z" fill="#A9CEDC"/><circle cx="10.6" cy="14.4" r="3.7" fill="#6FA3B8"/><circle cx="21.4" cy="14.4" r="3.7" fill="#6FA3B8"/><path d="M7.6,13.2 Q10.6,10.8 13.6,13.2" fill="none" stroke="#DCF0F6" stroke-width="0.85"/><path d="M18.4,13.2 Q21.4,10.8 24.4,13.2" fill="none" stroke="#DCF0F6" stroke-width="0.85"/><circle cx="16" cy="9" r="3.7" fill="#E8C9A8"/><path d="M12.2,8.4 Q11.8,4.2 16,4.4 Q20.2,4.2 19.8,8.4 Q16,6.6 12.2,8.4 Z" fill="#3A5C6E"/><circle cx="14.6" cy="9.6" r="0.7" fill="#3A5C6E"/><circle cx="17.4" cy="9.6" r="0.7" fill="#3A5C6E"/><circle cx="20.6" cy="11" r="1.05" fill="#DCF0F6" opacity="0.55"/><circle cx="22.3" cy="10.2" r="0.75" fill="#DCF0F6" opacity="0.38"/><circle cx="23.6" cy="9.6" r="0.5" fill="#DCF0F6" opacity="0.25"/>
+  <rect x="19.6" y="23.6" width="3.2" height="5.4" fill="#3A5C6E"/>
+  <rect x="19.1" y="27.8" width="4.2" height="1.2" fill="#24404E"/>
+  <rect x="11.0" y="23.6" width="3.2" height="4.3" fill="#8FBECE"/>
+  <rect x="10.5" y="26.7" width="4.2" height="1.2" fill="#24404E"/>
+  <path d="M13,14.4 L12.4,21.8 L19.6,21.8 L19,14.4 Z" fill="#6FA3B8"/>
+  <path d="M12.4,21.8 L13.2,24.4 L14,21.9 L14.9,23.8 L15.8,21.9 L16.7,24.2 L17.6,21.9 L18.5,23.6 L19.6,21.8 Z" fill="#A9CEDC"/>
+  <circle cx="10.6" cy="14.4" r="3.7" fill="#6FA3B8"/>
+  <circle cx="21.4" cy="14.4" r="3.7" fill="#6FA3B8"/>
+  <path d="M7.6,13.2 Q10.6,10.8 13.6,13.2" fill="none" stroke="#DCF0F6" stroke-width="0.85"/>
+  <path d="M18.4,13.2 Q21.4,10.8 24.4,13.2" fill="none" stroke="#DCF0F6" stroke-width="0.85"/>
+  <circle cx="16" cy="9" r="3.7" fill="#E8C9A8"/>
+  <path d="M12.2,8.4 Q11.8,4.2 16,4.4 Q20.2,4.2 19.8,8.4 Q16,6.6 12.2,8.4 Z" fill="#3A5C6E"/>
+  <circle cx="14.6" cy="9.6" r="0.7" fill="#3A5C6E"/>
+  <circle cx="17.4" cy="9.6" r="0.7" fill="#3A5C6E"/>
+  <circle cx="20.6" cy="11" r="1.05" fill="#DCF0F6" opacity="0.55"/>
+  <circle cx="22.3" cy="10.2" r="0.75" fill="#DCF0F6" opacity="0.38"/>
+  <circle cx="23.6" cy="9.6" r="0.5" fill="#DCF0F6" opacity="0.25"/>
 </svg>

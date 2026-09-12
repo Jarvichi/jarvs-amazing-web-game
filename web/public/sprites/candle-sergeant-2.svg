@@ -1,5 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Candle Sergeant — Last Light: candle raised, epaulettes and sash — frame 2 — mid-stride -->
-  <rect x="14.0" y="23.2" width="3.2" height="5.8" fill="#462834"/><rect x="13.5" y="27.8" width="4.2" height="1.2" fill="#2A1820"/><rect x="17.0" y="23.2" width="3.2" height="5.8" fill="#462834"/><rect x="16.5" y="27.8" width="4.2" height="1.2" fill="#2A1820"/>
-  <g transform="translate(0,-1.0)"><path d="M11.6,13.2 L10.6,23.2 L21,23.2 L20,13.2 Q16,15.2 11.6,13.2 Z" fill="#6E4152"/><path d="M11.8,14.4 L19.4,22.4 L20.9,21.2 L13.3,13.2 Z" fill="#D9A441"/><rect x="9.6" y="12.6" width="3.4" height="1.9" rx="0.4" fill="#D9A441"/><rect x="19" y="12.6" width="3.4" height="1.9" rx="0.4" fill="#D9A441"/><circle cx="16" cy="9.2" r="3.8" fill="#E8C9A8"/><path d="M11.9,8.4 Q12.4,4.4 16,4.6 Q19.6,4.4 20.1,8.4 L11.9,8.4 Z" fill="#462834"/><rect x="11.6" y="8.2" width="8.8" height="1.1" fill="#D9A441"/><circle cx="14.6" cy="10.2" r="0.7" fill="#462834"/><circle cx="17.4" cy="10.2" r="0.7" fill="#462834"/><path d="M21,13.6 L23.4,6.4 L25.4,7 L23.4,14.2 Z" fill="#6E4152"/><rect x="22.8" y="3.4" width="2.6" height="4" rx="0.4" fill="#F0E6D2"/><path d="M24.1,0.9 Q25.5,2.3 24.1,3.4 Q22.7,2.3 24.1,0.9 Z" fill="#FFB347"/><circle cx="24.1" cy="2.6" r="3.1" fill="#FFB347" opacity="0.2"/></g>
+  <rect x="14.0" y="23.2" width="3.2" height="5.8" fill="#462834"/>
+  <rect x="13.5" y="27.8" width="4.2" height="1.2" fill="#2A1820"/>
+  <rect x="17.0" y="23.2" width="3.2" height="5.8" fill="#462834"/>
+  <rect x="16.5" y="27.8" width="4.2" height="1.2" fill="#2A1820"/>
+  <g transform="translate(0,-1.0)">
+    <path d="M11.6,13.2 L10.6,23.2 L21,23.2 L20,13.2 Q16,15.2 11.6,13.2 Z" fill="#6E4152"/>
+    <path d="M11.8,14.4 L19.4,22.4 L20.9,21.2 L13.3,13.2 Z" fill="#D9A441"/>
+    <rect x="9.6" y="12.6" width="3.4" height="1.9" rx="0.4" fill="#D9A441"/>
+    <rect x="19" y="12.6" width="3.4" height="1.9" rx="0.4" fill="#D9A441"/>
+    <circle cx="16" cy="9.2" r="3.8" fill="#E8C9A8"/>
+    <path d="M11.9,8.4 Q12.4,4.4 16,4.6 Q19.6,4.4 20.1,8.4 L11.9,8.4 Z" fill="#462834"/>
+    <rect x="11.6" y="8.2" width="8.8" height="1.1" fill="#D9A441"/>
+    <circle cx="14.6" cy="10.2" r="0.7" fill="#462834"/>
+    <circle cx="17.4" cy="10.2" r="0.7" fill="#462834"/>
+    <path d="M21,13.6 L23.4,6.4 L25.4,7 L23.4,14.2 Z" fill="#6E4152"/>
+    <rect x="22.8" y="3.4" width="2.6" height="4" rx="0.4" fill="#F0E6D2"/>
+    <path d="M24.1,0.9 Q25.5,2.3 24.1,3.4 Q22.7,2.3 24.1,0.9 Z" fill="#FFB347"/>
+    <circle cx="24.1" cy="2.6" r="3.1" fill="#FFB347" opacity="0.2"/>
+  </g>
 </svg>
