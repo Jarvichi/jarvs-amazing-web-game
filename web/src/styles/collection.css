@@ -8,6 +8,22 @@
 /* ── Shop ─────────────────────────────────────────────────── */
 
 .shop-wrapper {
+  /* This screen is the first to use the row/tile vocabulary (ListRow,
+     FilterChips) outside a .satchel-sheet/.chef-cook ancestor — those
+     components read colour from --row-*, which per rows.css's own comment
+     an ancestor is expected to define, "the same way satchel.css does",
+     rather than relying on an implicit fallback. Aliased onto Shop's
+     existing tokens rather than the hub's warm-green ramp. */
+  --row-text:      var(--game-text-color);
+  --row-text-mid:  var(--game-text-color-dim);
+  --row-text-dim:  var(--game-text-color-dim);
+  --row-text-off:  var(--game-text-color-muted);
+  --row-line:      var(--game-border);
+  --row-line-soft: var(--game-border);
+  --row-bg-raised: var(--game-bg-raised);
+  --row-gold:      var(--color-gold-alt);
+  --row-gold-dim:  var(--color-gold-dim);
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,6 +106,10 @@
 .shop-card-buy-btn--poor { opacity: 0.45; cursor: not-allowed; }
 .shop-consumable-buy-btn { position: relative; }
 .shop-purchased { font-size: var(--font-xxs); color: #33cc66; letter-spacing: 2px; }
+
+/* Costs and balances are tabular figures — set them in the mono face so
+   digits line up and don't jitter as a countdown or price changes. */
+.shop-price { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
 /* Augment deal */
 .shop-augment-deal {
@@ -1009,6 +1029,8 @@
   font-weight: bold;
   letter-spacing: 1px;
   white-space: nowrap;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ─── Collection Action Row ──────────────────────────── */
