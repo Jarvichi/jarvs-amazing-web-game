@@ -6,6 +6,9 @@ const meta = {
   component: QuestChainCard,
   title: 'Player/QuestChainCard',
   parameters: { layout: 'padded' },
+  // The step rows are ListRows, which read colour from --row-*, defined on
+  // .game-container (base.css) — real usage always sits inside it.
+  decorators: [(Story) => <div className="game-container"><Story /></div>],
 } satisfies Meta<typeof QuestChainCard>
 
 export default meta
