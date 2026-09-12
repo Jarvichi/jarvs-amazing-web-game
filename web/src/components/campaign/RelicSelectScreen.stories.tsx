@@ -6,6 +6,11 @@ import { RelicSelectScreen } from './RelicSelectScreen';
 const meta = {
   component: RelicSelectScreen,
   parameters: { layout: 'fullscreen' },
+  decorators: [(Story) => (
+    <div className="game-container" style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  )],
 } satisfies Meta<typeof RelicSelectScreen>;
 
 export default meta;

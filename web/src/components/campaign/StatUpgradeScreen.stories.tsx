@@ -6,6 +6,11 @@ import { StatUpgradeScreen } from './StatUpgradeScreen';
 const meta = {
   component: StatUpgradeScreen,
   parameters: { layout: 'fullscreen' },
+  decorators: [(Story) => (
+    <div className="game-container" style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  )],
 } satisfies Meta<typeof StatUpgradeScreen>;
 
 export default meta;

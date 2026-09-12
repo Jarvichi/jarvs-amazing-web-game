@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Act, ReplayModifier } from '../../game/questline'
+import { NodeScreen } from './node/NodeScreen'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
 
@@ -132,10 +133,21 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, actH
     n === 1 ? '1st' : n === 2 ? '2nd' : n === 3 ? '3rd' : `${n}th`
 
   return (
-    <div className="replay-briefing">
+    <NodeScreen
+      title="CAMPAIGN REPLAY"
+      actions={
+        <>
+          <Button size="lg" className="rb-begin-btn" onClick={() => onBegin(selected)}>
+            BEGIN RUN ›
+          </Button>
+          <Button className="rb-back-btn u-text-md" onClick={onBack}>
+            ← BACK
+          </Button>
+        </>
+      }
+    >
       <div className="rb-header u-text-c u-col u-gap-3">
         <div className="rb-act-label">{act.title}</div>
-        <div className="rb-title">// CAMPAIGN REPLAY</div>
         {mercy ? (
           <>
             <div className="rb-subtitle">
@@ -164,7 +176,7 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, actH
         {tiers.map(tier => {
           const isSelected = selected === tier.count
           return (
-            <button
+            <Button
               key={tier.count}
               className={`rb-tier${isSelected ? ' rb-tier--selected' : ''}`}
               onClick={() => setSelected(tier.count)}
@@ -193,7 +205,7 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, actH
                   </li>
                 ))}
               </ul>
-            </button>
+            </Button>
           )
         })}
       </div>
@@ -220,15 +232,6 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, actH
           )}
         </div>
       )}
-
-      <div className="rb-actions u-col u-gap-5 u-items-c">
-        <Button size="lg" className="rb-begin-btn" onClick={() => onBegin(selected)}>
-          BEGIN RUN ›
-        </Button>
-        <Button className="rb-back-btn u-text-md" onClick={onBack}>
-          ← BACK
-        </Button>
-      </div>
-    </div>
+    </NodeScreen>
   )
 }

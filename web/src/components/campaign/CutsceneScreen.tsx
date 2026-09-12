@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { CutscenePanel } from '../../game/questline'
+import { NodeScreen } from './node/NodeScreen'
 
 interface Props {
   panels: CutscenePanel[]
@@ -41,23 +42,24 @@ export function CutsceneScreen({ panels, onDone }: Props) {
   const paragraphs = panel.text.split('\n\n').filter(Boolean)
 
   return (
-    <div className="cutscene-screen u-col u-just-sb u-pointer u-no-select" onClick={advance}>
-      <div className={`cutscene-content${visible ? ' cutscene-content--visible' : ''}`}>
-        <div className="cutscene-act-label">// {panel.title}</div>
-        {panel.image && (
-          <img src={`${import.meta.env.BASE_URL}${panel.image}`} alt="" className="cutscene-image" />
-        )}
-        <div className="cutscene-body u-col u-gap-7">
-          {paragraphs.map((p, i) => (
-            <p key={i} className="cutscene-paragraph">{p}</p>
-          ))}
+    <NodeScreen title={panel.title}>
+      <div className="cutscene-screen u-col u-just-sb u-pointer u-no-select u-grow" onClick={advance}>
+        <div className={`cutscene-content${visible ? ' cutscene-content--visible' : ''}`}>
+          {panel.image && (
+            <img src={`${import.meta.env.BASE_URL}${panel.image}`} alt="" className="cutscene-image" />
+          )}
+          <div className="cutscene-body u-col u-gap-7">
+            {paragraphs.map((p, i) => (
+              <p key={i} className="cutscene-paragraph">{p}</p>
+            ))}
+          </div>
+        </div>
+
+        <div className="cutscene-footer u-flex u-just-sb u-items-c">
+          <span className="cutscene-progress">{index + 1} / {panels.length}</span>
+          <span className="cutscene-continue">{isLast ? 'PRESS ENTER TO BEGIN' : 'CLICK TO CONTINUE ›'}</span>
         </div>
       </div>
-
-      <div className="cutscene-footer u-flex u-just-sb u-items-c">
-        <span className="cutscene-progress">{index + 1} / {panels.length}</span>
-        <span className="cutscene-continue">{isLast ? 'PRESS ENTER TO BEGIN' : 'CLICK TO CONTINUE ›'}</span>
-      </div>
-    </div>
+    </NodeScreen>
   )
 }

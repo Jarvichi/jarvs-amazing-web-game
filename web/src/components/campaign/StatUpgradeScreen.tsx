@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { type StatUpgradeType } from '../../game/playerStats'
+import { NodeScreen } from './node/NodeScreen'
+import { ChoiceCard } from './node/ChoiceCard'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
 
@@ -51,9 +53,22 @@ export function StatUpgradeScreen({ onSelect }: Props) {
   const [picked, setPicked] = useState<StatUpgradeType | null>(null)
 
   return (
-    <div className="relic-select-screen">
+    <NodeScreen
+      title="PERMANENT UPGRADE"
+      actions={
+        <Button
+          size="lg"
+          className="relic-select-confirm"
+          disabled={picked === null}
+          onClick={() => picked && onSelect(picked)}
+        >
+          {picked
+            ? `CLAIM ${OPTIONS.find(o => o.stat === picked)!.name.toUpperCase()} →`
+            : 'SELECT AN UPGRADE'}
+        </Button>
+      }
+    >
       <div className="relic-select-header u-text-c">
-        <div className="relic-select-title">PERMANENT UPGRADE</div>
         <div className="relic-select-subtitle">
           Choose one upgrade to carry into every future campaign run.
         </div>
@@ -61,29 +76,17 @@ export function StatUpgradeScreen({ onSelect }: Props) {
 
       <div className="relic-select-grid u-col u-gap-5">
         {OPTIONS.map((opt, i) => (
-          <button
+          <ChoiceCard
             key={opt.stat}
-            className={`relic-select-card${picked === opt.stat ? ' relic-select-card--chosen' : ''}`}
+            icon={opt.icon}
+            name={opt.name}
+            desc={opt.desc}
+            chosen={picked === opt.stat}
             style={{ animationDelay: `${i * 60}ms` }}
             onClick={() => setPicked(opt.stat)}
-          >
-            <div className="relic-select-icon">{opt.icon}</div>
-            <div className="relic-select-name">{opt.name}</div>
-            <div className="relic-select-desc">{opt.desc}</div>
-          </button>
+          />
         ))}
       </div>
-
-      <Button
-        size="lg"
-        className="relic-select-confirm"
-        disabled={picked === null}
-        onClick={() => picked && onSelect(picked)}
-      >
-        {picked
-          ? `CLAIM ${OPTIONS.find(o => o.stat === picked)!.name.toUpperCase()} →`
-          : 'SELECT AN UPGRADE'}
-      </Button>
-    </div>
+    </NodeScreen>
   )
 }

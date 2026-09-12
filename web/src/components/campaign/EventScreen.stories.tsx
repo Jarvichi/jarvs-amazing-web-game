@@ -7,6 +7,11 @@ import type { EventData } from '../../game/questline';
 const meta = {
   component: EventScreen,
   parameters: { layout: 'fullscreen' },
+  decorators: [(Story) => (
+    <div className="game-container" style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  )],
 } satisfies Meta<typeof EventScreen>;
 
 export default meta;

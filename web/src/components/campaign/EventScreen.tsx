@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { EventData, EventChoice, loadPlayerName } from '../../game/questline'
+import { NodeScreen } from './node/NodeScreen'
 import { Button } from '../ui/Button'
 
 interface Props {
@@ -11,9 +12,9 @@ interface Props {
 
 function hpColor(hp: number, max: number): string {
   const pct = hp / max
-  if (pct > 0.5) return '#33ff33'
-  if (pct > 0.25) return '#ffcc00'
-  return '#ff4444'
+  if (pct > 0.5) return 'var(--color-green-bright)'
+  if (pct > 0.25) return 'var(--color-gold)'
+  return 'var(--color-red)'
 }
 
 export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
@@ -42,10 +43,15 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
   const hpChanged  = displayHp !== playerHp
 
   return (
-    <div className="event-screen">
-      <div className="event-type-tag">[EVENT]</div>
-      <div className="event-title">{event.title}</div>
-
+    <NodeScreen
+      title={event.title}
+      stats={{ hp: playerHp, maxHp }}
+      actions={picked && (
+        <Button className="event-continue-btn" onClick={() => onChoice(picked)}>
+          CONTINUE →
+        </Button>
+      )}
+    >
       {/* HP bar */}
       <div className="event-hp-area u-flex u-items-c u-gap-3">
         <span className="event-hp-label">HP</span>
@@ -69,7 +75,7 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
           const isChosen   = picked?.label === choice.label
           const isDisabled = picked !== null && !isChosen
           return (
-            <button
+            <Button
               key={i}
               className={[
                 'event-choice',
@@ -81,21 +87,16 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
             >
               <span className="event-choice-letter">{String.fromCharCode(65 + i)}.</span>
               <span className="event-choice-label u-grow">{choice.label}</span>
-            </button>
+            </Button>
           )
         })}
       </div>
 
       {picked && (
-        <>
-          <div className="event-result">
-            {picked.effect.type === 'nothing' ? picked.consequence : `${picked.consequence}…`}
-          </div>
-          <Button className="event-continue-btn" onClick={() => onChoice(picked)}>
-            CONTINUE →
-          </Button>
-        </>
+        <div className="event-result">
+          {picked.effect.type === 'nothing' ? picked.consequence : `${picked.consequence}…`}
+        </div>
       )}
-    </div>
+    </NodeScreen>
   )
 }

@@ -7,6 +7,11 @@ import type { CutscenePanel } from '../../game/questline';
 const meta = {
   component: CutsceneScreen,
   parameters: { layout: 'fullscreen' },
+  decorators: [(Story) => (
+    <div className="game-container" style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  )],
 } satisfies Meta<typeof CutsceneScreen>;
 
 export default meta;

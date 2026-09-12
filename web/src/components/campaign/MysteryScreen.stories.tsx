@@ -7,6 +7,11 @@ import { exampleRewardDef } from '../../game/types.sample';
 const meta = {
   component: MysteryScreen,
   parameters: { layout: 'fullscreen' },
+  decorators: [(Story) => (
+    <div className="game-container" style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  )],
 } satisfies Meta<typeof MysteryScreen>;
 
 export default meta;

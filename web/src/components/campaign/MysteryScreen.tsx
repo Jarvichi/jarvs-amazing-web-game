@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { RewardDef } from '../../game/dailyLogin'
+import { NodeScreen } from './node/NodeScreen'
 import { Button } from '../ui/Button'
 
 const LORE_LINES = [
@@ -27,25 +28,24 @@ export function MysteryScreen({ reward, onCollect }: Props) {
         : 'A reward'
 
   return (
-    <div className="mystery-screen u-col u-items-c u-gap-8 u-text-c">
-      <div className="mystery-header">// MYSTERY NODE</div>
+    <NodeScreen
+      title="MYSTERY NODE"
+      actions={<Button size="lg" className="mystery-collect-btn" onClick={onCollect}>COLLECT &amp; CONTINUE ›</Button>}
+    >
+      <div className="mystery-screen u-col u-items-c u-gap-8 u-text-c">
+        <div className="mystery-field u-col u-items-c u-gap-3">
+          <div className="mystery-field-icon">🌫</div>
+          <div className="mystery-field-label">EMPTY BATTLEFIELD</div>
+        </div>
 
-      <div className="mystery-field u-col u-items-c u-gap-3">
-        <div className="mystery-field-icon">🌫</div>
-        <div className="mystery-field-label">EMPTY BATTLEFIELD</div>
+        <div className="mystery-lore">{lore}</div>
+
+        <div className="mystery-chest u-col u-items-c u-gap-3">
+          <div className="mystery-chest-icon">📦</div>
+          <div className="mystery-chest-label">UNCLAIMED REWARD</div>
+          <div className="mystery-reward-value">{rewardLabel}</div>
+        </div>
       </div>
-
-      <div className="mystery-lore">{lore}</div>
-
-      <div className="mystery-chest u-col u-items-c u-gap-3">
-        <div className="mystery-chest-icon">📦</div>
-        <div className="mystery-chest-label">UNCLAIMED REWARD</div>
-        <div className="mystery-reward-value">{rewardLabel}</div>
-      </div>
-
-      <Button size="lg" className="mystery-collect-btn" onClick={onCollect}>
-        COLLECT &amp; CONTINUE ›
-      </Button>
-    </div>
+    </NodeScreen>
   )
 }
