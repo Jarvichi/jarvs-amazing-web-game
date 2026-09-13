@@ -400,6 +400,42 @@
   margin-top: 2px;
 }
 
+.aug-stack-error {
+  color: var(--color-red);
+  font-size: var(--font-xs);
+}
+
+/* Compact button override for augment cards' inline actions — same shape
+   as the deck builder's own `.db-action-sm`. */
+.aug-action-sm {
+  font-size: var(--font-xs) !important;
+  padding: 2px 8px !important;
+}
+
+.aug-item-equipped-link {
+  cursor: pointer;
+  color: #88ccff;
+}
+
+.aug-status-msg {
+  text-align: center;
+  font-size: var(--font-md);
+  padding: 4px 0;
+}
+.aug-status-msg--error { color: var(--color-red); }
+.aug-status-msg--souls { color: #cc88ff; }
+
+.aug-empty-state {
+  text-align: center;
+  opacity: 0.6;
+  margin-top: 48px;
+}
+
+.aug-souls-count {
+  color: #cc88ff;
+  font-weight: 700;
+}
+
 .aug-stack-drill-header {
   display: flex;
   align-items: center;
@@ -424,6 +460,11 @@
   background: rgba(255,200,0,0.05);
   border: 1px solid rgba(255,200,0,0.15);
   border-radius: 4px;
+}
+
+.aug-stack-drill-label {
+  font-size: var(--font-md);
+  opacity: 0.8;
 }
 
 .aug-list { display: flex; flex-direction: column; gap: 6px; }
