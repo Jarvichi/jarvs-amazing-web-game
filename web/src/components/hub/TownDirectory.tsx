@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import type { HubLocationBundle } from '../../data/hub/loader'
 import { useHubClock } from '../../hooks/useHubClock'
 import { resolveNpcPlace } from '../../game/hub/npcLocator'
-import { getFriendshipLevel } from '../../game/hub/friendship'
+import { hasMetNpc } from '../../game/hub/journal'
 import { getRelationship } from '../../game/hub/relationships'
 import { EmptyState } from '../ui/EmptyState'
 
@@ -27,7 +27,7 @@ export function TownDirectoryContent({ locationData, pinnedNpcId, onTogglePin, o
     return true
   })
 
-  const visible = (onlyMet ? named.filter(n => getFriendshipLevel(n.id) > 0) : named)
+  const visible = (onlyMet ? named.filter(n => hasMetNpc(n.id)) : named)
     .slice()
     .sort((a, b) => a.name.localeCompare(b.name))
 
