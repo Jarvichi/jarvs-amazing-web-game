@@ -10,6 +10,7 @@
 .u-center     { align-items: center; justify-content: center; }
 .u-items-c    { align-items: center; }
 .u-items-end  { align-items: flex-end; }
+.u-self-start { align-self: flex-start; }
 .u-just-c     { justify-content: center; }
 .u-just-sb    { justify-content: space-between; }
 .u-just-end   { justify-content: flex-end; }

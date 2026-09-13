@@ -1035,6 +1035,7 @@
 .apm-item--active { background: rgba(100,50,180,0.12); }
 .apm-item-info    { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
 .apm-item-name    { font-size: var(--font-sm); font-weight: bold; }
+.apm-item-set     { font-size: var(--font-xs); opacity: 0.6; }
 .apm-item-actions { flex-shrink: 0; }
 
 

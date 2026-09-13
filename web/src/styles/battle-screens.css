@@ -558,6 +558,33 @@
   font-style: italic;
 }
 
+/* Wider, left-aligned variant for a modal listing several result rows
+   (disenchant-all, upgrade-all) rather than one big centred reward. */
+.daily-modal--list {
+  max-width: 360px;
+  text-align: left;
+}
+
+.daily-modal-rows {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.daily-modal-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-sm);
+  padding: 3px 0;
+  border-bottom: 1px solid var(--color-gray-3);
+}
+
+.daily-modal-row-value--crystal { color: #88ccff; }
+.daily-modal-row-value--xp      { color: var(--color-gold-alt); }
+
 /* ── Battle Summary Screen ─────────────────────────────── */
 
 .bsummary-backdrop {

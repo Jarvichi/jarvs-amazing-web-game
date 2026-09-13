@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react'
+import React, { useState, useMemo, useRef } from 'react'
 import { Card, CardType, CardRarity, UnitTag } from '../../game/types'
 import { getCardCatalog, getCardThemeTags } from '../../game/cards'
 import { buildDeckProfile, getDeckSynergy } from '../../game/synergies'
@@ -32,21 +32,18 @@ import {
 import { analyseDeckPower } from '../../game/deckPower'
 import { loadPlayerArchetype } from '../../game/questline'
 import { loadPlayerStats } from '../../game/playerStats'
-import { CardTile } from './CardTile'
-import { CardCellFooter } from './CardCellFooter'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from '../ui/OverlayScreen'
-import { ProgressBar } from '../ui/ProgressBar'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
-import { FilterPopup } from '../ui/filters/FilterPopup'
-import { FilterOption } from '../ui/filters/FilterOption'
-import { FilterPill } from '../ui/filters/FilterPill'
-import { EmptyState } from '../ui/EmptyState'
-import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
 import { DeckPowerBadge } from './DeckPowerBadge'
+import { AutoBuildModal, AutoStrategy } from './deckbuilder/AutoBuildModal'
+import { SavedDecksModal } from './deckbuilder/SavedDecksModal'
+import { ShareDeckModal } from './deckbuilder/ShareDeckModal'
+import { DeckPanel } from './deckbuilder/DeckPanel'
+import { CollectionPanel } from './deckbuilder/CollectionPanel'
+import { DeckFilterMenu, DeckGroupKey, DeckRarityFilter, DeckSortKey, DeckTypeFilter } from './deckbuilder/DeckFilterBar'
 
 const DECK_TUTORIAL_ID = 'deckbuilder'
 const DECK_TUTORIAL_STEPS = [
@@ -68,24 +65,6 @@ interface Props {
   onBack: () => void
   fatiguedCards?: string[]   // card names that cannot be added to the deck this act
 }
-
-type AutoStrategy = 'aggro' | 'control' | 'balanced' | 'ranged'
-type RarityFilter = 'all' | CardRarity
-type TypeFilter   = 'all' | CardType
-type SortKey  = 'default' | 'az' | 'za' | 'mana-asc' | 'mana-desc' | 'rarity' | 'synergy'
-type GroupKey = 'none' | 'type' | 'rarity' | 'mana' | 'act'
-
-const ALL_TAGS: UnitTag[] = [
-  'flying', 'ranged', 'melee', 'fast', 'slow', 'large',
-  'magic', 'undead', 'beast', 'armored', 'siege', 'fire',
-]
-
-const AUTO_STRATEGIES: { id: AutoStrategy; name: string; desc: string }[] = [
-  { id: 'aggro',    name: 'AGGRO',    desc: 'Flood the field with cheap, fast units. Speed is your weapon.' },
-  { id: 'ranged',   name: 'RANGED',   desc: 'Archers and bypass units that ignore walls. Strike from safety.' },
-  { id: 'control',  name: 'CONTROL',  desc: 'Walls, Farms, and structures to grind the enemy down slowly.' },
-  { id: 'balanced', name: 'BALANCED', desc: 'A mix of everything — units, structures, and upgrades.' },
-]
 
 function buildAutoDeck(
   strategy: AutoStrategy,
@@ -202,13 +181,13 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
 
   // Collection filter / sort / group state
   const [search, setSearch]               = useState('')
-  const [typeFilter, setTypeFilter]       = useState<TypeFilter>('all')
-  const [rarityFilter, setRarityFilter]   = useState<RarityFilter>('all')
+  const [typeFilter, setTypeFilter]       = useState<DeckTypeFilter>('all')
+  const [rarityFilter, setRarityFilter]   = useState<DeckRarityFilter>('all')
   const [tagFilter, setTagFilter]         = useState<UnitTag[]>([])
   const [affinityFilter, setAffinityFilter] = useState<string | null>(null)
-  const [sortKey, setSortKey]             = useState<SortKey>('default')
-  const [groupKey, setGroupKey]           = useState<GroupKey>('none')
-  const [openMenu, setOpenMenu] = useState<'filters' | 'sort' | 'group' | null>(null)
+  const [sortKey, setSortKey]             = useState<DeckSortKey>('default')
+  const [groupKey, setGroupKey]           = useState<DeckGroupKey>('none')
+  const [openMenu, setOpenMenu] = useState<DeckFilterMenu>(null)
 
   // Affinity label → card name set (both sides of each pair)
   const allAffinityLabels = useMemo(() =>
@@ -314,12 +293,6 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [filtered, sortKey, groupKey, synergyByName])
-
-  const activeFilterCount =
-    (typeFilter    !== 'all' ? 1 : 0) +
-    (rarityFilter  !== 'all' ? 1 : 0) +
-    tagFilter.length +
-    (affinityFilter ? 1 : 0)
 
   function resetFilters() {
     setTypeFilter('all')
@@ -480,6 +453,34 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
       return ca.cost - cb.cost || a.cardName.localeCompare(b.cardName)
     })
 
+  const deckPanelItems = deckList.map(entry => {
+    const card    = catalog.find(c => c.name === entry.cardName)!
+    const resting = fatiguedCards.includes(entry.cardName)
+    const xp      = getMasteryXp(collection, entry.cardName)
+    const level   = masteryLevel(xp)
+    return { card, count: entry.count, resting, xp, level, comboCount: synergyOf(card).combos }
+  })
+
+  let lastGroup: string | null = null
+  const collectionPanelItems = sorted.map(card => {
+    const owned   = getOwnedCount(collection, card.name)
+    const inDeck  = inDeckCount(card.name)
+    const resting = fatiguedCards.includes(card.name)
+    const atCopyLimit = owned > 0 && inDeck >= Math.min(owned, COPIES_MAX)
+    const canAdd  = !atCopyLimit && total < playerDeckMax
+    const xp      = getMasteryXp(collection, card.name)
+    const { level } = masteryProgress(xp)
+    const label   = groupLabel(card)
+    const synergy = synergyOf(card)
+    const showHeader = label !== null && label !== lastGroup
+    if (showHeader) lastGroup = label
+    return {
+      card, inDeck, owned, canAdd, atCopyLimit, resting, xp, level,
+      comboCount: synergy.combos, synergyGroupCount: synergy.groups,
+      groupLabel: showHeader ? label : null,
+    }
+  })
+
   return (
     <OverlayScreen
       title="DECK BUILDER"
@@ -508,102 +509,22 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         collectionCollapsed ? ' deckbuilder-split--deck-only'
         : deckCollapsed ? ' deckbuilder-split--collection-only' : ''
       }`}>
-
-        {/* ── TOP PANEL: current deck ── */}
-        <div className={`deckbuilder-top-panel${deckCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
-          {/* Deck-scoped actions live in the deck's own header. They used to
-              sit in a loose, unpadded row between the page header and this
-              one — a fourth stacked band belonging to neither. */}
-          <div className="deckbuilder-panel-header">
-            <span className="deckbuilder-panel-label">
-              DECK<span className="deckbuilder-panel-hint"> — click to remove</span>
-            </span>
-            <div className="deck-slot-toggle u-flex u-items-c u-gap-1">
-              <button
-                className={`deck-slot-btn${activeSlot === 'a' ? ' deck-slot-btn--active' : ''}`}
-                onClick={() => handleSwitchSlot('a')}
-                title="Deck A"
-              >A</button>
-              <button
-                className={`deck-slot-btn${activeSlot === 'b' ? ' deck-slot-btn--active' : ''}`}
-                onClick={() => handleSwitchSlot('b')}
-                title="Deck B"
-              >B</button>
-            </div>
-            <div className="deckbuilder-header-actions">
-              <Button
-                className="db-action-sm"
-                onClick={() => setShowAutoBuild(true)}
-                title="Auto Build"
-              >⚡<span className="db-action-label"> AUTO</span></Button>
-              <Button
-                className="db-action-sm"
-                onClick={() => { setSavedDecks(loadSavedDecks()); setShowSavedDecks(true) }}
-                title="Saved Decks"
-              >💾<span className="db-action-label"> SAVED</span></Button>
-              <Button
-                className="db-action-sm"
-                onClick={() => setShowShare(true)}
-                title="Share Deck"
-              >🔗<span className="db-action-label"> SHARE</span></Button>
-              <button
-                className="db-collapse-btn"
-                onClick={() => togglePanel('deck')}
-                title={deckCollapsed ? 'Expand deck panel' : 'Collapse deck panel'}
-                aria-label={deckCollapsed ? 'Expand deck panel' : 'Collapse deck panel'}
-              >{deckCollapsed ? '▼' : '▲'}</button>
-            </div>
-          </div>
-
-          {!deckCollapsed && (
-            <>
-              <ProgressBar pct={(total / playerDeckMax) * 100} />
-              <div className="deckbuilder-deck-grid">
-                {deck.length === 0 ? (
-                  <EmptyState size="sm">Add cards from the collection below.</EmptyState>
-                ) : deckList.length === 0 ? (
-                  <EmptyState size="sm">No deck cards match "{search}".</EmptyState>
-                ) : (
-                  /* Gaps are asymmetric (see .collection-grid) — no u-gap-* here. */
-                  <div className="collection-grid u-flex u-wrap u-just-c u-grow">
-                    {deckList.map(entry => {
-                      const card    = catalog.find(c => c.name === entry.cardName)!
-                      const resting = fatiguedCards.includes(entry.cardName)
-                      const xp      = getMasteryXp(collection, entry.cardName)
-                      const lvl     = masteryLevel(xp)
-                      return (
-                        <div
-                          key={entry.cardName}
-                          className={`collection-cell u-col${resting ? ' collection-cell--resting' : ''}`}
-                        >
-                          <div className="card-cell-tile">
-                            {resting && (
-                              <div className="resting-overlay">
-                                <span className="resting-badge">💤 RESTING</span>
-                              </div>
-                            )}
-                            <CardTile
-                              card={card}
-                              onClick={() => removeCard(entry.cardName)}
-                              deckMatches={synergyOf(card).combos}
-                              showDetails={true}
-                            />
-                          </div>
-                          <CardCellFooter xp={xp} onInfo={() => openDetail(card)}>
-                            <span className="cell-count">
-                              ×{entry.count}
-                              {lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
-                            </span>
-                          </CardCellFooter>
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-        </div>
+        <DeckPanel
+          collapsed={deckCollapsed}
+          onToggleCollapse={() => togglePanel('deck')}
+          activeSlot={activeSlot}
+          onSwitchSlot={handleSwitchSlot}
+          onOpenAutoBuild={() => setShowAutoBuild(true)}
+          onOpenSavedDecks={() => { setSavedDecks(loadSavedDecks()); setShowSavedDecks(true) }}
+          onOpenShare={() => setShowShare(true)}
+          total={total}
+          playerDeckMax={playerDeckMax}
+          deckLength={deck.length}
+          search={search}
+          items={deckPanelItems}
+          onRemove={removeCard}
+          onInfo={openDetail}
+        />
 
         {/* The panels used to be separated by a bar carrying a ⠿ drag handle.
             Nothing was draggable: it swapped which panel was collapsed, and
@@ -611,365 +532,63 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
             all. The collapse buttons already do that job, so the separator is
             now a plain rule on the panel below. */}
 
-        {/* ── BOTTOM PANEL: collection ── */}
-        <div className={`deckbuilder-bottom-panel${collectionCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
-          <div className="deckbuilder-panel-header">
-            <span className="deckbuilder-panel-label">
-              COLLECTION<span className="deckbuilder-panel-hint"> — click to add</span>
-            </span>
-            <div className="deckbuilder-header-actions">
-              {/* "shown", not "cards": this is the count of distinct owned
-                  cards after filtering, not a number of copies. Matches the
-                  Collection screen's wording. */}
-              <span className="filter-owned">{filtered.length} shown</span>
-              <button
-                className="db-collapse-btn"
-                onClick={() => togglePanel('collection')}
-                title={collectionCollapsed ? 'Expand collection panel' : 'Collapse collection panel'}
-                aria-label={collectionCollapsed ? 'Expand collection panel' : 'Collapse collection panel'}
-              >{collectionCollapsed ? '▲' : '▼'}</button>
-            </div>
-          </div>
-
-          {!collectionCollapsed && (
-            <div className="deckbuilder-collection-inner u-grow u-col">
-              {/* Search */}
-              <div className="deckbuilder-search-wrap u-row">
-                <input
-                  className="deckbuilder-search"
-                  type="text"
-                  placeholder="Search cards…"
-                  value={search}
-                  onChange={e => setSearch(e.target.value)}
-                />
-                {/* Was an <input type="reset"> carrying an `alt` attribute —
-                    not valid on a reset input, so it had no accessible name. */}
-                <Button
-                  size="xs"
-                  aria-label="Clear search"
-                  title="Clear search"
-                  onClick={() => setSearch('')}
-                >✕</Button>
-              </div>
-
-              {/* Filter / Sort / Group bar */}
-              <div className="filter-bar">
-                {/* FILTERS */}
-                <FilterPopup
-                  label="▼ FILTERS"
-                  activeSuffix={activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-                  isActive={activeFilterCount > 0}
-                  open={openMenu === 'filters'}
-                  onToggle={() => setOpenMenu(m => m === 'filters' ? null : 'filters')}
-                  onClose={() => setOpenMenu(m => m === 'filters' ? null : m)}
-                  footer={activeFilterCount > 0 && (
-                    <div className="filter-popup-footer">
-                      <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
-                        ✕ Clear all filters
-                      </button>
-                    </div>
-                  )}
-                >
-                  <div className="filter-popup-section u-col">
-                    <span className="filter-group-label">TYPE</span>
-                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                      {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
-                        <FilterOption key={val} active={typeFilter === val} onClick={() => setTypeFilter(val)}>
-                          {val === 'all' ? 'All' : val.charAt(0).toUpperCase() + val.slice(1) + 's'}
-                        </FilterOption>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="filter-popup-section u-col">
-                    <span className="filter-group-label">RARITY</span>
-                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                      {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
-                        <FilterOption key={val} active={rarityFilter === val} onClick={() => setRarityFilter(val)}>
-                          {val.charAt(0).toUpperCase() + val.slice(1)}
-                        </FilterOption>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="filter-popup-section u-col">
-                    <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
-                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                      {ALL_TAGS.map(tag => (
-                        <FilterOption key={tag} active={tagFilter.includes(tag)} onClick={() => toggleTag(tag)}>
-                          {tag}
-                        </FilterOption>
-                      ))}
-                    </div>
-                  </div>
-                  {allAffinityLabels.length > 0 && (
-                    <div className="filter-popup-section u-col">
-                      <span className="filter-group-label">AFFINITY</span>
-                      <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                        {allAffinityLabels.map(label => (
-                          <FilterOption
-                            key={label}
-                            active={affinityFilter === label}
-                            onClick={() => setAffinityFilter(prev => prev === label ? null : label)}
-                          >
-                            {label}
-                          </FilterOption>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </FilterPopup>
-
-                {/* SORT */}
-                <FilterPopup
-                  label="↕ SORT"
-                  activeSuffix={sortKey !== 'default' ? ` (${sortKey})` : ''}
-                  isActive={sortKey !== 'default'}
-                  open={openMenu === 'sort'}
-                  onToggle={() => setOpenMenu(m => m === 'sort' ? null : 'sort')}
-                  onClose={() => setOpenMenu(m => m === 'sort' ? null : m)}
-                >
-                  <div className="filter-popup-section u-col">
-                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                      {([
-                        ['default',   'Default'],
-                        ['az',        'A → Z'],
-                        ['za',        'Z → A'],
-                        ['mana-asc',  'Mana ↑'],
-                        ['mana-desc', 'Mana ↓'],
-                        ['rarity',    'Rarity'],
-                        ['synergy',   '⚡ Synergy'],
-                      ] as [SortKey, string][]).map(([val, label]) => (
-                        <FilterOption key={val} active={sortKey === val} onClick={() => setSortKey(val)}>
-                          {label}
-                        </FilterOption>
-                      ))}
-                    </div>
-                  </div>
-                </FilterPopup>
-
-                {/* GROUP */}
-                <FilterPopup
-                  label="⊞ GROUP"
-                  activeSuffix={groupKey !== 'none' ? ` (${groupKey})` : ''}
-                  isActive={groupKey !== 'none'}
-                  open={openMenu === 'group'}
-                  onToggle={() => setOpenMenu(m => m === 'group' ? null : 'group')}
-                  onClose={() => setOpenMenu(m => m === 'group' ? null : m)}
-                >
-                  <div className="filter-popup-section u-col">
-                    <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-                      {([
-                        ['none',    'None'],
-                        ['type',    'Type'],
-                        ['rarity',  'Rarity'],
-                        ['mana',    'Mana'],
-                        ['act',     'Act'],
-                      ] as [GroupKey, string][]).map(([val, label]) => (
-                        <FilterOption key={val} active={groupKey === val} onClick={() => setGroupKey(val)}>
-                          {label}
-                        </FilterOption>
-                      ))}
-                    </div>
-                  </div>
-                </FilterPopup>
-
-                {/* Active filter pills */}
-                {activeFilterCount > 0 && (
-                  <div className="filter-active-pills u-flex u-gap-2 u-grow u-items-c">
-                    {typeFilter !== 'all' && (
-                      <FilterPill onRemove={() => setTypeFilter('all')}>{typeFilter}s</FilterPill>
-                    )}
-                    {rarityFilter !== 'all' && (
-                      <FilterPill onRemove={() => setRarityFilter('all')}>{rarityFilter}</FilterPill>
-                    )}
-                    {tagFilter.map(t => (
-                      <FilterPill key={t} onRemove={() => toggleTag(t)}>{t}</FilterPill>
-                    ))}
-                    {affinityFilter && (
-                      <FilterPill onRemove={() => setAffinityFilter(null)}>affinity:{affinityFilter}</FilterPill>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Collection grid */}
-              <div className="deckbuilder-collection-grid">
-                {/* Gaps are asymmetric (see .collection-grid) — no u-gap-* here. */}
-                <div className="collection-grid u-flex u-wrap u-just-c u-grow">
-                  {(() => {
-                    let lastGroup: string | null = null
-                    return sorted.map(card => {
-                      const owned   = getOwnedCount(collection, card.name)
-                      const inDeck  = inDeckCount(card.name)
-                      const resting = fatiguedCards.includes(card.name)
-                      const atCopyLimit = owned > 0 && inDeck >= Math.min(owned, COPIES_MAX)
-                      const canAdd  = !atCopyLimit && total < playerDeckMax
-                      const xp      = getMasteryXp(collection, card.name)
-                      const { level: lvl } = masteryProgress(xp)
-                      const label   = groupLabel(card)
-                      const synergy = synergyOf(card)
-                      const showHeader = label !== null && label !== lastGroup
-                      if (showHeader) lastGroup = label
-                      return (
-                        <React.Fragment key={card.name}>
-                          {showHeader && (
-                            <div className="collection-group-header">{label}</div>
-                          )}
-                          <div className={`collection-cell u-col${resting ? ' collection-cell--resting' : ''}${synergy.combos > 0 ? ' collection-cell--combo' : synergy.groups > 0 ? ' collection-cell--synergy' : ''}`}>
-                            {/* Same resting treatment as the deck panel above —
-                                the two used to differ (striped overlay + badge
-                                there, a bare 💤 in the footer here). */}
-                            <div className="card-cell-tile">
-                              {resting && (
-                                <div className="resting-overlay">
-                                  <span className="resting-badge">💤 RESTING</span>
-                                </div>
-                              )}
-                              <CardTile
-                                card={card}
-                                canAfford={canAdd}
-                                deckMatches={synergy.combos}
-                                onClick={canAdd ? () => addCard(card.name) : undefined}
-                              />
-                            </div>
-                            <CardCellFooter xp={xp} onInfo={() => openDetail(card)}>
-                              <span className="cell-count">
-                                {inDeck}/{owned}
-                                {lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
-                                {atCopyLimit && <span className="cell-copy-limit-badge">MAX</span>}
-                              </span>
-                            </CardCellFooter>
-                          </div>
-                        </React.Fragment>
-                      )
-                    })
-                  })()}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
+        <CollectionPanel
+          collapsed={collectionCollapsed}
+          onToggleCollapse={() => togglePanel('collection')}
+          shownCount={filtered.length}
+          search={search}
+          onSearchChange={setSearch}
+          onClearSearch={() => setSearch('')}
+          typeFilter={typeFilter}
+          rarityFilter={rarityFilter}
+          tagFilter={tagFilter}
+          affinityFilter={affinityFilter}
+          affinityLabels={allAffinityLabels}
+          sortKey={sortKey}
+          groupKey={groupKey}
+          openMenu={openMenu}
+          onOpenMenuChange={setOpenMenu}
+          onTypeChange={setTypeFilter}
+          onRarityChange={setRarityFilter}
+          onTagToggle={toggleTag}
+          onAffinityChange={setAffinityFilter}
+          onSortChange={setSortKey}
+          onGroupChange={setGroupKey}
+          onResetFilters={resetFilters}
+          items={collectionPanelItems}
+          onAdd={addCard}
+          onInfo={openDetail}
+        />
       </div>
 
-      {/* ── Auto-build modal ── */}
       {showAutoBuild && (
-        <ModalBackdrop onClose={() => setShowAutoBuild(false)} title="Auto Build">
-          <div className="autobuild-panel">
-            <div>
-              <div className="autobuild-title">⚡ AUTO BUILD</div>
-              <div className="autobuild-sub">
-                Choose a strategy. Your owned cards will be arranged into the strongest possible deck for that style.
-                Resting cards are excluded.
-              </div>
-            </div>
-            <div className="autobuild-strategies u-col u-gap-4">
-              {AUTO_STRATEGIES.map(s => (
-                <button
-                  key={s.id}
-                  className="autobuild-strategy"
-                  onClick={() => handleAutoBuild(s.id)}
-                >
-                  <span className="autobuild-strategy-name">{s.name}</span>
-                  <span className="autobuild-strategy-desc">{s.desc}</span>
-                </button>
-              ))}
-            </div>
-            <Button className="autobuild-cancel" onClick={() => setShowAutoBuild(false)}>
-              CANCEL
-            </Button>
-          </div>
-        </ModalBackdrop>
+        <AutoBuildModal onSelect={handleAutoBuild} onClose={() => setShowAutoBuild(false)} />
       )}
 
-      {/* ── Saved Decks modal ── */}
       {showSavedDecks && (
-        <ModalBackdrop onClose={() => setShowSavedDecks(false)} title="Saved Decks">
-          <div className="autobuild-panel saveddecks-panel">
-            <div className="autobuild-title">💾 SAVED DECKS</div>
-            {savedDecks.length === 0 ? (
-              <EmptyState size="sm">No saved decks yet.</EmptyState>
-            ) : (
-              <ul className="saveddecks-list">
-                {savedDecks.map(d => (
-                  <li key={d.name} className="saveddecks-item u-flex u-items-c u-gap-4">
-                    <span className="saveddecks-name">{d.name}</span>
-                    <span className="saveddecks-count">{deckTotalCards(d.deck)} cards</span>
-                    <button className="filter-btn" onClick={() => handleLoadSaved(d)}>LOAD</button>
-                    <button className="filter-btn action-btn--danger-text" onClick={() => handleDeleteSaved(d.name)}>✕</button>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <div className="saveddecks-save-row u-flex u-gap-4 u-items-c">
-              <input
-                className="deckbuilder-search saveddecks-name-input u-grow"
-                type="text"
-                maxLength={24}
-                placeholder="Deck name…"
-                value={saveNameInput}
-                onChange={e => setSaveNameInput(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') handleSaveNamed() }}
-              />
-              <Button
-                style={{ fontSize: '11px', padding: '5px 10px' }}
-                onClick={handleSaveNamed}
-                disabled={!saveNameInput.trim()}
-              >
-                SAVE CURRENT
-              </Button>
-            </div>
-            <Button className="autobuild-cancel" onClick={() => setShowSavedDecks(false)}>
-              CLOSE
-            </Button>
-          </div>
-        </ModalBackdrop>
+        <SavedDecksModal
+          savedDecks={savedDecks}
+          saveNameInput={saveNameInput}
+          onSaveNameChange={setSaveNameInput}
+          onSave={handleSaveNamed}
+          onLoad={handleLoadSaved}
+          onDelete={handleDeleteSaved}
+          onClose={() => setShowSavedDecks(false)}
+        />
       )}
 
-      {/* ── Share modal ── */}
       {showShare && (
-        <ModalBackdrop onClose={() => setShowShare(false)} title="Share Deck">
-          <div className="autobuild-panel share-panel">
-            <div className="autobuild-title">🔗 SHARE DECK</div>
-            <div className="share-section u-col u-gap-3">
-              <div className="share-label">EXPORT — copy this code and share it:</div>
-              <textarea
-                ref={shareCodeRef}
-                className="share-code-box"
-                readOnly
-                value={encodeDeck(deck)}
-                onClick={e => (e.target as HTMLTextAreaElement).select()}
-              />
-              <Button
-                style={{ fontSize: '11px', padding: '5px 10px', alignSelf: 'flex-start' }}
-                onClick={handleCopyCode}
-              >
-                {copyFeedback ? '✓ COPIED!' : '📋 COPY'}
-              </Button>
-            </div>
-            <div className="share-divider">──────────</div>
-            <div className="share-section u-col u-gap-3">
-              <div className="share-label">IMPORT — paste a deck code:</div>
-              <textarea
-                className="share-code-box"
-                value={importCode}
-                onChange={e => { setImportCode(e.target.value); setImportError('') }}
-                placeholder="Paste code here…"
-                rows={3}
-              />
-              {importError && <div className="share-error">{importError}</div>}
-              <Button
-                style={{ fontSize: '11px', padding: '5px 10px', alignSelf: 'flex-start' }}
-                onClick={handleImport}
-                disabled={!importCode.trim()}
-              >
-                LOAD DECK
-              </Button>
-            </div>
-            <Button className="autobuild-cancel" onClick={() => setShowShare(false)}>
-              CLOSE
-            </Button>
-          </div>
-        </ModalBackdrop>
+        <ShareDeckModal
+          deckCode={encodeDeck(deck)}
+          shareCodeRef={shareCodeRef}
+          copyFeedback={copyFeedback}
+          onCopy={handleCopyCode}
+          importCode={importCode}
+          importError={importError}
+          onImportCodeChange={value => { setImportCode(value); setImportError('') }}
+          onImport={handleImport}
+          onClose={() => setShowShare(false)}
+        />
       )}
 
       {cardDetailNode}

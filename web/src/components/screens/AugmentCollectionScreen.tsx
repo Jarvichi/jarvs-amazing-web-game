@@ -1,4 +1,4 @@
-import React, { memo, useRef, useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { AugmentInstance, Card } from '../../game/types'
 import {
   loadAugmentInstances,
@@ -17,58 +17,22 @@ import {
   scaledAugmentEffect,
   ALL_AUGMENT_SLOTS,
   getAugmentSetDef,
-  AugmentSetDef,
 } from '../../game/augments'
 import { OverlayScreen } from '../ui/OverlayScreen'
-import { CardTile } from '../cards/CardTile'
 import { CardDetailModal } from '../cards/CardDetailModal'
 import { CardAugmentScreen } from '../cards/CardAugmentScreen'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
-import { Button } from '../ui/Button'
-import { CloseButton } from '../ui/CloseButton'
-import { EmptyState } from '../ui/EmptyState'
-
-// ─── Lazy cell ────────────────────────────────────────────
-
-const LazyCell = memo(function LazyCell({ children, className }: { children: React.ReactNode; className: string }) {
-  const ref  = useRef<HTMLDivElement>(null)
-  const [vis, setVis] = useState(false)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect() } }, { rootMargin: '200px' })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-  return <div ref={ref} className={className}>{vis ? children : null}</div>
-})
-
-// ─── Sort / group types ───────────────────────────────────
-
-type AugSortKey  = 'default' | 'az' | 'za' | 'rarity' | 'level-desc' | 'level-asc' | 'slot'
-type AugGroupKey = 'none' | 'slot' | 'set' | 'rarity' | 'status'
+import { AugStack } from './collection/AugmentStackTile'
+import { AugmentFilterBar, AugFilterMenu, AugGroupKey, AugSortKey } from './collection/AugmentFilterBar'
+import { AugmentStacksSection } from './collection/AugmentStacksSection'
+import { AugmentDrillDownHeader } from './collection/AugmentDrillDownHeader'
+import { AugmentDrillDownUpgradeBar } from './collection/AugmentDrillDownUpgradeBar'
+import { AugmentItemGrid, AugmentGridItem } from './collection/AugmentItemGrid'
+import { AugmentUnitPickerModal } from './collection/AugmentUnitPickerModal'
 
 const RARITY_ORDER: Record<string, number> = {
   common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5,
   shiny: 4, holofoil: 4, glass: 4,
-}
-
-const RARITY_COLOUR: Record<string, string> = {
-  common:    '#55cc55',
-  uncommon:  '#4499ff',
-  rare:      '#bb66ff',
-  epic:      '#ff8800',
-  legendary: '#ffcc00',
-  mythic:    '#e040fb',
-}
-
-// ─── Stack type and computation ───────────────────────────
-
-interface AugStack {
-  setName: string
-  setDef: AugmentSetDef | undefined
-  instances: AugmentInstance[]   // exactly 7, one per slot
 }
 
 function computeStacks(instances: AugmentInstance[]): { stacks: AugStack[]; individuals: AugmentInstance[] } {
@@ -115,142 +79,6 @@ function computeStacks(instances: AugmentInstance[]): { stacks: AugStack[]; indi
   return { stacks, individuals }
 }
 
-function stackLevelSummary(stack: AugStack): string {
-  const levels = stack.instances.map(i => i.level)
-  const min = Math.min(...levels)
-  const max = Math.max(...levels)
-  return min === max ? `Lv${min}` : `Lv${min}–${max}`
-}
-
-function stackUpgradeCost(stack: AugStack): number {
-  const minLevel = Math.min(...stack.instances.map(i => i.level))
-  const count = stack.instances.filter(i => i.level === minLevel).length
-  return count * AUGMENT_UPGRADE_COST
-}
-
-// ─── Unit Picker Modal ────────────────────────────────────
-
-interface UnitPickerProps {
-  stack: AugStack
-  onEquip: (cardName: string) => void
-  onClose: () => void
-}
-
-function UnitPickerModal({ stack, onEquip, onClose }: UnitPickerProps) {
-  const collection = loadCollection()
-  const catalog    = getCardCatalog()
-  const unitCards  = catalog.filter(c =>
-    c.cardType === 'unit' && c.unit && c.unit.moveSpeed > 0 &&
-    collection.some(e => e.cardName === c.name && e.count > 0)
-  )
-
-  return (
-    <ModalBackdrop onClose={onClose} zIndex={400} title={`Equip ${stack.setName} Set to Unit`}>
-      <div className="apm-panel">
-        <div className="apm-header">
-          Equip {stack.setName} Set to Unit
-          <CloseButton onClick={onClose} />
-        </div>
-        {unitCards.length === 0 ? (
-          <EmptyState size="sm">No unit cards owned.</EmptyState>
-        ) : (
-          <div className="apm-list">
-            {unitCards.map(card => (
-              <div key={card.name} className="apm-item">
-                <div className="apm-item-info">
-                  <span className="apm-item-name">{card.name}</span>
-                  <span className="apm-item-set" style={{ opacity: 0.6, fontSize: 11 }}>
-                    {card.rarity.toUpperCase()}
-                  </span>
-                </div>
-                <div className="apm-item-actions">
-                  <Button
-                    className="action-btn action-btn--gold"
-                    onClick={() => { onEquip(card.name); onClose() }}
-                  >
-                    Equip Set
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </ModalBackdrop>
-  )
-}
-
-// ─── Stack Tile ───────────────────────────────────────────
-
-interface StackTileProps {
-  stack: AugStack
-  souls: number
-  onView: () => void
-  onUpgrade: () => void
-  onEquipToUnit: () => void
-  upgradeError?: string | null
-}
-
-function StackTile({ stack, souls, onView, onUpgrade, onEquipToUnit, upgradeError }: StackTileProps) {
-  const cost      = stackUpgradeCost(stack)
-  const canUpgrade = souls >= cost
-  const col       = RARITY_COLOUR[stack.setDef?.rarity ?? 'common'] ?? '#55cc55'
-  const levels    = stack.instances.map(i => i.level)
-  const minLevel  = Math.min(...levels)
-  const atMin     = levels.filter(l => l === minLevel).length
-  const areAnyEquipped = stack.instances.some(i => i.equippedToCardName)
-  const equippedCount = stack.instances.filter(i => i.equippedToCardName).length
-
-  return (
-    <div className="aug-stack-tile">
-      <div className="aug-stack-header">
-        <span className="aug-stack-name" style={{ color: col }}>{stack.setName} Set</span>
-        <span className="aug-stack-levels">{stackLevelSummary(stack)}</span>
-      </div>
-      <div className="aug-stack-slots">
-        {stack.instances.map(inst => {
-          const card = getAugmentCard(inst.cardId)
-          return (
-            <span key={inst.instanceId} className="aug-stack-slot-chip" style={{ color: col }}>
-              {augmentSlotLabel(card?.augmentSlot ?? 'helmet').slice(0, 4)} Lv{inst.level}
-            </span>
-          )
-        })}
-      </div>
-      {atMin < 7 && (
-        <div className="aug-stack-upgrade-note">
-          {atMin} item{atMin !== 1 ? 's' : ''} at Lv{minLevel} · next upgrade: {cost.toLocaleString()} souls
-        </div>
-      )}
-      {upgradeError && <div style={{ color: '#ff6666', fontSize: 11 }}>{upgradeError}</div>}
-      <div className="aug-stack-actions">
-        <Button size="sm" onClick={onView}>
-          View Stack
-        </Button>
-        <Button
-          className={`action-btn action-btn--gold${canUpgrade ? '' : ' action-btn--disabled'}`}
-          onClick={onUpgrade}
-          title={`Upgrade stack · ${cost.toLocaleString()} souls`}
-          style={{ fontSize: 11, padding: '2px 8px' }}
-        >
-          ↑ Upgrade · {cost.toLocaleString()}
-        </Button>
-        <Button
-          className={`action-btn ${areAnyEquipped ?  ' action-btn--disabled' : ''}`}
-          size="sm"
-          onClick={onEquipToUnit}
-          disabled={areAnyEquipped}
-          title={areAnyEquipped ? 'Unequip all items in stack to enable' : 'Equip stack to unit'}
-        >
-          {areAnyEquipped ? `${equippedCount} already equipped` : 'Equip stack to unit'}
-        </Button>
-      </div>
-    </div>
-  )
-}
-
-// ─── Main screen ──────────────────────────────────────────
-
 interface Props {
   onBack: () => void
   embedded?: boolean
@@ -260,8 +88,7 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
   const [refresh,       setRefresh]       = useState(0)
   const [sortKey,       setSortKey]       = useState<AugSortKey>('default')
   const [groupKey,      setGroupKey]      = useState<AugGroupKey>('none')
-  const [sortOpen,      setSortOpen]      = useState(false)
-  const [groupOpen,     setGroupOpen]     = useState(false)
+  const [openMenu,      setOpenMenu]      = useState<AugFilterMenu>(null)
   const [detailInst,    setDetailInst]    = useState<{ card: Card; inst: AugmentInstance } | null>(null)
   const [upgradeError,  setUpgradeError]  = useState<string | null>(null)
   const [breakdownMsg,  setBreakdownMsg]  = useState<string | null>(null)
@@ -396,180 +223,84 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
     instanceCounts[inst.cardId] = (instanceCounts[inst.cardId] ?? 0) + 1
   }
 
+  const gridItems: AugmentGridItem[] = groups.flatMap(group =>
+    group.items.map((item, i) => ({
+      inst: item.inst,
+      displayCard: item.displayCard,
+      groupLabel: i === 0 && group.label ? group.label : null,
+      breakdownValue: AUGMENT_DISENCHANT_VALUE[item.displayCard.rarity],
+    }))
+  )
+
   const inner = (
     <>
-      {/* Drill-down header */}
       {activeStack ? (
-        <div className="aug-stack-drill-header">
-          <button className="filter-btn" onClick={() => setActiveStack(null)}>← Back to All</button>
-          <span className="aug-stack-drill-title">
-            {activeStack.setName} Set
-          </span>
-          <Button
-            onClick={() => setEquipTarget(activeStack)}
-            style={{ fontSize: 11, padding: '2px 8px' }}
-          >
-            Equip to Unit
-          </Button>
-        </div>
+        <AugmentDrillDownHeader
+          stack={activeStack}
+          onBack={() => setActiveStack(null)}
+          onEquipToUnit={() => setEquipTarget(activeStack)}
+        />
       ) : (
-        /* Filter bar — only shown when not in drill-down */
-        <div className="filter-bar">
-          <div className="filter-popup-wrap">
-            <button
-              className={`filter-btn${sortKey !== 'default' ? ' filter-btn--active' : ''}`}
-              onClick={() => { setSortOpen(o => !o); setGroupOpen(false) }}
-            >
-              SORT {sortOpen ? '▲' : '▼'}
-            </button>
-            {sortOpen && (
-              <div className="filter-popup">
-                {([
-                  ['default',    'Default'],
-                  ['az',         'A → Z'],
-                  ['za',         'Z → A'],
-                  ['rarity',     'Rarity'],
-                  ['level-desc', 'Level ↓'],
-                  ['level-asc',  'Level ↑'],
-                  ['slot',       'Slot'],
-                ] as [AugSortKey, string][]).map(([key, label]) => (
-                  <button
-                    key={key}
-                    className={`filter-btn filter-btn--sm${sortKey === key ? ' filter-btn--active' : ''}`}
-                    onClick={() => { setSortKey(key); setSortOpen(false) }}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="filter-popup-wrap">
-            <button
-              className={`filter-btn${groupKey !== 'none' ? ' filter-btn--active' : ''}`}
-              onClick={() => { setGroupOpen(o => !o); setSortOpen(false) }}
-            >
-              GROUP {groupOpen ? '▲' : '▼'}
-            </button>
-            {groupOpen && (
-              <div className="filter-popup">
-                {([
-                  ['none',   'None'],
-                  ['slot',   'Slot'],
-                  ['set',    'Set'],
-                  ['rarity', 'Rarity'],
-                  ['status', 'Equipped / Unequipped'],
-                ] as [AugGroupKey, string][]).map(([key, label]) => (
-                  <button
-                    key={key}
-                    className={`filter-btn filter-btn--sm${groupKey === key ? ' filter-btn--active' : ''}`}
-                    onClick={() => { setGroupKey(key); setGroupOpen(false) }}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+        <AugmentFilterBar
+          sortKey={sortKey}
+          groupKey={groupKey}
+          openMenu={openMenu}
+          onOpenMenuChange={setOpenMenu}
+          onSortChange={key => { setSortKey(key); setOpenMenu(null) }}
+          onGroupChange={key => { setGroupKey(key); setOpenMenu(null) }}
+        />
       )}
 
       {upgradeError && (
-        <div style={{ color: '#ff6666', textAlign: 'center', fontSize: 12, padding: '4px 0' }}>{upgradeError}</div>
+        <div className="aug-status-msg aug-status-msg--error">{upgradeError}</div>
       )}
 
       {breakdownMsg && (
-        <div style={{ color: '#cc88ff', textAlign: 'center', fontSize: 12, padding: '4px 0' }}>{breakdownMsg}</div>
+        <div className="aug-status-msg aug-status-msg--souls">{breakdownMsg}</div>
       )}
 
       {instances.length === 0 ? (
-        <div style={{ textAlign: 'center', opacity: 0.6, marginTop: 48 }}>
+        <div className="aug-empty-state">
           No augments owned yet. Earn augments from packs to equip them to your units.
         </div>
       ) : (
         <div className="u-col u-gap-4 u-grow">
 
-          {/* Complete set stacks — only shown when not in drill-down */}
-          {!activeStack && stacks.length > 0 && (
-            <div className="aug-stacks-section">
-              <div className="collection-group-header">Complete Sets ({stacks.length})</div>
-              {stacks.map((stack, i) => (
-                <StackTile
-                  key={`${stack.setName}-${i}`}
-                  stack={stack}
-                  souls={souls}
-                  onView={() => setActiveStack(stack)}
-                  onUpgrade={() => handleUpgradeStack(stack)}
-                  onEquipToUnit={() => setEquipTarget(stack)}
-                  upgradeError={stackErrors[stack.instances[0].instanceId]}
-                />
-              ))}
-            </div>
+          {!activeStack && (
+            <AugmentStacksSection
+              stacks={stacks}
+              souls={souls}
+              upgradeCost={AUGMENT_UPGRADE_COST}
+              stackErrors={stackErrors}
+              onView={setActiveStack}
+              onUpgrade={handleUpgradeStack}
+              onEquipToUnit={setEquipTarget}
+            />
           )}
 
-          {/* Drill-down upgrade bar */}
           {activeStack && (
-            <div className="aug-stack-drill-upgrade">
-              <span style={{ fontSize: 12, opacity: 0.8 }}>
-                Stack: {stackLevelSummary(activeStack)}
-              </span>
-              <Button
-                variant="gold"
-                className={souls >= stackUpgradeCost(activeStack) ? '' : 'action-btn--disabled'}
-                onClick={() => handleUpgradeStack(activeStack)}
-                style={{ fontSize: 11, padding: '2px 8px' }}
-              >
-                ↑ Upgrade Stack · {stackUpgradeCost(activeStack).toLocaleString()} souls
-              </Button>
-            </div>
+            <AugmentDrillDownUpgradeBar
+              stack={activeStack}
+              souls={souls}
+              upgradeCost={AUGMENT_UPGRADE_COST}
+              onUpgrade={() => handleUpgradeStack(activeStack)}
+            />
           )}
 
-          {/* Individuals / drill-down items grid */}
           {(!activeStack && individuals.length > 0) || activeStack ? (
             <>
               {!activeStack && individuals.length > 0 && stacks.length > 0 && (
                 <div className="collection-group-header">Individual Augments ({individuals.length})</div>
               )}
-              <div className="collection-grid u-flex u-wrap u-just-c u-gap-4">
-                {groups.map(group => (
-                  <React.Fragment key={group.label}>
-                    {group.label && (
-                      <div className="collection-group-header">{group.label}</div>
-                    )}
-                    {group.items.map(({ inst, displayCard }) => (
-                      <LazyCell key={inst.instanceId} className="collection-cell u-col">
-                        <CardTile
-                          card={displayCard}
-                          onClick={() => setDetailInst({ card: displayCard, inst })}
-                        />
-                        <div className="cell-footer">
-                          <span>Lv{inst.level}</span>
-                          {inst.equippedToCardName && (
-                            <span
-                              title={inst.equippedToCardName}
-                              style={{ cursor: 'pointer', color: '#88ccff' }}
-                              onClick={e => { e.stopPropagation(); setDetailCardName(inst.equippedToCardName!) }}
-                            >↗</span>
-                          )}
-                          <Button
-                            variant="gold"
-                            className={souls < AUGMENT_UPGRADE_COST ? 'action-btn--disabled' : ''}
-                            onClick={e => { e.stopPropagation(); handleUpgrade(inst) }}
-                            title={`Upgrade · ${AUGMENT_UPGRADE_COST} souls`}
-                            style={{ padding: '1px 6px', fontSize: 11 }}
-                          >↑</Button>
-                          <Button
-                            onClick={e => { e.stopPropagation(); handleBreakdown(inst) }}
-                            title={`Break down · +${AUGMENT_DISENCHANT_VALUE[displayCard.rarity]} souls`}
-                            style={{ padding: '1px 6px', fontSize: 11 }}
-                          >💀</Button>
-                        </div>
-                      </LazyCell>
-                    ))}
-                  </React.Fragment>
-                ))}
-              </div>
+              <AugmentItemGrid
+                items={gridItems}
+                souls={souls}
+                upgradeCost={AUGMENT_UPGRADE_COST}
+                onSelect={({ inst, displayCard }) => setDetailInst({ card: displayCard, inst })}
+                onViewEquippedUnit={setDetailCardName}
+                onUpgrade={handleUpgrade}
+                onBreakdown={handleBreakdown}
+              />
             </>
           ) : null}
         </div>
@@ -592,7 +323,7 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
 
       {/* Unit picker for equipping a complete set */}
       {equipTarget && (
-        <UnitPickerModal
+        <AugmentUnitPickerModal
           stack={equipTarget}
           onEquip={cardName => handleEquipSet(equipTarget, cardName)}
           onClose={() => setEquipTarget(null)}
@@ -606,7 +337,7 @@ export function AugmentCollectionScreen({ onBack, embedded }: Props) {
     <OverlayScreen
       title="AUGMENTS"
       onBack={onBack}
-      right={<span style={{ color: '#cc88ff', fontWeight: 700 }}>{souls.toLocaleString()} 👻 souls</span>}
+      right={<span className="aug-souls-count">{souls.toLocaleString()} 👻 souls</span>}
     >
       {inner}
     </OverlayScreen>

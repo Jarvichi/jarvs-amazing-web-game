@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, memo } from 'react'
+import React, { useState, useRef } from 'react'
 import { Card, CardRarity, CardType, UnitTag, SECRET_RARITIES } from '../../game/types'
 import { getCardCatalog, getCardThemeTags } from '../../game/cards'
 import { getQuestTargetCards } from '../../game/quests'
@@ -20,19 +20,18 @@ import {
 } from '../../game/collection'
 import { promotionsRemainingToday } from '../../game/commander'
 import { incrementAchievementProgress } from '../../game/achievements'
-import { CardTile } from '../cards/CardTile'
 import { CardDetailModal } from '../cards/CardDetailModal'
 import { CardAugmentScreen } from '../cards/CardAugmentScreen'
 import { OverlayScreen } from '../ui/OverlayScreen'
-import { CardCellFooter } from '../cards/CardCellFooter'
-import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
 import { ProgressBar } from '../ui/ProgressBar'
 import { useToast } from '../ui/Toast'
-import { FilterPopup } from '../ui/filters/FilterPopup'
-import { FilterOption } from '../ui/filters/FilterOption'
-import { FilterPill } from '../ui/filters/FilterPill'
+import { CollectionFilterBar, CollFilterMenu, CollGroupKey, CollRarityFilter, CollSortKey, CollSpecialFilter, CollTypeFilter } from './collection/CollectionFilterBar'
+import { CollectionActionRow } from './collection/CollectionActionRow'
+import { CollectionGrid } from './collection/CollectionGrid'
+import { DisenchantAllModal } from './collection/DisenchantAllModal'
+import { UpgradeAllModal } from './collection/UpgradeAllModal'
 
 interface Props {
   crystals: number
@@ -43,40 +42,6 @@ interface Props {
   onViewAugments?: () => void
   embedded?: boolean
 }
-
-type RarityFilter = 'all' | CardRarity
-type TypeFilter   = 'all' | CardType
-type SpecialFilter = 'upgradeable'
-type AffinityFilter = string  // affinity label, e.g. "Death Rally"
-type SortKey  = 'default' | 'az' | 'za' | 'mana-asc' | 'mana-desc' | 'rarity'
-type GroupKey = 'none' | 'type' | 'rarity' | 'mana' | 'act'
-
-const ALL_TAGS: UnitTag[] = [
-  'flying', 'ranged', 'melee', 'fast', 'slow', 'large',
-  'magic', 'undead', 'beast', 'armored', 'siege', 'fire',
-]
-
-const LazyCell = memo(function LazyCell({ children, className }: { children: React.ReactNode; className: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect() } },
-      { rootMargin: '200px' }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div ref={ref} className={className}>
-      {visible ? children : null}
-    </div>
-  )
-})
 
 export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander, onViewAugments, embedded }: Props) {
   const { showToast } = useToast()
@@ -96,18 +61,18 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
     group.add(aff.withName)  // the card that triggers it
   }
   const [collection, setCollection] = useState<CollectionEntry[]>(loadCollection)
-  const [typeFilter,    setTypeFilter]    = useState<TypeFilter>('all')
-  const [rarityFilter,  setRarityFilter]  = useState<RarityFilter>('all')
-  const [specialFilter, setSpecialFilter] = useState<SpecialFilter | null>(null)
+  const [typeFilter,    setTypeFilter]    = useState<CollTypeFilter>('all')
+  const [rarityFilter,  setRarityFilter]  = useState<CollRarityFilter>('all')
+  const [specialFilter, setSpecialFilter] = useState<CollSpecialFilter | null>(null)
   const [tagFilter,     setTagFilter]     = useState<UnitTag[]>([])
-  const [affinityFilter, setAffinityFilter] = useState<AffinityFilter | null>(null)
-  const [sortKey,  setSortKey]  = useState<SortKey>('default')
-  const [groupKey, setGroupKey] = useState<GroupKey>('none')
-  const [openMenu, setOpenMenu] = useState<'filters' | 'sort' | 'group' | null>(null)
+  const [affinityFilter, setAffinityFilter] = useState<string | null>(null)
+  const [sortKey,  setSortKey]  = useState<CollSortKey>('default')
+  const [groupKey, setGroupKey] = useState<CollGroupKey>('none')
+  const [openMenu, setOpenMenu] = useState<CollFilterMenu>(null)
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
   const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
-  const [detailCard, setDetailCard] = useState<import('../../game/types').Card | null>(null)
-  const [augmentCard, setAugmentCard] = useState<import('../../game/types').Card | null>(null)
+  const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const [augmentCard, setAugmentCard] = useState<Card | null>(null)
   const [levelUpCard, setLevelUpCard] = useState<string | null>(null)
   const legendaryViewCount = useRef(0)
 
@@ -142,7 +107,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
 
   // Default sort: spawn buildings appear immediately after the unit they spawn.
   const catalogPos = new Map<string, number>(catalog.map((c, i) => [c.name, i]))
-  function defaultSortKey(card: import('../../game/types').Card): number {
+  function defaultSortKey(card: Card): number {
     if (card.unit?.structureEffect?.type === 'spawn') {
       const spawnedName = card.unit.structureEffect.unitTemplate.name
       const unitPos = catalogPos.get(spawnedName)
@@ -151,7 +116,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
     return catalogPos.get(card.name) ?? 999999
   }
 
-  function groupSortValue(card: import('../../game/types').Card): string {
+  function groupSortValue(card: Card): string {
     switch (groupKey) {
       case 'type':   return String(TYPE_ORDER[card.cardType]).padStart(2, '0')
       case 'rarity': return String(RARITY_ORDER[card.rarity]).padStart(2, '0')
@@ -178,7 +143,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
     }
   })
 
-  function groupLabel(card: import('../../game/types').Card): string | null {
+  function groupLabel(card: Card): string | null {
     switch (groupKey) {
       case 'type':   return card.cardType.charAt(0).toUpperCase() + card.cardType.slice(1) + 's'
       case 'rarity': return card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1)
@@ -190,13 +155,6 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       default: return null
     }
   }
-
-  const activeFilterCount =
-    (typeFilter    !== 'all' ? 1 : 0) +
-    (rarityFilter  !== 'all' ? 1 : 0) +
-    tagFilter.length +
-    (affinityFilter ? 1 : 0) +
-    (specialFilter  ? 1 : 0)
 
   function resetFilters() {
     setTypeFilter('all')
@@ -284,198 +242,65 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       : `+${extras} mastery XP for ${cardName}`)
   }
 
+  function handleCardClick(card: Card) {
+    setDetailCard(card)
+    if (card.rarity === 'legendary') {
+      legendaryViewCount.current += 1
+      if (legendaryViewCount.current === 10) {
+        incrementAchievementProgress('misc:legend_stare')
+        showToast('✦ The legendaries have noticed your gaze.', { variant: 'reward', duration: 3500 })
+      }
+    }
+  }
+
+  let lastGroup: string | null = null
+  const gridItems = sorted.map(card => {
+    const owned  = getOwnedCount(collection, card.name)
+    const extras = Math.max(0, owned - COPIES_MAX)
+    const xp     = getMasteryXp(collection, card.name)
+    const { level } = masteryProgress(xp)
+    const label = groupLabel(card)
+    const showHeader = label !== null && label !== lastGroup
+    if (showHeader) lastGroup = label
+    return {
+      card, owned, extras, xp, level,
+      groupLabel: showHeader ? label : null,
+      earnViaQuest: questTargetCards.has(card.name),
+      levelingUp: levelUpCard === card.name,
+    }
+  })
+
   const inner = (
     <>
+      <CollectionActionRow
+        totalExtras={totalExtras}
+        totalUpgradeable={totalUpgradeable}
+        onDisenchantAll={handleDisenchantAll}
+        onMasterAll={handleMasterAll}
+      />
 
-      {/* Action row — hidden entirely when there's nothing to act on, rather
-          than sitting there as two greyed-out full-width bars. Each button
-          still disables individually when only one of the two applies. */}
-      {(totalExtras > 0 || totalUpgradeable > 0) && (
-        <div className="collection-action-row u-flex u-items-c u-gap-4 u-wrap">
-          <Button
-            size="sm"
-            className="collection-disenchant-btn"
-            onClick={handleDisenchantAll}
-            disabled={totalExtras === 0}
-          >
-            🔮 Disenchant extras ({totalExtras})
-          </Button>
-          <Button
-            size="sm"
-            className="collection-master-btn"
-            onClick={handleMasterAll}
-            disabled={totalUpgradeable === 0}
-            title="Convert all extra copies into mastery XP"
-          >
-            ★ Upgrade all ({totalUpgradeable})
-          </Button>
-        </div>
-      )}
-
-      {/* Filter / Sort / Group bar */}
-      <div className="filter-bar">
-        {/* FILTERS */}
-        <FilterPopup
-          label="▼ FILTERS"
-          activeSuffix={activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-          isActive={activeFilterCount > 0}
-          open={openMenu === 'filters'}
-          onToggle={() => setOpenMenu(m => m === 'filters' ? null : 'filters')}
-          onClose={() => setOpenMenu(m => m === 'filters' ? null : m)}
-          footer={activeFilterCount > 0 && (
-            <div className="filter-popup-footer">
-              <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
-                ✕ Clear all filters
-              </button>
-            </div>
-          )}
-        >
-          {/* TYPE */}
-          <div className="filter-popup-section u-col">
-            <span className="filter-group-label">TYPE</span>
-            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-              {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
-                <FilterOption key={val} active={typeFilter === val} onClick={() => setTypeFilter(val)}>
-                  {val === 'all' ? 'All' : val.charAt(0).toUpperCase() + val.slice(1) + 's'}
-                </FilterOption>
-              ))}
-            </div>
-          </div>
-
-          {/* RARITY */}
-          <div className="filter-popup-section u-col">
-            <span className="filter-group-label">RARITY</span>
-            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-              {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
-                <FilterOption key={val} active={rarityFilter === val} onClick={() => setRarityFilter(val)}>
-                  {val.charAt(0).toUpperCase() + val.slice(1)}
-                </FilterOption>
-              ))}
-            </div>
-          </div>
-
-          {/* TAGS */}
-          <div className="filter-popup-section u-col">
-            <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
-            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-              {ALL_TAGS.map(tag => (
-                <FilterOption key={tag} active={tagFilter.includes(tag)} onClick={() => toggleTag(tag)}>
-                  {tag}
-                </FilterOption>
-              ))}
-            </div>
-          </div>
-
-          {/* AFFINITY */}
-          <div className="filter-popup-section u-col">
-            <span className="filter-group-label">AFFINITY</span>
-            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-              {allAffinityLabels.map(label => (
-                <FilterOption
-                  key={label}
-                  active={affinityFilter === label}
-                  onClick={() => setAffinityFilter(prev => prev === label ? null : label)}
-                >
-                  {label}
-                </FilterOption>
-              ))}
-            </div>
-          </div>
-
-          {/* SPECIAL */}
-          <div className="filter-popup-section u-col">
-            <span className="filter-group-label">SPECIAL</span>
-            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-              <FilterOption
-                active={specialFilter === 'upgradeable'}
-                gold={specialFilter === 'upgradeable'}
-                onClick={() => setSpecialFilter(prev => prev === 'upgradeable' ? null : 'upgradeable')}
-              >
-                ★ Upgradeable
-              </FilterOption>
-            </div>
-          </div>
-        </FilterPopup>
-
-        {/* SORT */}
-        <FilterPopup
-          label="↕ SORT"
-          activeSuffix={sortKey !== 'default' ? ` (${sortKey})` : ''}
-          isActive={sortKey !== 'default'}
-          open={openMenu === 'sort'}
-          onToggle={() => setOpenMenu(m => m === 'sort' ? null : 'sort')}
-          onClose={() => setOpenMenu(m => m === 'sort' ? null : m)}
-        >
-          <div className="filter-popup-section u-col">
-            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-              {([
-                ['default',   'Default'],
-                ['az',        'A → Z'],
-                ['za',        'Z → A'],
-                ['mana-asc',  'Mana ↑'],
-                ['mana-desc', 'Mana ↓'],
-                ['rarity',    'Rarity'],
-              ] as [SortKey, string][]).map(([val, label]) => (
-                <FilterOption key={val} active={sortKey === val} onClick={() => setSortKey(val)}>
-                  {label}
-                </FilterOption>
-              ))}
-            </div>
-          </div>
-        </FilterPopup>
-
-        {/* GROUP */}
-        <FilterPopup
-          label="⊞ GROUP"
-          activeSuffix={groupKey !== 'none' ? ` (${groupKey})` : ''}
-          isActive={groupKey !== 'none'}
-          open={openMenu === 'group'}
-          onToggle={() => setOpenMenu(m => m === 'group' ? null : 'group')}
-          onClose={() => setOpenMenu(m => m === 'group' ? null : m)}
-        >
-          <div className="filter-popup-section u-col">
-            <div className="filter-popup-btns u-flex u-wrap u-gap-2">
-              {([
-                ['none',    'None'],
-                ['type',    'Type'],
-                ['rarity',  'Rarity'],
-                ['mana',    'Mana'],
-                ['act',     'Act'],
-              ] as [GroupKey, string][]).map(([val, label]) => (
-                <FilterOption key={val} active={groupKey === val} onClick={() => setGroupKey(val)}>
-                  {label}
-                </FilterOption>
-              ))}
-            </div>
-          </div>
-        </FilterPopup>
-
-        {/* Active filter pills */}
-        {activeFilterCount > 0 && (
-          <div className="filter-active-pills u-flex u-gap-2 u-grow u-items-c">
-            {typeFilter !== 'all' && (
-              <FilterPill onRemove={() => setTypeFilter('all')}>{typeFilter}s</FilterPill>
-            )}
-            {rarityFilter !== 'all' && (
-              <FilterPill onRemove={() => setRarityFilter('all')}>{rarityFilter}</FilterPill>
-            )}
-            {tagFilter.map(t => (
-              <FilterPill key={t} onRemove={() => toggleTag(t)}>{t}</FilterPill>
-            ))}
-            {affinityFilter && (
-              <FilterPill onRemove={() => setAffinityFilter(null)}>affinity:{affinityFilter}</FilterPill>
-            )}
-            {specialFilter && (
-              <FilterPill onRemove={() => setSpecialFilter(null)}>★upgradeable</FilterPill>
-            )}
-          </div>
-        )}
-
-        {/* "shown", not "cards" — this is the filtered catalog count, which is
-            not the same as how many copies you own (and differs from the
-            discovery denominator below, which includes hidden secrets). */}
-        <span className="filter-owned">{filtered.length} shown · {totalOwned.toLocaleString()} copies</span>
-      </div>
+      <CollectionFilterBar
+        typeFilter={typeFilter}
+        rarityFilter={rarityFilter}
+        specialFilter={specialFilter}
+        tagFilter={tagFilter}
+        affinityFilter={affinityFilter}
+        affinityLabels={allAffinityLabels}
+        sortKey={sortKey}
+        groupKey={groupKey}
+        openMenu={openMenu}
+        onOpenMenuChange={setOpenMenu}
+        onTypeChange={setTypeFilter}
+        onRarityChange={setRarityFilter}
+        onSpecialChange={setSpecialFilter}
+        onTagToggle={toggleTag}
+        onAffinityChange={setAffinityFilter}
+        onSortChange={setSortKey}
+        onGroupChange={setGroupKey}
+        onResetFilters={resetFilters}
+        shownCount={filtered.length}
+        totalOwned={totalOwned}
+      />
 
       {/* Collection progress */}
       <div className="collection-progress u-flex u-items-c u-gap-3">
@@ -483,58 +308,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
         <span className="collection-progress-label">{distinctOwned}/{catalog.length} discovered ({completionPct}%)</span>
       </div>
 
-      {/* Grid — gaps are asymmetric (see .collection-grid), so no u-gap-* here */}
-      <div className="collection-grid u-flex u-wrap u-just-c u-grow">
-        {(() => {
-          let lastGroup: string | null = null
-          return sorted.map(card => {
-            const owned  = getOwnedCount(collection, card.name)
-            const extras = Math.max(0, owned - COPIES_MAX)
-            const xp     = getMasteryXp(collection, card.name)
-            const { level: lvl } = masteryProgress(xp)
-            const label = groupLabel(card)
-            const showHeader = label !== null && label !== lastGroup
-            if (showHeader) lastGroup = label
-
-            return (
-              <React.Fragment key={card.name}>
-                {showHeader && (
-                  <div className="collection-group-header">{label}</div>
-                )}
-                <LazyCell className={`collection-cell u-col${owned === 0 ? ' collection-cell--unowned' : ''}${levelUpCard === card.name ? ' collection-cell--levelup' : ''}`}>
-                  <CardTile
-                    card={card}
-                    canAfford={true}
-                    upgradeable={extras > 0}
-                    onClick={() => {
-                      // if (card.cardType === 'unit' && card.unit && card.unit.moveSpeed > 0) {
-                      //   setAugmentCard(card)
-                      // } else {
-                        setDetailCard(card)
-                      // }
-                      if (card.rarity === 'legendary') {
-                        legendaryViewCount.current += 1
-                        if (legendaryViewCount.current === 10) {
-                          incrementAchievementProgress('misc:legend_stare')
-                          showToast('✦ The legendaries have noticed your gaze.', { variant: 'reward', duration: 3500 })
-                        }
-                      }
-                    }}
-                  />
-
-                  <CardCellFooter xp={xp}>
-                    {owned === 0 && questTargetCards.has(card.name)
-                      ? <span className="earn-via-quest-badge">EARN VIA QUEST</span>
-                      : <span className="cell-count">
-                          ×{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
-                        </span>}
-                  </CardCellFooter>
-                </LazyCell>
-              </React.Fragment>
-            )
-          })
-        })()}
-      </div>
+      <CollectionGrid items={gridItems} onCardClick={handleCardClick} />
 
       {augmentCard && (
         <CardAugmentScreen
@@ -565,49 +339,11 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       })()}
 
       {disenchantModal && (
-        <ModalBackdrop onClose={() => setDisenchantModal(null)} zIndex={300} title="Disenchant All">
-          <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
-            <div className="daily-modal-header">🔮 DISENCHANT ALL</div>
-            <div className="daily-modal-sub">
-              {disenchantModal.length} card{disenchantModal.length !== 1 ? 's' : ''} sold
-            </div>
-            <div style={{ width: '100%', maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {disenchantModal.map(({ cardName, crystals: val }) => (
-                <div key={cardName} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '3px 0', borderBottom: '1px solid #222' }}>
-                  <span>{cardName}</span>
-                  <span style={{ color: '#88ccff' }}>+{val} <Icon name="crystal" size={12} /></span>
-                </div>
-              ))}
-            </div>
-            <div className="daily-modal-desc" style={{ textAlign: 'center' }}>
-              Total: +{disenchantModal.reduce((s, i) => s + i.crystals, 0)} <Icon name="crystal" size={13} />
-            </div>
-            <Button onClick={() => setDisenchantModal(null)}>OK</Button>
-          </div>
-        </ModalBackdrop>
+        <DisenchantAllModal items={disenchantModal} onClose={() => setDisenchantModal(null)} />
       )}
 
       {upgradeModal && (
-        <ModalBackdrop onClose={() => setUpgradeModal(null)} zIndex={300} title="Upgrade All">
-          <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
-            <div className="daily-modal-header">★ UPGRADE ALL</div>
-            <div className="daily-modal-sub">
-              {upgradeModal.length} card{upgradeModal.length !== 1 ? 's' : ''} upgraded
-            </div>
-            <div style={{ width: '100%', maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {upgradeModal.map(({ cardName, xpGained }) => (
-                <div key={cardName} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '3px 0', borderBottom: '1px solid #222' }}>
-                  <span>{cardName}</span>
-                  <span style={{ color: '#ffcc00' }}>+{xpGained} XP</span>
-                </div>
-              ))}
-            </div>
-            <div className="daily-modal-desc" style={{ textAlign: 'center' }}>
-              Total: +{upgradeModal.reduce((s, i) => s + i.xpGained, 0)} mastery XP
-            </div>
-            <Button onClick={() => setUpgradeModal(null)}>OK</Button>
-          </div>
-        </ModalBackdrop>
+        <UpgradeAllModal items={upgradeModal} onClose={() => setUpgradeModal(null)} />
       )}
     </>
   )
@@ -615,9 +351,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   if (embedded) return inner
   return (
     <OverlayScreen title="COLLECTION" onBack={onBack} right={
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div className="u-flex u-items-c u-gap-4">
         {onViewAugments && (
-          <Button style={{ fontSize: 12, padding: '3px 10px' }} onClick={onViewAugments}>
+          <Button size="sm" onClick={onViewAugments}>
             Augments 👻
           </Button>
         )}
