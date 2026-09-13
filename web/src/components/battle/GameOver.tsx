@@ -7,6 +7,7 @@ import { DailyChallengeState, fetchEndlessLeaderboard, getEndlessPersonalBest, E
 import { EmptyState } from '../ui/EmptyState'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
+import { RunEndCard, RunEndTone } from '../ui/RunEndCard'
 
 function formatSurvival(ms: number): string {
   const sec = Math.floor(ms / 1000)
@@ -77,6 +78,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
   }, [isEndlessDefeat])
   const css  = won ? 'gameover--win' : draw ? 'gameover--draw' : 'gameover--lose'
   const art  = won ? VICTORY_ART : draw ? DRAW_ART : DEFEAT_ART
+  const tone: RunEndTone = won ? 'gold' : draw ? 'arcane' : 'ember'
 
   const title = won ? '═══ VICTORY ═══' : draw ? '═══ DRAW ═══' : '═══ DEFEAT ═══'
 
@@ -113,90 +115,93 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
 
   return (
     <div className={`gameover-screen u-col u-items-c u-gap-7 u-grow u-just-c ${css}`}>
-      <div className="gameover-title">{title}</div>
-      {isEndless && (
-        <div className="gameover-endless-badge">∞ ENDLESS MODE</div>
-      )}
-      <pre className="gameover-ascii">{art}</pre>
-      <div className="gameover-message">{message}</div>
-      {!won && !draw && state.lastPlayerDamageSource && (
-        <div className="gameover-killed-by">
-          Defeated by: {state.lastPlayerDamageSource.kind === 'spell' ? '🔥 ' : ''}{state.lastPlayerDamageSource.name}
-        </div>
-      )}
-      {isEndless ? (
-        <div className="gameover-endless-stats u-col u-items-c u-gap-2">
-          <div className="gameover-endless-wave">WAVE {state.endlessWave ?? 1}</div>
-          <div className="gameover-endless-time">Survived {survivalStr}</div>
-        </div>
-      ) : (
-        <div className="gameover-score">
-          <span className="score-player">{state.playerScore}</span>
-          <span className="score-sep"> vs </span>
-          <span className="score-opponent">{state.opponentScore}</span>
-        </div>
-      )}
-      <div className="gameover-stats">
-        <div>Time: {Math.floor(state.gameTime / 1000)}s</div>
-        {!draw && !isEndless && (won
-          ? <div>Your base HP: {state.playerBase.hp}/{state.playerBase.maxHp}</div>
-          : <div>Enemy base HP remaining: {state.opponentBase.hp}/{state.opponentBase.maxHp}</div>
+      <RunEndCard tone={tone} size="lg" className="gameover-body u-items-c u-text-c">
+        <div className="gameover-title">{title}</div>
+        {isEndless && (
+          <div className="gameover-endless-badge">∞ ENDLESS MODE</div>
         )}
-      </div>
-
-      {isEndlessDefeat && (
-        <div className="gameover-endless-lb u-col u-gap-3">
-          <div className="gameover-endless-lb-title">∞ ENDLESS LEADERBOARD</div>
-          {endlessBest && (
-            <div className="gameover-endless-lb-best">
-              Your best: Wave {endlessBest.wave} · {formatSurvival(endlessBest.survivalMs)}
-            </div>
+        <pre className="gameover-ascii">{art}</pre>
+        <div className="gameover-message">{message}</div>
+        {!won && !draw && state.lastPlayerDamageSource && (
+          <div className="gameover-killed-by">
+            Defeated by: {state.lastPlayerDamageSource.kind === 'spell' ? '🔥 ' : ''}{state.lastPlayerDamageSource.name}
+          </div>
+        )}
+        {isEndless ? (
+          <div className="gameover-endless-stats u-col u-items-c u-gap-2">
+            <div className="gameover-endless-wave">WAVE {state.endlessWave ?? 1}</div>
+            <div className="gameover-endless-time">Survived {survivalStr}</div>
+          </div>
+        ) : (
+          <div className="gameover-score">
+            <span className="score-player">{state.playerScore}</span>
+            <span className="score-sep"> vs </span>
+            <span className="score-opponent">{state.opponentScore}</span>
+          </div>
+        )}
+        <div className="gameover-stats">
+          <div>Time: {Math.floor(state.gameTime / 1000)}s</div>
+          {!draw && !isEndless && (won
+            ? <div>Your base HP: {state.playerBase.hp}/{state.playerBase.maxHp}</div>
+            : <div>Enemy base HP remaining: {state.opponentBase.hp}/{state.opponentBase.maxHp}</div>
           )}
-          {endlessLb === null ? (
-            <EmptyState size="sm">Loading…</EmptyState>
-          ) : endlessLb.length === 0 ? (
-            <EmptyState size="sm" icon={<Icon name="timer" size={16} />}>No scores yet — be the first!</EmptyState>
-          ) : (
-            <ol className="gameover-endless-lb-list u-col u-gap-1">
-              {endlessLb.map((entry, i) => (
-                <li key={entry.uid} className="gameover-endless-lb-entry u-flex u-items-c u-gap-3">
-                  <span className="gameover-lb-rank">{i + 1}.</span>
-                  <span className="gameover-lb-name u-grow">{entry.characterName}</span>
-                  <span className="gameover-lb-wave">Wave {entry.wave}</span>
-                  <span className="gameover-lb-time">{formatSurvival(entry.survivalMs)}</span>
-                </li>
-              ))}
-            </ol>
-          )}
         </div>
-      )}
-      {handicapNote && !dailyChallengeState && !worldBattle && <div className="gameover-handicap">{handicapNote}</div>}
 
-      {dailyChallengeState && (
-        <div className={`gameover-daily ${winner === 'player' ? 'gameover-daily--win' : 'gameover-daily--lose'}`}>
-          {(() => {
-            const attempts = dailyChallengeState.attempts
-            return winner === 'player'
-              ? attempts === 1
-                ? '📅 Daily Challenge complete — first try!'
-                : `📅 Daily Challenge complete! (${attempts} attempt${attempts !== 1 ? 's' : ''})`
-              : `📅 Daily Challenge — attempt ${attempts}. Keep trying!`
-          })()}
-        </div>
-      )}
+        {isEndlessDefeat && (
+          <div className="gameover-endless-lb u-col u-gap-3">
+            <div className="gameover-endless-lb-title">∞ ENDLESS LEADERBOARD</div>
+            {endlessBest && (
+              <div className="gameover-endless-lb-best">
+                Your best: Wave {endlessBest.wave} · {formatSurvival(endlessBest.survivalMs)}
+              </div>
+            )}
+            {endlessLb === null ? (
+              <EmptyState size="sm">Loading…</EmptyState>
+            ) : endlessLb.length === 0 ? (
+              <EmptyState size="sm" icon={<Icon name="timer" size={16} />}>No scores yet — be the first!</EmptyState>
+            ) : (
+              <ol className="gameover-endless-lb-list u-col u-gap-1">
+                {endlessLb.map((entry, i) => (
+                  <li key={entry.uid} className="gameover-endless-lb-entry u-flex u-items-c u-gap-3">
+                    <span className="gameover-lb-rank">{i + 1}.</span>
+                    <span className="gameover-lb-name u-grow">{entry.characterName}</span>
+                    <span className="gameover-lb-wave">Wave {entry.wave}</span>
+                    <span className="gameover-lb-time">{formatSurvival(entry.survivalMs)}</span>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        )}
+        {handicapNote && !dailyChallengeState && !worldBattle && <div className="gameover-handicap">{handicapNote}</div>}
 
-      {showStreak && winner === 'player' && (() => {
-        const streak = loadWinStreak()
-        return streak >= 2 ? (
-          <div className="gameover-streak">🔥 Win streak: {streak}</div>
-        ) : null
-      })()}
+        {dailyChallengeState && (
+          <div className={`gameover-daily ${winner === 'player' ? 'gameover-daily--win' : 'gameover-daily--lose'}`}>
+            <Icon name="calendar" size={14} />{' '}
+            {(() => {
+              const attempts = dailyChallengeState.attempts
+              return winner === 'player'
+                ? attempts === 1
+                  ? 'Daily Challenge complete — first try!'
+                  : `Daily Challenge complete! (${attempts} attempt${attempts !== 1 ? 's' : ''})`
+                : `Daily Challenge — attempt ${attempts}. Keep trying!`
+            })()}
+          </div>
+        )}
 
-      {quickPlayHint && (
-        <div className="gameover-hint">
-          💡 Struggling? Try <strong>Quick Play</strong> from the main menu to win more cards and strengthen your deck.
-        </div>
-      )}
+        {showStreak && winner === 'player' && (() => {
+          const streak = loadWinStreak()
+          return streak >= 2 ? (
+            <div className="gameover-streak">🔥 Win streak: {streak}</div>
+          ) : null
+        })()}
+
+        {quickPlayHint && (
+          <div className="gameover-hint">
+            💡 Struggling? Try <strong>Quick Play</strong> from the main menu to win more cards and strengthen your deck.
+          </div>
+        )}
+      </RunEndCard>
 
       <div className="gameover-actions u-col u-items-c u-gap-5">
         {worldBattle ? (
