@@ -1,5 +1,28 @@
 /* minigames-2.css — split from styles.css (#2169). Minigames (mixed — source interleaves these non-contiguously): Zone Editor; Disaster events; Misc city UI; Card Picker; Level Up Panel; Level Detail Screen; City Stats Row; Speech Bubble; Task bubble (resident activity label); Picker resource cost; Card tile level badge; CardDetailModal city level; City Builder — unit requirements modal; City Builder — bulldozer mode; City Builder — attack report modal; City Builder — fortification panel; City Builder — builder slots; Fort ring view; City Builder — city perimeter (wall/moat visual strip); City Builder — building resident panel; Toast; Individual mini-game screen wrapper; Marble Run */
 
+/* ─── City Builder palette ───────────────────────────────────────────────────
+   Shades reused across City Builder's many panels (Zone Editor, Card Picker,
+   Level Up, requirements modal, fortification panel, Marble Run…) — its own
+   terminal-green/amber palette, distinct from the app's shared tokens.css
+   scale. Two shades below match --hub-line/--hub-text-dim exactly, so those
+   spots reuse the shared token instead of a duplicate. Colors used only once
+   stay as literal hex — one-off accents, not shared vocabulary. */
+:root {
+  --city-line:          #1a3a1a; /* hairline panel border, most common */
+  --city-line-dim:      #1a2a1a; /* darker hairline border variant */
+  --city-text-bright:   #90d090; /* names, headers */
+  --city-text-mid:      #60d060; /* section titles, positive stats */
+  --city-text-dim:      #80a080; /* secondary stat/hint text */
+  --city-hint:          #4a7a4a; /* muted hint/cost text */
+  --city-border-hover:  #40a040; /* hover border, active focus */
+  --city-req-met:       #609060; /* "requirement met" green */
+  --city-req-border:    #3a6a3a; /* requirements modal border/mood green */
+  --city-bg-panel:      #060f06; /* dark panel background */
+  --city-amber:         #c08020; /* legendary/maxed/warning amber */
+  --city-marble-text:   #aaaacc; /* marble run result text */
+  --city-marble-active: #ff8844; /* marble run active ball/slot orange */
+}
+
 /* ── Zone Editor ──────────────────────────────────────────────────────────── */
 
 .city-zones-hint {
@@ -22,7 +45,7 @@
   flex-direction: column;
   gap: 4px;
   background: #020702;
-  border: 1px solid #1a3a1a;
+  border: 1px solid var(--city-line);
   border-radius: 2px;
   padding: 8px;
 }
@@ -47,8 +70,8 @@
   align-items: center;
   gap: 10px;
   background: #020702;
-  border: 1px solid #1a3a1a;
-  border-left: 4px solid #1a3a1a;
+  border: 1px solid var(--city-line);
+  border-left: 4px solid var(--city-line);
   border-radius: 2px;
   padding: 10px 12px;
   cursor: pointer;
@@ -206,7 +229,7 @@
 }
 .city-disaster-cost {
   font-size: 12px;
-  color: #80a080;
+  color: var(--city-text-dim);
   font-family: var(--font-mono);
 }
 .city-disaster-cost strong { color: var(--game-text-color); }
@@ -254,14 +277,14 @@
 
 .city-section-title {
   font-size: 12px;
-  color: #60d060;
+  color: var(--city-text-mid);
   letter-spacing: 2px;
   margin-top: 8px;
-  border-bottom: 1px solid #1a3a1a;
+  border-bottom: 1px solid var(--city-line);
   padding-bottom: 4px;
 }
 
-.city-hint { font-size: 10px; color: #4a7a4a; }
+.city-hint { font-size: 10px; color: var(--city-hint); }
 
 .city-gold { color: var(--color-gold-dim); font-weight: bold; }
 
@@ -280,14 +303,14 @@
   font-size: 10px;
   padding: 3px 7px;
   border-radius: 3px;
-  border: 1px solid #2a4a2a;
+  border: 1px solid var(--hub-line);
   background: #0d1a0d;
   color: #6a9a6a;
   cursor: pointer;
   text-transform: capitalize;
 }
 .city-fort-filter-btn--active, .city-fort-sort-btn--active {
-  background: #1a3a1a;
+  background: var(--city-line);
   border-color: var(--color-green-bright);
   color: var(--color-green-bright);
 }
@@ -303,20 +326,20 @@
 }
 
 .city-picker-card {
-  background: #060f06;
-  border: 1px solid #1a3a1a;
+  background: var(--city-bg-panel);
+  border: 1px solid var(--city-line);
   border-radius: 4px;
   padding: 8px 4px;
   transition: border-color 0.15s, background 0.15s;
 }
 
-.city-picker-card:hover { border-color: #40a040; background: #091509; }
+.city-picker-card:hover { border-color: var(--city-border-hover); background: #091509; }
 
 .city-picker-sprite { width: 32px; height: 32px; image-rendering: pixelated; }
 
 .city-picker-name {
   font-size: 9px;
-  color: #90d090;
+  color: var(--city-text-bright);
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -328,7 +351,7 @@
 .city-picker-rarity--common   { color: var(--color-gray-8); }
 .city-picker-rarity--uncommon { color: #4a9a4a; }
 .city-picker-rarity--rare     { color: #4a6aba; }
-.city-picker-rarity--legendary{ color: #c08020; }
+.city-picker-rarity--legendary{ color: var(--city-amber); }
 
 .city-picker-section { margin-bottom: 12px; }
 
@@ -342,7 +365,7 @@
 
 .city-picker-section-sub {
   letter-spacing: 0;
-  color: #3a6a3a;
+  color: var(--city-req-border);
   font-style: italic;
 }
 
@@ -371,7 +394,7 @@
 
 .city-picker-hint {
   font-size: 8px;
-  color: #4a7a4a;
+  color: var(--city-hint);
   text-align: center;
   line-height: 1.3;
   font-style: italic;
@@ -407,8 +430,8 @@
 }
 
 .city-level-card {
-  background: #060f06;
-  border: 1px solid #1a3a1a;
+  background: var(--city-bg-panel);
+  border: 1px solid var(--city-line);
   border-radius: 4px;
   padding: 8px 4px;
   display: flex;
@@ -419,13 +442,13 @@
   transition: border-color 0.15s;
 }
 
-.city-level-card:hover        { border-color: #40a040; }
+.city-level-card:hover        { border-color: var(--city-border-hover); }
 .city-level-card--levelled    { border-color: #806020; }
 .city-level-card-sprite       { width: 28px; height: 28px; image-rendering: pixelated; }
 
 .city-level-card-name {
   font-size: 8px;
-  color: #90d090;
+  color: var(--city-text-bright);
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -434,11 +457,11 @@
 }
 
 .city-level-card-stars { display: flex; gap: 1px; }
-.city-star-sm          { font-size: 8px; color: #2a4a2a; }
+.city-star-sm          { font-size: 8px; color: var(--hub-line); }
 .city-star-sm--filled  { color: var(--color-gold-dim); }
-.city-level-card-cost        { font-size: 9px; color: #4a7a4a; }
+.city-level-card-cost        { font-size: 9px; color: var(--city-hint); }
 .city-level-card-cost--ready { color: var(--color-gold-dim); font-weight: bold; }
-.city-level-card-maxed       { font-size: 8px; color: #c08020; letter-spacing: 1px; }
+.city-level-card-maxed       { font-size: 8px; color: var(--city-amber); letter-spacing: 1px; }
 
 /* ── Level Detail Screen ──────────────────────────────────────────────────── */
 
@@ -449,9 +472,9 @@
 .city-level-sprite  { width: 64px; height: 64px; image-rendering: pixelated; }
 .city-level-name    { font-size: 15px; color: #90e090; letter-spacing: 1px; }
 .city-level-stars   { display: flex; gap: 4px; }
-.city-star          { font-size: 18px; color: #2a4a2a; }
+.city-star          { font-size: 18px; color: var(--hub-line); }
 .city-star--filled  { color: var(--color-gold-dim); }
-.city-level-stats   { font-size: 12px; color: #60d060; text-align: center; }
+.city-level-stats   { font-size: 12px; color: var(--city-text-mid); text-align: center; }
 .city-level-cost    { font-size: 12px; color: var(--color-gray-9); }
 
 .city-level-costs-table {
@@ -463,9 +486,9 @@
   display: flex;
   justify-content: space-between;
   font-size: 11px;
-  color: #669966;
+  color: var(--hub-text-dim);
   padding: 3px 6px;
-  border: 1px solid #1a3a1a;
+  border: 1px solid var(--city-line);
   border-radius: 2px;
 }
 
@@ -485,7 +508,7 @@
   gap: 3px;
   font-size: 10px;
   background: #0a150a;
-  border: 1px solid #1a3a1a;
+  border: 1px solid var(--city-line);
   border-radius: 3px;
   padding: 2px 6px;
   color: #90c090;
@@ -493,7 +516,7 @@
 
 .city-stat--defense    { border-color: #2a4a8a; color: #80a0d0; }
 .city-stat--population { border-color: #5a3a8a; color: #b090d0; }
-.city-res-pos { color: #60d060; font-size: 9px; margin-left: 2px; }
+.city-res-pos { color: var(--city-text-mid); font-size: 9px; margin-left: 2px; }
 .city-res-neg { color: #d06060; font-size: 9px; margin-left: 2px; }
 
 /* ── Speech Bubble ────────────────────────────────────────────────────────── */
@@ -504,7 +527,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: var(--game-bg-raised);
-  border: 1px solid #40a040;
+  border: 1px solid var(--city-border-hover);
   border-radius: 4px;
   padding: 2px 3px;
   pointer-events: none;
@@ -519,7 +542,7 @@
   left: 50%;
   transform: translateX(-50%);
   border: 4px solid transparent;
-  border-top-color: #40a040;
+  border-top-color: var(--city-border-hover);
 }
 
 .city-speech-icon { width: 12px; height: 12px; image-rendering: pixelated; display: block; }
@@ -653,8 +676,8 @@
   z-index: 200;
 }
 .city-req-modal {
-  background: #1a2a1a;
-  border: 1px solid #3a6a3a;
+  background: var(--city-line-dim);
+  border: 1px solid var(--city-req-border);
   border-radius: 4px;
   padding: 14px 16px;
   min-width: 200px;
@@ -680,10 +703,10 @@
    rather than reverting this surface to the global palette — the same
    retint the satchel sheet does in tabs.css. */
 .city-req-modal--tabbed {
-  --tab-nav-idle:  #609060;
-  --tab-nav-hover: #90d090;
-  --tab-nav-on:    #90d090;
-  --tab-nav-line:  #1a3a1a;
+  --tab-nav-idle:  var(--city-req-met);
+  --tab-nav-hover: var(--city-text-bright);
+  --tab-nav-on:    var(--city-text-bright);
+  --tab-nav-line:  var(--city-line);
 }
 .city-bld-body {
   display: flex;
@@ -698,13 +721,13 @@
 .city-req-sprite  { width: 36px; height: 36px; image-rendering: pixelated; }
 .city-req-name    { font-size: 14px; color: #90e090; letter-spacing: 1px; }
 .city-req-mood              { font-size: 11px; letter-spacing: 1px; padding: 2px 6px; border-radius: 2px; }
-.city-req-mood--content     { color: #60d060; border: 1px solid #3a6a3a; }
+.city-req-mood--content     { color: var(--city-text-mid); border: 1px solid var(--city-req-border); }
 .city-req-mood--unsettled   { color: var(--color-gold-dim); border: 1px solid #6a5010; }
 .city-req-mood--furious     { color: #e06030; border: 1px solid #6a3010; }
 .city-req-mood--gone        { color: #808080; border: 1px solid #404040; }
 .city-req-list  { width: 100%; display: flex; flex-direction: column; gap: 4px; }
 .city-req-item  { font-size: 10px; color: #a0a0a0; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
-.city-req-item--met   .city-req-icon { color: #60d060; }
+.city-req-item--met   .city-req-icon { color: var(--city-text-mid); }
 .city-req-item--unmet .city-req-icon { color: #d06060; }
 .city-req-item--met   { color: #60a060; }
 .city-req-item--unmet { color: #c08080; }
@@ -738,10 +761,10 @@
 .city-attack-report--partial  { color: #d0a020; }
 .city-attack-report--defeated { color: #d04020; }
 .city-attack-report-body { display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 4px 0; }
-.city-attack-stat { font-size: 10px; color: #80a080; }
+.city-attack-stat { font-size: 10px; color: var(--city-text-dim); }
 .city-attack-good { font-size: 11px; color: #40d040; }
 .city-attack-bad  { font-size: 11px; color: #d06040; }
-.city-attack-warn { font-size: 10px; color: #c08020; font-style: italic; }
+.city-attack-warn { font-size: 10px; color: var(--city-amber); font-style: italic; }
 
 /* ── City Builder — fortification panel ─────────────────────────────────── */
 .city-subscreen-scroll {
@@ -764,18 +787,18 @@
   align-items: center;
   gap: 8px;
   padding: 6px;
-  background: #060f06;
-  border: 1px solid #1a3a1a;
+  background: var(--city-bg-panel);
+  border: 1px solid var(--city-line);
   border-radius: 3px;
 }
 .city-fort-sprite { width: 32px; height: 32px; image-rendering: pixelated; flex-shrink: 0; }
 .city-fort-details { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.city-fort-name { font-size: 11px; color: #90d090; }
+.city-fort-name { font-size: 11px; color: var(--city-text-bright); }
 .city-fort-hp-track { display: flex; align-items: center; gap: 6px; }
 .city-fort-hp-bar {
   flex: 1;
   height: 5px;
-  background: #1a2a1a;
+  background: var(--city-line-dim);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -800,7 +823,7 @@
   border-radius: 3px;
   font-size: 10px;
   text-align: center;
-  border: 1px solid #1a2a1a;
+  border: 1px solid var(--city-line-dim);
 }
 .city-fort-builder--free {
   background: #060e06;
@@ -971,10 +994,10 @@
 .city-search {
   width: 100%;
   box-sizing: border-box;
-  background: #060f06;
-  border: 1px solid #1a3a1a;
+  background: var(--city-bg-panel);
+  border: 1px solid var(--city-line);
   border-radius: 3px;
-  color: #90d090;
+  color: var(--city-text-bright);
   font-family: var(--font-mono);
   font-size: 11px;
   padding: 5px 8px;
@@ -983,19 +1006,19 @@
 .city-search:focus:not(:focus-visible) { outline: none; }
 
 .city-search::placeholder { color: #3a5a3a; }
-.city-search:focus { border-color: #40a040; }
+.city-search:focus { border-color: var(--city-border-hover); }
 
 
 .city-bld-upgrade {
   width: 100%;
 }
 
-.city-bld-section-title { font-size: 10px; color: #609060; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
-.city-bld-hint { font-size: 10px; color: #80a080; font-style: italic; line-height: 1.4; }
+.city-bld-section-title { font-size: 10px; color: var(--city-req-met); letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
+.city-bld-hint { font-size: 10px; color: var(--city-text-dim); font-style: italic; line-height: 1.4; }
 .city-bld-vacant        { font-size: 10px; color: #606060; font-style: italic; }
 .city-bld-vacant-section { display: flex; flex-direction: column; gap: 6px; width: 100%; }
 .city-bld-vacant-reasons { display: flex; flex-direction: column; gap: 3px; }
-.city-bld-req--met      { color: #609060 !important; }
+.city-bld-req--met      { color: var(--city-req-met) !important; }
 .city-bld-vacant-warn   { font-size: 9px; color: #887040; font-style: italic; }
 .city-bld-resident {
   display: flex;
@@ -1007,7 +1030,7 @@
 }
 .city-bld-resident-sprite { width: 24px; height: 24px; image-rendering: pixelated; flex-shrink: 0; }
 .city-bld-resident-info   { display: flex; flex-direction: column; gap: 2px; }
-.city-bld-resident-name   { font-size: 11px; color: #90d090; }
+.city-bld-resident-name   { font-size: 11px; color: var(--city-text-bright); }
 .city-bld-resident-task   { font-size: 9px; color: #a8c8ff; margin-top: 1px; }
 .city-bld-resident-req    { font-size: 9px; color: #d07070; }
 .city-req-mastery         { font-size: 11px; color: #f0c060; margin-left: 6px; }
@@ -1099,7 +1122,7 @@
 
 .minigame-result-breakdown {
   font-size: var(--font-md);
-  color: #aaaacc;
+  color: var(--city-marble-text);
   line-height: 1.8;
   text-align: center;
 }
@@ -1114,7 +1137,7 @@
 .minigame-ready {
   margin-top: 16px;
   font-size: var(--font-base);
-  color: #aaaacc;
+  color: var(--city-marble-text);
 }
 
 /* ── Marble Run ──────────────────────────────────────────────────────────── */
@@ -1178,7 +1201,7 @@
 }
 
 .marble-cell--active .marble-ball {
-  color: #ff8844;
+  color: var(--city-marble-active);
   font-size: var(--font-xl);
   text-shadow: 0 0 6px #ff6622;
 }
@@ -1201,8 +1224,8 @@
 }
 
 .marble-slot--active {
-  border-color: #ff8844;
-  color: #ff8844;
+  border-color: var(--city-marble-active);
+  color: var(--city-marble-active);
   background: #221208;
 }
 
@@ -1220,7 +1243,7 @@
 .marble-result-chip {
   background: #1a1a3a;
   border: 1px solid #4040a0;
-  color: #aaaacc;
+  color: var(--city-marble-text);
   font-size: var(--font-sm);
   padding: 3px 8px;
 }
