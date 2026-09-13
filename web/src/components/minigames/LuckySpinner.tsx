@@ -6,15 +6,30 @@ import React, { useState, useRef } from 'react'
 import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { Button } from '../ui/Button'
+import { PALETTE } from '../../theme'
 
 interface Props {
   onDone: (ticketsEarned: number, isJackpot: boolean) => void
 }
 
 const SEGMENTS = [2, 5, 10, 20, 5, 10, 50, 2]
+
+// Wheel palette — the same prize table and colors as the Casino roulette
+// wheel's PixiJS canvas (see CasinoScreen.tsx), bespoke to this wheel art
+// rather than the app's shared tokens.
+const WHEEL_COLORS = {
+  purple: '#4a3060',
+  green:  '#3a5a40',
+  red:    '#6a2a2a',
+  blue:   '#2a4a6a',
+  gold:   '#c8a000',
+  rim:    '#1a1a2e',
+  hub:    '#444',
+  text:   '#e0e0e0',
+}
 const SEGMENT_COLORS = [
-  '#4a3060', '#3a5a40', '#6a2a2a', '#2a4a6a',
-  '#3a5a40', '#6a2a2a', '#c8a000', '#4a3060',
+  WHEEL_COLORS.purple, WHEEL_COLORS.green, WHEEL_COLORS.red, WHEEL_COLORS.blue,
+  WHEEL_COLORS.green, WHEEL_COLORS.red, WHEEL_COLORS.gold, WHEEL_COLORS.purple,
 ]
 const SEGMENT_COUNT = SEGMENTS.length
 const DEG_PER_SEGMENT = 360 / SEGMENT_COUNT
@@ -87,7 +102,7 @@ export function LuckySpinner({ onDone }: Props) {
                 <path
                   d={`M ${ix1} ${iy1} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} L ${ix2} ${iy2} A ${innerR} ${innerR} 0 0 0 ${ix1} ${iy1}`}
                   fill={SEGMENT_COLORS[i]}
-                  stroke="#1a1a2e"
+                  stroke={WHEEL_COLORS.rim}
                   strokeWidth="1"
                 />
                 <text
@@ -95,7 +110,7 @@ export function LuckySpinner({ onDone }: Props) {
                   y={labelY}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fill={val === JACKPOT_VALUE ? '#ffd700' : '#e0e0e0'}
+                  fill={val === JACKPOT_VALUE ? PALETTE.accentGold : WHEEL_COLORS.text}
                   fontSize={val === JACKPOT_VALUE ? '13' : '11'}
                   fontWeight={val === JACKPOT_VALUE ? 'bold' : 'normal'}
                   fontFamily="monospace"
@@ -106,7 +121,7 @@ export function LuckySpinner({ onDone }: Props) {
               </g>
             )
           })}
-          <circle cx="120" cy="120" r="20" fill="#1a1a2e" stroke="#444" strokeWidth="2" />
+          <circle cx="120" cy="120" r="20" fill={WHEEL_COLORS.rim} stroke={WHEEL_COLORS.hub} strokeWidth="2" />
         </svg>
       </div>
 
