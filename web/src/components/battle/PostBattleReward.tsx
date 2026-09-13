@@ -5,6 +5,7 @@ import { getCardCatalog } from '../../game/cards'
 import { NodeType } from '../../game/questline'
 import { BattleStats, Card } from '../../game/types'
 import { Button } from '../ui/Button'
+import { RunEndCard } from '../ui/RunEndCard'
 
 function formatDuration(ms: number): string {
   const s = Math.floor(ms / 1000)
@@ -91,8 +92,8 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
   const allFlipped = flipped.every(Boolean)
 
   return (
-    <div className="reward-screen u-col u-items-c u-gap-8 u-grow">
-      <div className="reward-header u-text-c">
+    <div className="postbattle-reward u-col u-items-c u-just-c u-grow u-relative">
+      <RunEndCard tone="gold" size="lg" className="pbr-body u-items-c u-text-c">
         <div className="reward-title">{headerOverride?.title ?? 'VICTORY'}</div>
         <div className="reward-sub">{headerOverride?.sub ?? NODE_FLAVOUR[nodeType]}</div>
         {crystals > 0 && (
@@ -100,74 +101,71 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
             +{crystals} ◆{tierLabel && <span className="reward-tier-label"> · {tierLabel}</span>}
           </div>
         )}
-      </div>
 
-      {battleSummary && (
-        <div className="reward-battle-summary">
-          <div className="reward-summary-row"><span>UNITS DEFEATED</span><span>{battleSummary.stats.playerKills}</span></div>
-          <div className="reward-summary-row"><span>UNITS LOST</span><span>{battleSummary.stats.playerUnitsLost}</span></div>
-          <div className="reward-summary-row"><span>DAMAGE DEALT</span><span>{battleSummary.playerScore}</span></div>
-          <div className="reward-summary-row"><span>DURATION</span><span>{formatDuration(battleSummary.gameTime)}</span></div>
-        </div>
-      )}
+        {battleSummary && (
+          <div className="reward-battle-summary">
+            <div className="reward-summary-row"><span>UNITS DEFEATED</span><span>{battleSummary.stats.playerKills}</span></div>
+            <div className="reward-summary-row"><span>UNITS LOST</span><span>{battleSummary.stats.playerUnitsLost}</span></div>
+            <div className="reward-summary-row"><span>DAMAGE DEALT</span><span>{battleSummary.playerScore}</span></div>
+            <div className="reward-summary-row"><span>DURATION</span><span>{formatDuration(battleSummary.gameTime)}</span></div>
+          </div>
+        )}
 
-      <div className="reward-cards u-flex u-gap-7 u-just-c u-wrap">
-        {cards.map((card, i) => {
-          const isSelected  = selected === card.name
-          const shouldDim   = claimed ? claimed !== card.name : selected ? selected !== card.name : false
+        <div className="reward-cards u-flex u-gap-7 u-just-c u-wrap">
+          {cards.map((card, i) => {
+            const isSelected  = selected === card.name
+            const shouldDim   = claimed ? claimed !== card.name : selected ? selected !== card.name : false
 
-          return (
-            <div key={card.name} className="reward-card-flip-wrap u-col u-items-c u-gap-3">
-              <div
-                className={[
-                  'reward-card-flipper',
-                  flipped[i] ? 'reward-card-flipper--flipped' : '',
-                  isSelected  ? 'reward-card-flipper--selected' : '',
-                ].filter(Boolean).join(' ')}
-                onClick={() => handleCardClick(card.name, i)}
-                style={{
-                  cursor:  flipped[i] && !claimed ? 'pointer' : 'default',
-                  opacity: shouldDim ? 0.3 : 1,
-                  transition: 'opacity 0.3s ease',
-                }}
-              >
-                {/* Back face */}
-                <div className="reward-card-back">✦</div>
-                {/* Front face */}
-                <div className="reward-card-face">
-                  <CardTile card={card} canAfford={true} />
-                </div>
-              </div>
-
-              {/* Info button — only visible after card is revealed and before claim */}
-              {flipped[i] && !claimed && (
-                <button
-                  className="reward-card-info-btn"
-                  onClick={e => { e.stopPropagation(); setDetailCard(card) }}
+            return (
+              <div key={card.name} className="reward-card-flip-wrap u-col u-items-c u-gap-3">
+                <div
+                  className={[
+                    'reward-card-flipper',
+                    flipped[i] ? 'reward-card-flipper--flipped' : '',
+                    isSelected  ? 'reward-card-flipper--selected' : '',
+                    claimed     ? 'reward-card-flipper--locked'   : '',
+                    shouldDim   ? 'reward-card-flipper--dimmed'   : '',
+                  ].filter(Boolean).join(' ')}
+                  onClick={() => handleCardClick(card.name, i)}
                 >
-                  ⓘ
-                </button>
-              )}
-            </div>
-          )
-        })}
-      </div>
+                  {/* Back face */}
+                  <div className="reward-card-back">✦</div>
+                  {/* Front face */}
+                  <div className="reward-card-face">
+                    <CardTile card={card} canAfford={true} />
+                  </div>
+                </div>
 
-      {allFlipped && !claimed && (
-        <div className="reward-actions u-col u-items-c u-gap-4">
-          <Button
-            onClick={() => {
-              const target = selected ?? choices[Math.floor(Math.random() * choices.length)]
-              claimCard(target)
-            }}
-          >
-            Continue
-          </Button>
-          <Button className="reward-skip-btn" onClick={onSkip}>
-            I Don't Want This Reward It'll Ruin My Deck
-          </Button>
+                {/* Info button — only visible after card is revealed and before claim */}
+                {flipped[i] && !claimed && (
+                  <button
+                    className="reward-card-info-btn"
+                    onClick={e => { e.stopPropagation(); setDetailCard(card) }}
+                  >
+                    ⓘ
+                  </button>
+                )}
+              </div>
+            )
+          })}
         </div>
-      )}
+
+        {allFlipped && !claimed && (
+          <div className="reward-actions u-col u-items-c u-gap-4">
+            <Button
+              onClick={() => {
+                const target = selected ?? choices[Math.floor(Math.random() * choices.length)]
+                claimCard(target)
+              }}
+            >
+              Continue
+            </Button>
+            <Button className="reward-skip-btn" onClick={onSkip}>
+              I Don't Want This Reward It'll Ruin My Deck
+            </Button>
+          </div>
+        )}
+      </RunEndCard>
 
       {detailCard && (
         <CardDetailModal

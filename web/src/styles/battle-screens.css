@@ -205,11 +205,25 @@
   width: 100px;
   height: 145px;
   transform-style: preserve-3d;
-  transition: transform 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  cursor: default;
+  opacity: 1;
+  /* Both properties need their own transition: the inline style this
+     replaced set only `opacity 0.3s ease`, which silently overrode (rather
+     than added to) this transform transition — so the flip itself stopped
+     animating smoothly whenever a card was selected or claimed. */
+  transition: transform 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.3s ease;
 }
 
 .reward-card-flipper--flipped {
   transform: rotateY(180deg);
+}
+
+.reward-card-flipper--flipped:not(.reward-card-flipper--locked) {
+  cursor: pointer;
+}
+
+.reward-card-flipper--dimmed {
+  opacity: 0.3;
 }
 
 .reward-card-face,

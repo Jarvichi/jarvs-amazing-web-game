@@ -1059,12 +1059,6 @@
    POST-BATTLE REWARD
    ═══════════════════════════════════════════════════════════ */
 
-.reward-screen {
-  padding: 16px 0;
-  animation: fadeIn 0.3s ease-out;
-}
-
-
 .reward-title {
   font-size: 1.571rem;
   font-weight: bold;
