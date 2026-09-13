@@ -13,23 +13,16 @@ import {
   mergeAugmentEffects,
   AUGMENT_UPGRADE_COST,
 } from '../../game/collection'
-import {
-  getAugmentCard,
-  scaledAugmentEffect,
-  augmentSlotLabel,
-  ALL_AUGMENT_SLOTS,
-  AugmentSetDef,
-  getAugmentSetDef,
-} from '../../game/augments'
-import { CardTile } from './CardTile'
-import { MasteryBar } from '../ui/MasteryBar'
-import { AugmentPickerModal } from './AugmentPickerModal'
+import { getAugmentCard, scaledAugmentEffect } from '../../game/augments'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
-import { CardDetailHeader } from './CardDetailHeader'
-import { AugStatRow, masteryStatBonuses } from './AugStatRow'
-import { AnimatedSpriteImg, SpriteImg } from '../ui/SpriteImg'
+import { CardDetailHeader } from './carddetail/CardDetailHeader'
+import { AugStatRow, masteryStatBonuses } from './carddetail/AugStatRow'
+import { AugmentSoulsBar } from './carddetail/AugmentSoulsBar'
+import { AugmentSlotsGrid } from './carddetail/AugmentSlotsGrid'
+import { AugmentSetBonusPanel } from './carddetail/AugmentSetBonusPanel'
+import { AugmentPickerModal } from './AugmentPickerModal'
+import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { RARITY_COLOR } from '../../theme'
-import { Button } from '../ui/Button'
 
 interface Props {
   card: Card
@@ -38,17 +31,6 @@ interface Props {
   onClose: () => void
 }
 
-
-function effectSummary(effect: AugmentEffect): string {
-  const parts: string[] = []
-  if (effect.maxHp)       parts.push(`+${effect.maxHp} HP`)
-  if (effect.attack)      parts.push(`+${effect.attack} ATK`)
-  if (effect.attackRange) parts.push(`+${effect.attackRange} RNG`)
-  if (effect.moveSpeed)   parts.push(`+${effect.moveSpeed} SPD`)
-  return parts.join(', ')
-}
-
-// TODO: This screen is getting pretty big, consider splitting into multiple sub-screens (e.g. separate set bonus screen, separate augment picker screen instead of modal, etc)
 export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Props) {
   const [refresh, setRefresh] = useState(0)
   const [pickerSlot, setPickerSlot] = useState<AugmentSlot | null>(null)
@@ -59,7 +41,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const { level: masteryLvl } = masteryProgress(getMasteryXp(collection, card.name))
-  const rarityCol = RARITY_COLOR[card.rarity] ?? 'var(--game-text-color-dim)'
+  const rarityCol = RARITY_COLOR[card.rarity]
 
   const equippedMap = getEquippedAugments(card.name)
   const setBonus    = getSetBonus(card.name)
@@ -92,8 +74,6 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
   }
 
   return (
-// TODO: There is a lot of common structure between this and the CardDetailModal, consider unifying into a single component with some conditional rendering for the augment-specific parts
-
     <ModalBackdrop onClose={onClose} title={`${card.name} — Augments`}>
       <div className="cas-panel" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
 
@@ -140,12 +120,7 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
             </div>
           </div>
 
-          {/* Souls balance */}
-          <div className="cas-souls-bar">
-            <span style={{ opacity: 0.7, fontSize: 12 }}>Augment Souls:</span>
-            <span style={{ color: '#cc88ff', fontWeight: 700 }}>{souls.toLocaleString()} 👻</span>
-            {upgradeError && <span style={{ color: '#ff6666', fontSize: 11 }}>{upgradeError}</span>}
-          </div>
+          <AugmentSoulsBar souls={souls} upgradeError={upgradeError} />
 
           {/* Augment slots. Structures are excluded to match the engine:
               applyAugmentBonuses in game/collection.ts returns early for
@@ -155,85 +130,17 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
           {u && u.moveSpeed === 0 ? (
             <div className="cas-slots-title">Structures can't be augmented.</div>
           ) : (
-          <>
-          <div className="cas-slots-title">Equipment Slots</div>
-
-          <div className="cas-slots-grid">
-            {ALL_AUGMENT_SLOTS.map(slot => {
-              const inst = equippedMap[slot]
-              const augCard = inst ? getAugmentCard(inst.cardId) : undefined
-              const scaled = (augCard?.augmentEffect && inst)
-                ? scaledAugmentEffect(augCard.augmentEffect, inst.level)
-                : undefined
-
-              return (
-                <div key={slot} className={`cas-slot${inst ? ' cas-slot--filled' : ''}`}>
-                  <div className="cas-slot-label">{augmentSlotLabel(slot)}</div>
-                  {inst && augCard ? (
-                    <>
-                      <div className="cas-slot-name" style={{ color: RARITY_COLOR[augCard.rarity] ?? '#fff' }}>
-                        {augCard.name}
-                      </div>
-                      <div className="cas-slot-level">Lv{inst.level}</div>
-                      {scaled && (
-                        <div className="cas-slot-effect">{effectSummary(scaled)}</div>
-                      )}
-                      <div className="cas-slot-actions">
-                        <Button
-                          variant="gold"
-                          className="cas-slot-btn"
-                          disabled={souls < AUGMENT_UPGRADE_COST}
-                          onClick={() => handleUpgrade(inst)}
-                          title={`Upgrade (costs ${AUGMENT_UPGRADE_COST} souls)`}
-                        >
-                          ↑ Upgrade
-                        </Button>
-                        <Button
-                          className="cas-slot-btn"
-                          onClick={() => { setPickerSlot(slot); }}
-                        >
-                          Swap
-                        </Button>
-                      </div>
-                    </>
-                  ) : (
-                    <Button
-                      className="cas-slot-btn"
-                      onClick={() => setPickerSlot(slot)}
-                    >
-                      + Equip
-                    </Button>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Set bonus */}
-          {(() => {
-            const equipped = Object.values(equippedMap)
-            if (equipped.length === 0) return null
-            const firstAug = getAugmentCard(equipped[0]?.cardId ?? '')
-            const setName  = firstAug?.setName
-            const setDef: AugmentSetDef | undefined = setName ? getAugmentSetDef(setName) : undefined
-            if (!setDef) return null
-            const hasFullSet = !!setBonus
-            const slotsFilledSameSet = equipped.filter(i => getAugmentCard(i.cardId)?.setName === setName).length
-            return (
-              <div className={`cas-set-bonus${hasFullSet ? ' cas-set-bonus--active' : ''}`}>
-                <span className="cas-set-bonus-name" style={{ color: RARITY_COLOR[setDef.rarity] ?? '#fff' }}>
-                  {setName} Set Bonus ({slotsFilledSameSet}/7)
-                </span>
-                <span className="cas-set-bonus-desc">{setDef.setBonusDescription}</span>
-                {hasFullSet && (
-                  <span className="cas-set-bonus-effect" style={{ color: '#ffcc00' }}>
-                    {effectSummary(setDef.setBonus)} ACTIVE
-                  </span>
-                )}
-              </div>
-            )
-          })()}
-          </>
+            <>
+              <div className="cas-slots-title">Equipment Slots</div>
+              <AugmentSlotsGrid
+                equippedMap={equippedMap}
+                souls={souls}
+                upgradeCost={AUGMENT_UPGRADE_COST}
+                onUpgrade={handleUpgrade}
+                onPickSlot={setPickerSlot}
+              />
+              <AugmentSetBonusPanel equippedMap={equippedMap} setBonus={setBonus} />
+            </>
           )}
 
         </div>

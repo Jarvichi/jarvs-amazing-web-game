@@ -1,5 +1,5 @@
 import React from 'react'
-import type { UnitTemplate } from '../../game/types'
+import type { UnitTemplate } from '../../../game/types'
 
 /**
  * One stat, shown as the value the engine actually fights with — base plus

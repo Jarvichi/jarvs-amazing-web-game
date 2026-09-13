@@ -959,6 +959,9 @@
   border: 1px solid rgba(150,80,255,0.3);
   font-size: 13px;
 }
+.cas-souls-label { opacity: 0.7; font-size: var(--font-xs); }
+.cas-souls-value { color: #cc88ff; font-weight: 700; }
+.cas-souls-error { color: var(--color-red); font-size: var(--font-xxs); }
 .cas-slots-title {
   font-size: var(--font-xs);
   letter-spacing: 1px;
@@ -1004,6 +1007,7 @@
 .cas-set-bonus-name { font-size: var(--font-sm); font-weight: bold; }
 .cas-set-bonus-desc { font-size: var(--font-xs); color: var(--game-text-color-muted); }
 .cas-set-bonus-effect { font-size: var(--font-xs); }
+.cas-set-bonus-effect--active { color: var(--color-gold-alt); }
 
 /* ── Augment Picker Modal ─────────────────────────────────────────────────────── */
 .apm-panel {

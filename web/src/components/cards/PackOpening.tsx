@@ -3,10 +3,12 @@ import { getCardCatalog } from '../../game/cards'
 import { rarityStars } from '../../game/cards'
 import { addCardsToCollection } from '../../game/collection'
 import { getAugmentCatalog } from '../../game/augments'
+import { CardRarity } from '../../game/types'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { useCardDetail } from './useCardDetail'
 import { Button } from '../ui/Button'
+import { RARITY_COLOR } from '../../theme'
 
 interface Props {
   /** One or more packs; each pack is an array of card names in reveal order */
@@ -15,14 +17,6 @@ interface Props {
 }
 
 const TAP_REQUIRED: Partial<Record<string, number>> = { rare: 3, legendary: 5 }
-
-function rarityColor(rarity: string | undefined): string {
-  if (rarity === 'legendary' || rarity === 'mythic') return '#ffcc00'
-  if (rarity === 'epic') return '#cc55ff'
-  if (rarity === 'rare') return '#5599ff'
-  if (rarity === 'uncommon') return '#55cc55'
-  return 'inherit'
-}
 
 export function PackOpening({ packs, onDone }: Props) {
   const catalog = [...getCardCatalog(), ...getAugmentCatalog()]
@@ -293,16 +287,16 @@ export function PackOpening({ packs, onDone }: Props) {
 
       {showSummary && (
         <ModalBackdrop onClose={onDone} zIndex={300} title="All Cards">
-          <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
+          <div className="daily-modal daily-modal--list">
             <div className="daily-modal-header">✦ ALL CARDS</div>
             <div className="daily-modal-sub">
               {allCardNames.length} card{allCardNames.length !== 1 ? 's' : ''} across {packs.length} packs
             </div>
-            <div style={{ width: '100%', maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div className="daily-modal-rows">
               {allCardObjects.map((card, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '3px 0', borderBottom: '1px solid #222' }}>
+                <div key={i} className="daily-modal-row">
                   <span>{card?.name ?? '?'}</span>
-                  <span style={{ color: rarityColor(card?.rarity) }}>{rarityStars(card?.rarity ?? 'common')}</span>
+                  <span style={{ color: RARITY_COLOR[(card?.rarity ?? 'common') as CardRarity] }}>{rarityStars(card?.rarity ?? 'common')}</span>
                 </div>
               ))}
             </div>

@@ -1,0 +1,35 @@
+import type { CSSProperties } from 'react'
+import { CollectionEntry, getMasteryXp, masteryProgress } from '../../../game/collection'
+import { Card, CardRarity } from '../../../game/types'
+import { CloseButton } from '../../ui/CloseButton'
+
+const STAR_LEVEL: Record<CardRarity, number> = {
+  common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 4, holofoil: 4, glass: 4,
+}
+
+export interface Props {
+  card: Card
+  collection: CollectionEntry[]
+  colour?: string
+  onClose: () => void
+}
+
+export function CardDetailHeader({ card, collection, colour, onClose }: Props) {
+  const starLevel = STAR_LEVEL[card.rarity] ?? 1
+  const xp = getMasteryXp(collection, card.name)
+  const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
+
+  return (
+    <div className="cdm-header" style={colour ? { '--cdm-rarity-color': colour } as CSSProperties : undefined}>
+      <span className="cdm-name" style={{ color: colour }}>{card.name}</span>
+      {masteryLvl > 0 && (
+        <div className="cdm-header-mastery">Mastery ★{masteryLvl} · {xpCur}/{xpNeeded} XP</div>
+      )}
+      <span className="cdm-rarity" style={{ color: colour }}>
+        {'★'.repeat(starLevel)}
+        {' '}{card.rarity.toUpperCase()}
+      </span>
+      <CloseButton onClick={onClose} />
+    </div>
+  )
+}

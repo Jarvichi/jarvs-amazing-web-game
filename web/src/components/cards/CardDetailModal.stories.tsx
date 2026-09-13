@@ -60,3 +60,20 @@ export const MasteredStructure: Story = {
     "onClose": fn()
   },
 };
+
+/**
+ * The header's rarity colour comes from theme.ts's RARITY_COLOR — one story
+ * per rarity so a colour drift there is easy to spot at a glance (#2327).
+ */
+export const RarityCommon: Story = {
+  args: { card: { ...exampleCard, rarity: 'common' }, collection: [], onClose: fn() },
+};
+export const RarityRare: Story = {
+  args: { card: { ...exampleCard, rarity: 'rare' }, collection: [], onClose: fn() },
+};
+export const RarityLegendary: Story = {
+  args: { card: { ...exampleCard, rarity: 'legendary' }, collection: [], onClose: fn() },
+};
+export const RarityMythic: Story = {
+  args: { card: { ...exampleCard, rarity: 'mythic' }, collection: [], onClose: fn() },
+};
