@@ -32,13 +32,13 @@ const CATEGORY_LABELS: Record<AchievementCategory, string> = {
 function TrophyIcon() {
   return (
     <svg viewBox="0 0 32 32" width="40" height="40" aria-hidden="true">
-      <rect x="11" y="27" width="10" height="2" rx="1" fill="#8a6000"/>
-      <rect x="9"  y="24" width="14" height="4" rx="1" fill="#aa7800"/>
-      <rect x="14" y="18" width="4"  height="7" fill="#aa7800"/>
-      <path d="M8 6 Q8 19 16 19 Q24 19 24 6 Z" fill="#ffcc00"/>
-      <rect x="8"  y="5"  width="16" height="3" rx="1" fill="#ffe040"/>
-      <path d="M8 8 Q3 8 3 13 Q3 17 8 16"  fill="none" stroke="#ffcc00" strokeWidth="2.5"/>
-      <path d="M24 8 Q29 8 29 13 Q29 17 24 16" fill="none" stroke="#ffcc00" strokeWidth="2.5"/>
+      <rect x="11" y="27" width="10" height="2" rx="1" className="hoa-trophy-base"/>
+      <rect x="9"  y="24" width="14" height="4" rx="1" className="hoa-trophy-stem"/>
+      <rect x="14" y="18" width="4"  height="7" className="hoa-trophy-stem"/>
+      <path d="M8 6 Q8 19 16 19 Q24 19 24 6 Z" className="hoa-trophy-cup"/>
+      <rect x="8"  y="5"  width="16" height="3" rx="1" className="hoa-trophy-rim"/>
+      <path d="M8 8 Q3 8 3 13 Q3 17 8 16"  fill="none" className="hoa-trophy-handle" strokeWidth="2.5"/>
+      <path d="M24 8 Q29 8 29 13 Q29 17 24 16" fill="none" className="hoa-trophy-handle" strokeWidth="2.5"/>
     </svg>
   )
 }
@@ -46,10 +46,10 @@ function TrophyIcon() {
 function PlinthIcon() {
   return (
     <svg viewBox="0 0 32 32" width="40" height="40" aria-hidden="true">
-      <rect x="7"  y="27" width="18" height="3" rx="1" fill="#3a3a4a"/>
-      <rect x="10" y="13" width="12" height="15" rx="2" fill="#2a2a3a"/>
-      <rect x="12" y="15" width="8"  height="11" rx="1" fill="#1e1e2a"/>
-      <text x="16" y="24" textAnchor="middle" fontSize="9" fill="#4a4a6a" fontFamily="monospace">?</text>
+      <rect x="7"  y="27" width="18" height="3" rx="1" className="hoa-plinth-base"/>
+      <rect x="10" y="13" width="12" height="15" rx="2" className="hoa-plinth-body"/>
+      <rect x="12" y="15" width="8"  height="11" rx="1" className="hoa-plinth-inset"/>
+      <text x="16" y="24" textAnchor="middle" fontSize="9" className="hoa-plinth-mark" fontFamily="monospace">?</text>
     </svg>
   )
 }

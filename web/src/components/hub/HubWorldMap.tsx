@@ -91,9 +91,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         />
       )}
 
-      {/* position: relative so the bar can float over the map rather than
-          stacking above it, same as the hub town canvas. */}
-      <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
+      <div className="hub-world-map-stage">
         <StageChrome bar={
           <Toolbar>
             <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}><Icon name="crystal" size={13} /> {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
@@ -107,7 +105,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
               </ToolbarLabel>
             )}
             <ToolbarButton icon={<Icon name="scroll" size={16} />} title="Quests" onClick={() => setQuestsOpen(true)} />
-            <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />
+            <ToolbarButton icon={<Icon name="town" size={16} />} title="Back to Town" onClick={onBack} />
             <ToolbarSpacer />
 
             {/* No onSettings here: this bar's ⚙ was wired to onBack, duplicating
@@ -147,7 +145,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         {fogTapped && (
           <div className="nm-peek-backdrop" onClick={() => setFogTapped(false)}>
             <div className="nm-peek-panel" onClick={e => e.stopPropagation()}>
-              <div className="nm-peek-desc" style={{ textAlign: 'center' }}>
+              <div className="nm-peek-desc">
                 The fog is too thick to proceed.
               </div>
               <div className="nm-peek-actions u-flex u-gap-4">
