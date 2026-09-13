@@ -1546,7 +1546,7 @@ export function CityBuilder({ onBack }: Props) {
   }
 
   if (!cityReady) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#fff', fontSize: 18 }}>
+    <div className="city-loading">
       Loading city…
     </div>
   )
@@ -1609,11 +1609,11 @@ export function CityBuilder({ onBack }: Props) {
     if (pool.length === 0) {
       return (
         <OverlayScreen
-          title="⚔ DEFEND"
+          title={<><Icon name="sword" size={16} /> DEFEND</>}
           onBack={() => setScreen('city')}
           className="city-screen u-relative u-col u-gap-2"
         >
-          <div style={{ padding: 24, color: '#888', textAlign: 'center' }}>
+          <div className="city-empty-state">
             <p>No residents available to defend the city.</p>
             <p>Place some spawn buildings with happy residents first!</p>
             <Button onClick={() => setScreen('city')}>BACK TO CITY</Button>
@@ -1731,7 +1731,7 @@ export function CityBuilder({ onBack }: Props) {
         label={bulldozerMode ? 'DEMOLISH' : 'BUILD'}
         icon={bulldozerMode ? '🧱' : '👷'}
       />
-      <ToolbarButton size="wide" onClick={() => setScreen('fortify')} title="Manage city walls" label="FORTS" icon="🛡" />
+      <ToolbarButton size="wide" onClick={() => setScreen('fortify')} title="Manage city walls" label="FORTS" icon={<Icon name="shield" size={16} />} />
       <ToolbarButton
         size="wide"
         title={isFarmUnlocked(population) ? "Manage arable land outside the city" : `Farm unlocks at population 10 (currently ${population})`}
@@ -1740,7 +1740,7 @@ export function CityBuilder({ onBack }: Props) {
         locked={!isFarmUnlocked(population)}
         icon="🌾"
       />
-      <ToolbarButton size="wide" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers" label="DEFEND" icon="⚔" />
+      <ToolbarButton size="wide" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers" label="DEFEND" icon={<Icon name="sword" size={16} />} />
       {city.activeDisaster && (
         <ToolbarButton
           size="wide"
@@ -1755,7 +1755,7 @@ export function CityBuilder({ onBack }: Props) {
       <ToolbarSpacer />
       <ToolbarDropdown label="⋯" title="More">
         <div className="toolbar-overflow-dropdown">{overflowToolbarButtons}</div>
-        <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings" label="UPGRADES" icon="★" />
+        <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings" label="UPGRADES" icon={<Icon name="star" size={16} />} />
         <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history" label="HISTORY" icon={<Icon name="chronicle" size={16} />} />
         <ToolbarButton onClick={() => setScreen('zones')} title="Set district zones per row" label="ZONES" icon="🗺" />
         {cityRows <= MAX_CITY_ROWS && (
@@ -1775,7 +1775,7 @@ export function CityBuilder({ onBack }: Props) {
   // ── Main city view ────────────────────────────────────────────────────────────
 
   return (
-    <OverlayScreen title={bulldozerMode ? '⏸ PAUSED' : '🏙 CITY'} onBack={onBack}
+    <OverlayScreen title={bulldozerMode ? <><Icon name="pause" size={16} /> PAUSED</> : '🏙 CITY'} onBack={onBack}
 
       right={<>
               <div className="city-level-badge" title={`City level ${cityLevel} — ${city.rows}×${city.cols} grid`}>LVL {cityLevel}</div>
@@ -1827,13 +1827,13 @@ export function CityBuilder({ onBack }: Props) {
               <div className="city-info-modal-title">🌾 FARM — LOCKED</div>
               <div className="city-info-modal-body">
                 <p>Move production buildings to fertile land outside the city walls for a <strong>+50% resource bonus</strong>.</p>
-                <p style={{ color: '#cc9944' }}><Icon name="warning" size={13} /> Farms are raided every 3–4 hours with minimal defence.</p>
+                <p className="city-info-modal-warn"><Icon name="warning" size={13} /> Farms are raided every 3–4 hours with minimal defence.</p>
                 <div className="city-info-modal-req">
                   <span className={population >= 10 ? 'req--met' : 'req--unmet'}>
                     {population >= 10 ? '✓' : '✗'} Population ≥ 10 (currently {population})
                   </span>
                 </div>
-                <p style={{ fontSize: 11, color: '#668866' }}>Grow your city by placing more spawning buildings to unlock the farm.</p>
+                <p className="city-info-modal-hint">Grow your city by placing more spawning buildings to unlock the farm.</p>
               </div>
               <Button onClick={() => setShowFarmLockModal(false)}>CLOSE</Button>
             </div>

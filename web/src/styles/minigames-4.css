@@ -1263,6 +1263,21 @@
   font-family: var(--font-mono);
 }
 
+/* ── City Builder — screen states ───────────────────────────────────────────── */
+.city-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-inverse);
+  font-size: 18px;
+}
+.city-empty-state {
+  padding: 24px;
+  color: var(--color-gray-8);
+  text-align: center;
+}
+
 /* ── City info modal (farm lock + expand) ──────────────────────────────────── */
 .city-info-modal {
   background: #111a0e;
@@ -1294,6 +1309,8 @@
 }
 .city-info-modal-body p { margin: 0; }
 .city-info-modal-body strong { color: #d0f0a0; }
+.city-info-modal-warn { color: #cc9944; }
+.city-info-modal-hint { font-size: 11px; color: #668866; }
 .city-info-modal-req {
   background: rgba(0,0,0,0.3);
   border-radius: 4px;
