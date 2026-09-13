@@ -36,8 +36,17 @@ import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
 import { useToast } from '../ui/Toast'
 import { EmptyState } from '../ui/EmptyState'
+import { TabNav, TabNavItem } from '../ui/TabNav'
+import { MinigameCard } from './minigamesmenu/MinigameCard'
+import { LeaderboardTable } from './minigamesmenu/LeaderboardTable'
+import { LeaderboardModeTabs } from './minigamesmenu/LeaderboardModeTabs'
 
 export type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
+
+const ALL_GAME_IDS: MiniGameId[] = [
+  'marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta',
+  'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence',
+]
 
 interface Props {
   crystals: number
@@ -228,6 +237,13 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
   const currentCrystals = crystals
 
+  const lbGameTabItems: TabNavItem<MiniGameId>[] = ALL_GAME_IDS.map(id => ({
+    id,
+    // The per-game glyph is content (#2321), so it rides in the label text
+    // rather than TabNav's own `icon` slot (a sprite-name enum it isn't).
+    label: `${MINI_GAME_ICONS[id]} ${MINI_GAME_LABELS[id]}`,
+  }))
+
   // ── Render ────────────────────────────────────────────────────────────────────
 
   if (subScreen === 'marble') {
@@ -279,7 +295,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
   }
 
   return (
-    <OverlayScreen title="🎮 ARCADE" onBack={onBack} right={
+    <OverlayScreen title={<><Icon name="minigames" size={16} /> ARCADE</>} onBack={onBack} right={
       <div className="ticket-balance"><span>🎫 {tickets} tickets</span></div>
     } >
 
@@ -304,34 +320,23 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
             {/* Game grid */}
             <div className="minigame-grid">
-              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => {
+              {ALL_GAME_IDS.map(id => {
                 const cost = MINI_GAME_COSTS[id]
                 const locked = currentCrystals < cost
-                const best = loadLocalHighScore(id)
-                const challengeDone = isDailyChallengeClaimed(id)
                 return (
-                  <div key={id} className={`minigame-card u-col u-items-c u-gap-3 u-text-c${locked ? ' minigame-card--locked' : ''}`}>
-                    <div className="minigame-card-icon">{MINI_GAME_ICONS[id]}</div>
-                    <div className="minigame-card-name">{MINI_GAME_LABELS[id]}</div>
-                    <div className="minigame-card-desc">{MINI_GAME_DESCRIPTIONS[id]}</div>
-                    <div className="minigame-card-meta u-flex u-gap-6">
-                      <span className="minigame-card-cost"><Icon name="crystal" size={12} /> {cost}</span>
-                      {best > 0 && <span className="minigame-card-best">Best: {best} 🎫</span>}
-                    </div>
-                    <div className={`minigame-card-challenge${challengeDone ? ' minigame-card-challenge--done' : ''}`}>
-                      {challengeDone
-                        ? '✅ Today\'s challenge complete!'
-                        : `🎯 Beat ${getDailyChallengeTarget(id)} for +${DAILY_CHALLENGE_BONUS_TICKETS} 🎫`}
-                    </div>
-                    <Button
-                      variant={locked ? 'default' : 'gold'}
-                      onClick={() => startGame(id)}
-                      disabled={locked}
-                      title={locked ? `Need ${cost} crystals to play` : undefined}
-                    >
-                      {locked ? <>NEED {cost} <Icon name="crystal" size={13} /></> : 'PLAY'}
-                    </Button>
-                  </div>
+                  <MinigameCard
+                    key={id}
+                    icon={MINI_GAME_ICONS[id]}
+                    name={MINI_GAME_LABELS[id]}
+                    description={MINI_GAME_DESCRIPTIONS[id]}
+                    cost={cost}
+                    locked={locked}
+                    best={loadLocalHighScore(id)}
+                    challengeDone={isDailyChallengeClaimed(id)}
+                    challengeTarget={getDailyChallengeTarget(id)}
+                    challengeBonusTickets={DAILY_CHALLENGE_BONUS_TICKETS}
+                    onPlay={() => startGame(id)}
+                  />
                 )
               })}
             </div>
@@ -392,48 +397,23 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
             />
 
             <div className="lb-controls u-col u-gap-3">
-              <div className="lb-game-tabs">
-                {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'regatta', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => (
-                  <button
-                    key={id}
-                    className={`filter-btn${lbGame === id ? ' filter-btn--active' : ''}`}
-                    onClick={() => loadLeaderboard(id, lbMode)}
-                  >
-                    {MINI_GAME_ICONS[id]} {MINI_GAME_LABELS[id]}
-                  </button>
-                ))}
-              </div>
-              <div className="lb-mode-tabs">
-                <button
-                  className={`filter-btn${lbMode === 'today' ? ' filter-btn--active' : ''}`}
-                  onClick={() => loadLeaderboard(lbGame, 'today')}
-                >
-                  TODAY
-                </button>
-                <button
-                  className={`filter-btn${lbMode === 'allTime' ? ' filter-btn--active' : ''}`}
-                  onClick={() => loadLeaderboard(lbGame, 'allTime')}
-                >
-                  ALL TIME
-                </button>
-              </div>
+              <TabNav
+                items={lbGameTabItems}
+                activeId={lbGame}
+                onSelect={id => loadLeaderboard(id, lbMode)}
+                ariaLabel="Leaderboard game"
+                panelId="lb-panel"
+              />
+              <LeaderboardModeTabs
+                mode={lbMode}
+                onChange={mode => loadLeaderboard(lbGame, mode)}
+                panelId="lb-panel"
+              />
             </div>
 
-            {lbLoading && <div className="lb-loading">Loading...</div>}
-            {!lbLoading && lbEntries.length === 0 && (
-              <EmptyState size="sm" hint="Be the first!">No scores yet.</EmptyState>
-            )}
-            {!lbLoading && lbEntries.length > 0 && (
-              <ol className="lb-list">
-                {lbEntries.map((e, i) => (
-                  <li key={e.uid} className="lb-entry">
-                    <span className="lb-rank">{i + 1}</span>
-                    <span className="lb-name">{e.characterName}</span>
-                    <span className="lb-score">{e.score} 🎫</span>
-                  </li>
-                ))}
-              </ol>
-            )}
+            <div id="lb-panel">
+              <LeaderboardTable loading={lbLoading} entries={lbEntries} />
+            </div>
           </div>
         )}
       </div>
