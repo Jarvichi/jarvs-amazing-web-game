@@ -657,6 +657,11 @@
   margin-bottom: 10px;
 }
 
+.fm-reels-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 .fm-reel {
   width: 80px;
   height: 96px;
