@@ -28,20 +28,26 @@ import {
 import { loadPlayerName } from '../../game/questline'
 import { LedScroller, LedScrollerMessage } from '../ui/LedScroller/LedScroller'
 import { MinigameShell } from './MinigameShell'
-import { Icon } from '../ui/icons/Icon'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { Button } from '../ui/Button'
+import { BOARD_NODES, BOARD_SIZE, JACKPOT_TIERS, type BoardNode, type BoardWindowEntry } from './fruitmachine/boardConfig'
+import {
+  SYMBOLS, WEIGHTS, WILD, FEATURE, BONUS, REEL_STRIP,
+  LADDER_SYMBOLS, LADDER_WEIGHTS_NORMAL, LADDER_WEIGHTS_HIGH, JACKPOT_HIGH_THRESHOLD,
+  type LadderSymbol,
+} from './fruitmachine/reelConfig'
+import { JackpotTiers } from './fruitmachine/JackpotTiers'
+import { WordMeter } from './fruitmachine/WordMeter'
+import { BoardTrail } from './fruitmachine/BoardTrail'
+import { ReelsPanel } from './fruitmachine/ReelsPanel'
+import { BonusGameScreen, type BonusTile } from './fruitmachine/BonusGameScreen'
+import { JackpotWinScreen } from './fruitmachine/JackpotWinScreen'
+import { SpinControls, type SpinCount } from './fruitmachine/SpinControls'
+import { PaytableDetails } from './fruitmachine/PaytableDetails'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
 }
-
-const SYMBOLS = ['🍒', '🍋', '🍊', '🍇', '⭐', '🔔', '💎', '🃏', '🌟', '💰']
-const WEIGHTS = [20, 25, 25, 25, 10, 5, 2, 5, 1, 5]
-
-const WILD = '🃏'
-const FEATURE = '🌟'
-const BONUS = '💰'
 
 const STARTING_CREDITS = 10
 const BUY_COST = 25   // crystals to buy more credits
@@ -53,67 +59,6 @@ const FEATURE_THRESHOLD = 5    // feature triggers needed for bonus
 const FEATURE_BONUS_CREDITS = 15  // credits awarded when feature fires
 const LOSER_THRESHOLD = 5    // 'Lose' hits needed to light full LOSER word
 const LOSER_JUMP_POS = 35    // board position jumped to on full LOSER word
-
-const JACKPOT_TIERS = [
-  { name: 'Mini', credits: 10, progressive: false, base: 10 },
-  { name: 'Minor', credits: 25, progressive: false, base: 25 },
-  { name: 'Major', credits: 50, progressive: false, base: 50 },
-  { name: 'Grand', credits: 0, progressive: true, base: 500 },
-] as const
-
-type BoardNodeType = 'credit' | 'multiplier' | 'extra-spin' | 'nudge' | 'bonus-game' | 'jackpot-mini' | 'jackpot-major' | 'jackpot-grand'
-interface BoardNode { type: BoardNodeType; label: string; value?: number }
-
-const BOARD_NODES: BoardNode[] = [
-  { type: 'credit', label: '+5cr', value: 5 },
-  { type: 'extra-spin', label: 'FREE' },
-  { type: 'multiplier', label: '×2', value: 2 },
-  { type: 'credit', label: '+8cr', value: 8 },
-  { type: 'nudge', label: 'NUDGE', value: 1 },
-  { type: 'credit', label: '+3cr', value: 3 },
-  { type: 'jackpot-mini', label: 'MINI 💰' },
-  { type: 'credit', label: '+10cr', value: 10 },
-  { type: 'multiplier', label: '×3', value: 3 },
-  { type: 'extra-spin', label: 'FREE' },
-  { type: 'credit', label: '+5cr', value: 5 },
-  { type: 'bonus-game', label: 'BONUS' },
-  { type: 'credit', label: '+12cr', value: 12 },
-  { type: 'nudge', label: 'NUDGE×2', value: 2 },
-  { type: 'multiplier', label: '×2', value: 2 },
-  { type: 'credit', label: '+6cr', value: 6 },
-  { type: 'jackpot-major', label: 'MAJOR 🏆' },
-  { type: 'extra-spin', label: 'FREE' },
-  { type: 'credit', label: '+15cr', value: 15 },
-  { type: 'credit', label: '+5cr', value: 5 },
-  { type: 'extra-spin', label: 'FREE' },
-  { type: 'multiplier', label: '×2', value: 2 },
-  { type: 'credit', label: '+8cr', value: 8 },
-  { type: 'nudge', label: 'MEGA NUDGE', value: 5 },
-  { type: 'credit', label: '+3cr', value: 3 },
-  { type: 'jackpot-mini', label: 'MINI 💰' },
-  { type: 'credit', label: '+10cr', value: 10 },
-  { type: 'multiplier', label: '×3', value: 3 },
-  { type: 'extra-spin', label: 'FREE' },
-  { type: 'credit', label: '+5cr', value: 5 },
-  { type: 'bonus-game', label: 'BONUS' },
-  { type: 'credit', label: '+12cr', value: 12 },
-  { type: 'nudge', label: 'ULTRA NUDGE', value: 10 },
-  { type: 'multiplier', label: '×2', value: 2 },
-  { type: 'credit', label: '+6cr', value: 6 },
-  { type: 'jackpot-major', label: 'MAJOR 🏆' },
-  { type: 'extra-spin', label: 'FREE' },
-  { type: 'credit', label: '+15cr', value: 15 },
-  { type: 'jackpot-grand', label: 'GRAND ⭐' },
-]
-
-const BOARD_SIZE = BOARD_NODES.length
-
-// Reel strip — fixed sequence for nudge up/down support
-const REEL_STRIP = [
-  '🍒', '🍋', '🍊', '🍇', '⭐', '🔔', '💎', '🃏', '🌟', '💰',
-  '🍒', '🍋', '🍊', '🍇', '⭐', '🔔', '💎', '🍒', '🌟', '💰',
-  '🍒', '🍋', '🍊', '🍇', '⭐', '🔔', '💎', '🃏', '🍒', '💰',
-]
 
 function pickSymbol(): string {
   let r = Math.random() * WEIGHTS.reduce((s, w) => s + w, 0)
@@ -127,14 +72,6 @@ function pickSymbol(): string {
 function pickReelPos(): number {
   return Math.floor(Math.random() * REEL_STRIP.length)
 }
-
-// 4th "trail" reel — controls how many steps the feature board advances each spin
-const LADDER_SYMBOLS = ['+1', '+2', 'Lose', 'Stay', '-1', '-2'] as const
-// Standard weights; when jackpot reaches 10 000 the negative weights shift to positives
-const LADDER_WEIGHTS_NORMAL = [4, 2, 1, 87, 2, 4]
-const LADDER_WEIGHTS_HIGH   = [7, 5, 1, 87, 0, 0]  // -1/-2 removed, redistributed to +1/+2
-const JACKPOT_HIGH_THRESHOLD = 10_000
-type LadderSymbol = (typeof LADDER_SYMBOLS)[number]
 
 function pickLadderSymbol(jackpot: number): LadderSymbol {
   const weights = jackpot >= JACKPOT_HIGH_THRESHOLD ? LADDER_WEIGHTS_HIGH : LADDER_WEIGHTS_NORMAL
@@ -208,10 +145,10 @@ export function FruitMachine({ onDone }: Props) {
   const [freeSpin, setFreeSpin] = useState(false)
   const [nudgesAvailable, setNudgesAvailable] = useState(0)
   const [reelPositions, setReelPositions] = useState<[number, number, number]>([0, 3, 6])
-  const [bonusTiles, setBonusTiles] = useState<Array<{ value: number; collect: boolean; revealed: boolean }>>([])
+  const [bonusTiles, setBonusTiles] = useState<BonusTile[]>([])
   const [bonusPicksLeft, setBonusPicksLeft] = useState(0)
   const [bonusTotalWin, setBonusTotalWin] = useState(0)
-  const [spinCount, setSpinCount] = useState<1 | 5 | 10 | 25 | 50>(1)
+  const [spinCount, setSpinCount] = useState<SpinCount>(1)
   const [autoSpinsLeft, setAutoSpinsLeft] = useState(0)
 
   const [messages, setMessages] = useState([] as LedScrollerMessage[])
@@ -434,13 +371,13 @@ export function FruitMachine({ onDone }: Props) {
     setPhase('idle')
   }
 
-function regressBoardBy(steps: number) {
+  function regressBoardBy(steps: number) {
     if (steps === 0) { setPhase('idle'); return }
     setPhase('board-moving')
     let stepsLeft = steps
     function stepOnce() {
       const newPos = Math.max(0, boardPosRef.current - 1)
-      
+
       boardPosRef.current = newPos
       setBoardPos(newPos)
 
@@ -461,7 +398,7 @@ function regressBoardBy(steps: number) {
     let stepsLeft = steps
     function stepOnce() {
       const newPos = Math.min(BOARD_SIZE - 1, boardPosRef.current + 1)
-      
+
       boardPosRef.current = newPos
       setBoardPos(newPos)
 
@@ -617,7 +554,7 @@ function regressBoardBy(steps: number) {
     setRecentlyHeld([...held] as [boolean, boolean, boolean])
 
     updateGrandJackpot()
-    
+
     emitSound('fruitMachineSpin')
     setPhase('spinning')
     const spinCost = freeSpin ? 0 : 1
@@ -679,23 +616,21 @@ function regressBoardBy(steps: number) {
       // After a winning spin, block all holds so the player can't chain wins by holding
       if (totalWin > 0) setRecentlyHeld([true, true, true])
 
-      var boardMsg = ''
+      let boardMsg = ''
 
       if (featureBonus > 0) {
         setBoardMessage(`🌟 FEATURE!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`)
       } else if (winType === 'wild') {
-        if( totalWin > 0){
-        boardMsg = `🃏 WILD!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`
-
+        if (totalWin > 0) {
+          boardMsg = `🃏 WILD!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`
         } else {
-        boardMsg = `🃏 WILD!${mult > 1 ? ` ×${mult}` : ''}`
+          boardMsg = `🃏 WILD!${mult > 1 ? ` ×${mult}` : ''}`
         }
       } else if (winType === 'bonus') {
-                if( totalWin > 0){
-        boardMsg = `💰 BONUS! +${totalWin} credits!`
-
+        if (totalWin > 0) {
+          boardMsg = `💰 BONUS! +${totalWin} credits!`
         } else {
-        boardMsg = '💰 BONUS!'
+          boardMsg = '💰 BONUS!'
         }
       } else if (mult > 1 && totalWin > 0) {
         boardMsg = `×${mult} MULTIPLIER! +${totalWin} credits!`
@@ -709,7 +644,7 @@ function regressBoardBy(steps: number) {
       // Trail reel drives board; feature completion adds an extra step
       const featureStep = featureBonus > 0 ? 1 : 0
       const trailMessage = featureHits > 0 ? `+${featureHits} to TRAIL!` : ''
-      var ladderMessage = ''
+      let ladderMessage = ''
 
       const ladderProgress = (nextLadder === '+1' ? 1 : nextLadder === '+2' ? 2 : nextLadder === '-1' ? -1 : nextLadder === '-2' ? -2 : 0) + featureStep
       if (nextLadder === 'Lose') {
@@ -725,7 +660,7 @@ function regressBoardBy(steps: number) {
             boardPosRef.current = LOSER_JUMP_POS
             setBoardPos(LOSER_JUMP_POS)
             try { localStorage.setItem('fm_board_pos', String(LOSER_JUMP_POS)) } catch (e) { logError('fm_board_pos loser jump', { error: String(e) }) }
-            ladderMessage=('L-O-S-E-R complete! Jump to position 35!')
+            ladderMessage = 'L-O-S-E-R complete! Jump to position 35!'
             setPhase('idle')
           } else {
             loserCountRef.current = newLoserCount
@@ -735,10 +670,10 @@ function regressBoardBy(steps: number) {
           }
         }
       } else if (ladderProgress < 0) {
-        ladderMessage =  `Go Back ${-ladderProgress} step${-ladderProgress > 1 ? 's' : ''}!`
+        ladderMessage = `Go Back ${-ladderProgress} step${-ladderProgress > 1 ? 's' : ''}!`
         regressBoardBy(ladderProgress)
       } else if (ladderProgress > 0) {
-        ladderMessage =  `Advance ${ladderProgress} step${ladderProgress > 1 ? 's' : ''}!`
+        ladderMessage = `Advance ${ladderProgress} step${ladderProgress > 1 ? 's' : ''}!`
         advanceBoardBy(ladderProgress)
       } else {
         setPhase('idle')
@@ -815,43 +750,19 @@ function regressBoardBy(steps: number) {
 
   if (phase === 'bonus' && bonusTiles.length > 0) {
     return (
-      <MinigameShell title="FRUIT MACHINE" icon="🎰">
-        <div className="fm-bonus-game u-col u-items-c u-gap-5">
-          <div className="fm-bonus-header">BONUS GAME — pick {bonusPicksLeft} {bonusPicksLeft === 1 ? 'prize' : 'prizes'}!</div>
-          {bonusTotalWin > 0 && <div className="fm-bonus-running-total">Running total: +{bonusTotalWin} credits</div>}
-          <div className="fm-bonus-tiles">
-            {bonusTiles.map((tile, i) => (
-              <button
-                key={i}
-                className={`fm-bonus-tile${tile.revealed ? ' fm-bonus-tile--revealed' : ''}`}
-                onClick={() => pickBonusTile(i)}
-                disabled={tile.revealed || bonusPicksLeft <= 0}
-              >
-                {tile.revealed
-                  ? (tile.collect ? '⛔ COLLECT' : `+${tile.value}`)
-                  : '?'}
-              </button>
-            ))}
-          </div>
-        </div>
-      </MinigameShell>
+      <BonusGameScreen
+        bonusTiles={bonusTiles}
+        bonusPicksLeft={bonusPicksLeft}
+        bonusTotalWin={bonusTotalWin}
+        onPickTile={pickBonusTile}
+      />
     )
   }
 
   // ── Jackpot win screen ────────────────────────────────────────────────────────
 
   if (phase === 'jackpot-win' && jackpotWon) {
-    return (
-      <MinigameShell title="FRUIT MACHINE" icon="🎰">
-        <div className="fm-jackpot-win-overlay">
-          <div className="fm-jackpot-win-tier">{jackpotWon.tier} JACKPOT!</div>
-          <div className="fm-jackpot-win-amount">+{jackpotWon.amount} credits!</div>
-          <Button variant="gold" onClick={dismissJackpotWin}>
-            COLLECT
-          </Button>
-        </div>
-      </MinigameShell>
-    )
+    return <JackpotWinScreen jackpotWon={jackpotWon} onDismiss={dismissJackpotWin} />
   }
 
   // ── Done screen ───────────────────────────────────────────────────────────────
@@ -888,225 +799,83 @@ function regressBoardBy(steps: number) {
   const isInAutoSpin = autoSpinsLeft > 0
   const canSpin = !isBusy && !isInAutoSpin && (credits >= 1 || freeSpin)
   const canBuy = phase === 'idle' && credits > 0 && credits < MAX_CREDITS && availCrystals >= BUY_COST
-  const totalWin = lastWin ?? 0
 
   // Board display window: up to 5 nodes centred on current position.
   // Offsets that would go below position 0 are omitted (no wrap-around at rock bottom).
-  const boardWindow = [-2, -1, 0, 1, 2].flatMap(offset => {
+  const boardWindow: BoardWindowEntry[] = [-2, -1, 0, 1, 2].flatMap(offset => {
     const absPos = boardPos + offset
     if (absPos < 0) return []
     const idx = absPos % BOARD_SIZE
     return [{ idx, node: BOARD_NODES[idx], isCurrent: offset === 0 }]
   })
 
-  // const message = boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `×${boardMult} multiplier active!` : lastWin !== null && totalWin > 0 ? winLabel ?? `+${totalWin} credit${totalWin > 1 ? 's' : ''}!` : lastWin === 0 ? 'No win' : ''
-
-
   return (
     <MinigameShell title="FRUIT MACHINE" icon="🎰">
-      {/* Jackpot tiers */}
-      <div className="fm-jackpots u-flex u-gap-3 u-just-c">
-        {JACKPOT_TIERS.map(t => (
-          <div key={t.name} className={`fm-jackpot-tier${t.progressive ? ' fm-jackpot-tier--grand' : ''}`}>
-            <div className="fm-jackpot-name">{t.name}</div>
-            <div className="fm-jackpot-amount">{t.progressive ? grandJackpot : t.credits}</div>
-          </div>
-        ))}
-      </div>
+      <JackpotTiers grandJackpot={grandJackpot} />
 
       <div className="fm-header u-flex u-items-c u-gap-7">
         <div className="fm-word-meters u-flex u-gap-6 u-items-c">
-          <div className="fm-word-meter" title="Each trail Lose lights a letter — spell LOSER to jump to position 35">
-            {['L','O','S','E','R'].map((letter, i) => (
-              <span key={letter+i} className={`fm-word-letter fm-word-letter--loser${i < loserCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
-            ))}
-          </div>
+          <WordMeter
+            letters={['L', 'O', 'S', 'E', 'R']}
+            litCount={loserCount}
+            tone="loser"
+            title="Each trail Lose lights a letter — spell LOSER to jump to position 35"
+          />
         </div>
         <span className="fm-credits">Credits: {credits}</span>
         <div className="fm-word-meters u-flex u-gap-6 u-items-c">
-          <div className="fm-word-meter" title="Land 🌟 symbols to spell TRAIL and advance the board">
-            {['T','R','A','I','L'].map((letter, i) => (
-              <span key={letter} className={`fm-word-letter${i < featureTriggerCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
-            ))}
-          </div>
+          <WordMeter
+            letters={['T', 'R', 'A', 'I', 'L']}
+            litCount={featureTriggerCount}
+            title="Land 🌟 symbols to spell TRAIL and advance the board"
+          />
         </div>
       </div>
 
-      {/* Feature board trail */}
-      <div className="fm-board u-flex u-gap-2 u-just-c">
-        {boardWindow.map(({ idx, node, isCurrent }) => (
-          <div key={idx} className={`fm-board-node${isCurrent ? ' fm-board-node--current' : ''}`}>
-            <div className="fm-board-node-label">{node.label}</div>
-          </div>
-        ))}
-      </div>
-<div className="fm-board u-flex u-gap-2 u-just-c">
-{boardPos+1}/{BOARD_NODES.length+1}
-</div>
+      <BoardTrail boardWindow={boardWindow} boardPos={boardPos} totalNodes={BOARD_NODES.length} />
 
-        <LedScroller messages={messages}></LedScroller>
+      <LedScroller messages={messages}></LedScroller>
 
-      {/* Reels + trail reel */}
-      <div className="fm-reels u-flex u-gap-6 u-just-c" >
-        <table style={{ borderCollapse: 'collapse', borderSpacing: '0' }}>
-          <thead>
-            <tr>
-              <td colSpan={3} align='center'>
-                &nbsp;
-              </td>
-              <td className="fm-ladder-reel-label">
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-          {/* Up Nudges */}
-          <tr>
-            {([0, 1, 2] as const).map(i => (
-              <td key={i} className="fm-nudge">
-                <button className="fm-nudge-btn" onClick={() => nudgeReel(i, -1)} disabled={nudgesAvailable <= 0}>▲</button>
-              </td>
-            ))}
-            <td className="fm-ladder-reel-label">    <div className="fm-ladder-reel-wrap u-col u-items-c u-gap-1">{phase === 'lucky' ? 'Lucky?' : 'Trail'}</div></td>
-          </tr>
-          {/* Main reels with peek symbols above/below */}
-          <tr>
-            {([0, 1, 2] as const).map(i => (
-              <td key={i}>
-                <div className={`fm-reel fm-reel--with-peek${held[i] ? ' fm-reel--held' : ''}${isSpinning && !held[i] ? ' fm-reel--spinning' : ''}`}>
-                  <div className="fm-symbol fm-symbol--peek">
-                    {REEL_STRIP[(reelPositions[i] - 1 + REEL_STRIP.length) % REEL_STRIP.length]}
-                  </div>
-                  <div className="fm-symbol">{display[i]}</div>
-                  <div className="fm-symbol fm-symbol--peek">
-                    {REEL_STRIP[(reelPositions[i] + 1) % REEL_STRIP.length]}
-                  </div>
-                </div>
-              </td>
-            ))}
-            <td>
-              <div className="fm-ladder-reel-wrap u-col u-items-c u-gap-1">
-                <div className={`fm-reel fm-ladder-reel${(isSpinning || phase === 'lucky') ? ' fm-reel--spinning' : ''}`}>
-                  <div className="fm-ladder-symbol">{ladderDisplay}</div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          {/* Down Nudges */}
-          <tr>
-            {([0, 1, 2] as const).map(i => (
-              <td key={i} className="fm-nudge">
-                <button className="fm-nudge-btn" onClick={() => nudgeReel(i, 1)} disabled={nudgesAvailable <= 0}>▼</button>
-              </td>
-            ))}
-            <td></td>
-          </tr>
-          {/* Hold buttons */}
-          <tr>
-            {([0, 1, 2] as const).map(i => (
-              <td key={i}>
-                <button
-                  className={`fm-hold-btn${held[i] ? ' fm-hold-btn--active' : ''}${recentlyHeld[i] && !held[i] ? ' fm-hold-btn--blocked' : ''}`}
-                  onClick={() => toggleHold(i)}
-                  disabled={isBusy || recentlyHeld[i]}
-                  title={recentlyHeld[i] ? 'Already held last spin' : undefined}
-                >
-                  {held[i] ? 'HELD' : recentlyHeld[i] ? '—' : 'HOLD'}
-                </button>
-              </td>
-            ))}
-            <td></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+      <ReelsPanel
+        display={display}
+        held={held}
+        recentlyHeld={recentlyHeld}
+        reelPositions={reelPositions}
+        ladderDisplay={ladderDisplay}
+        isSpinning={isSpinning}
+        isBusy={isBusy}
+        isLucky={phase === 'lucky'}
+        nudgesAvailable={nudgesAvailable}
+        onNudge={nudgeReel}
+        onToggleHold={toggleHold}
+      />
 
+      <SpinControls
+        isNudge={phase === 'nudge'}
+        isLucky={phase === 'lucky'}
+        isBusy={isBusy}
+        isInAutoSpin={isInAutoSpin}
+        nudgesAvailable={nudgesAvailable}
+        freeSpin={freeSpin}
+        spinCount={spinCount}
+        autoSpinsLeft={autoSpinsLeft}
+        canSpin={canSpin}
+        onStartSpin={startSpin}
+        onSetSpinCount={setSpinCount}
+        onStopAutoSpin={stopAutoSpin}
+        onFinishNudge={finishNudge}
+        onStopLucky={stopLucky}
+        credits={credits}
+        ticketsPerCredit={TICKETS_PER_CREDIT}
+        onCashOut={cashOut}
+        canBuy={canBuy}
+        buyCost={BUY_COST}
+        buyAmount={BUY_AMOUNT}
+        availCrystals={availCrystals}
+        onBuyCredits={buyCredits}
+      />
 
-      {/* Controls */}
-      <div className="fm-controls u-flex u-gap-6 u-just-c u-wrap">
-        <div className={`action-btn ${phase === 'nudge' || phase === 'lucky' ? 'action-btn--disabled' : 'action-btn--gold'}`}>
-          {phase === 'nudge' ? (
-            <div className="action-btn action-btn--noborder-disabled">NUDGE — {nudgesAvailable} remaining</div>
-          ) : phase === 'lucky' ? (
-            <div className="action-btn action-btn--noborder-disabled">LUCKY? — Tap STOP to freeze the trail reel!</div>
-          ) : (
-            <>
-              <Button
-                className="action-btn--noborder"
-                onClick={startSpin}
-                disabled={!canSpin}
-              >
-                {freeSpin ? 'FREE SPIN' : spinCount === 1 ? 'SPIN (1 credit)' : `SPIN ×${isInAutoSpin ? autoSpinsLeft : spinCount} (${spinCount} credits)`}
-              </Button>
-              <div className="fm-spin-count-selector u-flex u-gap-3 u-just-c">
-                {([1, 5, 10, 25, 50] as const).map(n => (
-                  <button
-                    key={n}
-                    className={`filter-btn filter-btn--gold${spinCount === n ? ' filter-btn--active' : ''}`}
-                    onClick={() => setSpinCount(n)}
-                    disabled={isBusy || isInAutoSpin}
-                  >
-                    {n}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-
-        <Button
-          variant={isInAutoSpin ? 'danger' : phase === 'nudge' || phase === 'lucky' ? 'gold' : 'default'}
-          onClick={isInAutoSpin ? stopAutoSpin : phase === 'nudge' ? finishNudge : phase === 'lucky' ? stopLucky : undefined}
-          disabled={!isInAutoSpin && phase !== 'nudge' && phase !== 'lucky'}
-        >
-          {isInAutoSpin ? 'STOP' : phase === 'nudge' ? 'DONE' : 'STOP'}
-        </Button>
-      </div>
-
-      
-      <div className="fm-controls u-flex u-gap-6 u-just-c u-wrap">
-    
-        <Button
-          onClick={cashOut}
-          disabled={isBusy || isInAutoSpin}
-        >
-          CASH OUT ({credits * TICKETS_PER_CREDIT} 🎫)
-        </Button>
-      </div>
-
-      {canBuy && (
-        <button className="fm-buy-credits" onClick={buyCredits}>
-          + Buy 5 credits — 25 <Icon name="crystal" size={12} /> (you have {availCrystals})
-        </button>
-      )}
-
-      {/* How to play */}
-      <details className="fm-paytable">
-        <summary>How to play</summary>
-        Spin the reels match symbols for a prize. Getting the feature 🌟 symbol increases the feature level, hit 5 and the trail will progress. the trail is long, reach the end and you'll get the JACKPOT!!!<br />
-        Everyone who plays the game is contributing to the jackpot, and there can only be one winner. Once it's been won the jackpot will reset.
-      </details>
-
-      {/* Payout reference */}
-      <details className="fm-paytable">
-        <summary>Payout table</summary>
-        <table className="fm-paytable-table">
-          <tbody>
-            <tr><td>🃏🃏🃏</td><td>40 credits (triple wild)</td></tr>
-            <tr><td>💎💎💎</td><td>50 credits</td></tr>
-            <tr><td>⭐⭐⭐</td><td>30 credits</td></tr>
-            <tr><td>🔔🔔🔔</td><td>20 credits</td></tr>
-            <tr><td>Any triple</td><td>10 credits</td></tr>
-            <tr><td>💎💎 pair</td><td>5 credits</td></tr>
-            <tr><td>⭐⭐ pair</td><td>3 credits</td></tr>
-            <tr><td>Any pair</td><td>2 credits</td></tr>
-            <tr><td>🍒 on reel 1</td><td>1 credit</td></tr>
-            <tr><td>🃏 Wild</td><td>substitutes for any symbol</td></tr>
-            <tr><td>💰💰 Bonus</td><td>4 credits (scatter)</td></tr>
-            <tr><td>💰💰💰 Bonus</td><td>15 credits (scatter)</td></tr>
-            <tr><td>🌟 Feature ×{FEATURE_THRESHOLD}</td><td>+{FEATURE_BONUS_CREDITS} credits</td></tr>
-          </tbody>
-        </table>
-      </details>
+      <PaytableDetails featureThreshold={FEATURE_THRESHOLD} featureBonusCredits={FEATURE_BONUS_CREDITS} />
     </MinigameShell>
   )
 }
