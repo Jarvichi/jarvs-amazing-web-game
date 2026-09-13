@@ -4,7 +4,7 @@
 //   [board]   scrollable grid (fills remaining height)
 //   [panel]   horizontal unit strip + log line
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import {
   ENEMY_TEMPLATES,
   MilestoneUpgrade,
@@ -382,7 +382,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
           {game.phase === 'wave' && (
             <div className="td-wave-progress-wrap">
               <div className="td-wave-progress-fill" style={{ width: `${waveProgress * 100}%` }} />
-              <span className="td-wave-progress-label">⚔ {Math.round(waveProgress * 100)}%</span>
+              <span className="td-wave-progress-label"><Icon name="sword" size={12} /> {Math.round(waveProgress * 100)}%</span>
             </div>
           )}
           {game.phase === 'between' && (
@@ -398,7 +398,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
         </div>
 
         <div className="td-header-score">⭐ {game.score}</div>
-        <div className="td-header-mana">💧 {game.mana}</div>
+        <div className="td-header-mana"><Icon name="mana" size={14} /> {game.mana}</div>
 
         {isPlacingPhase && !game.milestoneChoices && (
           <Button variant="gold" className="td-header-btn" onClick={handleStartWave}>
@@ -418,7 +418,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
             className={`td-speed-btn${autoStart ? ' td-speed-btn--active' : ''}`}
             onClick={() => setAutoStart(v => !v)}
             title="Auto-start next wave"
-          >⚡Auto</button>
+          ><Icon name="bolt" size={12} />Auto</button>
         </div>
 
         <Button variant="danger" className="td-header-btn" onClick={handleQuit} aria-label="Quit">
@@ -504,12 +504,12 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
         const rangeInCells = Math.max(1.5, Math.round(t.template.attackRange / CELL_PX)) + t.upgradeRange + game.passives.rangeBonus
 
         const upgradeOptions: Array<{
-          type: TDUpgradeType; icon: string; label: string; current: number; max: number; statLabel: string
+          type: TDUpgradeType; icon: ReactNode; label: string; current: number; max: number; statLabel: string
         }> = [
             { type: 'units', icon: '👤', label: '+Unit', current: t.upgradeUnits, max: TD_MAX_UNIT_UPGRADES, statLabel: `${activeUnits.length}/${unitCount}` },
-            { type: 'speed', icon: '⚡', label: 'Speed', current: t.upgradeSpeed, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${cooldownSec.toFixed(1)}s cd` },
+            { type: 'speed', icon: <Icon name="bolt" size={14} />, label: 'Speed', current: t.upgradeSpeed, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${cooldownSec.toFixed(1)}s cd` },
             { type: 'range', icon: '🎯', label: 'Range', current: t.upgradeRange, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${rangeInCells.toFixed(1)} cells` },
-            { type: 'damage', icon: '⚔', label: 'Damage', current: t.upgradeDamage, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${dps.toFixed(1)} dps` },
+            { type: 'damage', icon: <Icon name="sword" size={14} />, label: 'Damage', current: t.upgradeDamage, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${dps.toFixed(1)} dps` },
           ]
 
         const targetingModes: Array<{ mode: TDTargetingMode; icon: string; label: string }> = [
