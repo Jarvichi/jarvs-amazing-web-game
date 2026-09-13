@@ -8,6 +8,7 @@ import { MinigameShell } from './MinigameShell'
 import { MinigameResultPanel } from './MinigameResultPanel'
 import { Panel } from '../ui/Panel'
 import { Button } from '../ui/Button'
+import { RACE_GOLD, RACE_RED, RACE_BLUE, RACE_GREEN, FINISH_STRIPE_LIGHT, FINISH_STRIPE_DARK } from './raceColors'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -17,9 +18,9 @@ const TRACK_LENGTH    = 20     // checkpoints (0 = start, 20 = finish)
 const OBSTACLE_CHANCE = 0.22   // probability of a pause obstacle per checkpoint
 const TICK_MS         = 160    // ms between animation frames
 
-const MARBLE_NAMES   = ['Red',    'Blue',   'Green',  'Yellow'] as const
-const MARBLE_EMOJIS  = ['🔴',    '🔵',     '🟢',     '🟡']    as const
-const MARBLE_COLORS  = ['#ff4444','#4488ff','#44cc44','#ffcc00'] as const
+const MARBLE_NAMES   = ['Red',    'Blue',   'Green',   'Yellow'] as const
+const MARBLE_EMOJIS  = ['🔴',    '🔵',     '🟢',      '🟡']     as const
+const MARBLE_COLORS  = [RACE_RED, RACE_BLUE, RACE_GREEN, RACE_GOLD] as const
 const PLACE_PRIZES   = [40, 20, 10, 5]
 const PLACE_LABELS   = ['1st 🥇', '2nd 🥈', '3rd 🥉', '4th']
 
@@ -270,7 +271,7 @@ export function MarbleRace({ onDone }: Props) {
             const x1 = LANE_XS[0] - 22 + k * segW
             return (
               <rect key={k} x={x1} y={FINISH_Y - 4} width={segW} height={8}
-                    fill={k % 2 === 0 ? '#ffffff18' : '#00000030'} />
+                    fill={k % 2 === 0 ? FINISH_STRIPE_LIGHT : FINISH_STRIPE_DARK} />
             )
           })}
           <line x1={LANE_XS[0] - 22} y1={FINISH_Y} x2={LANE_XS[3] + 22} y2={FINISH_Y}
