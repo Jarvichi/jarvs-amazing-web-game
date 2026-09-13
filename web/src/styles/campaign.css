@@ -266,6 +266,7 @@
   color: #777;
   line-height: 1.5;
   font-style: italic;
+  text-align: center;
 }
 
 /* nm-peek rows → .stat-row / .stat-label / .stat-value */

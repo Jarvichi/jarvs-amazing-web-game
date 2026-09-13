@@ -11,6 +11,7 @@ import { incrementAchievementProgress, setAchievementProgress } from '../../game
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/icons/Icon'
+import { PALETTE } from '../../theme'
 
 const SPIN_COST     = 10
 const SEGMENTS      = [2, 5, 10, 20, 5, 10, 50, 2]
@@ -99,7 +100,10 @@ export function CasinoScreen({ crystals, onCrystalsChange, onBack }: Props) {
         text: String(val),
         style: {
           fontSize:   val === JACKPOT ? 14 : 11,
-          fill:       val === JACKPOT ? '#ffd700' : '#e8e8e8',
+          // Plain light gray for the non-jackpot segments has no semantic
+          // token — the gold is PALETTE's, since it means the same "reward"
+          // gold everywhere else in the game.
+          fill:       val === JACKPOT ? PALETTE.accentGold : '#e8e8e8',
           fontFamily: 'monospace',
           fontWeight: 'bold',
         },
