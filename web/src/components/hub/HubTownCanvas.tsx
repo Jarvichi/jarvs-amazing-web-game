@@ -305,7 +305,7 @@ export function HubTownCanvas({
   // Tracks the last hour that triggered NPC schedule walks — owned by the ticker, not updated per-render
   const lastScheduleHourRef   = useRef(gameHour ?? 12)
 
-  usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
+  const pixiAppRef = usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     // The camera follows the avatar; user drags must never pan the viewport,
     // so suppress all browser touch gestures on the canvas. Taps still fire
     // as pointer events.
@@ -3349,6 +3349,12 @@ export function HubTownCanvas({
             // No route around either — scooch through rather than getting stuck.
           }
         }
+
+        // The wait above used a plain setTimeout, not the Pixi ticker, so it
+        // keeps running even after the scene is torn down (navigating away
+        // while blocked) or rebuilt (webgl context loss). Bail out before
+        // touching avatar/sprites that may already be destroyed.
+        if (pixiAppRef.current !== app) { isWalking = false; return }
 
         const av = avatar
         if (!av) { currentTile = [tx, ty]; processWalkQueue(); return }
