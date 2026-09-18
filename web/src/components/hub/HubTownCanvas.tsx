@@ -2366,22 +2366,6 @@ export function HubTownCanvas({
     }
     const interiorAnimals: InteriorAnimal[] = []
 
-    // Interior "solid" decor (blocks movement, per RawDecor's zlayer contract)
-    // still needs to render in front of or behind the avatar depending on
-    // which one is closer to the viewer — e.g. the base of a tall multi-tile
-    // pillar the avatar can stand right next to. decorBelowContainer/
-    // decorAboveContainer (below) are unconditional (rugs always under the
-    // avatar's feet, wall-mounted torches always in front of it), but solid
-    // decor is dynamically re-parented every frame between these two
-    // containers by comparing sortY (the tile's own bottom edge) against the
-    // avatar's current y — same painter's-algorithm comparison the exterior
-    // world already does via spriteLayer's sortableChildren. Re-created fresh
-    // each room entry (doEnterInterior), same lifecycle as decorBelowContainer.
-    interface InteriorSolidDecor { sprite: PIXI.Sprite; sortY: number; inFront: boolean }
-    const interiorSolidDecor: InteriorSolidDecor[] = []
-    let decorSolidBehindContainer: PIXI.Container | null = null
-    let decorSolidFrontContainer:  PIXI.Container | null = null
-
     // ── Tween (shared by exterior and interior walk) ───────────────────────────
     function tweenLinear(
       obj: PIXI.Container,
@@ -2442,9 +2426,6 @@ export function HubTownCanvas({
         interiorLayer.visible = false
         interiorLayer.removeChildren()
         interiorAnimals.length = 0
-        interiorSolidDecor.length = 0
-        decorSolidBehindContainer = null
-        decorSolidFrontContainer  = null
         interiorVisitorSprites = []
         currentInteriorId  = null
         currentInteriorObj = null
@@ -2602,7 +2583,6 @@ export function HubTownCanvas({
       // Prepare interior layer
       interiorLayer.removeChildren()
       interiorAnimals.length = 0
-      interiorSolidDecor.length = 0
       interiorLayer.position.set(intOffX, intOffY)
       interiorLayer.visible = true
 
@@ -2772,22 +2752,12 @@ export function HubTownCanvas({
         }
       }
 
-      // Decor — split into below (always behind the avatar), solid (dynamically
-      // sorted against the avatar each frame — see interiorSolidDecor above),
-      // and above (always in front of the avatar) containers.
+      // Decor — split into below (solid/below) and above containers
       const decorBelowContainer = new PIXI.Container()
-      decorSolidBehindContainer = new PIXI.Container()
-      decorSolidFrontContainer  = new PIXI.Container()  // added to interiorLayer after avatar
-      // Local non-null aliases for use within this function — the outer `let`s
-      // exist so the ticker (a separate closure, see below) can reach today's
-      // containers across room transitions, where they're nullable between rooms.
-      const decorSolidBehind = decorSolidBehindContainer
-      const decorSolidFront  = decorSolidFrontContainer
       const decorAboveContainer = new PIXI.Container()  // added to interiorLayer after avatar
       interiorLayer.addChild(decorBelowContainer)
-      interiorLayer.addChild(decorSolidBehind)
 
-      function renderDecorItems(items: typeof interior.decor, target: PIXI.Container, onSprite?: (s: PIXI.Sprite, tx: number, ty: number) => void) {
+      function renderDecorItems(items: typeof interior.decor, target: PIXI.Container) {
         const byTileId = new Map<number, [number, number][]>()
         const flames: FlameSource[] = []
         for (const d of items) {
@@ -2813,16 +2783,13 @@ export function HubTownCanvas({
               s.width = T; s.height = T
               s.position.set(dtx * T, dty * T)
               target.addChild(s)
-              onSprite?.(s, dtx, dty)
             }
           }).catch(() => {})
         }
         spawnFlames(flames)
       }
 
-      renderDecorItems(visibleDecor.filter(d => d.zlayer === 'below'), decorBelowContainer)
-      renderDecorItems(visibleDecor.filter(d => !d.zlayer || d.zlayer === 'solid'), decorSolidBehind,
-        (s, dtx, dty) => interiorSolidDecor.push({ sprite: s, sortY: (dty + 1) * T, inFront: false }))
+      renderDecorItems(visibleDecor.filter(d => d.zlayer !== 'above'), decorBelowContainer)
       // above decor rendered after avatar is added (below)
 
       // Interior pickup items — rendered in room, disappear when tapped
@@ -3115,10 +3082,6 @@ export function HubTownCanvas({
         interiorLayer.addChild(avatar)
         avatarInInterior = true
       }
-
-      // Solid decor currently sorted in front of the avatar (ticker moves entries
-      // here from decorSolidBehindContainer as the avatar's position changes)
-      interiorLayer.addChild(decorSolidFront)
 
       // above decor — added after avatar so it renders on top
       interiorLayer.addChild(decorAboveContainer)
@@ -3818,21 +3781,6 @@ export function HubTownCanvas({
         }
       }
       if (zDirty) { spriteLayer.sortChildren(); worldLayer.sortChildren() }
-
-      // Interior solid decor vs. avatar — re-parent any entry whose front/behind
-      // side has flipped since last frame (painter's algorithm: whichever is
-      // closer to the viewer, i.e. has the larger y, draws on top). Cheap to run
-      // every frame — a room only ever has a handful of solid decor tiles.
-      if (avatar && avatarInInterior && decorSolidBehindContainer && decorSolidFrontContainer) {
-        const avatarSortY = avatar.y
-        for (const entry of interiorSolidDecor) {
-          const shouldBeFront = entry.sortY > avatarSortY
-          if (shouldBeFront !== entry.inFront) {
-            entry.inFront = shouldBeFront
-            ;(shouldBeFront ? decorSolidFrontContainer : decorSolidBehindContainer).addChild(entry.sprite)
-          }
-        }
-      }
 
       // NPC name tag proximity (exterior only) — show/fade intro state machine
       if (!interiorActive) {
