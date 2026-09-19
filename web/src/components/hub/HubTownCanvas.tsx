@@ -3771,6 +3771,10 @@ export function HubTownCanvas({
       if (avatar && !avatarInInterior) {
         const nz = avatar.y
         if (nz !== avatar.zIndex) { avatar.zIndex = nz; zDirty = true }
+      } else if (avatar && avatar.zIndex !== 0) {
+        // Zero out the exterior y-based zIndex before it can poison
+        // interiorLayer's rendering — see interiorLayer.sortableChildren below.
+        avatar.zIndex = 0
       }
       for (const npc of unitNpcs) {
         const nz = npc.sprite.y
@@ -3781,6 +3785,21 @@ export function HubTownCanvas({
         }
       }
       if (zDirty) { spriteLayer.sortChildren(); worldLayer.sortChildren() }
+
+      // interiorLayer's below/solid/above decor split (see doEnterInterior)
+      // depends entirely on plain insertion order. PIXI v8 auto-flips a
+      // container's `sortableChildren` to true the moment ANY child's zIndex
+      // is set to a non-zero value (Container's zIndex setter calls
+      // `this.parent.sortableChildren = true`) — an interactable's own
+      // zIndex (used only for spriteLayer's tap tie-breaking) or the
+      // avatar's stale exterior one (reset above, but only once it's already
+      // been reparented) does exactly that. Once flipped, PIXI resorts
+      // interiorLayer by zIndex every frame, and since only the avatar/
+      // interactables ever get a non-zero one, the avatar ends up rendered
+      // in front of everything in the room — including "above" decor that's
+      // supposed to render in front of *it*. Force it back off every frame
+      // so interiorLayer always renders in the order things were added.
+      if (interiorLayer.sortableChildren) interiorLayer.sortableChildren = false
 
       // NPC name tag proximity (exterior only) — show/fade intro state machine
       if (!interiorActive) {
