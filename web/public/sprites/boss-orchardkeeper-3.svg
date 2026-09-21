@@ -1,10 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path d="M9,4 Q16,-1 23,4 L21,8 Q16,5 11,8 Z" fill="#8A97A0"/>
-  <circle cx="13" cy="2.5" r="1" fill="#4C7A5E"/>
-  <circle cx="16" cy="1" r="1" fill="#4C7A5E"/>
-  <circle cx="19" cy="2.5" r="1" fill="#4C7A5E"/>
-  <circle cx="16" cy="10" r="6" fill="#E8E4D8"/>
-  <circle cx="14" cy="10.5" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="10.5" r="0.9" fill="#12141f"/>
-  <path d="M9,15.5 Q16,19.5 23,15.5" stroke="#5E6A8C" stroke-width="2" fill="none"/>
+  <g transform="translate(0,0.6)">
+    <path d="M13,4 L11,-2 M11,-2 L9,-5 M11,-2 L13,-4 M19,4 L21,-2 M21,-2 L23,-5 M21,-2 L19,-4 M16,3 L16,-4 M16,-4 L14,-6 M16,-4 L18,-6" stroke="#5E4A38" stroke-width="1"/>
+    <circle cx="9" cy="-5" r="1" fill="#EDE6DC"/>
+    <circle cx="23" cy="-5" r="1" fill="#EDE6DC"/>
+    <circle cx="14" cy="-6" r="1" fill="#EDE6DC"/>
+    <circle cx="18" cy="-6" r="1" fill="#EDE6DC"/>
+    <path d="M10,4 Q16,1 22,4 L20,9 Q16,6.5 12,9 Z" fill="#6E5A42"/>
+    <circle cx="16" cy="10" r="5.3" fill="#8C7358"/>
+    <circle cx="14" cy="10" r="0.7" fill="#241C12"/>
+    <circle cx="18" cy="10" r="0.7" fill="#241C12"/>
+    <path d="M9,15 Q16,19 23,15 L21,26 L11,26 Z" fill="#4A3B2A"/>
+    <circle cx="8" cy="17" r="1" fill="#EDE6DC"/>
+    <circle cx="24" cy="18" r="1" fill="#EDE6DC"/>
+  </g>
 </svg>
