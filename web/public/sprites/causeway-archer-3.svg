@@ -1,21 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <ellipse cx="16" cy="26" rx="9" ry="2.5" fill="#E8EAF4" opacity="0.35"/>
-  <circle cx="16" cy="10" r="5" fill="#7E8299"/>
-  <path d="M11,10 Q16,3.5 21,10 L21,12 Q16,9 11,12 Z" fill="#5E6A8C"/>
-  <circle cx="16" cy="11" r="2.8" fill="#E3D9CF"/>
-  <circle cx="15" cy="11" r="0.7" fill="#3A3F55"/>
-  <circle cx="17.5" cy="11" r="0.7" fill="#3A3F55"/>
-  <path d="M12,15 L12,23 L20,23 L20,15 Q16,17 12,15 Z" fill="#A6A9C0"/>
-  <rect x="12" y="18.5" width="8" height="1.2" fill="#5E6A8C"/>
-  <rect x="19.5" y="14.5" width="3.5" height="8" rx="1" fill="#8A6F4D"/>
-  <path d="M20.4,13 L21,14.6 L19.8,14.6 Z" fill="#E8B94A"/>
-  <path d="M22,13 L22.6,14.6 L21.4,14.6 Z" fill="#E8B94A"/>
-  <rect x="7.5" y="15" width="4" height="5.5" rx="1" fill="#A6A9C0"/>
-  <path d="M6.5,9 Q2.5,17.5 6.5,26" stroke="#8A6F4D" stroke-width="1.5" fill="none"/>
-  <line x1="6.5" y1="9" x2="6.5" y2="26" stroke="#E8EAF4" stroke-width="0.7"/>
-  <!-- Legs stride B -->
-  <rect x="18" y="23" width="3.5" height="8" rx="1" fill="#454E6B"/>
-  <rect x="10" y="23" width="3.5" height="6.5" rx="1" fill="#454E6B"/>
-  <rect x="18" y="29.5" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
-  <rect x="9" y="27.7" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+  <!-- Mist wisp -->
+  <ellipse cx="16" cy="29" rx="9" ry="2" fill="#E8EAF4" opacity="0.3"/>
+  <!-- Stone mile marker she shoots from behind -->
+  <rect x="3" y="19" width="5" height="11" rx="1" fill="#8A8FA8"/>
+  <rect x="3.8" y="21" width="3.4" height="1.4" fill="#5E6A8C"/>
+  <path d="M3,19 L5.5,16.5 L8,19 Z" fill="#7E8299"/>
+  <!-- Crouched hooded body, low behind the marker -->
+  <circle cx="17" cy="15" r="4.4" fill="#5E6A8C"/>
+  <path d="M12.6,15 Q17,9 21.4,15 L21.4,16.8 Q17,14.2 12.6,16.8 Z" fill="#454E6B"/>
+  <circle cx="17" cy="16" r="2.4" fill="#E3D9CF"/>
+  <circle cx="16" cy="16" r="0.6" fill="#3A3F55"/>
+  <circle cx="18.3" cy="16" r="0.6" fill="#3A3F55"/>
+  <!-- Crouched torso -->
+  <path d="M13.5,19 L13.5,26 L20.5,26 L20.5,19 Q17,20.6 13.5,19 Z" fill="#7E8299"/>
+  <rect x="13.5" y="22" width="7" height="1.1" fill="#454E6B"/>
+  <!-- Quiver of road-markers' worth of arrows -->
+  <rect x="20" y="18" width="3" height="7" rx="1" fill="#8A6F4D"/>
+  <path d="M20.8,16.6 L21.4,18 L20.2,18 Z" fill="#C9CBDA"/>
+  <path d="M22.2,16.6 L22.8,18 L21.6,18 Z" fill="#C9CBDA"/>
+  <!-- Low longbow braced over the marker -->
+  <rect x="8.5" y="19" width="3.5" height="4.8" rx="1" fill="#7E8299"/>
+  <path d="M7.5,14 Q4,21 7.5,28" stroke="#8A6F4D" stroke-width="1.3" fill="none"/>
+  <line x1="7.5" y1="14" x2="7.5" y2="28" stroke="#E8EAF4" stroke-width="0.6"/>
+  <!-- Legs stride B: right set down, left drawn up -->
+  <rect x="18" y="26" width="3.4" height="4.5" rx="1" fill="#454E6B"/>
+  <rect x="12" y="26" width="3.4" height="3" rx="1" fill="#454E6B"/>
+  <rect x="18" y="30.3" width="5.4" height="2.3" rx="1" fill="#3A3F55"/>
+  <rect x="11.2" y="28.8" width="5.4" height="2.3" rx="1" fill="#3A3F55"/>
 </svg>
