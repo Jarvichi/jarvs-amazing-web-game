@@ -1,8 +1,9 @@
-import { useState, useEffect, type Dispatch, type SetStateAction } from 'react'
+import { useState, useEffect, useCallback, type Dispatch, type SetStateAction } from 'react'
 import { peekDailyReward, type RewardDef } from '../game/dailyLogin'
 import { getCardCatalog } from '../game/cards'
 import { getUnclaimedGifts, type GiftDef } from '../game/gifts'
 import { getUnreadCount as getNewsUnreadCount } from '../game/news'
+import { hasPlayedFirstBattle, markFirstBattlePlayed } from '../game/onboarding'
 
 interface UseStartupDataResult {
   dailyReward:        RewardDef | null
@@ -11,6 +12,8 @@ interface UseStartupDataResult {
   setPendingGifts:    Dispatch<SetStateAction<GiftDef[]>>
   newsUnreadCount:    number
   setNewsUnreadCount: Dispatch<SetStateAction<number>>
+  /** Call once a battle ends so queued daily-reward/gift modals unlock (#2305). */
+  onFirstBattleEnded: () => void
 }
 
 /**
@@ -22,10 +25,18 @@ export function useStartupData(): UseStartupDataResult {
   const [dailyReward,        setDailyReward]     = useState<RewardDef | null>(null)
   const [pendingGifts,       setPendingGifts]     = useState<GiftDef[]>([])
   const [newsUnreadCount,    setNewsUnreadCount]  = useState(0)
+  // A brand-new player shouldn't see reward modals before playing a battle (#2305).
+  const [firstBattleDone, setFirstBattleDone] = useState(hasPlayedFirstBattle)
+
+  const onFirstBattleEnded = useCallback(() => {
+    markFirstBattlePlayed()
+    setFirstBattleDone(true)
+  }, [])
 
   // ── Daily login reward ────────────────────────────────────
   // Peek at the reward on load (no claim yet — reward is granted when user taps CLAIM)
   useEffect(() => {
+    if (!firstBattleDone) return
     const raw = peekDailyReward()
     if (!raw) return
     let reward = raw
@@ -38,15 +49,16 @@ export function useStartupData(): UseStartupDataResult {
     }
     setDailyReward(reward)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [firstBattleDone])
 
   // ── Developer gifts ───────────────────────────────────────
   useEffect(() => {
+    if (!firstBattleDone) return
     getUnclaimedGifts().then(unclaimed => {
       if (unclaimed.length > 0) setPendingGifts(unclaimed)
     }).catch(() => {})
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [firstBattleDone])
 
   // ── News unread count ─────────────────────────────────────
   useEffect(() => {
@@ -54,5 +66,5 @@ export function useStartupData(): UseStartupDataResult {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { dailyReward, setDailyReward, pendingGifts, setPendingGifts, newsUnreadCount, setNewsUnreadCount }
+  return { dailyReward, setDailyReward, pendingGifts, setPendingGifts, newsUnreadCount, setNewsUnreadCount, onFirstBattleEnded }
 }

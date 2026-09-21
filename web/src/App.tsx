@@ -474,7 +474,7 @@ export default function App() {
   // Commander (virtual pet)
   const [commander, setCommander] = useState<CommanderState | null>(loadCommander)
 
-  const { dailyReward, setDailyReward, pendingGifts, setPendingGifts, newsUnreadCount, setNewsUnreadCount } = useStartupData()
+  const { dailyReward, setDailyReward, pendingGifts, setPendingGifts, newsUnreadCount, setNewsUnreadCount, onFirstBattleEnded } = useStartupData()
 
   const [isUserPaused, setIsUserPaused] = useState(false)
   // Reset the user-pause flag whenever we leave the battle screen so it doesn't
@@ -688,6 +688,11 @@ export default function App() {
     if (gameState?.phase.type !== 'gameOver') return
     if ((gameState.phase as { type: 'gameOver'; winner: string }).winner !== 'player') playDefeat()
   }, [gameState?.phase.type])
+
+  // First completed battle (win, loss or draw): unlock queued reward modals (#2305).
+  useEffect(() => {
+    if (gameState?.phase.type === 'gameOver') onFirstBattleEnded()
+  }, [gameState?.phase.type, onFirstBattleEnded])
 
   useMusic(screen, gameState, run, actData)
 
