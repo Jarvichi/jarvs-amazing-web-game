@@ -25,7 +25,11 @@ function baseSpriteFiles(): string[] {
 /** Comments and colour carry no silhouette — what's left is the geometry. */
 function fingerprint(file: string): string {
   const svg = readFileSync(join(spritesDir, file), 'utf8')
-    .replace(/<!--[\s\S]*?-->/g, '')
+    // `(-->|$)` rather than a bare `-->`: an unterminated `<!--` (malformed
+    // SVG) would otherwise survive the strip untouched (CodeQL
+    // js/incomplete-multi-character-sanitization) — matching through
+    // end-of-string closes it out instead of leaving a residual `<!--`.
+    .replace(/<!--[\s\S]*?(-->|$)/g, '')
     .replace(/(fill|stroke)="[^"]*"/g, '')
   return svg.replace(/\s+/g, ' ').trim()
 }
