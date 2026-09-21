@@ -1,26 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Mist wisp -->
-  <ellipse cx="16" cy="25" rx="9" ry="2.5" fill="#E8EAF4" opacity="0.35"/>
-  <!-- Hooded head -->
-  <circle cx="16" cy="9" r="5" fill="#7E8299"/>
-  <path d="M11,9 Q16,2.5 21,9 L21,11 Q16,8 11,11 Z" fill="#5E6A8C"/>
-  <circle cx="16" cy="10" r="2.8" fill="#E3D9CF"/>
-  <circle cx="15" cy="10" r="0.7" fill="#3A3F55"/>
-  <circle cx="17.5" cy="10" r="0.7" fill="#3A3F55"/>
-  <!-- Body -->
-  <path d="M12,14 L12,22 L20,22 L20,14 Q16,16 12,14 Z" fill="#A6A9C0"/>
-  <rect x="12" y="17.5" width="8" height="1.2" fill="#5E6A8C"/>
-  <!-- Wheat-fletched quiver -->
-  <rect x="19.5" y="13.5" width="3.5" height="8" rx="1" fill="#8A6F4D"/>
-  <path d="M20.4,12 L21,13.6 L19.8,13.6 Z" fill="#D9C27E"/>
-  <path d="M22,12 L22.6,13.6 L21.4,13.6 Z" fill="#D9C27E"/>
-  <!-- Bow arm and bow -->
-  <rect x="7.5" y="14" width="4" height="5.5" rx="1" fill="#A6A9C0"/>
-  <path d="M6.5,8 Q2.5,16.5 6.5,25" stroke="#8A6F4D" stroke-width="1.5" fill="none"/>
-  <line x1="6.5" y1="8" x2="6.5" y2="25" stroke="#E8DCA8" stroke-width="0.7"/>
-  <!-- Legs (neutral) -->
-  <rect x="12" y="22" width="3.5" height="8" rx="1" fill="#454E6B"/>
-  <rect x="16.5" y="22" width="3.5" height="8" rx="1" fill="#454E6B"/>
-  <rect x="11" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
-  <rect x="16" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+  <ellipse cx="16" cy="28" rx="9" ry="2" fill="#E8EAF4" opacity="0.3"/>
+  <!-- Sloped granary rooftop she perches on -->
+  <path d="M2,29 L10,24 L22,24 L30,29 Z" fill="#8A6F4D"/>
+  <path d="M2,29 L10,24 L12,24.6 L4.5,29.4 Z" fill="#6E5A3E"/>
+  <path d="M20,24 L22,24 L30,29 L27.5,29.4 Z" fill="#6E5A3E"/>
+  <!-- Wide straw hat instead of a hood -->
+  <ellipse cx="16" cy="9.5" rx="7.5" ry="1.8" fill="#D9C27E"/>
+  <path d="M11,9 Q16,4.5 21,9 Q16,7.5 11,9 Z" fill="#E8DCA8"/>
+  <circle cx="16" cy="10.5" r="3" fill="#E3D9CF"/>
+  <circle cx="15" cy="10.5" r="0.7" fill="#3A3F55"/>
+  <circle cx="17.5" cy="10.5" r="0.7" fill="#3A3F55"/>
+  <!-- Homespun tunic body -->
+  <path d="M12,14.5 L12,21.5 L20,21.5 L20,14.5 Q16,16.5 12,14.5 Z" fill="#8FA05B"/>
+  <rect x="12" y="18" width="8" height="1.2" fill="#6E7F45"/>
+  <!-- Sheaf-of-wheat fletched quiver -->
+  <rect x="19.5" y="14" width="3.5" height="7.5" rx="1" fill="#8A6F4D"/>
+  <path d="M20.4,12.5 L21.2,14.2 L19.6,14.2 Z" fill="#D9C27E"/>
+  <path d="M22.2,12.5 L23,14.2 L21.4,14.2 Z" fill="#D9C27E"/>
+  <!-- Recurve hunting bow -->
+  <rect x="7.5" y="14.5" width="4" height="5.5" rx="1" fill="#8FA05B"/>
+  <path d="M6.8,10 Q4,16.5 6.8,24 Q9,16.5 6.8,10 Z" fill="none" stroke="#8A6F4D" stroke-width="1.2"/>
+  <line x1="6.8" y1="10" x2="6.8" y2="24" stroke="#E8DCA8" stroke-width="0.6"/>
+  <!-- Legs braced on the sloped roof tiles -->
+  <rect x="12" y="21.5" width="3.5" height="5.5" rx="1" fill="#6E7F45"/>
+  <rect x="16.5" y="21.5" width="3.5" height="7" rx="1" fill="#6E7F45"/>
+  <rect x="11" y="26.5" width="5.5" height="2.6" rx="1" fill="#4E5A32"/>
+  <rect x="16" y="27.8" width="5.5" height="2.6" rx="1" fill="#4E5A32"/>
 </svg>

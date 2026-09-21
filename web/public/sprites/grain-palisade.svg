@@ -1,19 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Ground -->
   <ellipse cx="16" cy="29.5" rx="13" ry="2" fill="#7E8299" opacity="0.5"/>
-  <!-- Row of bound wheat-stalk posts -->
-  <rect x="5" y="12" width="5" height="17" rx="0.6" fill="#D9C27E"/>
-  <rect x="11" y="10" width="5" height="19" rx="0.6" fill="#E8DCA8"/>
-  <rect x="17" y="11" width="5" height="18" rx="0.6" fill="#D9C27E"/>
-  <rect x="23" y="13" width="5" height="16" rx="0.6" fill="#E8DCA8"/>
-  <!-- Bound stalk texture -->
-  <line x1="7.5" y1="14" x2="7.5" y2="27" stroke="#B9903F" stroke-width="0.7"/>
-  <line x1="13.5" y1="12" x2="13.5" y2="27" stroke="#B9903F" stroke-width="0.7"/>
-  <line x1="19.5" y1="13" x2="19.5" y2="27" stroke="#B9903F" stroke-width="0.7"/>
-  <line x1="25.5" y1="15" x2="25.5" y2="27" stroke="#B9903F" stroke-width="0.7"/>
-  <!-- Iron cross-rails -->
-  <rect x="4" y="17" width="25" height="1.6" rx="0.8" fill="#3A3F55"/>
-  <rect x="4" y="23" width="25" height="1.6" rx="0.8" fill="#3A3F55"/>
+  <!-- Upright stakes -->
+  <rect x="4" y="11" width="1.6" height="18" rx="0.5" fill="#8A6F4D"/>
+  <rect x="9.5" y="10" width="1.6" height="19" rx="0.5" fill="#8A6F4D"/>
+  <rect x="15.2" y="9.5" width="1.6" height="19.5" rx="0.5" fill="#8A6F4D"/>
+  <rect x="20.9" y="10" width="1.6" height="19" rx="0.5" fill="#8A6F4D"/>
+  <rect x="26.4" y="11" width="1.6" height="18" rx="0.5" fill="#8A6F4D"/>
+  <!-- Woven wheat-stalk wattle, diagonal over-under weave -->
+  <path d="M4,14 L27,20" stroke="#D9C27E" stroke-width="1.6" fill="none"/>
+  <path d="M4,20 L27,14" stroke="#E8DCA8" stroke-width="1.6" fill="none"/>
+  <path d="M4,18 L27,24" stroke="#D9C27E" stroke-width="1.6" fill="none"/>
+  <path d="M4,24 L27,18" stroke="#E8DCA8" stroke-width="1.6" fill="none"/>
+  <path d="M4,22 L27,27.5" stroke="#D9C27E" stroke-width="1.6" fill="none"/>
+  <path d="M4,27.5 L27,22" stroke="#E8DCA8" stroke-width="1.6" fill="none"/>
+  <!-- Stalk fray at the stake tops -->
+  <path d="M4.8,11 L4,8 M10.3,10 L9.5,7 M16,9.5 L16,6.5 M21.7,10 L22.5,7 M27.2,11 L28,8" stroke="#B9903F" stroke-width="0.6"/>
   <!-- Mist drifting through -->
   <ellipse cx="10" cy="27.5" rx="6" ry="1.4" fill="#E8EAF4" opacity="0.45"/>
   <ellipse cx="22" cy="28.2" rx="5" ry="1.2" fill="#E8EAF4" opacity="0.4"/>

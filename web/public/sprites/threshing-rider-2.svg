@@ -1,24 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Shadowless void-bred horse, side view -->
-  <path d="M5,22 L7,15 Q9,12 13,13 L21,13 Q25,13 26,16 L27,20 L25,22 Z" fill="#C9CBDA"/>
-  <!-- Horse head -->
-  <path d="M24,14 L29,10 L30,12 L27,16 Z" fill="#C9CBDA"/>
-  <circle cx="27.8" cy="12" r="0.7" fill="#3A3F55"/>
-  <!-- Mane of mist -->
-  <path d="M22,12 Q24,9 27,10 L25,13 Z" fill="#E8EAF4" opacity="0.8"/>
-  <!-- Rider torso -->
-  <rect x="13" y="6.5" width="6" height="8" rx="2" fill="#454E6B"/>
-  <circle cx="16" cy="5" r="3.4" fill="#E3D9CF"/>
-  <path d="M12.6,5 Q16,0.5 19.4,5 L19.4,6.4 Q16,4 12.6,6.4 Z" fill="#3A3F55"/>
-  <!-- Threshing flail with wheat-gold pennant -->
-  <rect x="19.5" y="4" width="1.2" height="14" rx="0.6" fill="#8A6F4D" transform="rotate(18 20 11)"/>
-  <path d="M24.6,2.6 L26.4,5.4 L23.2,5.6 Z" fill="#D9C27E"/>
-  <circle cx="26.6" cy="6.8" r="1.6" fill="#8A6F4D"/>
-  <!-- Horse legs (standing) -->
-  <rect x="7" y="21" width="2.4" height="9" rx="1" fill="#A6A9C0"/>
-  <rect x="12" y="22" width="2.4" height="8" rx="1" fill="#A6A9C0"/>
-  <rect x="19" y="22" width="2.4" height="8" rx="1" fill="#A6A9C0"/>
-  <rect x="23.5" y="21" width="2.4" height="9" rx="1" fill="#A6A9C0"/>
-  <!-- Tail -->
-  <path d="M5.5,16 Q2.5,18 3.5,22 Q5,20 6.5,19.5 Z" fill="#E8EAF4" opacity="0.8"/>
+  <!-- Low-leaning charger, kicking up stubble -->
+  <path d="M5,23 L7,16 Q9,13 13,14 L21,14 Q25,14 26,17 L27,21 L25,23 Z" fill="#C9CBDA"/>
+  <path d="M24,15 L29,12 L30,14 L27,18 Z" fill="#C9CBDA"/>
+  <circle cx="27.8" cy="14" r="0.7" fill="#3A3F55"/>
+  <!-- Wheat-gold mane, not mist -->
+  <path d="M22,13 Q24,10 27,11 L25,14 Z" fill="#D9C27E" opacity="0.9"/>
+  <!-- Rider leaning low over the horse's neck -->
+  <path d="M12,8 L18,7 L18.8,15 L12.8,15 Z" fill="#8FA05B"/>
+  <circle cx="15" cy="8" r="3" fill="#E3D9CF"/>
+  <path d="M12.4,8 Q15,3.5 17.6,6 L17,8 Q13.5,6.5 12.4,9 Z" fill="#6E7F45"/>
+  <!-- Threshing scythe on a chain, swung low -->
+  <path d="M19,11 Q24,11 25.5,15" stroke="#8A6F4D" stroke-width="1.1" fill="none"/>
+  <path d="M25,13 Q29,14 28,18 Q25,17 24.5,15 Z" fill="#C9CBDA"/>
+  <!-- Sheaf saddlebag -->
+  <path d="M18,16 L21,17 L20,21 L17.5,20.4 Z" fill="#D9C27E"/>
+  <!-- Horse legs, driving stride -->
+  <rect x="6" y="22" width="2.4" height="9" rx="1" fill="#9FA3BC" transform="rotate(-16 7.2 26.5)"/>
+  <rect x="11.5" y="22.5" width="2.4" height="8" rx="1" fill="#9FA3BC" transform="rotate(10 12.7 26.5)"/>
+  <rect x="19" y="22.5" width="2.4" height="8" rx="1" fill="#9FA3BC" transform="rotate(-10 20.2 26.5)"/>
+  <rect x="24" y="22" width="2.4" height="9" rx="1" fill="#9FA3BC" transform="rotate(16 25.2 26.5)"/>
+  <!-- Stubble kicked up behind -->
+  <path d="M5,17 Q1.5,19 2.5,23 Q4.5,20.5 6,20 Z" fill="#D9C27E" opacity="0.85"/>
 </svg>

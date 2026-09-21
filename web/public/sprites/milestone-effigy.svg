@@ -1,19 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Ground -->
   <ellipse cx="16" cy="29.5" rx="10" ry="2" fill="#7E8299" opacity="0.5"/>
-  <!-- Standing milestone effigy, humanoid silhouette carved in stone -->
-  <path d="M11,29 L11.5,18 Q11.5,10 16,8 Q20.5,10 20.5,18 L21,29 Z" fill="#9FA3BC"/>
-  <circle cx="16" cy="8.5" r="4" fill="#A6A9C0"/>
-  <path d="M12.3,8.5 Q16,3 19.7,8.5 L19.7,10 Q16,7.5 12.3,10 Z" fill="#8E92A8"/>
+  <!-- Waymarker post, not a humanoid statue -->
+  <rect x="14" y="10" width="4" height="19" rx="0.6" fill="#9FA3BC"/>
+  <!-- Carved face at the crown -->
+  <circle cx="16" cy="9" r="3.6" fill="#A6A9C0"/>
+  <ellipse cx="14.8" cy="8.7" rx="0.5" ry="0.7" fill="#5E6270"/>
+  <ellipse cx="17.2" cy="8.7" rx="0.5" ry="0.7" fill="#5E6270"/>
+  <path d="M14.8,10.5 Q16,11.2 17.2,10.5" stroke="#5E6270" stroke-width="0.5" fill="none"/>
+  <!-- Directional signpost blades jutting from the post -->
+  <path d="M18,14 L26,12.5 L26,16.5 L18,15.5 Z" fill="#8E92A8"/>
+  <path d="M14,18 L6,17 L6,20.5 L14,20 Z" fill="#8E92A8"/>
   <!-- Carved toll-count numerals, faintly glowing -->
-  <rect x="14" y="14" width="4" height="1.2" rx="0.6" fill="#E8B94A" opacity="0.85"/>
-  <rect x="13" y="17.5" width="6" height="1.2" rx="0.6" fill="#E8B94A" opacity="0.7"/>
-  <rect x="14" y="21" width="4" height="1.2" rx="0.6" fill="#E8B94A" opacity="0.8"/>
+  <rect x="14.6" y="22" width="2.8" height="1" rx="0.5" fill="#E8B94A" opacity="0.85"/>
+  <rect x="14.3" y="25" width="3.4" height="1" rx="0.5" fill="#E8B94A" opacity="0.7"/>
   <!-- Rune glow -->
-  <ellipse cx="16" cy="17" rx="6" ry="10" fill="#E8B94A" opacity="0.1"/>
+  <ellipse cx="16" cy="16" rx="5" ry="9" fill="#E8B94A" opacity="0.1"/>
   <!-- Cracks -->
-  <path d="M12,26 L13.5,23 L12.8,20" stroke="#5E6270" stroke-width="0.8" fill="none"/>
-  <path d="M20.5,25 L19.4,22.5" stroke="#5E6270" stroke-width="0.8" fill="none"/>
+  <path d="M14.5,24 L15.3,21.5 L14.7,19" stroke="#5E6270" stroke-width="0.7" fill="none"/>
+  <path d="M17.5,23 L17,20.5" stroke="#5E6270" stroke-width="0.7" fill="none"/>
   <!-- Mist -->
   <ellipse cx="16" cy="28.6" rx="8" ry="1.4" fill="#E8EAF4" opacity="0.45"/>
 </svg>

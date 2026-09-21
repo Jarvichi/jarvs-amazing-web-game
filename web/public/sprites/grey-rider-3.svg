@@ -1,18 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Gallop pose B: legs extended -->
-  <path d="M5,23 L7,16 Q9,13 13,14 L21,14 Q25,14 26,17 L27,21 L25,23 Z" fill="#C9CBDA"/>
-  <path d="M24,15 L29,11 L30,13 L27,17 Z" fill="#C9CBDA"/>
-  <circle cx="27.8" cy="13" r="0.7" fill="#3A3F55"/>
-  <path d="M22,13 Q24,10 27,11 L25,14 Z" fill="#E8EAF4" opacity="0.8"/>
-  <rect x="13" y="7.5" width="6" height="8" rx="2" fill="#454E6B"/>
-  <circle cx="16" cy="6" r="3.4" fill="#E3D9CF"/>
-  <path d="M12.6,6 Q16,1.5 19.4,6 L19.4,7.4 Q16,5 12.6,7.4 Z" fill="#3A3F55"/>
-  <rect x="19.5" y="5" width="1.2" height="14" rx="0.6" fill="#8A6F4D" transform="rotate(18 20 12)"/>
-  <path d="M24.6,3.6 L26.4,6.4 L23.2,6.6 Z" fill="#E8B94A"/>
+  <path d="M4,23 L6,17 Q8,14.5 12,15.5 L20,15.5 Q24,15.5 25.5,18 L26.5,22 L24.5,23 Z" fill="#9FA3BC"/>
+  <path d="M23,17 L28,16 L28.6,18 L25,20 Z" fill="#9FA3BC"/>
+  <circle cx="27" cy="17.4" r="0.6" fill="#3A3F55"/>
+  <path d="M21,14.5 Q23,12.5 25.5,13.5 L23.5,16 Z" fill="#5E6A8C"/>
+  <path d="M12,9 L18,8 L18.5,16 L12.5,16 Z" fill="#454E6B"/>
+  <path d="M11,9.5 Q14,4.5 17.5,7 L17,9 Q13.5,7.5 11.5,10.5 Z" fill="#3A3F55"/>
+  <circle cx="14.2" cy="9.2" r="0.6" fill="#C9CBDA"/>
+  <circle cx="19.5" cy="13.5" r="2" fill="none" stroke="#8A6F4D" stroke-width="1.1"/>
+  <rect x="13" y="18" width="4.5" height="3.6" rx="0.8" fill="#8A6F4D"/>
+  <line x1="13.6" y1="18.6" x2="13.6" y2="21" stroke="#C9CBDA" stroke-width="0.5"/>
+  <line x1="14.8" y1="18.6" x2="14.8" y2="21" stroke="#C9CBDA" stroke-width="0.5"/>
+  <line x1="16" y1="18.6" x2="16" y2="21" stroke="#C9CBDA" stroke-width="0.5"/>
+  <path d="M11.5,10 Q5,10.5 3.5,15.5 Q8,13.5 12,13.5 Z" fill="#5E6A8C" opacity="0.9"/>
   <!-- Legs extended fore and aft -->
-  <rect x="5.5" y="21.5" width="2.4" height="9" rx="1" fill="#A6A9C0" transform="rotate(-24 6.7 26)"/>
-  <rect x="11" y="22.5" width="2.4" height="8" rx="1" fill="#A6A9C0" transform="rotate(-10 12.2 26.5)"/>
-  <rect x="20" y="22.5" width="2.4" height="8" rx="1" fill="#A6A9C0" transform="rotate(10 21.2 26.5)"/>
-  <rect x="25" y="21.5" width="2.4" height="9" rx="1" fill="#A6A9C0" transform="rotate(24 26.2 26)"/>
-  <path d="M5.5,17 Q2.5,19 3.5,23 Q5,21 6.5,20.5 Z" fill="#E8EAF4" opacity="0.8"/>
+  <rect x="4.5" y="21.5" width="2.2" height="9" rx="1" fill="#7E8299" transform="rotate(-24 5.6 26)"/>
+  <rect x="10" y="22.5" width="2.2" height="8" rx="1" fill="#7E8299" transform="rotate(-10 11.1 26.5)"/>
+  <rect x="19" y="22.5" width="2.2" height="8" rx="1" fill="#7E8299" transform="rotate(10 20.1 26.5)"/>
+  <rect x="24" y="21.5" width="2.2" height="9" rx="1" fill="#7E8299" transform="rotate(24 25.1 26)"/>
+  <path d="M4.5,17.5 Q2,19.5 3,23 Q4.5,21 5.5,20.5 Z" fill="#5E6A8C"/>
 </svg>
