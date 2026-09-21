@@ -81,7 +81,6 @@ const ALLOWED_SPRITE_CLONES = new Map<string, string>([
   [groupKey(['candle-sentry.svg', 'reach-sentry.svg', 'road-sentry.svg', 'throne-sentry.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['candle-watchtower.svg', 'reach-watchtower.svg', 'road-watchtower.svg', 'throne-watchtower.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['candlebound-knight.svg', 'crownbound-knight.svg', 'diadembound-knight.svg', 'roadbound-knight.svg']), 'pending redraw — tracked in #2333'],
-  [groupKey(['causeway-chorus.svg', 'chorus-of-the-threshing-floor.svg', 'unremembered-choir.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['causeway-rail.svg', 'grain-palisade.svg', 'shelf-barricade.svg', 'wax-barricade.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['centaur-stable.svg', 'cntaur-stbl.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['choir-of-echoes.svg', 'choir-of-frost.svg', 'choir-of-masks.svg', 'choir-of-roots.svg', 'choir-of-the-drowned.svg']), 'pending redraw — tracked in #2333'],
