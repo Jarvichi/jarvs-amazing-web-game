@@ -4,13 +4,12 @@ on:
   push:
     branches-ignore:
       - main
-    paths:
-      - web/**
-      # Every workflow, not just this one. A change to any of them alters what
-      # CI does, so it should be validated by the suite rather than merged on
-      # the strength of an older commit's run — and where `test` is required,
-      # a workflow-only head that never triggers it can't satisfy the gate.
-      - .github/workflows/**
+    # No path filter (#2342): any push, including one whose head commit only
+    # touches docs/, AGENTS.md, or another path outside web/, still needs a
+    # `test` result on that SHA — a path-filtered required check leaves a
+    # blocked, unexplained PR the moment a path outside the filter list is
+    # the tip of the branch. The suite is ~5 minutes; that's cheap next to
+    # the trap.
 
 jobs:
   test:
