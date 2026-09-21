@@ -65,6 +65,7 @@ import type { QuickBattleMode } from './components/screens/QuickBattleScreen'
 import { applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, clearLegacyLightMode } from './components/screens/SettingsScreen'
 import { addToInventory, RewardDef } from './game/dailyLogin'
 import { GIFT_OWNER_UID } from './game/gifts'
+import { incrementBattlesPlayed } from './game/onboarding'
 import {
   getDailyChallengeState,
   saveDailyChallengeResult,
@@ -689,9 +690,13 @@ export default function App() {
     if ((gameState.phase as { type: 'gameOver'; winner: string }).winner !== 'player') playDefeat()
   }, [gameState?.phase.type])
 
-  // First completed battle (win, loss or draw): unlock queued reward modals (#2305).
+  // Every completed battle (win, loss or draw): unlock queued reward modals
+  // (#2305) and count towards the title screen's progressive menu reveal (#2307).
   useEffect(() => {
-    if (gameState?.phase.type === 'gameOver') onFirstBattleEnded()
+    if (gameState?.phase.type === 'gameOver') {
+      onFirstBattleEnded()
+      incrementBattlesPlayed()
+    }
   }, [gameState?.phase.type, onFirstBattleEnded])
 
   useMusic(screen, gameState, run, actData)

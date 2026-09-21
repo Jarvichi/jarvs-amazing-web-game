@@ -18,6 +18,8 @@ interface Props {
   onSettings: () => void
   commanderName?: string | null
   onCommander?: () => void
+  /** Codex/Chronicle hidden until 10 battles played (#2307). */
+  showCodexChronicle?: boolean
 }
 
 function NavItem({ onClick, alert, children }: { onClick: () => void; alert?: boolean; children: React.ReactNode }) {
@@ -34,7 +36,7 @@ function NavItem({ onClick, alert, children }: { onClick: () => void; alert?: bo
 export function ManageNav({
   onPlayer, achievementAlert, onDeckBuilder, onCollection, collectionAlert,
   onShop, shopAlert, onCodex, onChronicle, chronicleAlert, onNews, hasUnreadNews,
-  onSettings, commanderName, onCommander,
+  onSettings, commanderName, onCommander, showCodexChronicle = true,
 }: Props) {
   return (
     <div className="title-nav-section">
@@ -44,8 +46,12 @@ export function ManageNav({
         <NavItem onClick={onDeckBuilder}><Icon name="deck" size={14} /> DECK</NavItem>
         <NavItem onClick={onCollection} alert={collectionAlert}><Icon name="collection" size={14} /> COLLECTION</NavItem>
         <NavItem onClick={onShop} alert={shopAlert}><Icon name="shop" size={14} /> SHOP</NavItem>
-        <NavItem onClick={onCodex}><Icon name="codex" size={14} /> CODEX</NavItem>
-        <NavItem onClick={onChronicle} alert={chronicleAlert}><Icon name="chronicle" size={14} /> CHRONICLE</NavItem>
+        {showCodexChronicle && (
+          <>
+            <NavItem onClick={onCodex}><Icon name="codex" size={14} /> CODEX</NavItem>
+            <NavItem onClick={onChronicle} alert={chronicleAlert}><Icon name="chronicle" size={14} /> CHRONICLE</NavItem>
+          </>
+        )}
         <NavItem onClick={onNews} alert={hasUnreadNews}><Icon name="news" size={14} /> WHAT'S NEW</NavItem>
         <NavItem onClick={onSettings}><Icon name="settings" size={14} /> SETTINGS</NavItem>
         {commanderName && onCommander && (
