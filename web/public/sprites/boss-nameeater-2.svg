@@ -1,38 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Binding-hook pole -->
-  <rect x="25" y="2" width="1.6" height="26" rx="0.8" fill="#7E8299"/>
-  <path d="M26.6,2.5 Q32.5,4 30.5,9.5 Q27.8,6.5 26.6,2.5 Z" fill="#C9CBDA"/>
-  <circle cx="26.6" cy="3" r="0.9" fill="#E8B94A"/>
-  <!-- Ink-dark head-mass, crowned in loose pages -->
-  <rect x="10.5" y="3.5" width="11" height="9" rx="2.5" fill="#2B2F3E"/>
-  <path d="M11,3.5 Q13,0 15,3 Q16,0.5 17,3 Q19,0 21,3.5 Z" fill="#F2E9D8"/>
-  <circle cx="12.5" cy="1.6" r="0.9" fill="#FFE08A"/>
-  <circle cx="16" cy="0.8" r="0.9" fill="#FFE08A"/>
-  <circle cx="19.5" cy="1.6" r="0.9" fill="#FFE08A"/>
-  <rect x="11.5" y="7.5" width="9" height="2" fill="#454E6B"/>
-  <circle cx="14" cy="8.5" r="0.8" fill="#FFB347"/>
-  <circle cx="18" cy="8.5" r="0.8" fill="#FFB347"/>
-  <!-- Massive cloaked body -->
-  <path d="M8,13 L7,27 L25,27 L24,13 Q16,16.5 8,13 Z" fill="#454E6B"/>
-  <path d="M8,13 L7,27 L11,27 L11.5,14.5 Z" fill="#2B2F3E"/>
-  <rect x="9" y="17" width="15" height="1.4" fill="#2B2F3E"/>
-  <rect x="9" y="21" width="15" height="1.4" fill="#2B2F3E"/>
-  <!-- Sealed-name chest sigil -->
-  <circle cx="16.5" cy="19.6" r="2.1" fill="#E8B94A"/>
-  <circle cx="16.5" cy="19.6" r="1.1" fill="#FFE08A"/>
-  <!-- Pauldrons -->
-  <circle cx="8.5" cy="14" r="3.2" fill="#2B2F3E"/>
-  <circle cx="23.5" cy="14" r="3.2" fill="#2B2F3E"/>
-  <!-- Ledger-scale held out -->
-  <rect x="1.5" y="18.5" width="1.2" height="7" fill="#7E8299"/>
-  <rect x="0" y="16" width="8" height="1.2" rx="0.6" fill="#2B2F3E"/>
-  <line x1="1.4" y1="17.2" x2="1.4" y2="20.4" stroke="#7E8299" stroke-width="0.5"/>
-  <path d="M-0.6,20.4 Q1.4,22.6 3.4,20.4 Z" fill="#F2E9D8"/>
-  <line x1="6.6" y1="17.2" x2="6.6" y2="20.4" stroke="#7E8299" stroke-width="0.5"/>
-  <path d="M4.6,20.4 Q6.6,22.6 8.6,20.4 Z" fill="#F2E9D8"/>
-  <!-- Legs -->
-  <rect x="11" y="27" width="4.5" height="4" rx="1" fill="#2B2F3E"/>
-  <rect x="17" y="27" width="4.5" height="4" rx="1" fill="#2B2F3E"/>
-  <!-- Mist at feet -->
-  <ellipse cx="16" cy="30" rx="11" ry="1.8" fill="#E8EAF4" opacity="0.4"/>
+  <path d="M6,10 Q16,-1 26,10 Q16,7 6,10 Z" fill="#4A3B2E"/>
+  <path d="M8,10 Q16,3 24,10" stroke="#2E2419" stroke-width="0.8" fill="none"/>
+  <path d="M9,7 Q16,1.5 23,7" stroke="#2E2419" stroke-width="0.8" fill="none"/>
+  <circle cx="16" cy="12" r="6" fill="#7A6A52"/>
+  <path d="M11,10.5 L13,11.5 L11,12.5 Z" fill="#1A140E"/>
+  <path d="M21,10.5 L19,11.5 L21,12.5 Z" fill="#1A140E"/>
+  <path d="M13,14.5 L14.5,15.3 L13,16.1 Z" fill="#1A140E"/>
+  <path d="M19,14.5 L17.5,15.3 L19,16.1 Z" fill="#1A140E"/>
+  <path d="M14,17.5 L16,18.5 L18,17.5" stroke="#1A140E" stroke-width="1" fill="none"/>
+  <path d="M8,17 Q16,21 24,17 L22,27 L10,27 Z" fill="#3A2F24"/>
 </svg>
