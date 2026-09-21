@@ -194,15 +194,18 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // A new player can't do anything with a locked Campaign button (#2306) —
+  // point the hero CTA at Quick Battle, the actual first destination, until
+  // they've collected enough cards to unlock Campaign.
   const heroLabel = !campaignUnlocked
-    ? 'CAMPAIGN'
+    ? (valid ? 'QUICK BATTLE' : `DECK (${count}/10)`)
     : savedRun ? 'CONTINUE RUN' : 'CAMPAIGN'
-  const heroHint = !campaignUnlocked
-    ? `Collect ${CAMPAIGN_UNLOCK_CARDS - totalOwned} more cards to unlock Campaign — play Quick Battle to earn cards!`
-    : !valid ? `Deck needs ${10 - count} more cards` : undefined
-  const handleHeroClick = !campaignUnlocked
-    ? () => showToast(heroHint!, { variant: 'warning', icon: 'lock' })
-    : valid ? onCampaign : () => setShowDeckWarning(true)
+  const heroHint = !valid
+    ? `Deck needs ${10 - count} more cards`
+    : undefined
+  const handleHeroClick = !valid
+    ? () => setShowDeckWarning(true)
+    : !campaignUnlocked ? onPlay : onCampaign
 
   const quickBattleLabel = valid
     ? <><Icon name="sword" size={16} /> QUICK BATTLE</>
@@ -227,7 +230,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
       {cityAttackAlert && <CityAlertBanner onClick={onCityBuilder} />}
 
-      <HeroAction label={heroLabel} hint={heroHint} locked={!campaignUnlocked} onClick={handleHeroClick} />
+      <HeroAction label={heroLabel} hint={heroHint} locked={false} onClick={handleHeroClick} />
 
       {!campaignUnlocked && (
         <div className="title-campaign-locked-hint">
