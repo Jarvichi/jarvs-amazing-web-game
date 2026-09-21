@@ -1,8 +1,12 @@
 import { markSelfSave } from '../../utils/hotReloadGuard'
+import { isNative } from '../../platform'
 
 // Persist the edited bundle registry back to src/data/bundles/bundles.json.
-// Backed by the dev-server middleware registered in .storybook/middleware.mjs.
+// Backed by the dev-server middleware registered in .storybook/middleware.mjs
+// — unreachable in a native (Capacitor) build, so these throw a clear error
+// instead of failing silently on tap (#2088).
 export async function saveBundles(data: unknown): Promise<void> {
+  if (isNative()) throw new Error('Editor unavailable on native')
   markSelfSave()
   const res = await fetch('/api/bundle-editor/save', {
     method: 'POST',
@@ -30,6 +34,7 @@ export interface BundleTileRaw {
 
 /** Append or replace a single bundle in bundles.json (reads current file server-side). */
 export async function appendBundle(bundleId: string, tiles: BundleTileRaw[]): Promise<void> {
+  if (isNative()) throw new Error('Editor unavailable on native')
   markSelfSave()
   const res = await fetch('/api/bundle-editor/append', {
     method: 'POST',

@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { type User } from 'firebase/auth'
 import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak, loadBestStreak, getCollectionCompletion } from '../../game/collection'
-import { loadPlayerName, loadRunRaw } from '../../game/questline'
+import { loadPlayerName, loadRunRaw, isCampaignComplete } from '../../game/questline'
+import { getBattlesPlayed, getDaysActive } from '../../game/onboarding'
 import { hasUnclaimedAchievements } from '../../game/achievements'
 import { getDailyShopSellSlots } from '../../game/shopSchedule'
 import { loadInventory } from '../../game/dailyLogin'
@@ -90,6 +91,14 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const totalOwned       = collection.reduce((s, e) => s + e.count, 0)
   const campaignUnlocked = savedRun !== null || totalOwned >= CAMPAIGN_UNLOCK_CARDS
   const { distinctOwned: distinctUnlocked, catalogTotal } = getCollectionCompletion(collection)
+  // Progressive menu disclosure (#2307): reveal destinations as they become relevant.
+  const battlesPlayed      = getBattlesPlayed()
+  const daysActive         = getDaysActive()
+  const endlessUnlocked    = isCampaignComplete('c1') || isCampaignComplete('c2')
+  const showDailyWeekly    = daysActive >= 2
+  const showLeaderboards   = battlesPlayed >= 5
+  const showMiniGames      = battlesPlayed >= 5
+  const showCodexChronicle = battlesPlayed >= 10
   const achievementAlert    = hasUnclaimedAchievements()
   const collectionAlert     = collection.some(e => e.count > COPIES_MAX)
   const shopAlert           = (() => { const inv = loadInventory(); return getDailyShopSellSlots().some(s => inv.some(i => i.id === s.id)) })()
@@ -194,15 +203,18 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // A new player can't do anything with a locked Campaign button (#2306) —
+  // point the hero CTA at Quick Battle, the actual first destination, until
+  // they've collected enough cards to unlock Campaign.
   const heroLabel = !campaignUnlocked
-    ? 'CAMPAIGN'
+    ? (valid ? 'QUICK BATTLE' : `DECK (${count}/10)`)
     : savedRun ? 'CONTINUE RUN' : 'CAMPAIGN'
-  const heroHint = !campaignUnlocked
-    ? `Collect ${CAMPAIGN_UNLOCK_CARDS - totalOwned} more cards to unlock Campaign — play Quick Battle to earn cards!`
-    : !valid ? `Deck needs ${10 - count} more cards` : undefined
-  const handleHeroClick = !campaignUnlocked
-    ? () => showToast(heroHint!, { variant: 'warning', icon: 'lock' })
-    : valid ? onCampaign : () => setShowDeckWarning(true)
+  const heroHint = !valid
+    ? `Deck needs ${10 - count} more cards`
+    : undefined
+  const handleHeroClick = !valid
+    ? () => setShowDeckWarning(true)
+    : !campaignUnlocked ? onPlay : onCampaign
 
   const quickBattleLabel = valid
     ? <><Icon name="sword" size={16} /> QUICK BATTLE</>
@@ -227,7 +239,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
       {cityAttackAlert && <CityAlertBanner onClick={onCityBuilder} />}
 
-      <HeroAction label={heroLabel} hint={heroHint} locked={!campaignUnlocked} onClick={handleHeroClick} />
+      <HeroAction label={heroLabel} hint={heroHint} locked={false} onClick={handleHeroClick} />
 
       {!campaignUnlocked && (
         <div className="title-campaign-locked-hint">
@@ -242,6 +254,8 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         onEndless={valid ? onEndless : () => setShowDeckWarning(true)}
         hubUnlocked={hubUnlocked}
         onHub={onHub}
+        showQuickBattle={campaignUnlocked}
+        showEndless={endlessUnlocked}
       />
 
       <PeriodicRow
@@ -253,9 +267,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         weeklyResetLabel={weeklyResetLabel}
         onWeekly={onWeeklyChallenge}
         onLeaderboards={onEndlessLeaderboard}
+        showDailyWeekly={showDailyWeekly}
+        showLeaderboards={showLeaderboards}
       />
 
-      <UtilityRow onTraining={onTraining} onMiniGames={onMiniGames} />
+      <UtilityRow onTraining={onTraining} onMiniGames={onMiniGames} showMiniGames={showMiniGames} />
 
       <ManageNav
         onPlayer={onPlayer}
@@ -268,6 +284,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         onCodex={onCodex}
         onChronicle={onChronicle}
         chronicleAlert={chronicleAlert}
+        showCodexChronicle={showCodexChronicle}
         onNews={onNews}
         hasUnreadNews={hasUnreadNews}
         onSettings={onSettings}

@@ -15,6 +15,10 @@ export default defineConfig({
     __BUILD_DATE__: JSON.stringify(new Date().toISOString())
   },
   plugins: [react(), VitePWA({
+    // A Capacitor build (#2085) already ships every asset inside the binary —
+    // the service worker would add nothing but a stale-cache layer and a
+    // reload path, on top of the black-screen-on-resume risk documented below.
+    disable: process.env.VITE_TARGET === 'native',
     // 'prompt' (not 'autoUpdate') so a newly-installed SW never applies itself:
     // the app surfaces a "new version" prompt and only reloads when the player
     // accepts. Combined with removing skipWaiting/clientsClaim below, this stops

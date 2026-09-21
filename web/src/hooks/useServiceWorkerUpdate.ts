@@ -3,6 +3,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react'
 import { journal } from '../utils/resumeJournal'
 import rollbar from '../rollbar'
 import type { Screen } from '../app/screens'
+import { isNative } from '../platform'
 
 interface UseServiceWorkerUpdateResult {
   /** True once a new service worker is waiting. Drives the update toast. */
@@ -28,8 +29,13 @@ export function useServiceWorkerUpdate(screen: Screen): UseServiceWorkerUpdateRe
   const swRegRef = useRef<ServiceWorkerRegistration | null>(null)
   // Lets the player dismiss the update prompt for the rest of the session.
   const [updateDismissed, setUpdateDismissed] = useState(false)
-  const { needRefresh: [needRefresh], updateServiceWorker } = useRegisterSW({
+  // In a native (Capacitor) build every asset ships inside the binary and
+  // vite.config.ts's `disable: VITE_TARGET === 'native'` never emits a
+  // service worker to register — gated here too as defense in depth (#2085),
+  // so nothing in this hook depends on that build-time flag alone.
+  const { needRefresh: [needRefreshRaw], updateServiceWorker } = useRegisterSW({
     onRegisteredSW(_url, r) {
+      if (isNative()) return
       swRegRef.current = r ?? null
       // In standalone (home screen) mode the browser doesn't trigger SW update
       // checks on each launch the way a normal tab does, so we kick one off
@@ -40,6 +46,7 @@ export function useServiceWorkerUpdate(screen: Screen): UseServiceWorkerUpdateRe
       }
     },
     onNeedRefresh() {
+      if (isNative()) return
       // Prompt mode: don't auto-apply. Surface the toast (driven by needRefresh)
       // and let the player reload at a safe moment. Auto-reloading here is what
       // black-screened memory-pressured devices on resume.
@@ -47,6 +54,7 @@ export function useServiceWorkerUpdate(screen: Screen): UseServiceWorkerUpdateRe
       rollbar?.info('[sw] update available — awaiting player confirmation')
     },
   })
+  const needRefresh = !isNative() && needRefreshRaw
 
   // Reload once the new SW takes control. In prompt mode the new SW only
   // activates after the player taps UPDATE (updateServiceWorker posts
@@ -54,6 +62,7 @@ export function useServiceWorkerUpdate(screen: Screen): UseServiceWorkerUpdateRe
   // fires spontaneously on resume. Attached at mount so we never miss the
   // controllerchange event.
   useEffect(() => {
+    if (isNative()) return
     if (!navigator.serviceWorker) return
     let reloading = false
     const handler = () => {

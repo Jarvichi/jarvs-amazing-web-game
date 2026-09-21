@@ -34,7 +34,7 @@ interface CardDef {
 
 // ─── JSON data types ──────────────────────────────────────
 
-interface RawStructureEffect {
+export interface RawStructureEffect {
   type: 'mana' | 'spawn' | 'manaSpeed' | 'healAura' | 'repairAura' | 'attackAura'
   amount?: number
   speedMult?: number
@@ -42,7 +42,7 @@ interface RawStructureEffect {
   intervalMs?: number
 }
 
-interface RawUnitDef {
+export interface RawUnitDef {
   name: string
   attack: number
   maxHp: number
@@ -86,7 +86,7 @@ function deriveAttackEffect(tags: string[] | undefined, attack: number): AttackE
   return undefined
 }
 
-interface RawCardDef {
+export interface RawCardDef {
   name: string
   rarity: string
   cost: number
@@ -115,7 +115,7 @@ interface RawHeroCard {
 
 // ─── Template resolution ──────────────────────────────────
 
-const TEMPLATES = cardsData.templates as Record<string, RawUnitDef>
+export const TEMPLATES = cardsData.templates as Record<string, RawUnitDef>
 
 function resolveUnit(raw: RawUnitDef): UnitTemplate {
   const attackEffect = deriveAttackEffect(raw.tags, raw.attack)

@@ -1118,21 +1118,22 @@
       "childIds": [
         "ash-crossing"
       ],
+      "environment": "ashen",
       "enemyDeck": [
-        "Golem Foundry",
-        "Golem Foundry",
-        "Golem Foundry",
-        "Golem Foundry",
-        "Iron Forge",
-        "Iron Forge",
-        "Iron Colossus",
-        "Iron Colossus",
-        "Ironclad Guard",
-        "Ironclad Guard",
-        "Ironclad Guard",
-        "Ironclad Guard",
-        "Iron Skin",
-        "Iron Skin"
+        "Bone Pit",
+        "Bone Pit",
+        "Bone Pit",
+        "Dark Shrine",
+        "Dark Shrine",
+        "Bone Wall",
+        "Bone Colossus",
+        "Bone Colossus",
+        "Skeleton",
+        "Skeleton",
+        "Bone Archer",
+        "Bone Archer",
+        "Bloodlust",
+        "Rally"
       ]
     },
     "node-1776499580467": {
