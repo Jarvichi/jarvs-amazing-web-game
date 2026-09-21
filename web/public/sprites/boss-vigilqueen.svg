@@ -1,10 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path d="M9,3 Q16,-2 23,3 L21,7 Q16,4 11,7 Z" fill="#4A5FC9"/>
-  <circle cx="13" cy="1.5" r="1" fill="#FFC94A"/>
-  <circle cx="16" cy="0" r="1" fill="#FFC94A"/>
-  <circle cx="19" cy="1.5" r="1" fill="#FFC94A"/>
-  <circle cx="16" cy="9" r="6" fill="#E8E4D8"/>
-  <circle cx="14" cy="9.5" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="9.5" r="0.9" fill="#12141f"/>
-  <path d="M9,14 Q16,18 23,14" stroke="#4A5FC9" stroke-width="2" fill="none"/>
+  <path d="M10,4 L9,0 M13,2 L12.5,-2 M16,1.5 L16,-3 M19,2 L19.5,-2 M22,4 L23,0" stroke="#9A8060" stroke-width="0.7"/>
+  <path d="M9,0 Q9,-1.5 9.6,-1 Q10.2,-1.5 10,0 Z" fill="#E8B94A"/>
+  <path d="M12.5,-2 Q12.5,-3.5 13.1,-3 Q13.7,-3.5 13.5,-2 Z" fill="#E8B94A"/>
+  <path d="M16,-3 Q16,-4.5 16.6,-4 Q17.2,-4.5 17,-3 Z" fill="#E8B94A"/>
+  <path d="M19.5,-2 Q19.5,-3.5 20.1,-3 Q20.7,-3.5 20.5,-2 Z" fill="#E8B94A"/>
+  <path d="M23,0 Q23,-1.5 23.6,-1 Q24.2,-1.5 24,0 Z" fill="#E8B94A"/>
+  <path d="M6,6 Q4,16 8,24 Q9,14 12,8 Z" fill="#3A2E42" opacity="0.85"/>
+  <path d="M26,6 Q28,16 24,24 Q23,14 20,8 Z" fill="#3A2E42" opacity="0.85"/>
+  <path d="M10,4 Q16,1 22,4 L20,9 Q16,6.5 12,9 Z" fill="#4A3B52"/>
+  <circle cx="16" cy="10" r="5.3" fill="#B4A8C0"/>
+  <circle cx="14" cy="10" r="0.7" fill="#241C2E"/>
+  <circle cx="18" cy="10" r="0.7" fill="#241C2E"/>
+  <path d="M9,15 Q16,19 23,15 L21,26 L11,26 Z" fill="#332840"/>
 </svg>
