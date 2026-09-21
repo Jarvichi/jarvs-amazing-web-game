@@ -6,10 +6,12 @@
 //
 // ## Why the numbers are what they are
 //
-// The per-card scoring reuses the power formula documented in
-// `balance_report.txt` (implemented by `rebalance_cards.py`), so a card's
-// runtime rating and the authoring-time balance pass agree on what "strong"
-// means. If that formula is retuned, retune `unitPowerScore` to match.
+// The per-card scoring reuses the power formula in `scripts/cardBalance.ts`
+// (the authoring-time balance checker, #2278), which imports `unitPowerScore`
+// and `UPGRADE_WEIGHTS` from here rather than the reverse — this file is the
+// canonical implementation — so a card's runtime rating and the
+// authoring-time balance check agree on what "strong" means. If that formula
+// is retuned, retune `unitPowerScore` here to match.
 //
 // Every function here is pure and takes already-built `Card[]` — the array
 // `buildDeckCards()` returns. That matters: those cards have mastery levels
@@ -23,7 +25,7 @@ import { ARCH_STRUCTURE_COST_REDUCTION } from './engine/constants'
 
 // ─── Tuning constants ─────────────────────────────────────
 
-/** Exponents from balance_report.txt's unit power score. */
+/** Exponents for the unit power score (also used by scripts/cardBalance.ts). */
 const DPS_EXP   = 0.65
 const HP_EXP    = 0.65
 const SPEED_EXP = 0.20
@@ -48,22 +50,23 @@ const STATIONARY_SPEED = 10
 
 /**
  * Cost→score curve: the median power score of a fairly-costed card at each
- * mana cost. Derived from the tier medians in balance_report.txt
- * (cost 1: 30.3, 2: 48.2, 3: 70.8, 4: 87.2, 5: 106.0, 6: 163.7) but smoothed
- * to a monotonic curve — the report's cost 7 and 8 medians sit *below* cost 6
- * on samples of 6 and 3 cards, which is sampling noise, not a real dip.
+ * mana cost. Derived from tier medians (cost 1: 30.3, 2: 48.2, 3: 70.8,
+ * 4: 87.2, 5: 106.0, 6: 163.7) but smoothed to a monotonic curve — the raw
+ * cost 7 and 8 medians sit *below* cost 6 on samples of 6 and 3 cards, which
+ * is sampling noise, not a real dip.
  */
 export function medianScoreForCost(cost: number): number {
   return 30.3 * Math.pow(Math.max(1, cost), 0.8)
 }
 
 /**
- * Mana-cost weights for upgrade effects, from balance_report.txt. An upgrade
- * has no battlefield stats to score, so its power is read off the cost its
- * effect *should* carry, then priced through the same cost curve as everything
- * else.
+ * Mana-cost weights for upgrade effects. An upgrade has no battlefield stats
+ * to score, so its power is read off the cost its effect *should* carry,
+ * then priced through the same cost curve as everything else. Exported for
+ * scripts/cardBalance.ts, which maps these to a formula cost directly rather
+ * than through the curve.
  */
-const UPGRADE_WEIGHTS: Record<UpgradeEffect['type'], number> = {
+export const UPGRADE_WEIGHTS: Record<UpgradeEffect['type'], number> = {
   buffAttack:         0.60,
   buffMaxHp:          0.10,
   buffSpeed:          0.13,
@@ -136,8 +139,9 @@ export function deckPowerBand(rating: number): DeckPowerBand {
 // ─── Per-card scoring ─────────────────────────────────────
 
 /**
- * Raw power score of a unit template, on the same scale as the tier medians
- * in balance_report.txt (a starting Goblin scores ~27).
+ * Raw power score of a unit template (a starting Goblin scores ~27). Shared
+ * with scripts/cardBalance.ts, which divides this by a calibration constant
+ * to get a formula mana cost instead of feeding it through medianScoreForCost.
  */
 export function unitPowerScore(u: UnitTemplate): number {
   const cooldown = Math.max(1, u.attackCooldownMs)
@@ -191,7 +195,7 @@ function structureEffectScore(effect: StructureEffect): number {
   }
 }
 
-/** Mana cost an upgrade's effect is worth, per balance_report.txt's weights. */
+/** Mana cost an upgrade's effect is worth, per UPGRADE_WEIGHTS above. */
 function upgradeEquivalentCost(effect: UpgradeEffect): number {
   const weight = UPGRADE_WEIGHTS[effect.type] ?? 0.2
   const amount =
