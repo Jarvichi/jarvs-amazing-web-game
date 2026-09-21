@@ -118,7 +118,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
       <RunEndCard tone={tone} size="lg" className="gameover-body u-items-c u-text-c">
         <div className="gameover-title">{title}</div>
         {isEndless && (
-          <div className="gameover-endless-badge">∞ ENDLESS MODE</div>
+          <div className="gameover-endless-badge"><Icon name="infinity" size={14} /> ENDLESS MODE</div>
         )}
         <pre className="gameover-ascii">{art}</pre>
         <div className="gameover-message">{message}</div>
@@ -149,7 +149,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
 
         {isEndlessDefeat && (
           <div className="gameover-endless-lb u-col u-gap-3">
-            <div className="gameover-endless-lb-title">∞ ENDLESS LEADERBOARD</div>
+            <div className="gameover-endless-lb-title"><Icon name="infinity" size={14} /> ENDLESS LEADERBOARD</div>
             {endlessBest && (
               <div className="gameover-endless-lb-best">
                 Your best: Wave {endlessBest.wave} · {formatSurvival(endlessBest.survivalMs)}
