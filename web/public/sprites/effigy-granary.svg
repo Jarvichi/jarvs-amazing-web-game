@@ -1,27 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Ground -->
   <ellipse cx="16" cy="29.5" rx="12" ry="2" fill="#7E8299" opacity="0.5"/>
-  <!-- Granary hall -->
-  <rect x="4" y="15" width="24" height="13" rx="1" fill="#9FA3BC"/>
-  <rect x="4" y="19" width="24" height="1" fill="#7E8299"/>
-  <!-- Thatched wheat roof -->
-  <path d="M2.5,15 L16,6 L29.5,15 Z" fill="#8A6F4D"/>
-  <path d="M6,15 L16,8.4 L26,15 Z" fill="#D9C27E"/>
-  <!-- Straw ridge lines -->
-  <line x1="9" y1="13" x2="13" y2="10.4" stroke="#B9903F" stroke-width="0.6"/>
-  <line x1="13" y1="13" x2="16.5" y2="10.6" stroke="#B9903F" stroke-width="0.6"/>
-  <line x1="19" y1="13" x2="15.5" y2="10.6" stroke="#B9903F" stroke-width="0.6"/>
-  <line x1="23" y1="13" x2="19" y2="10.4" stroke="#B9903F" stroke-width="0.6"/>
-  <!-- Door -->
-  <rect x="13.5" y="20" width="5" height="8" rx="1.5" fill="#3A3F55"/>
-  <circle cx="17.3" cy="24.2" r="0.5" fill="#D9C27E"/>
+  <!-- Conical stacked-sheaf rick, not a peaked-roof hall -->
+  <path d="M6,28 Q6,21 8,17 Q11,10 16,7 Q21,10 24,17 Q26,21 26,28 Z" fill="#D9C27E"/>
+  <!-- Bound sheaf bands -->
+  <path d="M7,25 Q16,27.5 25,25" stroke="#B9903F" stroke-width="1" fill="none"/>
+  <path d="M8,20.5 Q16,22.8 24,20.5" stroke="#B9903F" stroke-width="1" fill="none"/>
+  <path d="M10.5,15.5 Q16,17.4 21.5,15.5" stroke="#B9903F" stroke-width="1" fill="none"/>
+  <!-- Straw wisps jutting from the surface -->
+  <line x1="9.5" y1="24" x2="8.5" y2="21.5" stroke="#8A6F4D" stroke-width="0.6"/>
+  <line x1="22.5" y1="24" x2="23.5" y2="21.5" stroke="#8A6F4D" stroke-width="0.6"/>
+  <line x1="12" y1="13" x2="11" y2="10.5" stroke="#8A6F4D" stroke-width="0.6"/>
+  <line x1="20" y1="13" x2="21" y2="10.5" stroke="#8A6F4D" stroke-width="0.6"/>
+  <!-- Sheaf-mouth door low at the base -->
+  <path d="M13,28 L13.4,22.5 Q16,21 18.6,22.5 L19,28 Z" fill="#3A3F55"/>
+  <circle cx="17" cy="25.3" r="0.5" fill="#FFB347"/>
   <!-- Windows glowing faint -->
-  <rect x="7" y="21" width="3.4" height="3.4" rx="0.6" fill="#FFB347" opacity="0.8"/>
-  <rect x="21.6" y="21" width="3.4" height="3.4" rx="0.6" fill="#FFB347" opacity="0.8"/>
-  <!-- Sheaf banner over door -->
-  <rect x="15.4" y="15.5" width="1.2" height="4" fill="#5E6A8C"/>
-  <path d="M14,15.5 L18,15.5 L16,17.8 Z" fill="#D9C27E"/>
+  <ellipse cx="10" cy="21" rx="1.8" ry="2.4" fill="#FFB347" opacity="0.75"/>
+  <ellipse cx="22" cy="21" rx="1.8" ry="2.4" fill="#FFB347" opacity="0.75"/>
   <!-- Mist seeping from the door -->
-  <ellipse cx="16" cy="28.2" rx="6" ry="1.4" fill="#E8EAF4" opacity="0.55"/>
-  <ellipse cx="11" cy="27.4" rx="3.5" ry="1" fill="#E8EAF4" opacity="0.4"/>
+  <ellipse cx="16" cy="28.2" rx="6" ry="1.4" fill="#E8EAF4" opacity="0.5"/>
 </svg>

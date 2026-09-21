@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Heavy plumed helm -->
+  <!-- Wide-brimmed harvest helm, no plume -->
   <circle cx="16" cy="9" r="5.5" fill="#9FA3BC"/>
-  <path d="M10.5,9 Q16,2 21.5,9 L21.5,11 L10.5,11 Z" fill="#7E8299"/>
-  <path d="M15,2.5 Q16,0 17,2.5 L16.8,5 L15.2,5 Z" fill="#D9C27E"/>
+  <ellipse cx="16" cy="9.5" rx="7.5" ry="1.8" fill="#8A6F4D"/>
   <rect x="12" y="8.5" width="8" height="2" fill="#3A3F55"/>
   <circle cx="14" cy="9.5" r="0.7" fill="#FFB347"/>
   <circle cx="18" cy="9.5" r="0.7" fill="#FFB347"/>
@@ -13,17 +12,16 @@
   <!-- Granary-sheaf sigil -->
   <circle cx="16" cy="18.8" r="2.1" fill="#D9C27E"/>
   <circle cx="16" cy="18.8" r="1.1" fill="#E8DCA8"/>
-  <!-- Sheaf shield -->
-  <rect x="4.5" y="13" width="5.5" height="10" rx="1.5" fill="#454E6B"/>
-  <rect x="5.5" y="14" width="3.5" height="8" rx="1" fill="#3A3F55"/>
-  <circle cx="7.2" cy="18" r="1.2" fill="#D9C27E"/>
-  <!-- Greatsword -->
-  <rect x="22.5" y="14" width="3.5" height="6.5" rx="1" fill="#9FA3BC"/>
-  <rect x="24.2" y="6" width="1.8" height="15" rx="0.9" fill="#C9CBDA"/>
-  <rect x="22.8" y="19.6" width="4.6" height="1.5" rx="0.7" fill="#D9C27E"/>
+  <!-- Woven wicker basket-shield, not a tower shield -->
+  <ellipse cx="7" cy="18" rx="3.3" ry="5.2" fill="#D9C27E"/>
+  <path d="M4.5,14.5 Q7,15.5 9.5,14.5 M4,17.5 Q7,18.5 10,17.5 M4,20.5 Q7,21.5 10,20.5 M4.5,23 Q7,23.8 9.5,23" stroke="#B9903F" stroke-width="0.6" fill="none"/>
+  <!-- Pitchfork instead of a greatsword -->
+  <rect x="23.2" y="8" width="1.6" height="19" rx="0.6" fill="#8A6F4D"/>
+  <path d="M22.4,4 L22.4,8.5 M24,4 L24,8.5 M25.6,4 L25.6,8.5" stroke="#C9CBDA" stroke-width="1"/>
+  <rect x="21.8" y="8" width="4.4" height="1.4" rx="0.5" fill="#7E8299"/>
   <!-- Legs (neutral) -->
-  <rect x="11.5" y="24" width="4" height="6.5" rx="1" fill="#454E6B"/>
-  <rect x="16.5" y="24" width="4" height="6.5" rx="1" fill="#454E6B"/>
-  <rect x="10.5" y="28.5" width="6" height="2.8" rx="1" fill="#3A3F55"/>
-  <rect x="15.5" y="28.5" width="6" height="2.8" rx="1" fill="#3A3F55"/>
+  <rect x="11.5" y="24" width="4" height="6.5" rx="1" fill="#6E7F45"/>
+  <rect x="16.5" y="24" width="4" height="6.5" rx="1" fill="#6E7F45"/>
+  <rect x="10.5" y="28.5" width="6" height="2.8" rx="1" fill="#4E5A32"/>
+  <rect x="15.5" y="28.5" width="6" height="2.8" rx="1" fill="#4E5A32"/>
 </svg>
