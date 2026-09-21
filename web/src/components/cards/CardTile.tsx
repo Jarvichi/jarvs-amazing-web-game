@@ -225,7 +225,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
           <div className="card-new-badge">NEW</div>
         )}
         {card.rarity === 'glass' && card.glassBreakChance && (
-          <div className="card-glass-warning" title={`${Math.round(card.glassBreakChance * 100)}% chance to shatter on play`}>💎</div>
+          <div className="card-glass-warning" title={`${Math.round(card.glassBreakChance * 100)}% chance to shatter on play`}><Icon name="crystal" size={12} /></div>
         )}
         {card.isHero && (
           <div className="hero-badge-wrap">
