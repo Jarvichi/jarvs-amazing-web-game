@@ -1011,11 +1011,14 @@
       "childIds": [
         "cinder-vent"
       ],
+      "environment": "volcano",
       "enemyDeck": [
-        "Blood Tower",
-        "Blood Tower",
-        "Harpy Roost",
-        "Wyvern Roost"
+        "Ash Stalker",
+        "Ash Stalker",
+        "Cinder Hound",
+        "Cinder Hound",
+        "Cinder Wall",
+        "Cinder Wall"
       ]
     },
     "node-1776773449934": {
@@ -1031,6 +1034,7 @@
         "ash-shrine",
         "lava-camp"
       ],
+      "environment": "volcano",
       "enemyDeck": [
         "Fire Salamander",
         "Fire Salamander",
@@ -1053,6 +1057,7 @@
         "forge-log",
         "ember-bazaar"
       ],
+      "environment": "volcano",
       "enemyDeck": [
         "Lava Pool",
         "Lava Troll",
