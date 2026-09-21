@@ -85,7 +85,12 @@ function PerfHarness() {
     <div>
       <Profiler
         id="battlefield"
-        onRender={(_, __, actualDuration) => { durations.current.push(actualDuration) }}
+        onRender={(_, phase, actualDuration) => {
+          // Mount cost (initial Battlefield + Pixi canvas setup) is a different
+          // measurement from the per-tick cost this profile is about — mixing it
+          // into avg/max is what made the bound flake (#2343).
+          if (phase === 'update') durations.current.push(actualDuration)
+        }}
       >
         <Battlefield state={gameState} onPlayCard={noop} />
       </Profiler>
