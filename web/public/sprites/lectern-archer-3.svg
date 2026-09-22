@@ -1,24 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Hooded head (body 1px lower mid-stride) -->
-  <circle cx="16" cy="10" r="5" fill="#7E8299"/>
-  <path d="M11,10 Q16,3.5 21,10 L21,12 Q16,9 11,12 Z" fill="#5E6A8C"/>
-  <circle cx="16" cy="11" r="2.8" fill="#E3D9CF"/>
-  <circle cx="15" cy="11" r="0.7" fill="#2B2F3E"/>
-  <circle cx="17.5" cy="11" r="0.7" fill="#2B2F3E"/>
-  <!-- Body -->
-  <path d="M12,15 L12,23 L20,23 L20,15 Q16,17 12,15 Z" fill="#A6A9C0"/>
-  <rect x="12" y="18.5" width="8" height="1.2" fill="#5E6A8C"/>
-  <!-- Book quiver -->
-  <rect x="19.5" y="14.5" width="3.5" height="8" rx="1" fill="#2B2F3E"/>
-  <path d="M20.4,13 L21,14.6 L19.8,14.6 Z" fill="#F2E9D8"/>
-  <path d="M22,13 L22.6,14.6 L21.4,14.6 Z" fill="#F2E9D8"/>
-  <!-- Bow arm and bow -->
-  <rect x="7.5" y="15" width="4" height="5.5" rx="1" fill="#A6A9C0"/>
-  <path d="M6.5,9 Q2.5,17.5 6.5,26" stroke="#454E6B" stroke-width="1.5" fill="none"/>
-  <line x1="6.5" y1="9" x2="6.5" y2="26" stroke="#C9CBDA" stroke-width="0.7"/>
-  <!-- Legs stride B -->
-  <rect x="18" y="23" width="3.5" height="7.5" rx="1" fill="#454E6B"/>
-  <rect x="10" y="23" width="3.5" height="6" rx="1" fill="#454E6B"/>
-  <rect x="18" y="29.5" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
-  <rect x="9" y="28" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+  <!-- Standing atop a reading lectern, leaning right -->
+  <path d="M10,27.5 L12,20.5 L22,20.5 L24,27.5 Z" fill="#8A6F4D"/>
+  <path d="M12,20.5 L22,20.5 L20.5,17.9 L13.5,17.9 Z" fill="#6E5A3E"/>
+  <rect x="11" y="27.5" width="12" height="2.4" rx="0.6" fill="#454E6B"/>
+  <circle cx="17" cy="9.4" r="4.6" fill="#7E8299"/>
+  <path d="M12.5,9.4 Q17,3.2 21.5,9.4 L21.5,11.2 Q17,8.2 12.5,11.2 Z" fill="#5E6A8C"/>
+  <circle cx="17" cy="10.4" r="2.6" fill="#E3D9CF"/>
+  <circle cx="16" cy="10.4" r="0.6" fill="#2B2F3E"/>
+  <circle cx="18.3" cy="10.4" r="0.6" fill="#2B2F3E"/>
+  <path d="M13.5,14 L13.5,20.5 L20.5,20.5 L20.5,14 Q17,15.9 13.5,14 Z" fill="#A6A9C0"/>
+  <rect x="13.5" y="17.3" width="7" height="1.1" fill="#5E6A8C"/>
+  <rect x="20.5" y="13" width="3.2" height="7.5" rx="1" fill="#2B2F3E"/>
+  <path d="M21.4,11.5 L22.1,13 L20.7,13 Z" fill="#F2E9D8"/>
+  <path d="M23,11.5 L23.7,13 L22.3,13 Z" fill="#F2E9D8"/>
+  <rect x="8.5" y="14" width="4" height="5.3" rx="1" fill="#A6A9C0"/>
+  <path d="M7.5,8.1 Q3.5,16.5 7.5,24.9" stroke="#454E6B" stroke-width="1.4" fill="none"/>
+  <line x1="7.5" y1="8.1" x2="7.5" y2="24.9" stroke="#C9CBDA" stroke-width="0.6"/>
 </svg>
