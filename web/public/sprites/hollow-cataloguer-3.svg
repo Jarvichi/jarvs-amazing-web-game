@@ -1,21 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Empty hood (body 1px lower mid-stride) -->
-  <circle cx="16" cy="10" r="5" fill="#5E6A8C"/>
-  <path d="M11,10 Q16,3 21,10 L21,12 Q16,9 11,12 Z" fill="#2B2F3E"/>
-  <circle cx="16" cy="11" r="3" fill="#1B1D28"/>
-  <!-- Robed body -->
-  <path d="M12,15 L11,24 L21,24 L20,15 Q16,17 12,15 Z" fill="#5E6A8C"/>
-  <rect x="13" y="18" width="6" height="1.2" fill="#2B2F3E"/>
-  <!-- Ledger tucked at hip -->
-  <rect x="19.5" y="15.5" width="4" height="5" rx="1" fill="#2B2F3E"/>
-  <rect x="20" y="16.2" width="3" height="3.5" fill="#F2E9D8"/>
-  <!-- Quill hand -->
-  <rect x="8" y="15" width="3" height="6" rx="1" fill="#5E6A8C"/>
-  <path d="M7,15 Q4,12.5 5.5,9 Q7.4,11 8,14 Z" fill="#F2E9D8"/>
-  <circle cx="5.6" cy="9.4" r="0.7" fill="#2B2F3E"/>
-  <!-- Legs stride B -->
-  <rect x="18" y="24" width="3.5" height="7" rx="1" fill="#454E6B"/>
-  <rect x="10" y="24" width="3.5" height="5.5" rx="1" fill="#454E6B"/>
-  <rect x="18" y="29" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
-  <rect x="9" y="27.5" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+  <!-- Ink-well lantern drifts right -->
+  <ellipse cx="17" cy="11" rx="3.4" ry="2.6" fill="#2B2F3E"/>
+  <ellipse cx="17" cy="9.6" rx="2.4" ry="1" fill="#1B1D28"/>
+  <ellipse cx="17" cy="9.6" rx="1.6" ry="0.6" fill="#4A6FA5" opacity="0.85"/>
+  <circle cx="17" cy="11" r="6" fill="#4A6FA5" opacity="0.12"/>
+  <path d="M13.5,16 L12,24 L22,24 L21,16 Q17,18 13.5,16 Z" fill="#5E6A8C"/>
+  <rect x="14.3" y="19" width="5.4" height="1.1" fill="#2B2F3E"/>
+  <path d="M12.5,18 L11,21 L12.8,20.6 Z" fill="#5E6A8C"/>
+  <path d="M21.5,18 L23,21.5 L21.2,20.8 Z" fill="#5E6A8C"/>
+  <rect x="20.5" y="15.5" width="4" height="5" rx="1" fill="#2B2F3E"/>
+  <rect x="21" y="16.2" width="3" height="3.5" fill="#F2E9D8"/>
+  <path d="M9,15 Q7,13 7.6,10 Q9.6,11.5 10,14 Z" fill="#F2E9D8" opacity="0.8"/>
+  <circle cx="7.8" cy="10.4" r="0.6" fill="#2B2F3E"/>
+  <rect x="9.6" y="14.6" width="2.6" height="5.4" rx="1" fill="#5E6A8C" opacity="0.85"/>
+  <path d="M13.5,24 L12.8,29.5 Q15,31 16.6,29.8 L17,24 Z" fill="#454E6B"/>
+  <path d="M21,24 L21.2,29.5 Q19,31 17.4,29.8 L17,24 Z" fill="#454E6B"/>
+  <ellipse cx="17" cy="30.5" rx="7" ry="1.6" fill="#E8EAF4" opacity="0.4"/>
 </svg>

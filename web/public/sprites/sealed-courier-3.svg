@@ -1,19 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Gallop pose B: legs extended -->
-  <path d="M5,23 L7,16 Q9,13 13,14 L21,14 Q25,14 26,17 L27,21 L25,23 Z" fill="#C9CBDA"/>
-  <path d="M24,15 L29,11 L30,13 L27,17 Z" fill="#C9CBDA"/>
-  <circle cx="27.8" cy="13" r="0.7" fill="#3A3F55"/>
-  <path d="M22,13 Q24,10 27,11 L25,14 Z" fill="#E8EAF4" opacity="0.8"/>
-  <rect x="13" y="7.5" width="6" height="8" rx="2" fill="#454E6B"/>
-  <circle cx="16" cy="6" r="3.4" fill="#E3D9CF"/>
-  <path d="M12.6,6 Q16,1.5 19.4,6 L19.4,7.4 Q16,5 12.6,7.4 Z" fill="#2B2F3E"/>
-  <rect x="19.5" y="5" width="1.2" height="14" rx="0.6" fill="#2B2F3E" transform="rotate(18 20 12)"/>
-  <path d="M24.6,3.6 L26.4,6.4 L23.2,6.6 Z" fill="#F2E9D8"/>
-  <circle cx="26.6" cy="7.8" r="1.6" fill="#E8B94A"/>
-  <!-- Legs stretched fore and aft -->
-  <rect x="5.5" y="22" width="2.4" height="8" rx="1" fill="#A6A9C0" transform="rotate(-24 6.7 26)"/>
-  <rect x="11" y="23.5" width="2.4" height="6.5" rx="1" fill="#A6A9C0" transform="rotate(10 12.2 26.75)"/>
-  <rect x="20" y="23.5" width="2.4" height="6.5" rx="1" fill="#A6A9C0" transform="rotate(-10 21.2 26.75)"/>
-  <rect x="25" y="22" width="2.4" height="8" rx="1" fill="#A6A9C0" transform="rotate(24 26.2 26)"/>
-  <path d="M5.5,17 Q2.5,19 3.5,23 Q5,21 6.5,20.5 Z" fill="#E8EAF4" opacity="0.8"/>
+  <!-- Bounding horse, mid-air, legs tucked tight -->
+  <path d="M5,19 L7,13 Q9,10.5 13,11.5 L21,11.5 Q25,11.5 26,14 L27,18 L25,19 Z" fill="#C9CBDA"/>
+  <path d="M24,12 L29,8.5 L30,10.5 L27,14 Z" fill="#C9CBDA"/>
+  <circle cx="27.8" cy="10.5" r="0.7" fill="#3A3F55"/>
+  <path d="M22,10.5 Q24,8 27,8.6 L25,11.4 Z" fill="#E8EAF4" opacity="0.8"/>
+  <rect x="13" y="5.5" width="6" height="7" rx="2" fill="#454E6B"/>
+  <circle cx="16" cy="4" r="3" fill="#E3D9CF"/>
+  <path d="M12.9,4 Q16,0 19.1,4 L19.1,5.2 Q16,3 12.9,5.2 Z" fill="#2B2F3E"/>
+  <path d="M17,12.5 L23,13.2 L22.4,18.5 L16.4,17.8 Z" fill="#8A6F4D"/>
+  <circle cx="18.3" cy="14" r="1.1" fill="#F2E9D8"/>
+  <circle cx="20.6" cy="14.4" r="1.1" fill="#F2E9D8"/>
+  <circle cx="19.4" cy="16.6" r="1.1" fill="#F2E9D8"/>
+  <rect x="19.3" y="2" width="1" height="6" rx="0.4" fill="#454E6B"/>
+  <path d="M19.8,1 L21,2.6 L19.8,4.2 L18.6,2.6 Z" fill="#E8B94A"/>
+  <!-- Legs tucked tight under the body -->
+  <rect x="10" y="17.5" width="2.2" height="6" rx="1" fill="#A6A9C0" transform="rotate(34 11.1 20.5)"/>
+  <rect x="13" y="17.5" width="2.2" height="6" rx="1" fill="#A6A9C0" transform="rotate(24 14.1 20.5)"/>
+  <rect x="17" y="17.5" width="2.2" height="6" rx="1" fill="#A6A9C0" transform="rotate(-24 18.1 20.5)"/>
+  <rect x="20" y="17.5" width="2.2" height="6" rx="1" fill="#A6A9C0" transform="rotate(-34 21.1 20.5)"/>
+  <path d="M5.5,14 Q1.5,14.5 2,18.5 Q4.5,16.5 6.5,16.5 Z" fill="#E8EAF4" opacity="0.8"/>
 </svg>

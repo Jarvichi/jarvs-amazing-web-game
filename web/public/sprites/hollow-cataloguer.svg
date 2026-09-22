@@ -1,21 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Empty hood -->
-  <circle cx="16" cy="9" r="5" fill="#5E6A8C"/>
-  <path d="M11,9 Q16,2 21,9 L21,11 Q16,8 11,11 Z" fill="#2B2F3E"/>
-  <circle cx="16" cy="10" r="3" fill="#1B1D28"/>
-  <!-- Robed body -->
-  <path d="M12,14 L11,23 L21,23 L20,14 Q16,16 12,14 Z" fill="#5E6A8C"/>
-  <rect x="13" y="17" width="6" height="1.2" fill="#2B2F3E"/>
-  <!-- Ledger tucked at hip -->
+  <!-- Floating ink-well lantern where a head would be, not a hood -->
+  <ellipse cx="16" cy="10" rx="3.4" ry="2.6" fill="#2B2F3E"/>
+  <ellipse cx="16" cy="8.6" rx="2.4" ry="1" fill="#1B1D28"/>
+  <ellipse cx="16" cy="8.6" rx="1.6" ry="0.6" fill="#4A6FA5" opacity="0.85"/>
+  <circle cx="16" cy="10" r="6" fill="#4A6FA5" opacity="0.12"/>
+  <!-- Tattered robed body, no shoulders to speak of -->
+  <path d="M12.5,15 L11,23 L21,23 L20,15 Q16,17 12.5,15 Z" fill="#5E6A8C"/>
+  <rect x="13.3" y="18" width="5.4" height="1.1" fill="#2B2F3E"/>
+  <path d="M11.5,17 L10,20 L11.8,19.6 Z" fill="#5E6A8C"/>
+  <path d="M20.5,17 L22,20 L20.2,19.6 Z" fill="#5E6A8C"/>
+  <!-- Ledger clutched at the hip -->
   <rect x="19.5" y="14.5" width="4" height="5" rx="1" fill="#2B2F3E"/>
   <rect x="20" y="15.2" width="3" height="3.5" fill="#F2E9D8"/>
-  <!-- Quill hand -->
-  <rect x="8" y="14" width="3" height="6" rx="1" fill="#5E6A8C"/>
-  <path d="M7,14 Q4,11.5 5.5,8 Q7.4,10 8,13 Z" fill="#F2E9D8"/>
-  <circle cx="5.6" cy="8.4" r="0.7" fill="#2B2F3E"/>
-  <!-- Legs (neutral) -->
-  <rect x="12" y="23" width="3.5" height="7" rx="1" fill="#454E6B"/>
-  <rect x="16.5" y="23" width="3.5" height="7" rx="1" fill="#454E6B"/>
-  <rect x="11" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
-  <rect x="16" y="28" width="5.5" height="3" rx="1" fill="#3A3F55"/>
+  <!-- A second, spectral quill-hand reaching out -->
+  <path d="M8,14 Q6,12 6.6,9 Q8.6,10.5 9,13 Z" fill="#F2E9D8" opacity="0.8"/>
+  <circle cx="6.8" cy="9.4" r="0.6" fill="#2B2F3E"/>
+  <rect x="8.6" y="13.6" width="2.6" height="5.4" rx="1" fill="#5E6A8C" opacity="0.85"/>
+  <!-- Legs (neutral, tapering to mist) -->
+  <path d="M12.5,23 L11.8,28.5 Q14,30 15.6,28.8 L16,23 Z" fill="#454E6B"/>
+  <path d="M20,23 L20.2,28.5 Q18,30 16.4,28.8 L16,23 Z" fill="#454E6B"/>
+  <ellipse cx="16" cy="29.5" rx="7" ry="1.6" fill="#E8EAF4" opacity="0.4"/>
 </svg>
