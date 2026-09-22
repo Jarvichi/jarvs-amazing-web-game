@@ -1,20 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Ground -->
   <ellipse cx="16" cy="29.5" rx="13" ry="2" fill="#7E8299" opacity="0.5"/>
-  <!-- Row of toppled shelf-boards -->
-  <rect x="5" y="12" width="5" height="17" rx="0.6" fill="#A6A9C0"/>
-  <rect x="11" y="10" width="5" height="19" rx="0.6" fill="#C9CBDA"/>
-  <rect x="17" y="11" width="5" height="18" rx="0.6" fill="#A6A9C0"/>
-  <rect x="23" y="13" width="5" height="16" rx="0.6" fill="#C9CBDA"/>
-  <!-- Grain of the shelving -->
-  <line x1="7.5" y1="14" x2="7.5" y2="27" stroke="#7E8299" stroke-width="0.7"/>
-  <line x1="13.5" y1="12" x2="13.5" y2="27" stroke="#7E8299" stroke-width="0.7"/>
-  <line x1="19.5" y1="13" x2="19.5" y2="27" stroke="#7E8299" stroke-width="0.7"/>
-  <line x1="25.5" y1="15" x2="25.5" y2="27" stroke="#7E8299" stroke-width="0.7"/>
-  <!-- Iron cross-rails -->
-  <rect x="4" y="17" width="25" height="1.6" rx="0.8" fill="#2B2F3E"/>
-  <rect x="4" y="23" width="25" height="1.6" rx="0.8" fill="#2B2F3E"/>
+  <!-- Toppled shelving units lying at angles, not upright posts -->
+  <rect x="2" y="22" width="13" height="4" rx="0.5" fill="#A6A9C0" transform="rotate(-14 8.5 24)"/>
+  <rect x="17" y="21" width="13" height="4" rx="0.5" fill="#C9CBDA" transform="rotate(11 23.5 23)"/>
+  <rect x="6" y="17" width="12" height="3.6" rx="0.5" fill="#9FA3BC" transform="rotate(-8 12 18.8)"/>
+  <!-- Shelf compartment dividers on the fallen boards -->
+  <line x1="5" y1="21.4" x2="6" y2="26.8" stroke="#7E8299" stroke-width="0.6" transform="rotate(-14 8.5 24)"/>
+  <line x1="9" y1="21.4" x2="10" y2="26.8" stroke="#7E8299" stroke-width="0.6" transform="rotate(-14 8.5 24)"/>
+  <line x1="21" y1="20.4" x2="22" y2="25.8" stroke="#7E8299" stroke-width="0.6" transform="rotate(11 23.5 23)"/>
+  <line x1="25" y1="20.4" x2="26" y2="25.8" stroke="#7E8299" stroke-width="0.6" transform="rotate(11 23.5 23)"/>
+  <!-- Scattered fallen ledgers -->
+  <rect x="9" y="26" width="4" height="2.4" rx="0.4" fill="#8A6F4D" transform="rotate(18 11 27.2)"/>
+  <rect x="17" y="26.5" width="4" height="2.4" rx="0.4" fill="#6E5A3E" transform="rotate(-12 19 27.7)"/>
+  <rect x="13" y="27.6" width="4" height="2.4" rx="0.4" fill="#8A6F4D" transform="rotate(6 15 28.8)"/>
+  <!-- Bound cord straining across the pile -->
+  <path d="M2,20 Q16,26 30,19" stroke="#2B2F3E" stroke-width="1.4" fill="none"/>
   <!-- Mist drifting through -->
   <ellipse cx="10" cy="27.5" rx="6" ry="1.4" fill="#E8EAF4" opacity="0.45"/>
-  <ellipse cx="22" cy="28.2" rx="5" ry="1.2" fill="#E8EAF4" opacity="0.4"/>
+  <ellipse cx="22" cy="28" rx="5" ry="1.2" fill="#E8EAF4" opacity="0.4"/>
 </svg>
