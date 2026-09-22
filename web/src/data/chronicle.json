@@ -172,5 +172,38 @@
       "desc": "A compass that no longer points north — only toward the heading Ren gave, for as long as it still leads anywhere.",
       "lore": "It's still there. It was never lost. It was left. — Ren"
     }
+  },
+  {
+    "id": "ch9",
+    "title": "What the Relay Never Caught",
+    "availableFrom": "2026-10-06",
+    "teaser": "The boat that left without a council's leave was due at the first relay-mark two nights ago. It has not answered since.",
+    "lore": "No single answer carried the heading, any more than one had carried Ren herself. On the shards that argued patience, the bearing went into a logbook and nowhere else, watched but not walked. On the shards that argued process, envoys began the slow work of a joint expedition — provisions, a charter, a crew drawn from all four provinces so that whatever came back belonged to everyone who sent it. And on at least one shard, nobody waited for either. A small boat went out on the evening tide, lanterns doused past the harbor mouth, carrying three volunteers and a copy of Ren's heading written in a hand too hurried to be anything but certain.\n\nThe deep-mist charts mark one honest kindness in all that silence: a relay-line, four days out, where the mist is thin enough that a boat can still be seen from a watch-shard if it knows to look. Custom going back to the old Dominion says you leave a mark there if you can — a flare, a raised sail, anything — so whoever sent you at least learns you survived the easy part. The lantern-boat was due at the relay-line two nights ago. The watch-shard logged clear skies, calm water, and nothing on the line at all. Not a wreck. Not a flare. Nothing, which is its own kind of report.\n\nThe watch captains who wanted patience are not gloating, though it would be easy to mistake their silence for that. What they say, mostly, is some version of: we did not know it would cost this, we only knew we didn't know enough not to wait. The envoys still building their joint expedition have split down the middle — half arguing this proves the need for a properly provisioned crew who won't vanish without a mark, half arguing it proves nobody should be out there at all. And the volunteers who might have gone alone, the ones who admired the lantern-boat's nerve two weeks ago, have mostly gone quiet themselves, doing the arithmetic on what three missing faces cost a shard that size.\n\nRen took the news the way she takes most things: without surprise, which unsettles people more than grief would have. Asked if she thought them dead, she said only, 'The mist asks a question of anything that crosses it. It gave me an honest answer once. It isn't obliged to give the same one twice.' Pressed on what the question even was, she looked, for the first time since the raft, like a woman deciding whether a thing was safe to say aloud — and then said nothing at all, which everyone has learned by now means she has decided it is not.\n\n{align:vigil}You kept your distance from Ren and you have kept it from the lantern-boat's whole enterprise besides — you didn't sign on, didn't cheer it, said at the time that a heading handed over that freely deserved more caution than admiration. You take no pleasure in being right. You take the relay-line's silence as confirmation of exactly the thing you've been watching for since she arrived.{/align}{align:accord}You argued Ren belonged before a council, on the record, and you have spent two weeks arguing the same for this heading — that whoever goes should go openly, provisioned by all four provinces, answerable to all of them. The lantern-boat did none of that, and its silence at the relay-line reads to you less like proof the heading is cursed than proof that going alone was always the mistake.{/align}{align:unbinding}You pressed Ren for straight answers when the councils wanted process, and some part of you understands exactly why three people didn't wait for a charter either. You are not sorry they went. You are furious that nobody organized a way to find out what happened to them, and you are already asking who else would go looking.{/align}{align:default}You have not settled what you believe about Ren, or the heading, or any of it, and the relay-line's silence does not settle it for you — it only makes the not-deciding feel heavier, now that not-deciding has a cost attached that isn't only yours to pay.{/align}\n\nBy morning the story is already three stories, each shard telling its own version to itself, and someone has to decide what the wider Dominion is actually told — not what happened, which nobody yet knows, but what gets said about it, and to whom, before the next boat's crew has to decide whether to go.",
+    "decision": {
+      "id": "d-ch9-relay",
+      "prompt": "The relay-line is silent and the Dominion is already talking. Someone has to decide what gets said about the lantern-boat, and to whom.",
+      "options": [
+        {
+          "id": "vigil",
+          "label": "Report only the bare fact",
+          "consequence": "You argue for restraint: the boat is overdue, the line is silent, nothing more is confirmed and nothing more should be claimed. Let the shards draw their own caution from a fact plainly stated, not a story dressed up to persuade them of it.",
+          "alignment": { "vigil": 2 }
+        },
+        {
+          "id": "accord",
+          "label": "Tell every shard everything",
+          "consequence": "You argue the opposite: full disclosure, the relay-line's silence included, sent openly to every province so that whoever volunteers for the next crossing does it with the whole picture, not a rumor half of one.",
+          "alignment": { "accord": 2 }
+        },
+        {
+          "id": "unbinding",
+          "label": "Say nothing — go get proof",
+          "consequence": "You have no patience for a Dominion arguing over how to phrase an unknown. You gather a crew willing to retrace the lantern-boat's own heading as far as the relay-line and bring back something more than silence to report.",
+          "alignment": { "unbinding": 2 }
+        }
+      ]
+    },
+    "challenge": { "type": "win_with_tag", "tag": "archive", "count": 2 },
+    "reward": { "type": "crystals", "amount": 75 }
   }
 ]
