@@ -32,13 +32,16 @@ export function fitToWindow(
   frame: HTMLElement, viewW: number, viewH: number,
   reserve: () => { w: number; h: number } = () => ({ w: 0, h: 0 }),
 ): void {
-  const resize = () => {
-    const r = reserve()
-    const fit = Math.min((window.innerWidth - r.w) / viewW, (window.innerHeight - r.h) / viewH)
-    const scale = fit >= 2 ? Math.floor(fit) : fit
-    frame.style.width = `${Math.floor(viewW * scale)}px`
-    frame.style.height = `${Math.floor(viewH * scale)}px`
-  }
+  const resize = () => { fitFrame(frame, viewW, viewH, reserve()) }
   window.addEventListener('resize', resize)
   resize()
+}
+
+/** One-off version of fitToWindow, for pages whose resolution changes. Returns the scale. */
+export function fitFrame(frame: HTMLElement, viewW: number, viewH: number, reserve = { w: 0, h: 0 }): number {
+  const fit = Math.min((window.innerWidth - reserve.w) / viewW, (window.innerHeight - reserve.h) / viewH)
+  const scale = fit >= 2 ? Math.floor(fit) : fit
+  frame.style.width = `${Math.floor(viewW * scale)}px`
+  frame.style.height = `${Math.floor(viewH * scale)}px`
+  return scale
 }
