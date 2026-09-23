@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <title>Pixel Pete — JAWG Retro</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #frame { position: relative; }
+    #screen {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    /* CRT: scanlines plus a soft vignette, toggled with C. */
+    #frame.crt::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.22) 2px 3px),
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.45) 100%);
+    }
+    #touch {
+      position: fixed;
+      inset: auto 0 0 0;
+      display: none;
+      justify-content: space-between;
+      padding: 0 16px calc(16px + env(safe-area-inset-bottom));
+      pointer-events: none;
+    }
+    #touch.on { display: flex; }
+    #touch .pad { display: flex; gap: 12px; pointer-events: auto; }
+    #touch button {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.7);
+      font: bold 22px ui-monospace, Menlo, Consolas, monospace;
+      touch-action: none;
+    }
+    #touch button.down { background: rgba(255, 255, 255, 0.35); }
+    #touch-pause {
+      position: fixed;
+      top: calc(8px + env(safe-area-inset-top));
+      right: calc(8px + env(safe-area-inset-right));
+      display: none;
+    }
+    #touch.on ~ #touch-pause { display: block; }
+    #touch-pause button {
+      width: 40px;
+      height: 32px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      color: rgba(255, 255, 255, 0.7);
+      font: bold 14px ui-monospace, Menlo, Consolas, monospace;
+    }
+  </style>
+</head>
+<body>
+  <div id="frame"><canvas id="screen" width="320" height="180"></canvas></div>
+  <div id="touch">
+    <div class="pad">
+      <button data-key="left" aria-label="Left">&#9664;</button>
+      <button data-key="right" aria-label="Right">&#9654;</button>
+    </div>
+    <div class="pad">
+      <button data-key="jump" aria-label="Jump">A</button>
+    </div>
+  </div>
+  <div id="touch-pause">
+    <button data-key="pause" aria-label="Pause">II</button>
+  </div>
+  <script type="module" src="/src/retro/main.ts"></script>
+</body>
+</html>
