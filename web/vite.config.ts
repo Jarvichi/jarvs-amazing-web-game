@@ -30,9 +30,10 @@ export default defineConfig({
       // the old SW keeps serving a consistent asset set (no stale-chunk risk).
       // Cache all static assets with cache-first strategy
       globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,woff,woff2}'],
-      // /retro is a separate game (retro.html), not a route of this app —
-      // never let an unmatched navigation there fall back to index.html.
-      navigateFallbackDenylist: [/^\/retro/],
+      // /retro and /shmup are separate games (retro.html, shmup.html), not
+      // routes of this app — never let an unmatched navigation there fall
+      // back to index.html.
+      navigateFallbackDenylist: [/^\/(retro|shmup)/],
     },
     manifest: {
       name: "Jarv's Amazing Web Game",
@@ -68,12 +69,13 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       // Entry points: the game, the standalone /chronicle-status endpoint
-      // (see src/chronicleStatus.ts), and the separate /retro platformer
-      // (see src/retro/main.ts).
+      // (see src/chronicleStatus.ts), and the separate arcade games at
+      // /retro and /shmup (see src/retro/main.ts, src/shmup/main.ts).
       input: {
         main: path.resolve(dirname, 'index.html'),
         chronicleStatus: path.resolve(dirname, 'chronicle-status.html'),
         retro: path.resolve(dirname, 'retro.html'),
+        shmup: path.resolve(dirname, 'shmup.html'),
       },
       output: {
         manualChunks(id) {

@@ -14,6 +14,7 @@ import {
   type Camera,
 } from './render'
 import { initInput, poll, type Frame } from './input'
+import { crtToggle, fitToWindow, readNumber, write } from '../arcade/page'
 import { isMuted, sfx, startMusic, stopMusic, toggleMute, unlock } from './audio'
 
 const DT = 1 / 60
@@ -46,13 +47,6 @@ const frame = document.getElementById('frame') as HTMLDivElement
 const ctx = canvas.getContext('2d')!
 ctx.imageSmoothingEnabled = false
 
-function readNumber(key: string): number {
-  try { return Number(localStorage.getItem(key)) || 0 } catch { return 0 }
-}
-function write(key: string, value: string) {
-  try { localStorage.setItem(key, value) } catch { /* private mode */ }
-}
-
 const game: Game = {
   screen: 'title',
   screenTime: 0,
@@ -67,8 +61,7 @@ const game: Game = {
   jumpLatched: false,
 }
 
-let crt = (() => { try { return localStorage.getItem(CRT_KEY) !== '0' } catch { return true } })()
-frame.classList.toggle('crt', crt)
+const toggleCrt = crtToggle(frame, CRT_KEY)
 
 function go(screen: Screen) {
   game.screen = screen
@@ -285,11 +278,7 @@ function loop(now: number) {
   const f = poll()
   held = f
   if (f.mute) toggleMute()
-  if (f.crt) {
-    crt = !crt
-    frame.classList.toggle('crt', crt)
-    write(CRT_KEY, crt ? '1' : '0')
-  }
+  if (f.crt) toggleCrt()
   const inGame = game.screen === 'play'
   if (inGame && (f.pause || (game.paused && f.confirm))) {
     game.paused = !game.paused
@@ -310,19 +299,7 @@ function loop(now: number) {
 }
 
 // ── Layout ──────────────────────────────────────────────────────────────────
-function resize() {
-  const vw = window.innerWidth
-  const vh = window.innerHeight
-  const fit = Math.min(vw / VIEW_W, vh / VIEW_H)
-  // Whole-number scaling keeps pixels square; fall back to fractional on
-  // screens too small for 2×.
-  const scale = fit >= 2 ? Math.floor(fit) : fit
-  frame.style.width = `${Math.floor(VIEW_W * scale)}px`
-  frame.style.height = `${Math.floor(VIEW_H * scale)}px`
-}
-
-window.addEventListener('resize', resize)
-resize()
+fitToWindow(frame, VIEW_W, VIEW_H)
 
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && game.screen === 'play' && !game.paused) {
