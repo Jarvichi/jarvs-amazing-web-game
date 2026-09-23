@@ -53,6 +53,8 @@ const game = {
   bombLatched: false,
 }
 
+const isFinalLevel = () => game.levelIdx === LEVELS.length - 1
+
 function go(screen: Screen) {
   game.screen = screen
   game.screenTime = 0
@@ -63,7 +65,7 @@ function startLevel(idx: number) {
   game.world = createWorld(LEVELS[idx], game.carry, (Date.now() & 0xffff) + 1)
   fx.clear()
   go('play')
-  playStageMusic()
+  playStageMusic(LEVELS[idx].theme)
 }
 
 function saveHiscore(score: number) {
@@ -138,7 +140,7 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
       fx.handle(events)
       for (const e of events) {
         sfx(e.kind)
-        if (e.kind === 'boss') { game.bossWarning = 3; playBossMusic() }
+        if (e.kind === 'boss') { game.bossWarning = 3; playBossMusic(isFinalLevel()) }
         if (e.kind === 'bossdie') stopMusic()
       }
       game.bossWarning = Math.max(0, game.bossWarning - dt)
@@ -400,8 +402,8 @@ function loop(now: number) {
     game.paused = !game.paused
     sfx('pause')
     if (game.paused) stopMusic()
-    else if (game.world.boss) playBossMusic()
-    else playStageMusic()
+    else if (game.world.boss) playBossMusic(isFinalLevel())
+    else playStageMusic(game.world.level.theme)
   }
   if (!game.paused) {
     if (f.bomb && playing) game.bombLatched = true

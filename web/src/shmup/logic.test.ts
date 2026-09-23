@@ -4,7 +4,7 @@ import {
   MAX_BOMBS, applyCapsule, buy, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
   type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
-import { currentPhase, healthFraction } from './boss'
+import { currentPhase, healthFraction, partPos } from './boss'
 import { LEVELS } from './levels'
 
 const DT = 1 / 60
@@ -136,19 +136,34 @@ describe('boss', () => {
     expect(w.status).toBe('won')
   })
 
-  it.each(LEVELS.map(l => [l.name, l] as const))(
-    '%s can be finished with starting weapons in reasonable time', (_, level) => {
+  // What a player could plausibly be flying by each level, given what the
+  // levels before it pay (checked below). Later bosses are tuned against
+  // this, not against starting weapons.
+  const TYPICAL: Partial<Carry['loadout']>[] = [
+    {},
+    { cannon: 2 },
+    { cannon: 2, side: true, rapid: 1 },
+    { cannon: 3, side: true, rapid: 1, homing: 1, drones: 1 },
+    { cannon: 3, side: true, rapid: 2, homing: 1, drones: 1, laser: true },
+  ]
+
+  it.each(LEVELS.map((l, i) => [l.name, l, i] as const))(
+    '%s can be finished with a typical loadout in reasonable time', (_, level, i) => {
       // An invulnerable ship that tracks the nearest threat and holds fire.
-      const w = createWorld(level, carry(), 7)
-      for (let i = 0; i < 60 * 60 * 5 && w.status === 'playing'; i++) {
+      const w = createWorld(level, carry({ loadout: { ...START_LOADOUT, ...TYPICAL[i] } }), 7)
+      for (let n = 0; n < 60 * 60 * 5 && w.status === 'playing'; n++) {
         w.ship.invuln = 1
-        const target = w.boss ? w.boss.x + (w.boss.pods.find(p => p.hp > 0)?.ox ?? 0) : (w.enemies[0]?.x ?? W / 2)
+        const b = w.boss
+        const pod = b?.pods.find(p => p.hp > 0)
+        const target = b ? (pod ? partPos(b, pod).x : b.x) : (w.enemies[0]?.x ?? W / 2)
         step(w, { ...IDLE, dx: Math.sign(target - w.ship.x), fire: true }, DT)
       }
       expect(w.status).toBe('won')
       expect(w.time).toBeLessThan(level.bossAt + 60)
-      expect(w.credits).toBeGreaterThan(300) // enough to afford something in the shop
+      // Each level must pay for a meaningful shop visit.
+      expect(w.credits).toBeGreaterThan(300 + i * 150)
     })
+
 })
 
 describe('boss attacks', () => {

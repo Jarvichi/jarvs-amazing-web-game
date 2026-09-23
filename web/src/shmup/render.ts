@@ -10,7 +10,7 @@ import { PAL, drawSprite, drawText, hash, makeSprite, textWidth, type Sprite } f
 import { partPos } from './boss'
 import {
   ENEMIES, H, MARGIN, W, coreExposed, dronePos, maxShield,
-  type Boss, type BossPart, type Enemy, type GameEvent, type Loadout, type World,
+  type Boss, type BossLook, type BossPart, type Enemy, type GameEvent, type Loadout, type Theme, type World,
 } from './logic'
 
 export { PAL, drawText }
@@ -210,13 +210,25 @@ function wallWidth(worldY: number, side: number): number {
   return 7 + Math.sin(worldY * 0.03 + side * 2) * 3 + Math.sin(worldY * 0.11 + side) * 2
 }
 
+const THEME_BG: Record<Theme, { bg: string; wall: [number, number] }> = {
+  flesh: { bg: '#2a0612', wall: [14, 8] },
+  machine: { bg: PAL[1], wall: [5, 6] },
+  spore: { bg: '#0b2410', wall: [3, 11] },
+  crystal: { bg: '#061a2c', wall: [1, 12] },
+  core: { bg: '#1c0204', wall: [2, 8] },
+}
+
 function drawBackground(ctx: CanvasRenderingContext2D, w: World, t: number) {
-  const flesh = w.level.theme === 'flesh'
+  const theme = w.level.theme
+  const flesh = theme === 'flesh'
   const scroll = w.scroll + (w.boss ? t * 6 : 0) // keep a little life when the scroll stops
-  ctx.fillStyle = flesh ? '#2a0612' : PAL[1]
+  ctx.fillStyle = THEME_BG[theme].bg
   ctx.fillRect(0, 0, W, H)
 
-  if (flesh) {
+  if (theme === 'spore') drawSporeDecor(ctx, scroll, t)
+  else if (theme === 'crystal') drawCrystalDecor(ctx, scroll, t)
+  else if (theme === 'core') drawCoreDecor(ctx, scroll, t)
+  else if (flesh) {
     // Pulsing veins, then cells drifting past at half speed.
     for (let v = 0; v < 5; v++) {
       ctx.fillStyle = v % 2 ? '#4a0c20' : PAL[2]
@@ -264,11 +276,74 @@ function drawBackground(ctx: CanvasRenderingContext2D, w: World, t: number) {
     for (const side of [0, 1]) {
       const ww = Math.round(wallWidth(wy, side))
       const x = side ? W - ww : 0
-      ctx.fillStyle = flesh ? PAL[14] : PAL[5]
+      const [body, edge] = THEME_BG[theme].wall
+      ctx.fillStyle = PAL[body]
       ctx.fillRect(x, y, ww, 2)
-      ctx.fillStyle = flesh ? PAL[8] : PAL[6]
+      ctx.fillStyle = PAL[edge]
       ctx.fillRect(side ? x : x + ww - 1, y, 1, 2)
     }
+  }
+}
+
+/** Wrap a scrolling coordinate into [-margin, H + margin). */
+const wrapY = (y: number, margin = 40) => ((y % (H + margin * 2)) + H + margin * 2) % (H + margin * 2) - margin
+
+function drawSporeDecor(ctx: CanvasRenderingContext2D, scroll: number, t: number) {
+  // Mushroom caps drifting past below, spores rising against the scroll.
+  for (let i = 0; i < 8; i++) {
+    const y = wrapY(hash(i) * 400 + scroll * 0.5)
+    const x = 24 + hash(i + 20) * (W - 48)
+    const r = 6 + hash(i + 5) * 6
+    ctx.fillStyle = '#1a4a1e'
+    ctx.fillRect(Math.round(x) - 1, Math.round(y), 3, Math.round(r))
+    ctx.fillStyle = PAL[3]
+    ctx.beginPath(); ctx.ellipse(x, y, r, r * 0.55, 0, Math.PI, Math.PI * 2); ctx.fill()
+    ctx.fillStyle = PAL[11]
+    ctx.fillRect(Math.round(x - r / 3), Math.round(y - r * 0.35), 2, 2)
+  }
+  for (let i = 0; i < 30; i++) {
+    const y = wrapY(hash(i + 70) * 400 + scroll * 0.3 - t * 14, 10)
+    const x = 16 + hash(i + 90) * (W - 32) + Math.sin(t + i) * 4
+    ctx.fillStyle = PAL[i % 3 ? 11 : 10]
+    ctx.fillRect(Math.round(x), Math.round(y), 1, 1)
+  }
+}
+
+function drawCrystalDecor(ctx: CanvasRenderingContext2D, scroll: number, t: number) {
+  for (let i = 0; i < 16; i++) {
+    const layer = i % 2 ? 0.4 : 0.9
+    const y = wrapY(hash(i) * 400 + scroll * layer)
+    const x = 18 + hash(i + 31) * (W - 36)
+    const s = (i % 2 ? 3 : 5) + hash(i + 3) * 3
+    // Kept dark: anything bright on a shooter's background reads as a threat.
+    ctx.fillStyle = i % 2 ? '#0c2a44' : '#15406a'
+    ctx.beginPath()
+    ctx.moveTo(x, y - s * 1.6); ctx.lineTo(x + s, y); ctx.lineTo(x, y + s * 1.6); ctx.lineTo(x - s, y)
+    ctx.fill()
+    if (i % 2 === 0 && Math.floor(t * 3 + i) % 5 === 0) {
+      ctx.fillStyle = '#5a8ab0'
+      ctx.fillRect(Math.round(x) - 1, Math.round(y - s), 1, 2)
+    }
+  }
+}
+
+function drawCoreDecor(ctx: CanvasRenderingContext2D, scroll: number, t: number) {
+  // The whole chamber throbs; veins of heat and embers climbing upward.
+  const beat = Math.max(0, Math.sin(t * 5)) ** 4
+  ctx.fillStyle = `rgba(255,0,77,${0.08 + beat * 0.12})`
+  ctx.fillRect(0, 0, W, H)
+  for (let v = 0; v < 6; v++) {
+    ctx.fillStyle = v % 2 ? PAL[2] : PAL[8]
+    const base = 18 + v * 28
+    for (let y = 0; y < H; y += 3) {
+      const x = base + Math.sin((y - scroll * 0.8) * 0.04 + v) * 10
+      ctx.fillRect(Math.round(x), y, 1, 3)
+    }
+  }
+  for (let i = 0; i < 24; i++) {
+    const y = wrapY(hash(i + 40) * 400 - t * (20 + hash(i) * 30), 10)
+    ctx.fillStyle = PAL[i % 2 ? 9 : 10]
+    ctx.fillRect(Math.round(16 + hash(i + 60) * (W - 32)), Math.round(y), 1, 2)
   }
 }
 
@@ -416,18 +491,65 @@ function drawEnemy(ctx: CanvasRenderingContext2D, e: Enemy, w: World, t: number)
   }
 }
 
+/** Body shell, body highlight, pod shell and pod iris colours for each boss. */
+const BOSS_COLOURS: Record<BossLook, [number, number, number, number]> = {
+  maw: [2, 14, 8, 2],
+  heart: [5, 6, 13, 12],
+  spore: [3, 11, 10, 3],
+  hydra: [1, 12, 6, 12],
+  core: [2, 8, 9, 8],
+}
+
 function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
   if (b.dying && Math.floor(b.dying * 12) % 2) return
-  const flesh = b.def.look === 'maw'
+  const look = b.def.look
+  const flesh = look === 'maw'
+  const [shell, highlight, podShell, podIris] = BOSS_COLOURS[look]
   const exposed = coreExposed(b)
   const bx = Math.round(b.x)
   const by = Math.round(b.y)
 
+  // Hydra heads hang from necks drawn behind the body.
+  if (look === 'hydra') {
+    ctx.strokeStyle = PAL[13]
+    ctx.lineWidth = 4
+    for (const p of b.pods) {
+      if (p.hp <= 0) continue
+      const pos = partPos(b, p)
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.quadraticCurveTo(bx + p.ox * 0.4, by + 24, pos.x, pos.y); ctx.stroke()
+    }
+    ctx.lineWidth = 1
+  }
+
   // Body: a wide carapace spanning the pods.
-  ctx.fillStyle = flesh ? PAL[2] : PAL[5]
-  ctx.beginPath(); ctx.ellipse(bx, by + 4, 52, 22, 0, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = flesh ? PAL[14] : PAL[6]
-  ctx.beginPath(); ctx.ellipse(bx, by, 46, 16, 0, Math.PI, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = PAL[shell]
+  if (look === 'spore') {
+    // A mushroom cap with gills underneath.
+    ctx.beginPath(); ctx.ellipse(bx, by + 2, 56, 28, 0, Math.PI, Math.PI * 2); ctx.fill()
+    ctx.fillStyle = '#1a4a1e'
+    ctx.fillRect(bx - 50, by + 2, 100, 8)
+    ctx.fillStyle = PAL[highlight]
+    for (let i = 0; i < 6; i++) {
+      ctx.beginPath(); ctx.arc(bx - 40 + i * 16, by - 12 - (i % 2) * 6, 3, 0, Math.PI * 2); ctx.fill()
+    }
+  } else if (look === 'hydra') {
+    ctx.beginPath()
+    ctx.moveTo(bx, by - 26); ctx.lineTo(bx + 34, by); ctx.lineTo(bx, by + 18); ctx.lineTo(bx - 34, by)
+    ctx.fill()
+    ctx.fillStyle = PAL[highlight]
+    ctx.beginPath(); ctx.moveTo(bx, by - 26); ctx.lineTo(bx + 12, by - 6); ctx.lineTo(bx, by - 2); ctx.fill()
+  } else if (look === 'core') {
+    // Armoured plates that rotate around the heart.
+    for (let i = 0; i < 8; i++) {
+      const a = t * 0.8 + (i / 8) * Math.PI * 2
+      ctx.fillStyle = PAL[i % 2 ? shell : 5]
+      ctx.beginPath(); ctx.arc(bx + Math.cos(a) * 30, by + Math.sin(a) * 16, 9, 0, Math.PI * 2); ctx.fill()
+    }
+  } else {
+    ctx.beginPath(); ctx.ellipse(bx, by + 4, 52, 22, 0, 0, Math.PI * 2); ctx.fill()
+    ctx.fillStyle = PAL[highlight]
+    ctx.beginPath(); ctx.ellipse(bx, by, 46, 16, 0, Math.PI, Math.PI * 2); ctx.fill()
+  }
 
   // Core: armoured shell until the pods fall, then a pulsing heart / maw.
   const c = b.core
@@ -446,8 +568,13 @@ function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
         ctx.fillRect(bx + i * 5 - 1, by - 8, 2, 4)
         ctx.fillRect(bx + i * 5 - 1, by + 4, 2, 4)
       }
-    } else {
+    } else if (look === 'core') {
+      drawEye(ctx, bx, by, 11, w.ship, PAL[8], PAL[0])
+    } else if (look === 'spore') {
       ctx.fillStyle = PAL[10]
+      for (let i = -2; i <= 2; i++) ctx.fillRect(bx + i * 6 - 1, by - 6, 2, 12)
+    } else {
+      ctx.fillStyle = PAL[look === 'hydra' ? 7 : 10]
       ctx.fillRect(bx - 3, by - 3, 6, 6)
     }
   }
@@ -460,7 +587,7 @@ function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
       ctx.beginPath(); ctx.arc(pos.x, pos.y, 5, 0, Math.PI * 2); ctx.fill()
       continue
     }
-    drawEye(ctx, pos.x, pos.y, 7, w.ship, flesh ? PAL[8] : PAL[13], flesh ? PAL[2] : PAL[12])
+    drawEye(ctx, pos.x, pos.y, 7, w.ship, PAL[podShell], PAL[podIris])
     flashPart(ctx, b, p)
   }
 

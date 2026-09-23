@@ -4,7 +4,7 @@
 // (../arcade/synth.ts). Songs are one-step-per-eighth-note data.
 
 import { arpeggio, configureSynth, noise, now, playSong, tone, type Song } from '../arcade/synth'
-import type { EventKind } from './logic'
+import type { EventKind, Theme } from './logic'
 
 export { isMuted, stopMusic, toggleMute, unlock } from '../arcade/synth'
 
@@ -47,8 +47,64 @@ const SHOP: Song = {
   ],
 }
 
-export const playStageMusic = () => playSong(STAGE)
-export const playBossMusic = () => playSong(BOSS)
+// Bouncy D-dorian for the fungal level.
+const SPORE: Song = {
+  tempo: 150,
+  voices: [
+    {
+      wave: 'square', vol: 0.04, notes: [
+        62, 0, 65, 69, 0, 67, 65, 62, 60, 0, 64, 67, 0, 65, 64, 60,
+        62, 0, 65, 69, 72, 0, 69, 67, 65, 64, 62, 0, 57, 0, 60, 0,
+      ],
+    },
+    { wave: 'triangle', vol: 0.18, gate: 0.7, notes: repeatBars([38, 36, 34, 33], [0, 12, 0, 12, 0, 12, 7, 12]) },
+  ],
+  hat: i => i % 4 === 2,
+}
+
+// Glassy E-minor arpeggios with a delayed square echo.
+const CRYSTAL_LEAD = [
+  76, 79, 83, 88, 83, 79, 76, 79, 74, 78, 81, 86, 81, 78, 74, 78,
+  72, 76, 79, 84, 79, 76, 72, 76, 71, 74, 78, 83, 78, 74, 71, 74,
+]
+const CRYSTAL: Song = {
+  tempo: 170,
+  voices: [
+    { wave: 'triangle', vol: 0.1, notes: CRYSTAL_LEAD },
+    { wave: 'square', vol: 0.02, notes: CRYSTAL_LEAD.map((_, i, a) => a[(i + a.length - 1) % a.length]) },
+    { wave: 'triangle', vol: 0.16, gate: 0.8, notes: repeatBars([40, 38, 36, 35], [0, 0, 12, 0, 0, 0, 12, 0]) },
+  ],
+  hat: i => i % 2 === 1,
+}
+
+// Driving and dark for the final descent.
+const CORE: Song = {
+  tempo: 190,
+  voices: [
+    {
+      wave: 'square', vol: 0.045, notes: [
+        69, 0, 69, 70, 69, 0, 72, 70, 69, 0, 69, 70, 73, 72, 70, 69,
+        67, 0, 67, 69, 67, 0, 70, 69, 65, 0, 65, 67, 69, 70, 72, 73,
+      ],
+    },
+    { wave: 'triangle', vol: 0.2, gate: 0.7, notes: repeatBars([33, 34, 31, 33], [0, 12, 0, 12, 0, 12, 0, 12]) },
+  ],
+  hat: () => true,
+}
+
+const FINAL_BOSS: Song = {
+  tempo: 200,
+  voices: [
+    { wave: 'square', vol: 0.05, notes: [69, 72, 76, 72, 70, 73, 77, 73, 69, 72, 76, 81, 80, 76, 73, 70] },
+    { wave: 'sawtooth', vol: 0.05, gate: 0.6, notes: [33, 33, 45, 33, 34, 34, 46, 34, 33, 33, 45, 33, 32, 32, 44, 32] },
+  ],
+  hat: () => true,
+}
+
+const STAGE_SONGS: Record<Theme, Song> = { flesh: STAGE, machine: STAGE, spore: SPORE, crystal: CRYSTAL, core: CORE }
+
+export const playStageMusic = (theme: Theme) => playSong(STAGE_SONGS[theme])
+export const playBossMusic = (final: boolean) => playSong(final ? FINAL_BOSS : BOSS)
 export const playShopMusic = () => playSong(SHOP)
 
 /** Every game event has a sound (enforced by the switch below), plus UI sounds. */
