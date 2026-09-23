@@ -8,7 +8,7 @@
 // loop. Rules are in logic.ts, drawing in render.ts, sound in audio.ts.
 
 import {
-  SHOP_ITEMS, START_LOADOUT, MAX_SHIELD, buy, createWorld, priceOf, step,
+  CONTINUE_SECONDS, MAX_CONTINUES, SHOP_ITEMS, START_LOADOUT, buy, continueCarry, createWorld, maxShield, priceOf, step,
   type Carry, type World,
 } from './logic'
 import { LEVELS } from './levels'
@@ -17,7 +17,7 @@ import {
 } from './render'
 import { initInput, poll, type Frame } from './input'
 import {
-  isMuted, playBossMusic, playShopMusic, playStageMusic, sfx, stopMusic, toggleMute, unlock, type Sfx,
+  isMuted, playBossMusic, playShopMusic, playStageMusic, sfx, stopMusic, toggleMute, unlock,
 } from './audio'
 import { crtToggle, fitFrame, readNumber, write } from '../arcade/page'
 
@@ -27,7 +27,7 @@ const HISCORE_KEY = 'jawg-shmup-hiscore'
 const CRT_KEY = 'jawg-shmup-crt'
 const SHIELD_BONUS = 10 // points per shield unit left at the end of a level
 
-type Screen = 'title' | 'play' | 'clear' | 'shop' | 'gameover' | 'victory'
+type Screen = 'title' | 'play' | 'clear' | 'shop' | 'continue' | 'gameover' | 'victory'
 
 const canvas = document.getElementById('screen') as HTMLCanvasElement
 const frame = document.getElementById('frame') as HTMLDivElement
@@ -43,13 +43,20 @@ const game = {
   paused: false,
   levelIdx: 0,
   carry: freshCarry(),
+  /** The carry each level began with, for continues. */
+  levelCarry: freshCarry(),
+  continues: MAX_CONTINUES,
   world: createWorld(LEVELS[0], freshCarry()) as World,
   hiscore: readNumber(HISCORE_KEY),
   shieldBonus: 0,
   shopCursor: 0,
   shopMsg: { text: '', t: 0 },
   bossWarning: 0,
+  /** A bomb press waiting for the next physics tick (see loop()). */
+  bombLatched: false,
 }
+
+const isFinalLevel = () => game.levelIdx === LEVELS.length - 1
 
 function go(screen: Screen) {
   game.screen = screen
@@ -58,10 +65,11 @@ function go(screen: Screen) {
 
 function startLevel(idx: number) {
   game.levelIdx = idx
+  game.levelCarry = { ...game.carry, loadout: { ...game.carry.loadout } }
   game.world = createWorld(LEVELS[idx], game.carry, (Date.now() & 0xffff) + 1)
   fx.clear()
   go('play')
-  playStageMusic()
+  playStageMusic(LEVELS[idx].theme)
 }
 
 function saveHiscore(score: number) {
@@ -91,8 +99,8 @@ const ox = () => (wide ? PANEL_W : 0)
 const midX = () => ox() + PF_W / 2
 
 // ── Shop ────────────────────────────────────────────────────────────────────
-const SHOP_TOP = 118
-const SHOP_ROW = 20
+const SHOP_TOP = 104
+const SHOP_ROW = 14
 const LAUNCH_ROW = SHOP_ITEMS.length
 
 const QUIPS = {
@@ -124,18 +132,20 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
       if (confirm) {
         sfx('start')
         game.carry = freshCarry()
+        game.continues = MAX_CONTINUES
         startLevel(0)
       }
       break
 
     case 'play': {
       const events = step(w, {
-        dx: f.dx, dy: f.dy, dragX: drag.x, dragY: drag.y, fire: f.fire,
+        dx: f.dx, dy: f.dy, dragX: drag.x, dragY: drag.y, fire: f.fire, bomb: game.bombLatched,
       }, dt)
+      game.bombLatched = false
       fx.handle(events)
       for (const e of events) {
-        sfx(e.kind as Sfx)
-        if (e.kind === 'boss') { game.bossWarning = 3; playBossMusic() }
+        sfx(e.kind)
+        if (e.kind === 'boss') { game.bossWarning = 3; playBossMusic(isFinalLevel()) }
         if (e.kind === 'bossdie') stopMusic()
       }
       game.bossWarning = Math.max(0, game.bossWarning - dt)
@@ -148,7 +158,7 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
       } else if (w.status === 'gameover') {
         stopMusic()
         saveHiscore(w.score)
-        go('gameover')
+        go(game.continues > 0 ? 'continue' : 'gameover')
       }
       break
     }
@@ -171,6 +181,20 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
     case 'shop':
       game.shopMsg.t -= dt
       break
+
+    case 'continue': {
+      const before = Math.floor(game.screenTime - dt)
+      if (Math.floor(game.screenTime) !== before && game.screenTime < CONTINUE_SECONDS) sfx('tick')
+      if (confirm && game.screenTime > 0.5) {
+        game.continues--
+        game.carry = continueCarry(game.levelCarry, START_LIVES)
+        sfx('start')
+        startLevel(game.levelIdx)
+      } else if (game.screenTime >= CONTINUE_SECONDS) {
+        go('gameover')
+      }
+      break
+    }
 
     case 'gameover':
     case 'victory':
@@ -221,7 +245,7 @@ function drawSidePanelsForMenus() {
   ctx.fillRect(0, 0, PANEL_W, PF_H)
   ctx.fillRect(PANEL_W + PF_W, 0, PANEL_W, PF_H)
   const help = [
-    ['MOVE', 'ARROWS'], ['', 'WASD'], ['FIRE', 'SPACE'], ['', 'Z'], ['PAUSE', 'P'], ['MUTE', 'M'], ['CRT', 'C'],
+    ['MOVE', 'ARROWS'], ['', 'WASD'], ['FIRE', 'SPACE'], ['', 'Z'], ['BOMB', 'B'], ['PAUSE', 'P'], ['MUTE', 'M'], ['CRT', 'C'],
   ]
   drawText(ctx, 'CONTROLS', 6, 10, PAL[13])
   help.forEach(([a, b], i) => {
@@ -248,6 +272,7 @@ function drawTitle(t: number) {
   if (touch) {
     centreText(ctx, 'DRAG ANYWHERE TO FLY', cx, 214, PAL[6])
     centreText(ctx, 'AUTO-FIRE WHILE TOUCHING', cx, 224, PAL[6])
+    centreText(ctx, 'B BUTTON FOR SMART BOMB', cx, 234, PAL[6])
   }
   centreText(ctx, `HI-SCORE ${String(game.hiscore).padStart(7, '0')}`, cx, 290, PAL[9])
   drawSidePanelsForMenus()
@@ -279,10 +304,10 @@ function drawShop(t: number) {
   ctx.fillStyle = '#12061e'
   ctx.fillRect(x0, 0, PF_W, PF_H)
   const cx = midX()
-  centreText(ctx, 'GLIX THE TRADER', cx, 10, PAL[11], 1)
-  drawTrader(cx, 30, t)
-  if (game.shopMsg.t > 0) centreText(ctx, game.shopMsg.text, cx, 80, PAL[7])
-  centreText(ctx, `CREDITS ${game.carry.credits}`, cx, 96, PAL[12])
+  centreText(ctx, 'GLIX THE TRADER', cx, 6, PAL[11], 1)
+  drawTrader(cx, 24, t)
+  if (game.shopMsg.t > 0) centreText(ctx, game.shopMsg.text, cx, 74, PAL[7])
+  centreText(ctx, `CREDITS ${game.carry.credits}`, cx, 86, PAL[12])
 
   SHOP_ITEMS.forEach((item, i) => {
     const y = SHOP_TOP + i * SHOP_ROW
@@ -290,27 +315,27 @@ function drawShop(t: number) {
     const price = priceOf(item.id, game.carry)
     if (sel) {
       ctx.fillStyle = PAL[1]
-      ctx.fillRect(x0 + 6, y - 6, PF_W - 12, SHOP_ROW - 2)
+      ctx.fillRect(x0 + 6, y - 5, PF_W - 12, SHOP_ROW - 2)
     }
     const affordable = price !== null && price <= game.carry.credits
     drawText(ctx, (sel ? '> ' : '  ') + item.name, x0 + 8, y - 2, affordable ? PAL[7] : PAL[5])
     drawText(ctx, price === null ? 'MAX' : String(price), x0 + PF_W - 10, y - 2, price === null ? PAL[5] : PAL[10], 1, 'right')
-    if (sel) drawText(ctx, item.blurb, x0 + 16, y + 5, PAL[6])
+    if (sel) centreText(ctx, item.blurb, cx, SHOP_TOP + (LAUNCH_ROW + 1) * SHOP_ROW + 4, PAL[6])
   })
   const ly = SHOP_TOP + LAUNCH_ROW * SHOP_ROW
   const sel = game.shopCursor === LAUNCH_ROW
   if (sel) {
     ctx.fillStyle = PAL[2]
-    ctx.fillRect(x0 + 6, ly - 6, PF_W - 12, SHOP_ROW - 2)
+    ctx.fillRect(x0 + 6, ly - 5, PF_W - 12, SHOP_ROW - 2)
   }
   centreText(ctx, (sel ? '> ' : '') + `LAUNCH TO LEVEL ${game.levelIdx + 2}`, cx, ly - 2, sel ? PAL[10] : PAL[7])
 
   const touch = document.getElementById('touch')?.classList.contains('on')
-  centreText(ctx, touch ? 'TAP AN ITEM TO BUY IT' : 'UP/DOWN TO CHOOSE, FIRE TO BUY', cx, 300, PAL[5])
+  centreText(ctx, touch ? 'TAP AN ITEM TO BUY IT' : 'UP/DOWN TO CHOOSE, FIRE TO BUY', cx, 306, PAL[5])
 
   if (wide) {
     // Show the current loadout in the usual panels.
-    drawPanels(ctx, { ...game.carry, shield: MAX_SHIELD }, { hiscore: game.hiscore, levelNum: game.levelIdx + 2 }, ox())
+    drawPanels(ctx, { ...game.carry, shield: maxShield(game.carry.loadout) }, { hiscore: game.hiscore, levelNum: game.levelIdx + 2 }, ox())
   }
 }
 
@@ -342,6 +367,19 @@ function drawGame(t: number) {
   }
 }
 
+function drawContinue(t: number) {
+  drawPlayfield(t, false)
+  dim(0.65)
+  const cx = midX()
+  const left = Math.max(0, CONTINUE_SECONDS - 1 - Math.floor(game.screenTime))
+  centreText(ctx, 'CONTINUE?', cx, 90, PAL[10], 3)
+  centreText(ctx, String(left), cx, 130, left <= 3 ? PAL[8] : PAL[7], 8)
+  centreText(ctx, `CONTINUES LEFT ${game.continues}`, cx, 190, PAL[6])
+  centreText(ctx, 'RESTART THIS LEVEL, SCORE RESETS', cx, 202, PAL[5])
+  if (blink(0.3)) centreText(ctx, 'PRESS FIRE OR TAP', cx, 230, PAL[7])
+  drawSidePanelsForMenus()
+}
+
 function drawEnd(t: number, won: boolean) {
   drawPlayfield(t, false)
   dim(0.6)
@@ -369,6 +407,7 @@ function draw() {
     case 'play':
     case 'clear': drawGame(t); break
     case 'shop': drawShop(t); break
+    case 'continue': drawContinue(t); break
     case 'gameover': drawEnd(t, false); break
     case 'victory': drawEnd(t, true); break
   }
@@ -396,10 +435,11 @@ function loop(now: number) {
     game.paused = !game.paused
     sfx('pause')
     if (game.paused) stopMusic()
-    else if (game.world.boss) playBossMusic()
-    else playStageMusic()
+    else if (game.world.boss) playBossMusic(isFinalLevel())
+    else playStageMusic(game.world.level.theme)
   }
   if (!game.paused) {
+    if (f.bomb && playing) game.bombLatched = true
     pendingDrag.x += f.dragX / scale
     pendingDrag.y += f.dragY / scale
     frameInput(f)

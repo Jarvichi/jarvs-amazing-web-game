@@ -39,7 +39,7 @@
         repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.22) 2px 3px),
         radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.45) 100%);
     }
-    /* Touch: no d-pad — you drag to fly — just a pause button. */
+    /* Touch: no d-pad — you drag to fly — just pause and smart-bomb buttons. */
     #touch {
       position: fixed;
       top: calc(8px + env(safe-area-inset-top));
@@ -47,6 +47,25 @@
       display: none;
     }
     #touch.on { display: block; }
+    #touch-bomb {
+      position: fixed;
+      left: calc(12px + env(safe-area-inset-left));
+      /* Sits above the portrait HUD's shield bar rather than on top of it. */
+      bottom: calc(56px + env(safe-area-inset-bottom));
+      display: none;
+    }
+    #touch.on ~ #touch-bomb { display: block; }
+    #touch-bomb button {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 236, 39, 0.5);
+      background: rgba(255, 163, 0, 0.18);
+      color: rgba(255, 236, 39, 0.85);
+      font: bold 18px ui-monospace, Menlo, Consolas, monospace;
+      touch-action: none;
+    }
+    #touch-bomb button.down { background: rgba(255, 163, 0, 0.45); }
     #touch button {
       width: 40px;
       height: 32px;
@@ -63,6 +82,9 @@
   <div id="frame"><canvas id="screen" width="180" height="320"></canvas></div>
   <div id="touch">
     <button data-key="pause" aria-label="Pause">II</button>
+  </div>
+  <div id="touch-bomb">
+    <button data-key="bomb" aria-label="Smart bomb">B</button>
   </div>
   <script type="module" src="/src/shmup/main.ts"></script>
 </body>
