@@ -23,7 +23,9 @@ export const INVULN_TIME = 2.5
 export const ENEMY_SHOT_SPEED = 90
 export const BOSS_CREDITS = 200
 
-export type EnemyKind = 'drifter' | 'swooper' | 'turret' | 'darter' | 'spinner'
+export type EnemyKind =
+  | 'drifter' | 'swooper' | 'turret' | 'darter' | 'spinner'
+  | 'splitter' | 'mine' | 'snake' | 'sniper' | 'carrier'
 
 export interface EnemyDef {
   hp: number
@@ -44,7 +46,11 @@ export interface Wave {
   gap?: number
   /** x offset added per member. */
   dx?: number
-  /** Movement parameter: swoop direction (±1), darter hover depth, etc. */
+  /**
+   * Per-kind movement parameter: swoop direction (±1) for swoopers, extra
+   * hover depth for darters and snipers, phase for drifters, sway direction
+   * for snakes.
+   */
   p?: number
 }
 
@@ -120,10 +126,14 @@ export interface Enemy {
   y: number
   sx: number // spawn x
   p: number
+  /** Position within its wave (0 = first in); a snake's head is member 0. */
+  member: number
   hp: number
   age: number
   fire: number
   flash: number
+  /** Sniper lock-on: where it will fire, and seconds of warning left. */
+  aim?: { x: number; y: number; t: number }
 }
 
 export interface Shot {
@@ -190,7 +200,7 @@ export interface World {
   level: LevelDef
   time: number
   scroll: number
-  spawns: { at: number; kind: EnemyKind; x: number; p: number }[]
+  spawns: { at: number; kind: EnemyKind; x: number; p: number; i: number }[]
   nextSpawn: number
   ship: { x: number; y: number; shield: number; invuln: number; alive: boolean; respawn: number }
   loadout: Loadout
@@ -246,7 +256,7 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
   const spawns: World['spawns'] = []
   for (const w of level.waves) {
     for (let i = 0; i < w.n; i++) {
-      spawns.push({ at: w.at + i * (w.gap ?? 0.35), kind: w.kind, x: w.x + i * (w.dx ?? 0), p: w.p ?? 0 })
+      spawns.push({ at: w.at + i * (w.gap ?? 0.35), kind: w.kind, x: w.x + i * (w.dx ?? 0), p: w.p ?? 0, i })
     }
   }
   spawns.sort((a, b) => a.at - b.at)

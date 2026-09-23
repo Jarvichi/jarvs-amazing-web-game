@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
   buy, coreExposed, createWorld, priceOf, step, tierScale,
-  type Attack, type BossPhase, type Carry, type Input, type LevelDef, type World,
+  type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
 import { currentPhase, healthFraction } from './boss'
 import { LEVELS } from './levels'
@@ -214,6 +214,72 @@ describe('boss attacks', () => {
     w.ship.invuln = 999
     run(w, 2)
     expect(w.enemyShots.length).toBeGreaterThan(20)
+  })
+})
+
+describe('new enemies', () => {
+  const one = (kind: Wave['kind'], extra: Partial<Wave> = {}) =>
+    createWorld({ ...EMPTY, waves: [{ at: 0, kind, n: 1, x: W / 2, ...extra }] }, carry())
+  const kill = (w: World) => {
+    for (const e of w.enemies) w.shots.push({ x: e.x, y: e.y, vx: 0, vy: 0, dmg: 99 })
+    return run(w, DT)
+  }
+
+  it('splitters split into two drifters', () => {
+    const w = one('splitter')
+    run(w, 1)
+    kill(w)
+    expect(w.enemies.filter(e => e.kind === 'drifter')).toHaveLength(2)
+  })
+
+  it('mines burst into a ring when shot', () => {
+    const w = one('mine')
+    w.ship.x = MARGIN + SHIP_W // well clear
+    run(w, 1)
+    kill(w)
+    expect(w.enemyShots.length).toBe(8)
+  })
+
+  it('mines go off when the ship flies too close', () => {
+    const w = one('mine')
+    run(w, 4) // drift down past the ship's top limit (y 40)
+    w.ship.invuln = 999
+    w.ship.x = w.enemies[0].x
+    w.ship.y = w.enemies[0].y + 15
+    const events = run(w, DT)
+    expect(events).toContain('explode')
+    expect(w.enemyShots.length).toBe(8)
+  })
+
+  it('snipers show where they will shoot before firing', () => {
+    const w = one('sniper')
+    w.ship.invuln = 999
+    let warned = false
+    for (let i = 0; i < 60 * 4 && w.enemyShots.length === 0; i++) {
+      step(w, IDLE, DT)
+      if (w.enemies[0]?.aim) warned = true
+    }
+    expect(warned).toBe(true)
+    expect(w.enemyShots).toHaveLength(1)
+    expect(Math.hypot(w.enemyShots[0].vx, w.enemyShots[0].vy)).toBeGreaterThan(200)
+  })
+
+  it('carriers keep launching swoopers', () => {
+    const w = one('carrier')
+    w.ship.invuln = 999
+    run(w, 6)
+    expect(w.enemies.filter(e => e.kind === 'swooper').length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('snake segments trail their head along the same path', () => {
+    const w = createWorld({ ...EMPTY, waves: [{ at: 0, kind: 'snake', n: 3, x: 90, gap: 0.2, p: 1 }] }, carry())
+    run(w, 1)
+    const [head, second] = w.enemies
+    expect(head.member).toBe(0)
+    expect(second.member).toBe(1)
+    // The second segment is where the head was 0.2s ago: same path, delayed.
+    expect(second.age).toBeCloseTo(head.age - 0.2, 1)
+    expect(head.y - second.y).toBeCloseTo(60 * 0.2, 0)
   })
 })
 

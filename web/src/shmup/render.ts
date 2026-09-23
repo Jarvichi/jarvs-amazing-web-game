@@ -302,6 +302,81 @@ function drawEye(ctx: CanvasRenderingContext2D, x: number, y: number, r: number,
   ctx.beginPath(); ctx.arc(x + Math.cos(a) * r * 0.25, y + Math.sin(a) * r * 0.25, r * 0.35, 0, Math.PI * 2); ctx.fill()
 }
 
+const circle = (ctx: CanvasRenderingContext2D, x: number, y: number, r: number, colour: string) => {
+  ctx.fillStyle = colour
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill()
+}
+
+function drawSplitter(ctx: CanvasRenderingContext2D, x: number, y: number, t: number) {
+  const r = 8 + Math.sin(t * 4) * 0.8
+  circle(ctx, x, y, r, PAL[3])
+  circle(ctx, x, y, r - 2, PAL[11])
+  // Two nuclei drifting apart: it's about to divide.
+  const d = 2 + Math.sin(t * 2) * 1.5
+  circle(ctx, x - d, y, 2, PAL[3])
+  circle(ctx, x + d, y, 2, PAL[3])
+}
+
+function drawMine(ctx: CanvasRenderingContext2D, x: number, y: number, t: number, shipDist: number) {
+  ctx.fillStyle = PAL[5]
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2
+    ctx.fillRect(Math.round(x + Math.cos(a) * 6), Math.round(y + Math.sin(a) * 6), 2, 2)
+  }
+  circle(ctx, x, y, 5, PAL[6])
+  // Blinks faster the closer the ship gets.
+  const rate = shipDist < 50 ? 16 : 4
+  circle(ctx, x, y, 2, PAL[Math.floor(t * rate) % 2 ? 8 : 2])
+}
+
+function drawSnake(ctx: CanvasRenderingContext2D, e: Enemy, w: World) {
+  const head = e.member === 0
+  circle(ctx, e.x, e.y, 5, PAL[head ? 8 : 9])
+  circle(ctx, e.x, e.y, 3, PAL[head ? 14 : 10])
+  if (head) {
+    const a = Math.atan2(w.ship.y - e.y, w.ship.x - e.x)
+    ctx.fillStyle = PAL[0]
+    ctx.fillRect(Math.round(e.x + Math.cos(a) * 2 - 2), Math.round(e.y + Math.sin(a) * 2), 1, 1)
+    ctx.fillRect(Math.round(e.x + Math.cos(a) * 2 + 2), Math.round(e.y + Math.sin(a) * 2), 1, 1)
+  }
+}
+
+function drawSniper(ctx: CanvasRenderingContext2D, e: Enemy, w: World, t: number) {
+  // Lock-on warning: a dotted line to where the shot will go.
+  if (e.aim && Math.floor(t * 20) % 2) {
+    ctx.fillStyle = PAL[8]
+    const d = Math.hypot(e.aim.x - e.x, e.aim.y - e.y)
+    for (let i = 0; i < d; i += 4) {
+      ctx.fillRect(Math.round(e.x + (e.aim.x - e.x) * i / d), Math.round(e.y + (e.aim.y - e.y) * i / d), 1, 1)
+    }
+  }
+  const target = e.aim ?? w.ship
+  const a = Math.atan2(target.y - e.y, target.x - e.x)
+  ctx.fillStyle = PAL[6]
+  for (let r = 4; r < 11; r++) ctx.fillRect(Math.round(e.x + Math.cos(a) * r), Math.round(e.y + Math.sin(a) * r), 1, 1)
+  ctx.fillStyle = PAL[13]
+  ctx.beginPath()
+  ctx.moveTo(e.x, e.y - 7); ctx.lineTo(e.x + 7, e.y); ctx.lineTo(e.x, e.y + 7); ctx.lineTo(e.x - 7, e.y)
+  ctx.fill()
+  circle(ctx, e.x, e.y, 2, PAL[e.aim ? 8 : 12])
+}
+
+function drawCarrier(ctx: CanvasRenderingContext2D, x: number, y: number, t: number) {
+  const l = Math.round(x - 12)
+  const top = Math.round(y - 9)
+  ctx.fillStyle = PAL[5]
+  ctx.fillRect(l, top + 2, 24, 14)
+  ctx.fillRect(l + 4, top, 16, 18)
+  ctx.fillStyle = PAL[6]
+  ctx.fillRect(l + 1, top + 3, 22, 2)
+  // Hangar mouth, glowing when a launch is near.
+  ctx.fillStyle = PAL[0]
+  ctx.fillRect(l + 8, top + 12, 8, 5)
+  ctx.fillStyle = PAL[Math.floor(t * 6) % 2 ? 9 : 10]
+  ctx.fillRect(l + 2, top + 8, 2, 2)
+  ctx.fillRect(l + 20, top + 8, 2, 2)
+}
+
 function drawEnemy(ctx: CanvasRenderingContext2D, e: Enemy, w: World, t: number) {
   const s = getSprites()
   const def = ENEMIES[e.kind]
@@ -313,6 +388,11 @@ function drawEnemy(ctx: CanvasRenderingContext2D, e: Enemy, w: World, t: number)
     case 'darter': drawSprite(ctx, s.darter, x, y, false); break
     case 'spinner': drawSpinner(ctx, e.x, e.y, t + e.id); break
     case 'turret': drawEye(ctx, e.x, e.y, 8, w.ship, w.level.theme === 'flesh' ? PAL[14] : PAL[6], PAL[8]); break
+    case 'splitter': drawSplitter(ctx, e.x, e.y, t + e.id); break
+    case 'mine': drawMine(ctx, e.x, e.y, t, Math.hypot(w.ship.x - e.x, w.ship.y - e.y)); break
+    case 'snake': drawSnake(ctx, e, w); break
+    case 'sniper': drawSniper(ctx, e, w, t); break
+    case 'carrier': drawCarrier(ctx, e.x, e.y, t); break
   }
   if (e.flash > 0) {
     ctx.globalCompositeOperation = 'lighter'
