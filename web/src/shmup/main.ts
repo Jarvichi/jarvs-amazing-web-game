@@ -8,7 +8,7 @@
 // loop. Rules are in logic.ts, drawing in render.ts, sound in audio.ts.
 
 import {
-  SHOP_ITEMS, START_LOADOUT, MAX_SHIELD, buy, createWorld, priceOf, step,
+  SHOP_ITEMS, START_LOADOUT, buy, createWorld, maxShield, priceOf, step,
   type Carry, type World,
 } from './logic'
 import { LEVELS } from './levels'
@@ -49,6 +49,8 @@ const game = {
   shopCursor: 0,
   shopMsg: { text: '', t: 0 },
   bossWarning: 0,
+  /** A bomb press waiting for the next physics tick (see loop()). */
+  bombLatched: false,
 }
 
 function go(screen: Screen) {
@@ -91,8 +93,8 @@ const ox = () => (wide ? PANEL_W : 0)
 const midX = () => ox() + PF_W / 2
 
 // ── Shop ────────────────────────────────────────────────────────────────────
-const SHOP_TOP = 118
-const SHOP_ROW = 20
+const SHOP_TOP = 104
+const SHOP_ROW = 14
 const LAUNCH_ROW = SHOP_ITEMS.length
 
 const QUIPS = {
@@ -130,8 +132,9 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
 
     case 'play': {
       const events = step(w, {
-        dx: f.dx, dy: f.dy, dragX: drag.x, dragY: drag.y, fire: f.fire,
+        dx: f.dx, dy: f.dy, dragX: drag.x, dragY: drag.y, fire: f.fire, bomb: game.bombLatched,
       }, dt)
+      game.bombLatched = false
       fx.handle(events)
       for (const e of events) {
         sfx(e.kind)
@@ -221,7 +224,7 @@ function drawSidePanelsForMenus() {
   ctx.fillRect(0, 0, PANEL_W, PF_H)
   ctx.fillRect(PANEL_W + PF_W, 0, PANEL_W, PF_H)
   const help = [
-    ['MOVE', 'ARROWS'], ['', 'WASD'], ['FIRE', 'SPACE'], ['', 'Z'], ['PAUSE', 'P'], ['MUTE', 'M'], ['CRT', 'C'],
+    ['MOVE', 'ARROWS'], ['', 'WASD'], ['FIRE', 'SPACE'], ['', 'Z'], ['BOMB', 'B'], ['PAUSE', 'P'], ['MUTE', 'M'], ['CRT', 'C'],
   ]
   drawText(ctx, 'CONTROLS', 6, 10, PAL[13])
   help.forEach(([a, b], i) => {
@@ -248,6 +251,7 @@ function drawTitle(t: number) {
   if (touch) {
     centreText(ctx, 'DRAG ANYWHERE TO FLY', cx, 214, PAL[6])
     centreText(ctx, 'AUTO-FIRE WHILE TOUCHING', cx, 224, PAL[6])
+    centreText(ctx, 'B BUTTON FOR SMART BOMB', cx, 234, PAL[6])
   }
   centreText(ctx, `HI-SCORE ${String(game.hiscore).padStart(7, '0')}`, cx, 290, PAL[9])
   drawSidePanelsForMenus()
@@ -279,10 +283,10 @@ function drawShop(t: number) {
   ctx.fillStyle = '#12061e'
   ctx.fillRect(x0, 0, PF_W, PF_H)
   const cx = midX()
-  centreText(ctx, 'GLIX THE TRADER', cx, 10, PAL[11], 1)
-  drawTrader(cx, 30, t)
-  if (game.shopMsg.t > 0) centreText(ctx, game.shopMsg.text, cx, 80, PAL[7])
-  centreText(ctx, `CREDITS ${game.carry.credits}`, cx, 96, PAL[12])
+  centreText(ctx, 'GLIX THE TRADER', cx, 6, PAL[11], 1)
+  drawTrader(cx, 24, t)
+  if (game.shopMsg.t > 0) centreText(ctx, game.shopMsg.text, cx, 74, PAL[7])
+  centreText(ctx, `CREDITS ${game.carry.credits}`, cx, 86, PAL[12])
 
   SHOP_ITEMS.forEach((item, i) => {
     const y = SHOP_TOP + i * SHOP_ROW
@@ -290,27 +294,27 @@ function drawShop(t: number) {
     const price = priceOf(item.id, game.carry)
     if (sel) {
       ctx.fillStyle = PAL[1]
-      ctx.fillRect(x0 + 6, y - 6, PF_W - 12, SHOP_ROW - 2)
+      ctx.fillRect(x0 + 6, y - 5, PF_W - 12, SHOP_ROW - 2)
     }
     const affordable = price !== null && price <= game.carry.credits
     drawText(ctx, (sel ? '> ' : '  ') + item.name, x0 + 8, y - 2, affordable ? PAL[7] : PAL[5])
     drawText(ctx, price === null ? 'MAX' : String(price), x0 + PF_W - 10, y - 2, price === null ? PAL[5] : PAL[10], 1, 'right')
-    if (sel) drawText(ctx, item.blurb, x0 + 16, y + 5, PAL[6])
+    if (sel) centreText(ctx, item.blurb, cx, SHOP_TOP + (LAUNCH_ROW + 1) * SHOP_ROW + 4, PAL[6])
   })
   const ly = SHOP_TOP + LAUNCH_ROW * SHOP_ROW
   const sel = game.shopCursor === LAUNCH_ROW
   if (sel) {
     ctx.fillStyle = PAL[2]
-    ctx.fillRect(x0 + 6, ly - 6, PF_W - 12, SHOP_ROW - 2)
+    ctx.fillRect(x0 + 6, ly - 5, PF_W - 12, SHOP_ROW - 2)
   }
   centreText(ctx, (sel ? '> ' : '') + `LAUNCH TO LEVEL ${game.levelIdx + 2}`, cx, ly - 2, sel ? PAL[10] : PAL[7])
 
   const touch = document.getElementById('touch')?.classList.contains('on')
-  centreText(ctx, touch ? 'TAP AN ITEM TO BUY IT' : 'UP/DOWN TO CHOOSE, FIRE TO BUY', cx, 300, PAL[5])
+  centreText(ctx, touch ? 'TAP AN ITEM TO BUY IT' : 'UP/DOWN TO CHOOSE, FIRE TO BUY', cx, 306, PAL[5])
 
   if (wide) {
     // Show the current loadout in the usual panels.
-    drawPanels(ctx, { ...game.carry, shield: MAX_SHIELD }, { hiscore: game.hiscore, levelNum: game.levelIdx + 2 }, ox())
+    drawPanels(ctx, { ...game.carry, shield: maxShield(game.carry.loadout) }, { hiscore: game.hiscore, levelNum: game.levelIdx + 2 }, ox())
   }
 }
 
@@ -400,6 +404,7 @@ function loop(now: number) {
     else playStageMusic()
   }
   if (!game.paused) {
+    if (f.bomb && playing) game.bombLatched = true
     pendingDrag.x += f.dragX / scale
     pendingDrag.y += f.dragY / scale
     frameInput(f)

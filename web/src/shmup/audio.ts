@@ -111,6 +111,11 @@ export function sfx(name: Sfx): void {
       // Charge-up whine for the telegraph.
       tone('square', 200, 1200, t, 0.8, 0.05)
       break
+    case 'bomb':
+      noise(t, 1.2, 0.4)
+      tone('sawtooth', 60, 1200, t, 0.3, 0.15)
+      tone('square', 1200, 40, t + 0.3, 0.9, 0.12)
+      break
     case 'buy':
       tone('square', 988, 988, t, 0.06, 0.1)
       tone('square', 1319, 1319, t + 0.06, 0.2, 0.1)

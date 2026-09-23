@@ -164,17 +164,18 @@ export function stepEnemies(w: World, dt: number, ev: GameEvent[]) {
     moveEnemy(w, e, dt, ev)
   }
 
-  // Player shots vs enemies
+  // Player shots vs enemies. Piercing shots carry on, but damage each enemy once.
   for (const b of w.shots) {
     for (const e of w.enemies) {
-      if (e.hp <= 0) continue
+      if (e.hp <= 0 || b.hitIds?.includes(e.id)) continue
       const def = ENEMIES[e.kind]
       if (!hit(b.x, b.y, 3, 6, e.x, e.y, def.w, def.h)) continue
       e.hp -= b.dmg
       e.flash = 0.06
-      b.y = -100 // spent
       if (e.hp <= 0) killEnemy(w, e, ev)
       else ev.push({ kind: 'hit', x: b.x, y: e.y })
+      if (b.pierce) { (b.hitIds ??= []).push(e.id); continue }
+      b.y = -100 // spent
       break
     }
   }

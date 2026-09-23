@@ -8,7 +8,7 @@
 
 import { createInput } from '../arcade/input'
 
-type Action = 'left' | 'right' | 'up' | 'down' | 'fire' | 'start' | 'pause' | 'mute' | 'crt'
+type Action = 'left' | 'right' | 'up' | 'down' | 'fire' | 'bomb' | 'start' | 'pause' | 'mute' | 'crt'
 
 const KEYS: Record<string, Action> = {
   ArrowLeft: 'left', KeyA: 'left',
@@ -16,6 +16,7 @@ const KEYS: Record<string, Action> = {
   ArrowUp: 'up', KeyW: 'up',
   ArrowDown: 'down', KeyS: 'down',
   Space: 'fire', KeyZ: 'fire', KeyJ: 'fire', KeyK: 'fire',
+  KeyB: 'bomb', KeyX: 'bomb', KeyL: 'bomb',
   Enter: 'start',
   KeyP: 'pause', Escape: 'pause',
   KeyM: 'mute',
@@ -33,6 +34,7 @@ const input = createInput<Action>({
     if (b(12) || ay < -0.4) on.push('up')
     if (b(13) || ay > 0.4) on.push('down')
     if (b(0) || b(1) || b(2)) on.push('fire')
+    if (b(3)) on.push('bomb')
     if (b(9)) on.push('pause')
     return on
   },
@@ -52,6 +54,7 @@ export interface Frame {
   down: boolean
   confirm: boolean
   firePressed: boolean
+  bomb: boolean
   pause: boolean
   mute: boolean
   crt: boolean
@@ -110,6 +113,7 @@ export function poll(): Frame {
     down: p.pressed('down'),
     confirm: p.pressed('start') || p.pressed('fire'),
     firePressed: p.pressed('fire'),
+    bomb: p.pressed('bomb'),
     pause: p.pressed('pause'),
     mute: p.pressed('mute'),
     crt: p.pressed('crt'),

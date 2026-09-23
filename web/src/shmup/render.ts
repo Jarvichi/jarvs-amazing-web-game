@@ -9,7 +9,7 @@
 import { PAL, drawSprite, drawText, hash, makeSprite, textWidth, type Sprite } from '../arcade/gfx'
 import { partPos } from './boss'
 import {
-  ENEMIES, H, MARGIN, MAX_SHIELD, W, coreExposed,
+  ENEMIES, H, MARGIN, W, coreExposed, dronePos, maxShield,
   type Boss, type BossPart, type Enemy, type GameEvent, type Loadout, type World,
 } from './logic'
 
@@ -148,6 +148,13 @@ export class Fx {
           this.rings.push({ x: e.x, y: e.y, r: 0, max: 30, life: 0.4 })
           this.shake = 0.5
           break
+        case 'bomb':
+          this.flash = 0.35
+          this.shake = 0.6
+          this.rings.push({ x: e.x, y: e.y, r: 0, max: 200, life: 0.5 })
+          this.rings.push({ x: e.x, y: e.y, r: 0, max: 120, life: 0.4 })
+          this.float(e.x, e.y - 16, 'SMART BOMB', 7)
+          break
         case 'phase':
           this.flash = 0.15
           this.shake = Math.max(this.shake, 0.4)
@@ -278,6 +285,13 @@ function drawShip(ctx: CanvasRenderingContext2D, w: World, t: number) {
   ctx.fillRect(x + 5, y + 14, 1, 2 + (Math.floor(t * 30) % 2))
   ctx.fillRect(x + 9, y + 14, 1, 2 + (Math.floor(t * 30) % 2))
   drawSprite(ctx, ship, x, y, false)
+  for (let i = 0; i < w.loadout.drones; i++) {
+    const d = dronePos(w, i)
+    ctx.fillStyle = PAL[12]
+    ctx.fillRect(Math.round(d.x) - 2, Math.round(d.y) - 2, 5, 5)
+    ctx.fillStyle = PAL[Math.floor(t * 10 + i) % 2 ? 7 : 1]
+    ctx.fillRect(Math.round(d.x) - 1, Math.round(d.y) - 1, 3, 3)
+  }
 }
 
 function drawSpinner(ctx: CanvasRenderingContext2D, x: number, y: number, t: number) {
@@ -492,7 +506,12 @@ function drawLasers(ctx: CanvasRenderingContext2D, b: Boss, t: number) {
 
 function drawShots(ctx: CanvasRenderingContext2D, w: World, t: number) {
   for (const s of w.shots) {
-    if (s.homing) {
+    if (s.pierce) {
+      ctx.fillStyle = PAL[12]
+      ctx.fillRect(Math.round(s.x) - 1, Math.round(s.y) - 6, 3, 12)
+      ctx.fillStyle = PAL[7]
+      ctx.fillRect(Math.round(s.x), Math.round(s.y) - 6, 1, 12)
+    } else if (s.homing) {
       ctx.fillStyle = PAL[9]
       ctx.fillRect(Math.round(s.x) - 1, Math.round(s.y) - 1, 3, 3)
       ctx.fillStyle = PAL[5]
@@ -583,10 +602,10 @@ export interface HudInfo {
   levelNum: number
 }
 
-function shieldBar(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, shield: number) {
+function shieldBar(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, shield: number, max: number) {
   ctx.fillStyle = PAL[0]
   ctx.fillRect(x, y, width, 4)
-  const frac = Math.max(0, shield) / MAX_SHIELD
+  const frac = Math.max(0, shield) / max
   ctx.fillStyle = PAL[frac > 0.5 ? 11 : frac > 0.25 ? 10 : 8]
   ctx.fillRect(x + 1, y + 1, Math.round((width - 2) * frac), 2)
 }
@@ -610,7 +629,8 @@ export function drawHudCompact(ctx: CanvasRenderingContext2D, w: World, _info: H
   drawText(ctx, pad(w.score, 7), 3, 3, PAL[7])
   // Centred: the top-right corner is under the touch pause button.
   drawText(ctx, `CR ${w.credits}`, W / 2 + 10, 3, PAL[12], 1, 'center')
-  shieldBar(ctx, 3, H - 8, 50, w.ship.shield)
+  shieldBar(ctx, 3, H - 8, 50, w.ship.shield, maxShield(w.loadout))
+  drawText(ctx, `B${w.loadout.bombs}`, 58, H - 9, PAL[w.loadout.bombs ? 10 : 5])
   lifeIcons(ctx, W - 3, H - 9, w.lives, 'right')
 }
 
@@ -644,11 +664,12 @@ export function drawPanels(ctx: CanvasRenderingContext2D, w: PanelState, info: H
   label('HI', 6, y); value(pad(Math.max(info.hiscore, w.score), 7), 6, y + 8, PAL[9]); y += 26
   label('LEVEL', 6, y); value(String(info.levelNum), 6, y + 8); y += 26
   label('SHIPS', 6, y); lifeIcons(ctx, 6, y + 8, w.lives, 'left'); y += 26
-  label('SHIELD', 6, y); shieldBar(ctx, 6, y + 8, PANEL_W - 12, w.shield)
+  label('SHIELD', 6, y); shieldBar(ctx, 6, y + 8, PANEL_W - 12, w.shield, maxShield(w.loadout)); y += 26
+  label('BOMBS', 6, y); value(String(w.loadout.bombs), 6, y + 8, PAL[w.loadout.bombs ? 10 : 5])
 
   const rx = right + 6
   y = 10
-  label('CREDITS', rx, y); value(String(w.credits), rx, y + 8, PAL[12]); y += 30
+  label('CREDITS', rx, y); value(String(w.credits), rx, y + 8, PAL[12]); y += 24
   label('WEAPONS', rx, y); y += 10
   const l = w.loadout
   const pips = (name: string, n: number, max: number) => {
@@ -657,13 +678,17 @@ export function drawPanels(ctx: CanvasRenderingContext2D, w: PanelState, info: H
       ctx.fillStyle = PAL[i < n ? 11 : 5]
       ctx.fillRect(rx + 1 + i * 5, y + 7, 4, 2)
     }
-    y += 14
+    y += 13
   }
   pips('CANNON', l.cannon, 3)
   pips('SIDE', l.side ? 1 : 0, 1)
   pips('REAR', l.rear ? 1 : 0, 1)
   pips('HOMING', l.homing, 2)
   pips('SPEED', l.speed, 2)
+  pips('RAPID', l.rapid, 2)
+  pips('LASER', l.laser ? 1 : 0, 1)
+  pips('DRONES', l.drones, 2)
+  pips('ARMOUR', l.armour ? 1 : 0, 1)
 }
 
 export function centreText(ctx: CanvasRenderingContext2D, text: string, cx: number, y: number, colour: string, scale = 1) {

@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest'
 import {
   BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
-  buy, coreExposed, createWorld, priceOf, step, tierScale,
+  MAX_BOMBS, applyCapsule, buy, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
   type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
 import { currentPhase, healthFraction } from './boss'
 import { LEVELS } from './levels'
 
 const DT = 1 / 60
-const IDLE: Input = { dx: 0, dy: 0, dragX: 0, dragY: 0, fire: false }
+const IDLE: Input = { dx: 0, dy: 0, dragX: 0, dragY: 0, fire: false, bomb: false }
 
 const EMPTY: LevelDef = {
   name: 'TEST',
@@ -280,6 +280,91 @@ describe('new enemies', () => {
     // The second segment is where the head was 0.2s ago: same path, delayed.
     expect(second.age).toBeCloseTo(head.age - 0.2, 1)
     expect(head.y - second.y).toBeCloseTo(60 * 0.2, 0)
+  })
+})
+
+describe('upgrades', () => {
+  const armed = (over: Partial<Carry['loadout']>) =>
+    createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, ...over } }))
+
+  it('laser bolts pierce a column of enemies, hurting each only once', () => {
+    const w = armed({ laser: true })
+    w.ship.x = W / 2
+    for (const y of [150, 120, 90]) {
+      w.enemies.push({ id: y, kind: 'turret', x: W / 2, y, sx: W / 2, p: 0, member: 0, hp: 99, age: 0, fire: 99, flash: 0 })
+    }
+    step(w, { ...IDLE, fire: true }, DT)
+    const bolt = w.shots.find(s => s.pierce)!
+    w.shots = [bolt]
+    run(w, 1)
+    // Each turret took exactly one bolt (2 damage) — none was hit twice.
+    expect(w.enemies.map(e => 99 - e.hp)).toEqual([2, 2, 2])
+  })
+
+  it('rapid fire shortens the cannon cooldown', () => {
+    const shotsIn = (rapid: 0 | 2) => {
+      const w = armed({ rapid })
+      w.ship.y = H - 12
+      let n = 0
+      for (let i = 0; i < 60; i++) n += step(w, { ...IDLE, fire: true }, DT).filter(e => e.kind === 'shot').length
+      return n
+    }
+    expect(shotsIn(2)).toBeGreaterThan(shotsIn(0))
+  })
+
+  it('drones block enemy shots', () => {
+    const w = armed({ drones: 1 })
+    step(w, IDLE, DT)
+    const d = dronePos(w, 0)
+    w.enemyShots.push({ x: d.x, y: d.y, vx: 0, vy: 0, dmg: 25 })
+    const events = run(w, 2 * DT) // blocked on the first tick, swept away on the next
+    expect(events).toContain('hit')
+    expect(w.enemyShots).toHaveLength(0)
+    expect(w.ship.shield).toBe(MAX_SHIELD)
+  })
+
+  it('armour raises the maximum shield', () => {
+    expect(armed({ armour: true }).ship.shield).toBe(maxShield({ ...START_LOADOUT, armour: true }))
+    expect(maxShield({ ...START_LOADOUT, armour: true })).toBeGreaterThan(MAX_SHIELD)
+  })
+
+  it('smart bombs clear shots and kill weak enemies, but never finish a boss part', () => {
+    const w = armed({ bombs: 1 })
+    w.enemies.push({ id: 1, kind: 'drifter', x: 90, y: 100, sx: 90, p: 0, member: 0, hp: 2, age: 0, fire: 99, flash: 0 })
+    w.enemyShots.push({ x: 50, y: 50, vx: 0, vy: 10, dmg: 25 })
+    const events = step(w, { ...IDLE, bomb: true }, DT).map(e => e.kind)
+    expect(events).toContain('bomb')
+    expect(w.enemyShots).toHaveLength(0)
+    expect(w.enemies.every(e => e.hp <= 0)).toBe(true)
+    expect(w.loadout.bombs).toBe(0)
+    // Out of bombs: nothing happens.
+    expect(step(w, { ...IDLE, bomb: true }, DT).map(e => e.kind)).not.toContain('bomb')
+
+    const bw = createWorld({ ...EMPTY, bossAt: 0 }, carry({ loadout: { ...START_LOADOUT, bombs: 3 } }))
+    step(bw, IDLE, DT)
+    bw.boss!.pods[0].hp = 3
+    for (let i = 0; i < 3; i++) step(bw, { ...IDLE, bomb: true }, DT)
+    expect(bw.boss!.pods[0].hp).toBe(1)
+  })
+
+  it('capsules never push an upgrade past its maximum', () => {
+    const w = armed({})
+    for (let i = 0; i < 60; i++) applyCapsule(w)
+    const l = w.loadout
+    expect([l.cannon, l.homing, l.speed, l.drones, l.rapid]).toEqual([3, 2, 2, 2, 2])
+    expect(l.bombs).toBeLessThanOrEqual(MAX_BOMBS)
+  })
+
+  it('sells every new item at a price, and caps it', () => {
+    const c = carry({ credits: 99999 })
+    for (const id of ['laser', 'drone', 'armour', 'rapid', 'bomb'] as const) {
+      expect(buy(c, id), id).toBe('ok')
+    }
+    expect(buy(c, 'laser')).toBe('maxed')
+    expect(buy(c, 'armour')).toBe('maxed')
+    buy(c, 'bomb')
+    expect(c.loadout.bombs).toBe(MAX_BOMBS)
+    expect(buy(c, 'bomb')).toBe('maxed')
   })
 })
 

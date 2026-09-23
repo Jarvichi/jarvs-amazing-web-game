@@ -20,6 +20,7 @@ export * from './world'
 export { ENEMIES } from './enemies'
 export { coreExposed } from './boss'
 export { applyCapsule } from './collisions'
+export { detonateBomb } from './weapons'
 export * from './shop'
 
 /** Advance the world by one tick. Returns what happened this tick. */

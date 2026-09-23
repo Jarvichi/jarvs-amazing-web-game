@@ -171,10 +171,13 @@ export function stepBoss(w: World, dt: number, ev: GameEvent[]) {
   for (const s of w.shots) {
     for (const p of [...b.pods, c]) {
       if (p.hp <= 0) continue
+      const key = p === c ? -1 : -2 - p.index
+      if (s.hitIds?.includes(key)) continue
       const pos = partPos(b, p)
       if (!hit(s.x, s.y, 3, 6, pos.x, pos.y, p.w, p.h)) continue
       const hy = s.y
-      if (!s.pierce) s.y = -100 // spent
+      if (s.pierce) (s.hitIds ??= []).push(key)
+      else s.y = -100 // spent
       if (p === c && !exposed) { ev.push({ kind: 'hit', x: s.x, y: hy }); break } // armoured
       p.hp -= s.dmg
       p.flash = 0.06

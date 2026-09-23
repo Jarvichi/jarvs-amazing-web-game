@@ -17,6 +17,12 @@ export const SPEED_STEP = 25
 export const FIRE_COOLDOWN = 0.12
 export const HOMING_COOLDOWN = 0.7
 export const MAX_SHIELD = 100
+export const ARMOUR_SHIELD = 50
+export const LASER_COOLDOWN = 0.3
+export const DRONE_COOLDOWN = 0.3
+export const DRONE_RADIUS = 18
+export const MAX_BOMBS = 3
+export const BOMB_DAMAGE = 10
 export const BULLET_DAMAGE = 25
 export const RAM_DAMAGE = 40
 export const INVULN_TIME = 2.5
@@ -117,6 +123,16 @@ export interface Loadout {
   rear: boolean
   homing: 0 | 1 | 2
   speed: 0 | 1 | 2
+  /** Piercing bolts alongside the cannon. */
+  laser: boolean
+  /** Orbiting drones that fire and soak up enemy shots. */
+  drones: 0 | 1 | 2
+  /** +ARMOUR_SHIELD max shield. */
+  armour: boolean
+  /** Each level cuts the cannon's cooldown by a fifth. */
+  rapid: 0 | 1 | 2
+  /** Smart bombs in stock (consumable). */
+  bombs: number
 }
 
 export interface Enemy {
@@ -145,6 +161,8 @@ export interface Shot {
   homing?: boolean
   /** Passes through what it hits (the laser upgrade). */
   pierce?: boolean
+  /** Ids a piercing shot has already damaged (boss parts use -1 for the core, -2-i for pods). */
+  hitIds?: number[]
 }
 
 export interface Pickup {
@@ -215,6 +233,9 @@ export interface World {
   status: Status
   fireCd: number
   homingCd: number
+  laserCd: number
+  droneCd: number
+  droneAngle: number
   sideToggle: boolean
   nextId: number
   rngState: number
@@ -228,11 +249,13 @@ export interface Input {
   dragX: number
   dragY: number
   fire: boolean
+  /** True on the tick the smart-bomb button went down. */
+  bomb: boolean
 }
 
 export type EventKind =
   | 'shot' | 'hit' | 'explode' | 'bigexplode' | 'credit' | 'capsule'
-  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser'
+  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb'
 
 export interface GameEvent {
   kind: EventKind
@@ -243,7 +266,10 @@ export interface GameEvent {
 }
 
 // ── Setup ───────────────────────────────────────────────────────────────────
-export const START_LOADOUT: Loadout = { cannon: 1, side: false, rear: false, homing: 0, speed: 0 }
+export const START_LOADOUT: Loadout = {
+  cannon: 1, side: false, rear: false, homing: 0, speed: 0,
+  laser: false, drones: 0, armour: false, rapid: 0, bombs: 1,
+}
 
 export interface Carry {
   loadout: Loadout
@@ -266,7 +292,7 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
     scroll: 0,
     spawns,
     nextSpawn: 0,
-    ship: { x: W / 2, y: H - 40, shield: MAX_SHIELD, invuln: 1.5, alive: true, respawn: 0 },
+    ship: { x: W / 2, y: H - 40, shield: maxShield(carry.loadout), invuln: 1.5, alive: true, respawn: 0 },
     loadout: { ...carry.loadout },
     enemies: [],
     shots: [],
@@ -279,6 +305,9 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
     status: 'playing',
     fireCd: 0,
     homingCd: 0,
+    laserCd: 0,
+    droneCd: 0,
+    droneAngle: 0,
     sideToggle: false,
     nextId: 1,
     rngState: seed >>> 0 || 1,
@@ -305,6 +334,16 @@ export const hit = (ax: number, ay: number, aw: number, ah: number, bx: number, 
 export function tierScale(tier: number): { hp: number; fire: number; speed: number } {
   const t = Math.max(0, tier - 1)
   return { hp: 1 + 0.4 * t, fire: 1 + 0.18 * t, speed: 1 + 0.08 * t }
+}
+
+export function maxShield(l: Loadout): number {
+  return MAX_SHIELD + (l.armour ? ARMOUR_SHIELD : 0)
+}
+
+/** Where drone `i` is orbiting right now. */
+export function dronePos(w: World, i: number): { x: number; y: number } {
+  const a = w.droneAngle + i * Math.PI
+  return { x: w.ship.x + Math.cos(a) * DRONE_RADIUS, y: w.ship.y + Math.sin(a) * DRONE_RADIUS * 0.6 }
 }
 
 export function shipSpeed(l: Loadout): number {

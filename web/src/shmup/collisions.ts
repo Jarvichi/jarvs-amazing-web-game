@@ -3,18 +3,19 @@
 // Credits and capsules, and everything that can hurt the ship.
 
 import {
-  H, MAX_SHIELD, RAM_DAMAGE, SHIP_H, SHIP_W, hit, rand, type GameEvent, type Loadout, type World,
+  H, MAX_BOMBS, RAM_DAMAGE, dronePos, maxShield, SHIP_H, SHIP_W, hit, rand, type GameEvent, type Loadout, type World,
 } from './world'
 import { ENEMIES, killEnemy } from './enemies'
 
-const CAPSULE_UPGRADES = ['cannon', 'side', 'rear', 'homing', 'speed', 'shield'] as const
+const CAPSULE_UPGRADES = ['cannon', 'side', 'rear', 'homing', 'speed', 'drones', 'rapid', 'bomb', 'shield'] as const
 
 /** Grant a random upgrade the ship doesn't already max out; shield otherwise. */
 export function applyCapsule(w: World): string {
   const l = w.loadout
   const options = CAPSULE_UPGRADES.filter(u =>
     (u === 'cannon' && l.cannon < 3) || (u === 'side' && !l.side) || (u === 'rear' && !l.rear) ||
-    (u === 'homing' && l.homing < 2) || (u === 'speed' && l.speed < 2))
+    (u === 'homing' && l.homing < 2) || (u === 'speed' && l.speed < 2) ||
+    (u === 'drones' && l.drones < 2) || (u === 'rapid' && l.rapid < 2) || (u === 'bomb' && l.bombs < MAX_BOMBS))
   const pick = options.length ? options[Math.floor(rand(w) * options.length)] : 'shield'
   switch (pick) {
     case 'cannon': l.cannon = (l.cannon + 1) as Loadout['cannon']; break
@@ -22,7 +23,10 @@ export function applyCapsule(w: World): string {
     case 'rear': l.rear = true; break
     case 'homing': l.homing = (l.homing + 1) as Loadout['homing']; break
     case 'speed': l.speed = (l.speed + 1) as Loadout['speed']; break
-    case 'shield': w.ship.shield = MAX_SHIELD; break
+    case 'drones': l.drones = (l.drones + 1) as Loadout['drones']; break
+    case 'rapid': l.rapid = (l.rapid + 1) as Loadout['rapid']; break
+    case 'bomb': l.bombs++; break
+    case 'shield': w.ship.shield = maxShield(l); break
   }
   return pick
 }
@@ -69,6 +73,16 @@ export function stepCollisions(w: World, dt: number, ev: GameEvent[]) {
   w.pickups = w.pickups.filter(p => p.y < H + 10)
 
   if (!s.alive) return
+  // Drones soak up enemy shots that touch them.
+  for (let i = 0; i < w.loadout.drones; i++) {
+    const d = dronePos(w, i)
+    for (const b of w.enemyShots) {
+      if (hit(b.x, b.y, 3, 3, d.x, d.y, 6, 6)) {
+        b.y = H + 100
+        ev.push({ kind: 'hit', x: d.x, y: d.y })
+      }
+    }
+  }
   for (const b of w.enemyShots) {
     if (hit(b.x, b.y, 3, 3, s.x, s.y, SHIP_W, SHIP_H)) {
       b.y = H + 100
