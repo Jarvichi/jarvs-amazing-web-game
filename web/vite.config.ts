@@ -32,8 +32,9 @@ export default defineConfig({
       globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,woff,woff2}'],
       // /retro and /shmup are separate games (retro.html, shmup.html), not
       // routes of this app — never let an unmatched navigation there fall
-      // back to index.html.
-      navigateFallbackDenylist: [/^\/(retro|shmup)/],
+      // back to index.html. Case-insensitive so /Retro reaches the network and
+      // public/404.html can redirect it.
+      navigateFallbackDenylist: [/^\/(retro|shmup)/i],
     },
     manifest: {
       name: "Jarv's Amazing Web Game",
