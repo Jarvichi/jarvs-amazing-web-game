@@ -108,7 +108,7 @@ export const playBossMusic = (final: boolean) => playSong(final ? FINAL_BOSS : B
 export const playShopMusic = () => playSong(SHOP)
 
 /** Every game event has a sound (enforced by the switch below), plus UI sounds. */
-export type Sfx = EventKind | 'buy' | 'deny' | 'start' | 'pause'
+export type Sfx = EventKind | 'buy' | 'deny' | 'start' | 'pause' | 'tick'
 
 // Rapid-fire sounds would otherwise stack into a drone; cap how often they play.
 const lastPlayed: Partial<Record<Sfx, number>> = {}
@@ -181,6 +181,9 @@ export function sfx(name: Sfx): void {
       break
     case 'start':
       arpeggio([60, 67, 72, 79, 84], t, 0.06, 0.12, 0.12)
+      break
+    case 'tick':
+      tone('square', 440, 440, t, 0.06, 0.1)
       break
     case 'pause':
       tone('square', 880, 880, t, 0.05, 0.1)

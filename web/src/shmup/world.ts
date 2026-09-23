@@ -314,6 +314,18 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
   }
 }
 
+export const MAX_CONTINUES = 3
+export const CONTINUE_SECONDS = 10
+
+/**
+ * What a continue restarts the level with: the loadout and credits the
+ * player had when the level began (so dying doesn't also cost upgrades),
+ * fresh ships, and — arcade rules — the score back to zero.
+ */
+export function continueCarry(levelStart: Carry, lives: number): Carry {
+  return { loadout: { ...levelStart.loadout }, credits: levelStart.credits, score: 0, lives }
+}
+
 /** mulberry32 — small, fast, seedable. */
 export function rand(w: World): number {
   w.rngState = (w.rngState + 0x6d2b79f5) >>> 0

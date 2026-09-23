@@ -8,7 +8,7 @@
 // loop. Rules are in logic.ts, drawing in render.ts, sound in audio.ts.
 
 import {
-  SHOP_ITEMS, START_LOADOUT, buy, createWorld, maxShield, priceOf, step,
+  CONTINUE_SECONDS, MAX_CONTINUES, SHOP_ITEMS, START_LOADOUT, buy, continueCarry, createWorld, maxShield, priceOf, step,
   type Carry, type World,
 } from './logic'
 import { LEVELS } from './levels'
@@ -27,7 +27,7 @@ const HISCORE_KEY = 'jawg-shmup-hiscore'
 const CRT_KEY = 'jawg-shmup-crt'
 const SHIELD_BONUS = 10 // points per shield unit left at the end of a level
 
-type Screen = 'title' | 'play' | 'clear' | 'shop' | 'gameover' | 'victory'
+type Screen = 'title' | 'play' | 'clear' | 'shop' | 'continue' | 'gameover' | 'victory'
 
 const canvas = document.getElementById('screen') as HTMLCanvasElement
 const frame = document.getElementById('frame') as HTMLDivElement
@@ -43,6 +43,9 @@ const game = {
   paused: false,
   levelIdx: 0,
   carry: freshCarry(),
+  /** The carry each level began with, for continues. */
+  levelCarry: freshCarry(),
+  continues: MAX_CONTINUES,
   world: createWorld(LEVELS[0], freshCarry()) as World,
   hiscore: readNumber(HISCORE_KEY),
   shieldBonus: 0,
@@ -62,6 +65,7 @@ function go(screen: Screen) {
 
 function startLevel(idx: number) {
   game.levelIdx = idx
+  game.levelCarry = { ...game.carry, loadout: { ...game.carry.loadout } }
   game.world = createWorld(LEVELS[idx], game.carry, (Date.now() & 0xffff) + 1)
   fx.clear()
   go('play')
@@ -128,6 +132,7 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
       if (confirm) {
         sfx('start')
         game.carry = freshCarry()
+        game.continues = MAX_CONTINUES
         startLevel(0)
       }
       break
@@ -153,7 +158,7 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
       } else if (w.status === 'gameover') {
         stopMusic()
         saveHiscore(w.score)
-        go('gameover')
+        go(game.continues > 0 ? 'continue' : 'gameover')
       }
       break
     }
@@ -176,6 +181,20 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
     case 'shop':
       game.shopMsg.t -= dt
       break
+
+    case 'continue': {
+      const before = Math.floor(game.screenTime - dt)
+      if (Math.floor(game.screenTime) !== before && game.screenTime < CONTINUE_SECONDS) sfx('tick')
+      if (confirm && game.screenTime > 0.5) {
+        game.continues--
+        game.carry = continueCarry(game.levelCarry, START_LIVES)
+        sfx('start')
+        startLevel(game.levelIdx)
+      } else if (game.screenTime >= CONTINUE_SECONDS) {
+        go('gameover')
+      }
+      break
+    }
 
     case 'gameover':
     case 'victory':
@@ -348,6 +367,19 @@ function drawGame(t: number) {
   }
 }
 
+function drawContinue(t: number) {
+  drawPlayfield(t, false)
+  dim(0.65)
+  const cx = midX()
+  const left = Math.max(0, CONTINUE_SECONDS - 1 - Math.floor(game.screenTime))
+  centreText(ctx, 'CONTINUE?', cx, 90, PAL[10], 3)
+  centreText(ctx, String(left), cx, 130, left <= 3 ? PAL[8] : PAL[7], 8)
+  centreText(ctx, `CONTINUES LEFT ${game.continues}`, cx, 190, PAL[6])
+  centreText(ctx, 'RESTART THIS LEVEL, SCORE RESETS', cx, 202, PAL[5])
+  if (blink(0.3)) centreText(ctx, 'PRESS FIRE OR TAP', cx, 230, PAL[7])
+  drawSidePanelsForMenus()
+}
+
 function drawEnd(t: number, won: boolean) {
   drawPlayfield(t, false)
   dim(0.6)
@@ -375,6 +407,7 @@ function draw() {
     case 'play':
     case 'clear': drawGame(t); break
     case 'shop': drawShop(t); break
+    case 'continue': drawContinue(t); break
     case 'gameover': drawEnd(t, false); break
     case 'victory': drawEnd(t, true); break
   }

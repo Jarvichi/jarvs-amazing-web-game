@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
-  MAX_BOMBS, applyCapsule, buy, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
+  MAX_BOMBS, applyCapsule, buy, continueCarry, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
   type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
 import { currentPhase, healthFraction, partPos } from './boss'
@@ -414,6 +414,17 @@ describe('shop', () => {
     buy(c, 'cannon'); buy(c, 'cannon')
     expect(priceOf('cannon', c)).toBeNull()
     expect(buy(c, 'cannon')).toBe('maxed')
+  })
+})
+
+describe('continues', () => {
+  it('restart the level with its starting loadout and credits, fresh ships and no score', () => {
+    const start = carry({ credits: 420, score: 9000, lives: 1, loadout: { ...START_LOADOUT, cannon: 3, laser: true } })
+    const c = continueCarry(start, 3)
+    expect(c).toEqual({ loadout: start.loadout, credits: 420, score: 0, lives: 3 })
+    // A copy: the dead run can't leak changes into the continue.
+    c.loadout.cannon = 1
+    expect(start.loadout.cannon).toBe(3)
   })
 })
 
