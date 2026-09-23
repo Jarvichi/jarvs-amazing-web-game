@@ -1,0 +1,63 @@
+<!doctype html>
+<!--
+  Site-wide "not found" page. GitHub Pages serves /404.html (with a 404
+  status) for any path that has no file, so this is also where near-miss URLs
+  for the standalone arcade games are caught:
+
+    /retro/  /Retro  /SHMUP/  /shmup/anything  →  /retro or /shmup
+
+  Those pages are retro.html and shmup.html at the site root, and GitHub Pages
+  paths are case-sensitive — so a trailing slash, or a phone keyboard
+  capitalising the first letter, used to land on GitHub's bare 404.
+
+  A static file in public/ (copied through verbatim by Vite), not an app route:
+  the main app has no client-side router to fall back to.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Not found — Jarv's Amazing Web Game</title>
+  <script>
+    (function () {
+      var games = ['retro', 'shmup']
+      var first = location.pathname.split('/').filter(Boolean)[0] || ''
+      first = first.toLowerCase().replace(/\.html$/, '')
+      if (games.indexOf(first) !== -1) {
+        location.replace('/' + first + location.search + location.hash)
+      }
+    })()
+  </script>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px;
+      box-sizing: border-box;
+      background: #0a0a0a;
+      color: #ddd;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      text-align: center;
+    }
+    h1 { margin: 0; font-size: 20px; color: #ddaa55; }
+    p { margin: 0; color: #888; }
+    nav { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 8px; }
+    a { color: #7fd4ff; }
+  </style>
+</head>
+<body>
+  <h1>404 — nothing here</h1>
+  <p>That page doesn't exist.</p>
+  <nav>
+    <a href="/">Play Jarv's Amazing Web Game</a>
+    <a href="/retro">Pixel Pete</a>
+    <a href="/shmup">Bioblast</a>
+  </nav>
+</body>
+</html>
