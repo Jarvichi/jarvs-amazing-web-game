@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest'
 import {
-  BASE_SPEED, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
-  buy, coreExposed, createWorld, priceOf, step,
-  type Carry, type Input, type LevelDef, type World,
+  BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
+  buy, coreExposed, createWorld, priceOf, step, tierScale,
+  type Attack, type BossPhase, type Carry, type Input, type LevelDef, type World,
 } from './logic'
+import { currentPhase, healthFraction } from './boss'
 import { LEVELS } from './levels'
 
 const DT = 1 / 60
@@ -12,9 +13,13 @@ const IDLE: Input = { dx: 0, dy: 0, dragX: 0, dragY: 0, fire: false }
 const EMPTY: LevelDef = {
   name: 'TEST',
   theme: 'flesh',
+  tier: 1,
   bossAt: 9999,
   waves: [],
-  boss: { name: 'B', coreHp: 10, pods: [{ ox: -30, oy: 0 }], podHp: 5, spread: 3, sway: 0.5 },
+  boss: {
+    name: 'B', look: 'maw', coreHp: 10, podHp: 5, pods: [{ ox: -30, oy: 0 }],
+    phases: [{ core: [{ kind: 'fan', every: 1, n: 3, spread: 0.2, speed: 80 }], pods: [], sway: 0.5 }],
+  },
 }
 
 const carry = (over: Partial<Carry> = {}): Carry =>
@@ -144,6 +149,82 @@ describe('boss', () => {
       expect(w.time).toBeLessThan(level.bossAt + 60)
       expect(w.credits).toBeGreaterThan(300) // enough to afford something in the shop
     })
+})
+
+describe('boss attacks', () => {
+  const bossLevel = (phases: BossPhase[], extra: Partial<LevelDef['boss']> = {}): LevelDef =>
+    ({ ...EMPTY, bossAt: 0, boss: { ...EMPTY.boss, coreHp: 20, podHp: 10, phases, ...extra } })
+  const phase = (core: Attack[], when?: BossPhase['when']): BossPhase => ({ when, core, pods: [], sway: 0 })
+
+  /** A world with the boss already in position. */
+  function arrived(level: LevelDef) {
+    const w = createWorld(level, carry())
+    step(w, IDLE, DT)
+    w.boss!.y = 64
+    return w
+  }
+
+  it('switches phase as health drops, and again when the pods fall', () => {
+    const w = arrived(bossLevel([phase([]), phase([], 0.5), phase([], 'exposed')]))
+    const b = w.boss!
+    expect(currentPhase(b)).toBe(0)
+    b.core.hp = 5 // 15 of 30 total left
+    expect(healthFraction(b)).toBe(0.5)
+    const events = run(w, DT)
+    expect(b.phase).toBe(1)
+    expect(events).toContain('phase')
+    b.pods[0].hp = 0
+    run(w, DT)
+    expect(b.phase).toBe(2)
+  })
+
+  it('warns before a laser burns, and only hurts under the beam', () => {
+    const w = arrived(bossLevel([phase([{ kind: 'laser', every: 99, warn: 1, dur: 1, width: 10 }])]))
+    w.ship.invuln = 0
+    w.ship.x = w.boss!.x
+    run(w, 1.5) // first volley within ~1.4s, then 1s of warning
+    expect(w.boss!.lasers).toHaveLength(1)
+    expect(w.ship.shield).toBe(MAX_SHIELD)
+    run(w, 1)
+    expect(w.ship.shield).toBeLessThan(MAX_SHIELD)
+
+    const dodged = arrived(bossLevel([phase([{ kind: 'laser', every: 99, warn: 0.2, dur: 2, width: 10 }])]))
+    dodged.ship.invuln = 0
+    dodged.ship.x = MARGIN + SHIP_W
+    run(dodged, 3)
+    expect(dodged.ship.shield).toBe(MAX_SHIELD)
+  })
+
+  it('summons minions but never past the cap', () => {
+    const w = arrived(bossLevel([phase([{ kind: 'summon', every: 0.1, enemy: 'drifter', n: 3, max: 4 }])]))
+    w.ship.invuln = 999
+    run(w, 3)
+    expect(w.enemies.length).toBeGreaterThan(0)
+    expect(w.enemies.length).toBeLessThanOrEqual(4)
+  })
+
+  it('fires every attack kind without error', () => {
+    const attacks: Attack[] = [
+      { kind: 'fan', every: 0.5, n: 5, spread: 0.2, speed: 80 },
+      { kind: 'aimed', every: 0.5, n: 3, speed: 90 },
+      { kind: 'ring', every: 0.5, n: 12, speed: 70 },
+      { kind: 'spiral', every: 0.1, arms: 3, spin: 0.3, speed: 80 },
+    ]
+    const w = arrived(bossLevel([phase(attacks)]))
+    w.ship.invuln = 999
+    run(w, 2)
+    expect(w.enemyShots.length).toBeGreaterThan(20)
+  })
+})
+
+describe('difficulty tiers', () => {
+  it('toughens enemies on later tiers', () => {
+    expect(tierScale(1)).toEqual({ hp: 1, fire: 1, speed: 1 })
+    const late = { ...EMPTY, tier: 3, waves: [{ at: 0, kind: 'turret' as const, n: 1, x: 90 }] }
+    const w = createWorld(late, carry())
+    step(w, IDLE, DT)
+    expect(w.enemies[0].hp).toBeGreaterThan(ENEMIES.turret.hp)
+  })
 })
 
 describe('shop', () => {

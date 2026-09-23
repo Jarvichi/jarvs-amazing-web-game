@@ -7,6 +7,7 @@
 // the events `step` returns — the logic never knows about them.
 
 import { PAL, drawSprite, drawText, hash, makeSprite, textWidth, type Sprite } from '../arcade/gfx'
+import { partPos } from './boss'
 import {
   ENEMIES, H, MARGIN, MAX_SHIELD, W, coreExposed,
   type Boss, type BossPart, type Enemy, type GameEvent, type Loadout, type World,
@@ -146,6 +147,11 @@ export class Fx {
           this.burst(e.x, e.y, 40, 120, [7, 12, 6, 10], 1)
           this.rings.push({ x: e.x, y: e.y, r: 0, max: 30, life: 0.4 })
           this.shake = 0.5
+          break
+        case 'phase':
+          this.flash = 0.15
+          this.shake = Math.max(this.shake, 0.4)
+          this.burst(e.x, e.y, 30, 90, [8, 14, 7], 0.6)
           break
         case 'hurt':
           this.burst(e.x, e.y, 6, 50, [12, 7], 0.3)
@@ -318,7 +324,7 @@ function drawEnemy(ctx: CanvasRenderingContext2D, e: Enemy, w: World, t: number)
 
 function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
   if (b.dying && Math.floor(b.dying * 12) % 2) return
-  const flesh = w.level.theme === 'flesh'
+  const flesh = b.def.look === 'maw'
   const exposed = coreExposed(b)
   const bx = Math.round(b.x)
   const by = Math.round(b.y)
@@ -354,12 +360,13 @@ function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
   flashPart(ctx, b, c)
 
   for (const p of b.pods) {
+    const pos = partPos(b, p)
     if (p.hp <= 0) {
       ctx.fillStyle = PAL[0]
-      ctx.beginPath(); ctx.arc(bx + p.ox, by + p.oy, 5, 0, Math.PI * 2); ctx.fill()
+      ctx.beginPath(); ctx.arc(pos.x, pos.y, 5, 0, Math.PI * 2); ctx.fill()
       continue
     }
-    drawEye(ctx, bx + p.ox, by + p.oy, 7, w.ship, flesh ? PAL[8] : PAL[13], flesh ? PAL[2] : PAL[12])
+    drawEye(ctx, pos.x, pos.y, 7, w.ship, flesh ? PAL[8] : PAL[13], flesh ? PAL[2] : PAL[12])
     flashPart(ctx, b, p)
   }
 
@@ -375,8 +382,32 @@ function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
 
 function flashPart(ctx: CanvasRenderingContext2D, b: Boss, p: BossPart) {
   if (p.flash <= 0) return
+  const pos = partPos(b, p)
   ctx.fillStyle = 'rgba(255,255,255,0.7)'
-  ctx.fillRect(Math.round(b.x + p.ox - p.w / 2), Math.round(b.y + p.oy - p.h / 2), p.w, p.h)
+  ctx.fillRect(Math.round(pos.x - p.w / 2), Math.round(pos.y - p.h / 2), p.w, p.h)
+}
+
+function drawLasers(ctx: CanvasRenderingContext2D, b: Boss, t: number) {
+  for (const l of b.lasers) {
+    const x = Math.round(l.x)
+    const y = Math.round(l.y)
+    if (l.t < l.warn) {
+      // Telegraph: a thin flickering guide line, faster as it's about to fire.
+      if (Math.floor(t * (8 + 16 * l.t / l.warn)) % 2) {
+        ctx.fillStyle = PAL[8]
+        ctx.fillRect(x, y, 1, H - y)
+      }
+      continue
+    }
+    const half = Math.floor(l.width / 2)
+    const wobble = Math.floor(t * 30) % 2
+    ctx.fillStyle = PAL[8]
+    ctx.fillRect(x - half - wobble, y, l.width + wobble * 2, H - y)
+    ctx.fillStyle = PAL[14]
+    ctx.fillRect(x - Math.floor(half / 2), y, half + 1, H - y)
+    ctx.fillStyle = PAL[7]
+    ctx.fillRect(x - 1, y, 2, H - y)
+  }
 }
 
 function drawShots(ctx: CanvasRenderingContext2D, w: World, t: number) {
@@ -451,7 +482,10 @@ export function renderPlayfield(w: World, fx: Fx, t: number): HTMLCanvasElement 
   drawBackground(ctx, w, t)
   for (const e of w.enemies) if (e.kind === 'turret') drawEnemy(ctx, e, w, t) // ground-level first
   drawPickups(ctx, w, t)
-  if (w.boss) drawBoss(ctx, w.boss, w, t)
+  if (w.boss) {
+    drawLasers(ctx, w.boss, t)
+    drawBoss(ctx, w.boss, w, t)
+  }
   for (const e of w.enemies) if (e.kind !== 'turret') drawEnemy(ctx, e, w, t)
   drawShip(ctx, w, t)
   drawShots(ctx, w, t)

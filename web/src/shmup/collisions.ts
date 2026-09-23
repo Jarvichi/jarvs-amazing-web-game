@@ -27,7 +27,7 @@ export function applyCapsule(w: World): string {
   return pick
 }
 
-function damageShip(w: World, amount: number, ev: GameEvent[]) {
+export function damageShip(w: World, amount: number, ev: GameEvent[]) {
   const s = w.ship
   if (!s.alive || s.invuln > 0) return
   s.shield -= amount

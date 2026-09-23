@@ -48,19 +48,58 @@ export interface Wave {
   p?: number
 }
 
+/**
+ * One boss attack, fired every `every` seconds from the core or from each
+ * living pod. Speeds are px/s; angles are radians (π/2 is straight down).
+ */
+export type Attack =
+  /** A downward fan of `n` shots, `spread` radians between neighbours. */
+  | { kind: 'fan'; every: number; n: number; spread: number; speed: number }
+  /** `n` shots at the ship, each a little faster, so they arrive as a stream. */
+  | { kind: 'aimed'; every: number; n: number; speed: number }
+  /** A full ring of `n` shots. */
+  | { kind: 'ring'; every: number; n: number; speed: number }
+  /** `arms` shots per volley, rotating `spin` radians each volley. */
+  | { kind: 'spiral'; every: number; arms: number; spin: number; speed: number }
+  /** Release `n` enemies, unless `max` enemies are already on screen. */
+  | { kind: 'summon'; every: number; enemy: EnemyKind; n: number; max: number }
+  /** A vertical beam: flashes a warning line for `warn` s, then burns for `dur` s. */
+  | { kind: 'laser'; every: number; warn: number; dur: number; width: number; track?: boolean }
+
+export interface BossPhase {
+  /**
+   * When this phase takes over: 'exposed' once every pod is dead, or a number
+   * once the boss's total remaining health fraction is at or below it. The
+   * last phase whose condition holds wins; omit it for the opening phase.
+   */
+  when?: 'exposed' | number
+  core: Attack[]
+  pods: Attack[]
+  /** Side-to-side sway speed (rad/s) and half-width (px). */
+  sway: number
+  swayWidth?: number
+}
+
+/** Which body art the renderer draws. */
+export type BossLook = 'maw' | 'heart' | 'spore' | 'hydra' | 'core'
+
 export interface BossDef {
   name: string
+  look: BossLook
   coreHp: number
-  pods: { ox: number; oy: number }[]
   podHp: number
-  /** Shots in the core's fan attack. */
-  spread: number
-  sway: number
+  /** Pod positions relative to the core; `ax`/`ay`/`freq` make them bob independently. */
+  pods: { ox: number; oy: number; ax?: number; ay?: number; freq?: number }[]
+  phases: BossPhase[]
 }
+
+export type Theme = 'flesh' | 'machine' | 'spore' | 'crystal' | 'core'
 
 export interface LevelDef {
   name: string
-  theme: 'flesh' | 'machine'
+  theme: Theme
+  /** Difficulty tier (1 = first level); scales enemy health, fire rate and shot speed. */
+  tier: number
   bossAt: number
   waves: Wave[]
   boss: BossDef
@@ -94,6 +133,8 @@ export interface Shot {
   vy: number
   dmg: number
   homing?: boolean
+  /** Passes through what it hits (the laser upgrade). */
+  pierce?: boolean
 }
 
 export interface Pickup {
@@ -106,12 +147,29 @@ export interface Pickup {
 export interface BossPart {
   ox: number
   oy: number
+  /** Index into the def's pods (-1 for the core), for per-pod bobbing. */
+  index: number
   hp: number
   max: number
   w: number
   h: number
-  fire: number
+  /** Seconds until each of the current phase's attacks fires again. */
+  timers: number[]
+  /** Current spiral angle. */
+  spin: number
   flash: number
+}
+
+export interface Laser {
+  /** The part it's fired from; its x is followed when `track` is set. */
+  part: BossPart
+  x: number
+  y: number
+  t: number
+  warn: number
+  dur: number
+  width: number
+  track: boolean
 }
 
 export interface Boss {
@@ -121,6 +179,8 @@ export interface Boss {
   t: number
   core: BossPart
   pods: BossPart[]
+  phase: number
+  lasers: Laser[]
   dying: number // seconds since death; 0 while alive
 }
 
@@ -162,7 +222,7 @@ export interface Input {
 
 export type EventKind =
   | 'shot' | 'hit' | 'explode' | 'bigexplode' | 'credit' | 'capsule'
-  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill'
+  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser'
 
 export interface GameEvent {
   kind: EventKind
@@ -226,6 +286,16 @@ export function rand(w: World): number {
 
 export const hit = (ax: number, ay: number, aw: number, ah: number, bx: number, by: number, bw: number, bh: number) =>
   Math.abs(ax - bx) * 2 < aw + bw && Math.abs(ay - by) * 2 < ah + bh
+
+/**
+ * How much harder each tier is than tier 1. Tuned so a player who has been
+ * buying upgrades still feels pressure: level 1 at tier 1 played right, and
+ * level 2 at the same numbers was too easy once upgraded.
+ */
+export function tierScale(tier: number): { hp: number; fire: number; speed: number } {
+  const t = Math.max(0, tier - 1)
+  return { hp: 1 + 0.4 * t, fire: 1 + 0.18 * t, speed: 1 + 0.08 * t }
+}
 
 export function shipSpeed(l: Loadout): number {
   return BASE_SPEED + l.speed * SPEED_STEP

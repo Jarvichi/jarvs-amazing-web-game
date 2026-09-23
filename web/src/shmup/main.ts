@@ -17,7 +17,7 @@ import {
 } from './render'
 import { initInput, poll, type Frame } from './input'
 import {
-  isMuted, playBossMusic, playShopMusic, playStageMusic, sfx, stopMusic, toggleMute, unlock, type Sfx,
+  isMuted, playBossMusic, playShopMusic, playStageMusic, sfx, stopMusic, toggleMute, unlock,
 } from './audio'
 import { crtToggle, fitFrame, readNumber, write } from '../arcade/page'
 
@@ -134,7 +134,7 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
       }, dt)
       fx.handle(events)
       for (const e of events) {
-        sfx(e.kind as Sfx)
+        sfx(e.kind)
         if (e.kind === 'boss') { game.bossWarning = 3; playBossMusic() }
         if (e.kind === 'bossdie') stopMusic()
       }

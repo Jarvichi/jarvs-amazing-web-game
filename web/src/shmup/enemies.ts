@@ -4,7 +4,8 @@
 // level's wave timeline, and player shots hitting them.
 
 import {
-  BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, SCROLL_SPEED, W, hit, rand, type Enemy, type EnemyDef, type EnemyKind, type GameEvent, type World,
+  BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, SCROLL_SPEED, W, hit, rand, tierScale,
+  type Enemy, type EnemyDef, type EnemyKind, type GameEvent, type World,
 } from './world'
 
 export const ENEMIES: Record<EnemyKind, EnemyDef> = {
@@ -15,14 +16,19 @@ export const ENEMIES: Record<EnemyKind, EnemyDef> = {
   turret: { hp: 8, score: 300, credits: 20, w: 16, h: 16, capsule: 0.25 },
 }
 
-
 export function aimAt(w: World, x: number, y: number, speed = ENEMY_SHOT_SPEED, spread = 0) {
   const a = Math.atan2(w.ship.y - y, w.ship.x - x) + spread
   w.enemyShots.push({ x, y, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, dmg: BULLET_DAMAGE })
 }
 
+/** Aimed shot from a regular enemy, at this level's tier speed. */
+function enemyShot(w: World, x: number, y: number, speed = ENEMY_SHOT_SPEED, spread = 0) {
+  aimAt(w, x, y, speed * tierScale(w.level.tier).speed, spread)
+}
+
 function moveEnemy(w: World, e: Enemy, dt: number) {
   const t = e.age
+  const rate = tierScale(w.level.tier).fire
   switch (e.kind) {
     case 'drifter':
       e.y += 50 * dt
@@ -36,11 +42,11 @@ function moveEnemy(w: World, e: Enemy, dt: number) {
     }
     case 'spinner':
       e.y += 70 * dt
-      if (e.y > 20 && (e.fire -= dt) <= 0) { e.fire = 2; aimAt(w, e.x, e.y) }
+      if (e.y > 20 && (e.fire -= dt) <= 0) { e.fire = 2 / rate; enemyShot(w, e.x, e.y) }
       break
     case 'turret':
       e.y += SCROLL_SPEED * dt
-      if (e.y > 16 && (e.fire -= dt) <= 0) { e.fire = 1.6; aimAt(w, e.x, e.y) }
+      if (e.y > 16 && (e.fire -= dt) <= 0) { e.fire = 1.6 / rate; enemyShot(w, e.x, e.y) }
       break
     case 'darter': {
       const hover = 60 + (e.p || 0)
@@ -48,7 +54,7 @@ function moveEnemy(w: World, e: Enemy, dt: number) {
       else if (t < 2.6) {
         if ((e.fire -= dt) <= 0) {
           e.fire = 99
-          for (const s of [-0.25, 0, 0.25]) aimAt(w, e.x, e.y, 100, s)
+          for (const s of [-0.25, 0, 0.25]) enemyShot(w, e.x, e.y, 100, s)
         }
       } else {
         e.y += 170 * dt
@@ -67,14 +73,20 @@ export function killEnemy(w: World, e: Enemy, ev: GameEvent[]) {
   if (rand(w) < def.capsule) w.pickups.push({ x: e.x + 6, y: e.y, kind: 'capsule', value: 0 })
 }
 
+/** Add an enemy with tier-scaled health. Used by the wave timeline and by bosses' summons. */
+export function spawnEnemy(w: World, kind: EnemyKind, x: number, y: number, p = 0): Enemy {
+  const e: Enemy = {
+    id: w.nextId++, kind, x, y, sx: x, p,
+    hp: Math.ceil(ENEMIES[kind].hp * tierScale(w.level.tier).hp), age: 0, fire: 0.6 + rand(w), flash: 0,
+  }
+  w.enemies.push(e)
+  return e
+}
+
 export function stepEnemies(w: World, dt: number, ev: GameEvent[]) {
   while (w.nextSpawn < w.spawns.length && w.spawns[w.nextSpawn].at <= w.time) {
     const s = w.spawns[w.nextSpawn++]
-    const def = ENEMIES[s.kind]
-    w.enemies.push({
-      id: w.nextId++, kind: s.kind, x: s.x, y: -def.h, sx: s.x, p: s.p,
-      hp: def.hp, age: 0, fire: 0.6 + rand(w), flash: 0,
-    })
+    spawnEnemy(w, s.kind, s.x, -ENEMIES[s.kind].h, s.p)
   }
   for (const e of w.enemies) {
     e.age += dt

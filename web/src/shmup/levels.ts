@@ -12,6 +12,7 @@ export const LEVELS: LevelDef[] = [
   {
     name: 'THE GULLET',
     theme: 'flesh',
+    tier: 1,
     bossAt: 68,
     waves: [
       { at: 2, kind: 'drifter', n: 5, x: 40, dx: 25, gap: 0.3 },
@@ -37,21 +38,35 @@ export const LEVELS: LevelDef[] = [
     ],
     boss: {
       name: 'THE MAW',
+      look: 'maw',
       coreHp: 60,
-      pods: [{ ox: -32, oy: 6 }, { ox: 32, oy: 6 }],
       podHp: 30,
-      spread: 5,
-      sway: 0.6,
+      pods: [{ ox: -32, oy: 6 }, { ox: 32, oy: 6 }],
+      phases: [
+        {
+          core: [{ kind: 'fan', every: 2.6, n: 5, spread: 0.22, speed: 80 }],
+          pods: [{ kind: 'aimed', every: 1.3, n: 1, speed: 100 }],
+          sway: 0.6,
+        },
+        {
+          when: 'exposed',
+          core: [{ kind: 'fan', every: 1.4, n: 7, spread: 0.22, speed: 80 }],
+          pods: [],
+          sway: 0.6,
+        },
+      ],
     },
   },
   {
     name: 'IRON HEART',
     theme: 'machine',
+    tier: 2,
     bossAt: 78,
     waves: [
       { at: 2, kind: 'spinner', n: 4, x: 30, dx: 40, gap: 0.3 },
       { at: 5, kind: 'swooper', n: 6, x: 30, p: 1, gap: 0.3 },
       { at: 7, kind: 'swooper', n: 6, x: 150, p: -1, gap: 0.3 },
+      { at: 9, kind: 'darter', n: 2, x: 60, dx: 60, gap: 0.4, p: 20 },
       { at: 11, kind: 'turret', n: 3, x: 40, dx: 50, gap: 0 },
       { at: 14, kind: 'darter', n: 2, x: 50, dx: 80, gap: 0.5 },
       { at: 18, kind: 'drifter', n: 8, x: 25, dx: 18, gap: 0.12 },
@@ -59,6 +74,7 @@ export const LEVELS: LevelDef[] = [
       { at: 25, kind: 'darter', n: 3, x: 40, dx: 50, gap: 0.5, p: 20 },
       { at: 29, kind: 'swooper', n: 8, x: 90, p: 1, gap: 0.25 },
       { at: 30, kind: 'swooper', n: 8, x: 90, p: -1, gap: 0.25 },
+      { at: 33, kind: 'spinner', n: 6, x: 25, dx: 26, gap: 0.15 },
       { at: 35, kind: 'turret', n: 2, x: 30, dx: 120, gap: 0 },
       { at: 36, kind: 'turret', n: 2, x: 70, dx: 40, gap: 0 },
       { at: 40, kind: 'drifter', n: 10, x: 25, dx: 14, gap: 0.12 },
@@ -67,6 +83,7 @@ export const LEVELS: LevelDef[] = [
       { at: 53, kind: 'swooper', n: 6, x: 40, p: 1 },
       { at: 54, kind: 'swooper', n: 6, x: 140, p: -1 },
       { at: 58, kind: 'turret', n: 4, x: 30, dx: 40, gap: 0 },
+      { at: 60, kind: 'turret', n: 2, x: 50, dx: 80, gap: 0 },
       { at: 62, kind: 'darter', n: 4, x: 40, dx: 33, gap: 0.3, p: 15 },
       { at: 66, kind: 'drifter', n: 8, x: 30, dx: 17, gap: 0.15 },
       { at: 70, kind: 'spinner', n: 4, x: 40, dx: 33, gap: 0.3 },
@@ -74,11 +91,36 @@ export const LEVELS: LevelDef[] = [
     ],
     boss: {
       name: 'IRON HEART',
-      coreHp: 90,
+      look: 'heart',
+      coreHp: 110,
+      podHp: 45,
       pods: [{ ox: -36, oy: 4 }, { ox: 36, oy: 4 }, { ox: 0, oy: 22 }],
-      podHp: 36,
-      spread: 7,
-      sway: 0.8,
+      phases: [
+        {
+          core: [{ kind: 'fan', every: 2.4, n: 7, spread: 0.2, speed: 90 }],
+          pods: [{ kind: 'aimed', every: 1.4, n: 2, speed: 105 }],
+          sway: 0.8,
+        },
+        {
+          when: 0.6,
+          core: [
+            { kind: 'fan', every: 2, n: 7, spread: 0.2, speed: 95 },
+            { kind: 'laser', every: 4.5, warn: 0.9, dur: 1, width: 10 },
+          ],
+          pods: [{ kind: 'aimed', every: 1.2, n: 2, speed: 110 }],
+          sway: 0.9,
+        },
+        {
+          when: 'exposed',
+          core: [
+            { kind: 'spiral', every: 0.14, arms: 3, spin: 0.35, speed: 85 },
+            { kind: 'laser', every: 3.5, warn: 0.8, dur: 1.2, width: 12, track: true },
+          ],
+          pods: [],
+          sway: 1,
+          swayWidth: 44,
+        },
+      ],
     },
   },
 ]

@@ -4,6 +4,7 @@
 // (../arcade/synth.ts). Songs are one-step-per-eighth-note data.
 
 import { arpeggio, configureSynth, noise, now, playSong, tone, type Song } from '../arcade/synth'
+import type { EventKind } from './logic'
 
 export { isMuted, stopMusic, toggleMute, unlock } from '../arcade/synth'
 
@@ -50,9 +51,8 @@ export const playStageMusic = () => playSong(STAGE)
 export const playBossMusic = () => playSong(BOSS)
 export const playShopMusic = () => playSong(SHOP)
 
-export type Sfx =
-  | 'shot' | 'hit' | 'explode' | 'bigexplode' | 'bossdie' | 'credit' | 'capsule'
-  | 'hurt' | 'die' | 'boss' | 'podkill' | 'buy' | 'deny' | 'start' | 'pause'
+/** Every game event has a sound (enforced by the switch below), plus UI sounds. */
+export type Sfx = EventKind | 'buy' | 'deny' | 'start' | 'pause'
 
 // Rapid-fire sounds would otherwise stack into a drone; cap how often they play.
 const lastPlayed: Partial<Record<Sfx, number>> = {}
@@ -103,6 +103,14 @@ export function sfx(name: Sfx): void {
         tone('square', 330, 330, t + i * 0.5 + 0.25, 0.25, 0.1)
       }
       break
+    case 'phase':
+      tone('sawtooth', 80, 320, t, 0.6, 0.14)
+      noise(t, 0.4, 0.15)
+      break
+    case 'laser':
+      // Charge-up whine for the telegraph.
+      tone('square', 200, 1200, t, 0.8, 0.05)
+      break
     case 'buy':
       tone('square', 988, 988, t, 0.06, 0.1)
       tone('square', 1319, 1319, t + 0.06, 0.2, 0.1)
@@ -117,5 +125,9 @@ export function sfx(name: Sfx): void {
       tone('square', 880, 880, t, 0.05, 0.1)
       tone('square', 660, 660, t + 0.07, 0.08, 0.1)
       break
+    default: {
+      const missing: never = name
+      void missing
+    }
   }
 }
