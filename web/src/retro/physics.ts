@@ -45,6 +45,7 @@ export interface Level {
   tiles: string[]
   start: { x: number; y: number }
   flagX: number
+  flagY: number
 }
 
 export interface Body {
@@ -111,6 +112,7 @@ export function parseLevel(def: LevelDef): {
   const enemies: { x: number; y: number }[] = []
   let start: { x: number; y: number } | null = null
   let flagX = -1
+  let flagY = -1
 
   def.map.forEach((row, y) => {
     if (row.length !== w) throw new Error(`${def.name}: row ${y} is ${row.length} wide, expected ${w}`)
@@ -135,6 +137,7 @@ export function parseLevel(def: LevelDef): {
           break
         case 'F':
           flagX = x * TILE
+          flagY = y * TILE
           out += '.'
           break
         default:
@@ -146,7 +149,7 @@ export function parseLevel(def: LevelDef): {
 
   if (!start) throw new Error(`${def.name}: no player start 'P'`)
   if (flagX < 0) throw new Error(`${def.name}: no flag 'F'`)
-  return { level: { name: def.name, theme: def.theme, w, h, tiles, start, flagX }, coins, enemies }
+  return { level: { name: def.name, theme: def.theme, w, h, tiles, start, flagX, flagY }, coins, enemies }
 }
 
 export function createWorld(def: LevelDef, score = 0): World {
