@@ -5,7 +5,7 @@
 // original to this game.
 
 import { CAR_W } from './car'
-import { FORK_OFFSET, PROP_HIT, branchHalfWidth, buildTrack, type Piece, type PropKind, type Track } from './road'
+import { FORK_OFFSET, PROP_HIT, PROP_SIZE, ROAD_W, RUMBLE, branchHalfWidth, buildTrack, type Piece, type PropKind, type Track } from './road'
 
 export type Skyline = 'city' | 'hills' | 'mesa' | 'forest' | 'neon'
 
@@ -56,11 +56,13 @@ const bend = (n: number, curve: number, hill = 0): Piece => ({ enter: 20, hold: 
 const FORK_EDGE = FORK_OFFSET + branchHalfWidth(1)
 
 /**
- * Distance from the middle for a prop beside a road edge at `edge`: always
- * far enough out that a car still on the tarmac can't clip it.
+ * Distance from the middle for a prop beside a road edge at `edge`: far
+ * enough out that a car still on the tarmac can't clip it, and that its
+ * picture (often wider than what you can hit) doesn't cover the kerb.
  */
 export function roadside(kind: PropKind, edge: number, r: number): number {
-  return edge + PROP_HIT[kind] + CAR_W / 2 + 0.1 + r * 1.2
+  const clear = Math.max(PROP_HIT[kind] + CAR_W / 2, PROP_SIZE[kind] / 2 / ROAD_W + (RUMBLE - 1))
+  return edge + clear + 0.1 + r * 1.2
 }
 
 function decorate(track: Track, theme: Theme, seed: number): Track {

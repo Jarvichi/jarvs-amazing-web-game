@@ -57,7 +57,53 @@ export function createTraffic(count: number, playerZ: number, rnd: Rng): Traffic
   return cars
 }
 
+/**
+ * Cars in all three lanes within this distance of each other form a wall:
+ * at top speed you cover about this far while changing one lane.
+ */
+export const WALL_GAP = 5000
+/** Walls closer than this are left alone: a car pulling over under your nose would be worse. */
+export const WALL_FIX_FROM = 6000
+/** How far apart two cars sharing a lane must stay when one pulls over. */
+const LANE_ROOM = CAR_LEN * 3
+
+/**
+ * Where a car will be when a player at top speed reaches it. Cars drift
+ * together as they go, so walls are judged by these meeting points rather
+ * than where the cars are now: that catches a wall while it is still forming.
+ */
+const meetingPoint = (c: TrafficCar, playerZ: number) =>
+  playerZ + (MAX_SPEED * (c.z - playerZ)) / (MAX_SPEED - c.speed)
+
+/**
+ * Break up any wall of traffic ahead: one car in it pulls over into a lane
+ * already used by another car in the wall (keeping clear of everything in
+ * that lane), which leaves a lane open. On screen it just drifts across.
+ */
+export function openWalls(cars: TrafficCar[], playerZ: number): void {
+  const ahead = cars
+    .filter(c => c.z > playerZ + WALL_FIX_FROM)
+    .map(c => ({ c, meet: meetingPoint(c, playerZ) }))
+    .sort((a, b) => a.meet - b.meet)
+  for (const first of ahead) {
+    const wall = ahead.filter(a => a.meet >= first.meet && a.meet - first.meet < WALL_GAP)
+    if (new Set(wall.map(a => a.c.lane)).size < 3) continue
+    fix: for (const { c: mover, meet } of wall) {
+      for (const lane of new Set(wall.map(a => a.c.lane))) {
+        if (lane === mover.lane) continue
+        const crowded = cars.some(c => c !== mover && c.lane === lane &&
+          (Math.abs(c.z - mover.z) < LANE_ROOM || Math.abs(meetingPoint(c, playerZ) - meet) < LANE_ROOM))
+        if (crowded) continue
+        mover.lane = lane
+        mover.forkLane = lane === 0 ? 0 : lane === 2 ? 3 : 1 + (mover.forkLane === 2 ? 1 : 0)
+        break fix
+      }
+    }
+  }
+}
+
 export function stepTraffic(cars: TrafficCar[], track: Track, playerZ: number, dt: number, rnd: Rng): void {
+  openWalls(cars, playerZ)
   for (const car of cars) {
     car.z += car.speed * dt
     const target = trafficX(car.lane, car.forkLane, splitAt(track, car.z))

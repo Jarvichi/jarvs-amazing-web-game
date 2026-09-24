@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest'
 import {
-  FORK_CLOSE, FORK_HOLD, FORK_OPEN, PROP_HIT, SEG_LEN, branchCentre, branchHalfWidth, buildTrack, heightAt, laneX, onRoad,
+  FORK_CLOSE, FORK_HOLD, FORK_OPEN, PROP_HIT, PROP_SIZE, ROAD_W, RUMBLE, SEG_LEN, branchCentre, branchHalfWidth, buildTrack, heightAt, laneX, onRoad,
   project, segmentAt, trafficX,
 } from './road'
 import {
   CAR_LEN, CAR_W, IDLE, MAX_SPEED, OFFROAD_LIMIT, TURBOS, TURBO_SPEED, createPlayer, kmh, stepPlayer, type Controls,
 } from './car'
-import { createTraffic, hitProp, hitTraffic, makeRng, stepTraffic } from './traffic'
+import { WALL_GAP, createTraffic, hitProp, hitTraffic, makeRng, stepTraffic } from './traffic'
 import { createTarget, ramDamage, ramTarget } from './target'
 import { CASES } from './tracks'
 import { ARREST_GAP, COUNTDOWN, createWorld, wrongWayPenalty, gap, step, type World } from './world'
@@ -82,11 +82,21 @@ describe('road', () => {
     for (const c of CASES) {
       for (const seg of c.track.segs) {
         for (const prop of seg.props) {
-          // Every car position that would clip it must be off the tarmac.
+          // Every car position that would clip it must be off the tarmac...
           const reach = PROP_HIT[prop.kind] + CAR_W / 2
           for (let f = -0.999; f <= 0.999; f += 0.111) {
             if (onRoad(prop.x + f * reach, seg.fork)) {
               throw new Error(`${c.title}: ${prop.kind} at x=${prop.x.toFixed(2)} reaches the road (segment ${seg.index})`)
+            }
+          }
+          // ...and its picture must not cover the road or its kerb.
+          const half = PROP_SIZE[prop.kind] / 2 / ROAD_W
+          const kerb = (x: number) => seg.fork <= 0
+            ? Math.abs(x) <= RUMBLE
+            : (['left', 'right'] as const).some(s => Math.abs(x - branchCentre(seg.fork, s)) <= branchHalfWidth(seg.fork) * RUMBLE)
+          for (let f = -1; f <= 1; f += 0.1) {
+            if (kerb(prop.x + f * half)) {
+              throw new Error(`${c.title}: ${prop.kind} at x=${prop.x.toFixed(2)} is drawn over the road (segment ${seg.index})`)
             }
           }
         }
@@ -182,6 +192,37 @@ describe('traffic', () => {
       if (hitTraffic(p, [car])) hits++
     }
     expect(hits).toBe(0)
+  })
+
+  it('keeps a lane open: you rarely meet cars in all three lanes at once', () => {
+    // Drive at top speed and log each car as you pass it. A wall is cars in
+    // all three lanes passed within one lane change's distance: no way through.
+    let walls = 0
+    for (const c of CASES) {
+      for (let seed = 1; seed <= 10; seed++) {
+        const rnd = makeRng(seed * 7919)
+        let pz = 400
+        const cars = createTraffic(c.traffic, pz, rnd)
+        const prev = new Map(cars.map(q => [q, q.z]))
+        const passes: { z: number; lane: number }[] = []
+        for (let t = 0; t < 60 * 60; t++) {
+          pz += MAX_SPEED * DT
+          stepTraffic(cars, c.track, pz, DT, rnd)
+          for (const q of cars) {
+            const before = prev.get(q)!
+            if (before > pz - MAX_SPEED * DT && q.z <= pz && Math.abs(q.z - before) < WALL_GAP) {
+              passes.push({ z: pz, lane: Math.max(0, Math.min(2, Math.round(q.x * 1.5) + 1)) })
+            }
+            prev.set(q, q.z)
+          }
+        }
+        for (const p of passes) {
+          if (new Set(passes.filter(o => o.z >= p.z && o.z - p.z < WALL_GAP).map(o => o.lane)).size === 3) walls++
+        }
+      }
+    }
+    // Without openWalls this is about 0.5 a minute; with it, about 0.1.
+    expect(walls / (CASES.length * 10)).toBeLessThan(0.25)
   })
 
   it('side swipes push you apart', () => {
