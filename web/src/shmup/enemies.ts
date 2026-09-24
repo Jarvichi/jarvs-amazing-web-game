@@ -4,22 +4,22 @@
 // level's wave timeline, and player shots hitting them.
 
 import {
-  BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, REAR_WARNING, SCROLL_SPEED, W, hit, rand, tierScale,
+  BONUS_WAVE_MIN, BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, REAR_WARNING, SCROLL_SPEED, W, hit, rand, tierScale,
   type Enemy, type EnemyDef, type EnemyKind, type GameEvent, type World,
 } from './world'
 import { powerScale } from './difficulty'
 
 export const ENEMIES: Record<EnemyKind, EnemyDef> = {
-  drifter: { hp: 2, score: 100, credits: 5, w: 12, h: 12, capsule: 0 },
-  swooper: { hp: 1, score: 150, credits: 5, w: 12, h: 10, capsule: 0 },
-  spinner: { hp: 3, score: 200, credits: 10, w: 12, h: 12, capsule: 0.05 },
-  darter: { hp: 5, score: 250, credits: 15, w: 14, h: 14, capsule: 0.2 },
-  turret: { hp: 8, score: 300, credits: 20, w: 16, h: 16, capsule: 0.25 },
-  splitter: { hp: 6, score: 200, credits: 10, w: 16, h: 16, capsule: 0.05 },
-  mine: { hp: 3, score: 150, credits: 10, w: 12, h: 12, capsule: 0 },
-  snake: { hp: 3, score: 80, credits: 5, w: 10, h: 10, capsule: 0.03 },
-  sniper: { hp: 6, score: 350, credits: 20, w: 14, h: 14, capsule: 0.2 },
-  carrier: { hp: 18, score: 800, credits: 40, w: 24, h: 18, capsule: 0.5 },
+  drifter: { hp: 2, score: 100, credits: 5, w: 12, h: 12 },
+  swooper: { hp: 1, score: 150, credits: 5, w: 12, h: 10 },
+  spinner: { hp: 3, score: 200, credits: 10, w: 12, h: 12 },
+  darter: { hp: 5, score: 250, credits: 15, w: 14, h: 14 },
+  turret: { hp: 8, score: 300, credits: 20, w: 16, h: 16 },
+  splitter: { hp: 6, score: 200, credits: 10, w: 16, h: 16 },
+  mine: { hp: 3, score: 150, credits: 10, w: 12, h: 12 },
+  snake: { hp: 3, score: 80, credits: 5, w: 10, h: 10 },
+  sniper: { hp: 6, score: 350, credits: 20, w: 14, h: 14 },
+  carrier: { hp: 18, score: 800, credits: 40, w: 24, h: 18 },
 }
 
 const BIG: EnemyKind[] = ['turret', 'darter', 'splitter', 'sniper', 'carrier']
@@ -136,7 +136,15 @@ export function killEnemy(w: World, e: Enemy, ev: GameEvent[]) {
   w.score += def.score
   ev.push({ kind: BIG.includes(e.kind) ? 'bigexplode' : 'explode', x: e.x, y: e.y })
   w.pickups.push({ x: e.x, y: e.y, kind: 'credit', value: def.credits })
-  if (rand(w) < def.capsule) w.pickups.push({ x: e.x + 6, y: e.y, kind: 'capsule', value: 0 })
+  // Capsules are earned, not random: wipe out a whole formation, none escaping.
+  if (e.wave !== undefined) {
+    const stats = w.waveStats[e.wave]
+    stats.killed++
+    if (stats.killed === stats.n && stats.escaped === 0 && stats.n >= BONUS_WAVE_MIN) {
+      w.pickups.push({ x: e.x + 6, y: e.y, kind: 'capsule', value: 0 })
+      ev.push({ kind: 'wavebonus', x: e.x, y: e.y })
+    }
+  }
   if (e.kind === 'splitter') {
     spawnEnemy(w, 'drifter', e.x - 6, e.y, 0)
     spawnEnemy(w, 'drifter', e.x + 6, e.y, Math.PI)
@@ -175,7 +183,7 @@ export function stepEnemies(w: World, dt: number, ev: GameEvent[]) {
   while (w.nextSpawn < w.spawns.length && w.spawns[w.nextSpawn].at <= w.time) {
     const s = w.spawns[w.nextSpawn++]
     const h = ENEMIES[s.kind].h
-    spawnEnemy(w, s.kind, s.x, s.below ? H + h : -h, s.p, s.i, s.below)
+    spawnEnemy(w, s.kind, s.x, s.below ? H + h : -h, s.p, s.i, s.below).wave = s.wave
   }
   for (const e of w.enemies) {
     e.age += dt
@@ -202,7 +210,13 @@ export function stepEnemies(w: World, dt: number, ev: GameEvent[]) {
     }
   }
 
-  w.enemies = w.enemies.filter(e => e.hp > 0 && e.y < H + 24 && e.x > -40 && e.x < W + 40 && e.y > -60)
+  w.enemies = w.enemies.filter(e => {
+    if (e.hp <= 0) return false
+    const inBounds = e.y < H + 24 && e.x > -40 && e.x < W + 40 && e.y > -60
+    // Leaving the playfield alive spoils its wave's flawless bonus.
+    if (!inBounds && e.wave !== undefined) w.waveStats[e.wave].escaped++
+    return inBounds
+  })
 }
 
 

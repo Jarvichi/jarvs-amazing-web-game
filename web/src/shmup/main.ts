@@ -153,8 +153,9 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
       fx.handle(events)
       for (const e of events) {
         sfx(e.kind)
-        if (e.kind === 'boss') { game.bossWarning = 3; playBossMusic(isFinalLevel()) }
-        if (e.kind === 'bossdie') stopMusic()
+        if (e.kind === 'boss') { game.bossWarning = 3; playBossMusic(isFinalLevel() && e.detail !== 'mini') }
+        // A miniboss's death resumes the level and its music; the real boss's ends it.
+        if (e.kind === 'bossdie') { if (e.detail === 'mini') playStageMusic(w.level.theme); else stopMusic() }
       }
       game.bossWarning = Math.max(0, game.bossWarning - dt)
       if (w.status === 'won') {
@@ -450,7 +451,7 @@ function loop(now: number) {
     game.paused = !game.paused
     sfx('pause')
     if (game.paused) stopMusic()
-    else if (game.world.boss) playBossMusic(isFinalLevel())
+    else if (game.world.boss) playBossMusic(isFinalLevel() && !game.world.boss.mini)
     else playStageMusic(game.world.level.theme)
   }
   if (!game.paused) {
