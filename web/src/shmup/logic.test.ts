@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
-  MAX_BOMBS, REAR_KINDS, expectedLoadout, firepower, onScreen, powerScale, cloneLoadout, podPos, podSlot, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
+  BONUS_WAVE_MIN, MAX_BOMBS, REAR_KINDS, expectedLoadout, firepower, onScreen, powerScale, cloneLoadout, podPos, podSlot, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
   type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
 import { currentPhase, healthFraction, partPos } from './boss'
@@ -593,9 +593,9 @@ describe('difficulty keeps up with the ship', () => {
   })
 })
 
-describe('flawless waves', () => {
+describe('gold bonus formations', () => {
   const formation = (n: number, extra: Partial<Wave> = {}) =>
-    createWorld({ ...EMPTY, waves: [{ at: 0, kind: 'turret', n, x: 40, dx: 45, gap: 0, ...extra }] }, carry())
+    createWorld({ ...EMPTY, waves: [{ at: 0, kind: 'turret', n, x: 40, dx: 45, gap: 0, bonus: true, ...extra }] }, carry())
   /** Let the wave drift fully on screen, then kill `count` of its members. */
   function killSome(w: World, count: number) {
     run(w, 2)
@@ -622,12 +622,22 @@ describe('flawless waves', () => {
     expect(w.pickups.some(p => p.kind === 'capsule')).toBe(false)
   })
 
-  it('needs a real formation: lone enemies and pairs never drop capsules', () => {
-    for (const n of [1, 2]) {
-      const w = formation(n)
-      w.ship.invuln = 999
-      expect(killSome(w, n)).not.toContain('wavebonus')
-      expect(w.pickups.some(p => p.kind === 'capsule')).toBe(false)
+  it('only gold formations pay out: wiping out an ordinary wave earns nothing', () => {
+    const w = formation(4, { bonus: false })
+    w.ship.invuln = 999
+    expect(killSome(w, 4)).not.toContain('wavebonus')
+    expect(w.pickups.some(p => p.kind === 'capsule')).toBe(false)
+  })
+
+  it('are rare: a few real formations per level, spread through it', () => {
+    for (const l of LEVELS) {
+      const gold = l.waves.filter(v => v.bonus)
+      expect(gold.length, l.name).toBeGreaterThanOrEqual(2)
+      expect(gold.length, l.name).toBeLessThanOrEqual(4)
+      for (const v of gold) expect(v.n, `${l.name} gold wave at ${v.at}`).toBeGreaterThanOrEqual(BONUS_WAVE_MIN)
+      // At least one before the miniboss and one after it.
+      expect(gold.some(v => v.at < l.miniboss!.at), l.name).toBe(true)
+      expect(gold.some(v => v.at > l.miniboss!.at), l.name).toBe(true)
     }
   })
 
@@ -695,6 +705,43 @@ describe('minibosses', () => {
       expect(l.miniboss!.at).toBeGreaterThan(l.bossAt * 0.3)
       expect(l.miniboss!.at).toBeLessThan(l.bossAt * 0.7)
     }
+  })
+})
+
+describe('collector drone', () => {
+  const withCollector = (on: boolean) => createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, collector: on } }))
+
+  it('flies out, fetches a far-off bubble and banks it', () => {
+    const w = withCollector(true)
+    w.ship.x = MARGIN + SHIP_W // bubble is on the far side, well out of the ship's reach
+    w.pickups.push({ x: W - 30, y: 120, kind: 'credit', value: 15 })
+    let fetching = false
+    for (let i = 0; i < 60 * 3 && w.pickups.length; i++) { step(w, IDLE, DT); fetching ||= w.collector.fetching }
+    expect(fetching).toBe(true)
+    expect(w.pickups).toHaveLength(0)
+    expect(w.credits).toBe(15)
+  })
+
+  it('brings capsules home too, applying the upgrade', () => {
+    const w = withCollector(true)
+    w.pickups.push({ x: W - 30, y: 120, kind: 'capsule', value: 0 })
+    const events = run(w, 3)
+    expect(events).toContain('capsule')
+  })
+
+  it('does nothing without the upgrade', () => {
+    const w = withCollector(false)
+    w.ship.x = MARGIN + SHIP_W
+    w.pickups.push({ x: W - 30, y: 120, kind: 'credit', value: 15 })
+    run(w, 1)
+    expect(w.credits).toBe(0)
+  })
+
+  it('is a one-off purchase', () => {
+    const c = carry({ credits: 5000 })
+    expect(buy(c, 'collector')).toBe('ok')
+    expect(c.loadout.collector).toBe(true)
+    expect(buy(c, 'collector')).toBe('maxed')
   })
 })
 

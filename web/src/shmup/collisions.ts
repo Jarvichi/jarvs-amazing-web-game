@@ -3,7 +3,7 @@
 // Credits and capsules, and everything that can hurt the ship.
 
 import {
-  H, MAX_BOMBS, RAM_DAMAGE, dronePos, maxShield, SHIP_H, SHIP_W, hit, rand, type GameEvent, type Loadout, type World,
+  COLLECTOR_SPEED, H, MAX_BOMBS, RAM_DAMAGE, dronePos, maxShield, SHIP_H, SHIP_W, hit, rand, type GameEvent, type Loadout, type Pickup, type World,
 } from './world'
 import { ENEMIES, killEnemy } from './enemies'
 import { mountPods, podPos, upgradeWeapon } from './pods'
@@ -61,6 +61,47 @@ export function damageShip(w: World, amount: number, ev: GameEvent[]) {
   if (w.lives <= 0) w.status = 'gameover'
 }
 
+function collect(w: World, p: Pickup, ev: GameEvent[]) {
+  if (p.kind === 'credit') {
+    w.credits += p.value
+    ev.push({ kind: 'credit', x: p.x, y: p.y })
+  } else {
+    ev.push({ kind: 'capsule', x: p.x, y: p.y, detail: applyCapsule(w, ev) })
+  }
+}
+
+/**
+ * The collector drone: rests beside the ship, and whenever a pickup is on
+ * screen flies to the nearest one and brings it home. It can't be hurt and
+ * never fires; it only saves the ship dangerous detours for drops already
+ * earned, so it doesn't add power-ups.
+ */
+function stepCollector(w: World, dt: number, ev: GameEvent[]) {
+  const c = w.collector
+  const s = w.ship
+  if (!w.loadout.collector || !s.alive) return
+  let target: Pickup | null = null
+  let best = Infinity
+  for (const p of w.pickups) {
+    if (p.y < 0 || p.y > H) continue
+    const d = Math.hypot(p.x - c.x, p.y - c.y)
+    if (d < best) { best = d; target = p }
+  }
+  const home = { x: s.x - 18, y: s.y + 8 }
+  const goal = target ?? home
+  const dx = goal.x - c.x
+  const dy = goal.y - c.y
+  const dist = Math.hypot(dx, dy)
+  const stepLen = COLLECTOR_SPEED * dt
+  if (dist <= stepLen) { c.x = goal.x; c.y = goal.y } else { c.x += (dx / dist) * stepLen; c.y += (dy / dist) * stepLen }
+  c.fetching = target !== null
+  if (target && Math.hypot(target.x - c.x, target.y - c.y) < 6) {
+    const grabbed = target
+    w.pickups = w.pickups.filter(p => p !== grabbed)
+    collect(w, grabbed, ev)
+  }
+}
+
 export function stepCollisions(w: World, dt: number, ev: GameEvent[]) {
   const s = w.ship
   for (const p of w.pickups) {
@@ -71,15 +112,11 @@ export function stepCollisions(w: World, dt: number, ev: GameEvent[]) {
       p.y += (s.y - p.y) * Math.min(1, 6 * dt)
     }
   }
+  stepCollector(w, dt, ev)
   if (s.alive) {
     w.pickups = w.pickups.filter(p => {
       if (!hit(p.x, p.y, 10, 10, s.x, s.y, SHIP_W + 6, SHIP_H + 6)) return true
-      if (p.kind === 'credit') {
-        w.credits += p.value
-        ev.push({ kind: 'credit', x: p.x, y: p.y })
-      } else {
-        ev.push({ kind: 'capsule', x: p.x, y: p.y, detail: applyCapsule(w, ev) })
-      }
+      collect(w, p, ev)
       return false
     })
   }

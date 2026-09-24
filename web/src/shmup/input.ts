@@ -64,6 +64,13 @@ let dragX = 0
 let dragY = 0
 let taps: { x: number; y: number }[] = []
 const pointers = new Map<number, { x: number; y: number; sx: number; sy: number; t: number }>()
+/** The pointer that moves the ship: the most recently pressed one still down. */
+let steering: number | null = null
+
+function releaseAll() {
+  pointers.clear()
+  steering = null
+}
 
 export function initInput(canvas: HTMLElement, onFirstInteraction: () => void): void {
   input.init(onFirstInteraction)
@@ -71,13 +78,19 @@ export function initInput(canvas: HTMLElement, onFirstInteraction: () => void): 
   window.addEventListener('pointerdown', e => {
     if ((e.target as HTMLElement).closest?.('button')) return
     onFirstInteraction()
+    // A primary pointer means no other finger is down, so anything still
+    // tracked is stale: a lost pointerup (iOS drops them in multi-touch, e.g.
+    // tapping the bomb button mid-drag) used to leave a phantom finger that
+    // blocked steering and held auto-fire on for good.
+    if (e.isPrimary) pointers.clear()
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, t: performance.now() })
+    steering = e.pointerId
   })
   window.addEventListener('pointermove', e => {
     const p = pointers.get(e.pointerId)
     if (!p) return
-    // Only the first finger steers; a second one is ignored.
-    if (pointers.keys().next().value === e.pointerId) {
+    // The newest finger steers, so a stuck older one can never block it.
+    if (e.pointerId === steering) {
       dragX += e.clientX - p.x
       dragY += e.clientY - p.y
     }
@@ -88,6 +101,7 @@ export function initInput(canvas: HTMLElement, onFirstInteraction: () => void): 
     const p = pointers.get(e.pointerId)
     if (!p) return
     pointers.delete(e.pointerId)
+    if (steering === e.pointerId) steering = [...pointers.keys()].pop() ?? null
     const moved = Math.hypot(e.clientX - p.sx, e.clientY - p.sy)
     if (moved < 10 && performance.now() - p.t < 400) {
       const r = canvas.getBoundingClientRect()
@@ -96,7 +110,12 @@ export function initInput(canvas: HTMLElement, onFirstInteraction: () => void): 
   }
   window.addEventListener('pointerup', end)
   window.addEventListener('pointercancel', end)
-  window.addEventListener('blur', () => pointers.clear())
+  // Belt and braces: touch events report how many fingers are really down.
+  const allUp = (e: TouchEvent) => { if (e.touches.length === 0) releaseAll() }
+  window.addEventListener('touchend', allUp)
+  window.addEventListener('touchcancel', allUp)
+  document.addEventListener('visibilitychange', () => { if (document.hidden) releaseAll() })
+  window.addEventListener('blur', releaseAll)
 }
 
 export function poll(): Frame {
