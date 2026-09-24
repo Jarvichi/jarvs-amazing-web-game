@@ -4,7 +4,7 @@
 // level's wave timeline, and player shots hitting them.
 
 import {
-  BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, SCROLL_SPEED, W, hit, rand, tierScale,
+  BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, REAR_WARNING, SCROLL_SPEED, W, hit, rand, tierScale,
   type Enemy, type EnemyDef, type EnemyKind, type GameEvent, type World,
 } from './world'
 
@@ -60,7 +60,7 @@ function moveEnemy(w: World, e: Enemy, dt: number, ev: GameEvent[]) {
     }
     case 'spinner':
       e.y += 70 * dt
-      if (e.y > 20 && (e.fire -= dt) <= 0) { e.fire = 2 / rate; enemyShot(w, e.x, e.y) }
+      if (e.y > 20 && (e.fire -= dt) <= 0) { e.fire = 2 / rate; enemyShot(w, e.x, e.below ? H - e.y : e.y) }
       break
     case 'turret':
       e.y += SCROLL_SPEED * dt
@@ -144,9 +144,11 @@ export function killEnemy(w: World, e: Enemy, ev: GameEvent[]) {
 }
 
 /** Add an enemy with tier-scaled health. Used by the wave timeline and by bosses' summons. */
-export function spawnEnemy(w: World, kind: EnemyKind, x: number, y: number, p = 0, member = 0): Enemy {
+export function spawnEnemy(
+  w: World, kind: EnemyKind, x: number, y: number, p = 0, member = 0, below = false,
+): Enemy {
   const e: Enemy = {
-    id: w.nextId++, kind, x, y, sx: x, p, member,
+    id: w.nextId++, kind, x, y, sx: x, p, member, below,
     hp: Math.ceil(ENEMIES[kind].hp * tierScale(w.level.tier).hp), age: 0, fire: 0.6 + rand(w), flash: 0,
   }
   w.enemies.push(e)
@@ -154,14 +156,23 @@ export function spawnEnemy(w: World, kind: EnemyKind, x: number, y: number, p = 
 }
 
 export function stepEnemies(w: World, dt: number, ev: GameEvent[]) {
+  // Announce rear waves as their warning window opens (once per wave).
+  for (let i = w.nextSpawn; i < w.spawns.length && w.spawns[i].at - REAR_WARNING <= w.time; i++) {
+    const s = w.spawns[i]
+    if (s.below && s.i === 0 && s.at - REAR_WARNING > w.time - dt) ev.push({ kind: 'rearwarn', x: s.x, y: H })
+  }
   while (w.nextSpawn < w.spawns.length && w.spawns[w.nextSpawn].at <= w.time) {
     const s = w.spawns[w.nextSpawn++]
-    spawnEnemy(w, s.kind, s.x, -ENEMIES[s.kind].h, s.p, s.i)
+    const h = ENEMIES[s.kind].h
+    spawnEnemy(w, s.kind, s.x, s.below ? H + h : -h, s.p, s.i, s.below)
   }
   for (const e of w.enemies) {
     e.age += dt
     e.flash = Math.max(0, e.flash - dt)
+    // Rear attackers fly the same scripts in mirrored coordinates.
+    if (e.below) e.y = H - e.y
     moveEnemy(w, e, dt, ev)
+    if (e.below) e.y = H - e.y
   }
 
   // Player shots vs enemies. Piercing shots carry on, but damage each enemy once.
@@ -183,3 +194,13 @@ export function stepEnemies(w: World, dt: number, ev: GameEvent[]) {
   w.enemies = w.enemies.filter(e => e.hp > 0 && e.y < H + 24 && e.x > -40 && e.x < W + 40 && e.y > -60)
 }
 
+
+/** Rear waves due within the warning window: where their arrows go, and seconds until they arrive. */
+export function rearWarnings(w: World): { x: number; t: number }[] {
+  const out: { x: number; t: number }[] = []
+  for (let i = w.nextSpawn; i < w.spawns.length && w.spawns[i].at - REAR_WARNING <= w.time; i++) {
+    const s = w.spawns[i]
+    if (s.below) out.push({ x: s.x, t: s.at - w.time })
+  }
+  return out
+}

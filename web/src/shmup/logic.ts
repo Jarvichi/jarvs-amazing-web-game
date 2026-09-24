@@ -17,11 +17,12 @@ import { spawnBoss, stepBoss } from './boss'
 import { stepCollisions } from './collisions'
 
 export * from './world'
-export { ENEMIES } from './enemies'
+export { ENEMIES, rearWarnings } from './enemies'
 export { coreExposed } from './boss'
 export { applyCapsule } from './collisions'
 export { detonateBomb } from './weapons'
 export * from './shop'
+export * from './pods'
 
 /** Advance the world by one tick. Returns what happened this tick. */
 export function step(w: World, input: Input, dt: number): GameEvent[] {

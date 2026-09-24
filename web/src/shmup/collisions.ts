@@ -6,22 +6,28 @@ import {
   H, MAX_BOMBS, RAM_DAMAGE, dronePos, maxShield, SHIP_H, SHIP_W, hit, rand, type GameEvent, type Loadout, type World,
 } from './world'
 import { ENEMIES, killEnemy } from './enemies'
+import { mountPods, podPos, upgradeWeapon } from './pods'
 
-const CAPSULE_UPGRADES = ['cannon', 'side', 'rear', 'homing', 'speed', 'drones', 'rapid', 'bomb', 'shield'] as const
+// Laser, side and rear only come from the shop: each one mounts a pod
+// outright, and capsules drop too often to hand those out free.
+const CAPSULE_UPGRADES = ['cannon', 'homing', 'speed', 'drones', 'rapid', 'bomb', 'shield'] as const
 
-/** Grant a random upgrade the ship doesn't already max out; shield otherwise. */
-export function applyCapsule(w: World): string {
+/**
+ * Grant a random upgrade the ship can still take (shield if none). Cannon and
+ * homing always can: maxing them mounts a pod and starts them over.
+ */
+export function applyCapsule(w: World, ev: GameEvent[] = []): string {
   const l = w.loadout
   const options = CAPSULE_UPGRADES.filter(u =>
-    (u === 'cannon' && l.cannon < 3) || (u === 'side' && !l.side) || (u === 'rear' && !l.rear) ||
-    (u === 'homing' && l.homing < 2) || (u === 'speed' && l.speed < 2) ||
+    u === 'cannon' || u === 'homing' || (u === 'speed' && l.speed < 2) ||
     (u === 'drones' && l.drones < 2) || (u === 'rapid' && l.rapid < 2) || (u === 'bomb' && l.bombs < MAX_BOMBS))
   const pick = options.length ? options[Math.floor(rand(w) * options.length)] : 'shield'
   switch (pick) {
-    case 'cannon': l.cannon = (l.cannon + 1) as Loadout['cannon']; break
-    case 'side': l.side = true; break
-    case 'rear': l.rear = true; break
-    case 'homing': l.homing = (l.homing + 1) as Loadout['homing']; break
+    case 'cannon':
+    case 'homing':
+      upgradeWeapon(l, pick)
+      for (const k of mountPods(l)) ev.push({ kind: 'mount', x: w.ship.x, y: w.ship.y, detail: k })
+      break
     case 'speed': l.speed = (l.speed + 1) as Loadout['speed']; break
     case 'drones': l.drones = (l.drones + 1) as Loadout['drones']; break
     case 'rapid': l.rapid = (l.rapid + 1) as Loadout['rapid']; break
@@ -41,8 +47,15 @@ export function damageShip(w: World, amount: number, ev: GameEvent[]) {
   s.alive = false
   s.respawn = 2
   w.lives--
-  // Losing a ship costs a cannon level.
-  w.loadout.cannon = Math.max(1, w.loadout.cannon - 1) as Loadout['cannon']
+  // Losing a ship costs one thing: the newest (outermost) pod, or a cannon
+  // level if there are no pods. Never both, so a struggling player doesn't
+  // spiral.
+  const lost = w.loadout.pods.length ? podPos(w, w.loadout.pods.length - 1) : null
+  if (lost) {
+    ev.push({ kind: 'podlost', x: lost.x, y: lost.y, detail: w.loadout.pods.pop() })
+  } else {
+    w.loadout.cannon = Math.max(1, w.loadout.cannon - 1) as Loadout['cannon']
+  }
   w.enemyShots = []
   ev.push({ kind: 'die', x: s.x, y: s.y })
   if (w.lives <= 0) w.status = 'gameover'
@@ -65,7 +78,7 @@ export function stepCollisions(w: World, dt: number, ev: GameEvent[]) {
         w.credits += p.value
         ev.push({ kind: 'credit', x: p.x, y: p.y })
       } else {
-        ev.push({ kind: 'capsule', x: p.x, y: p.y, detail: applyCapsule(w) })
+        ev.push({ kind: 'capsule', x: p.x, y: p.y, detail: applyCapsule(w, ev) })
       }
       return false
     })

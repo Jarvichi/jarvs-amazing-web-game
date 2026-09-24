@@ -4,6 +4,8 @@
 // logic module (weapons, enemies, boss, collisions, shop) builds on. Pure: no
 // DOM, canvas or audio.
 
+import { mountPods, type PodKind } from './pods'
+
 export const W = 180
 export const H = 320
 /** Side walls of the tunnel — the ship is kept between them. */
@@ -58,7 +60,18 @@ export interface Wave {
    * for snakes.
    */
   p?: number
+  /**
+   * 'below' sends the wave up from behind the ship on a mirrored path, with a
+   * warning arrow first (see REAR_WARNING). Only kinds in REAR_KINDS make
+   * sense this way round.
+   */
+  from?: 'below'
 }
+
+/** Enemies whose flight works mirrored; the rest attack downward by design. */
+export const REAR_KINDS: EnemyKind[] = ['drifter', 'swooper', 'spinner', 'snake']
+/** Seconds of warning before a rear wave arrives. */
+export const REAR_WARNING = 1.5
 
 /**
  * One boss attack, fired every `every` seconds from the core or from each
@@ -133,6 +146,19 @@ export interface Loadout {
   rapid: 0 | 1 | 2
   /** Smart bombs in stock (consumable). */
   bombs: number
+  /** Weapon pods mounted around the ship, in the order they were earned (see pods.ts). */
+  pods: PodKind[]
+}
+
+/** Mount any weapon that arrives already maxed (e.g. a hand-built test loadout). */
+function withPods(l: Loadout): Loadout {
+  mountPods(l)
+  return l
+}
+
+/** A deep copy: `pods` must never be shared between a live world and a saved carry. */
+export function cloneLoadout(l: Loadout): Loadout {
+  return { ...l, pods: [...l.pods] }
 }
 
 export interface Enemy {
@@ -148,6 +174,8 @@ export interface Enemy {
   age: number
   fire: number
   flash: number
+  /** Came from behind: its scripted path runs mirrored, bottom to top. */
+  below?: boolean
   /** Sniper lock-on: where it will fire, and seconds of warning left. */
   aim?: { x: number; y: number; t: number }
 }
@@ -218,7 +246,7 @@ export interface World {
   level: LevelDef
   time: number
   scroll: number
-  spawns: { at: number; kind: EnemyKind; x: number; p: number; i: number }[]
+  spawns: { at: number; kind: EnemyKind; x: number; p: number; i: number; below: boolean }[]
   nextSpawn: number
   ship: { x: number; y: number; shield: number; invuln: number; alive: boolean; respawn: number }
   loadout: Loadout
@@ -236,6 +264,8 @@ export interface World {
   laserCd: number
   droneCd: number
   droneAngle: number
+  /** Seconds until each pod fires again, by pod index. */
+  podCd: number[]
   sideToggle: boolean
   nextId: number
   rngState: number
@@ -255,7 +285,7 @@ export interface Input {
 
 export type EventKind =
   | 'shot' | 'hit' | 'explode' | 'bigexplode' | 'credit' | 'capsule'
-  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb'
+  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb' | 'rearwarn' | 'mount' | 'podlost'
 
 export interface GameEvent {
   kind: EventKind
@@ -266,10 +296,15 @@ export interface GameEvent {
 }
 
 // ── Setup ───────────────────────────────────────────────────────────────────
-export const START_LOADOUT: Loadout = {
+/**
+ * Frozen, pods included: copy it with cloneLoadout(). A `{ ...START_LOADOUT }`
+ * would share its pods array, and mounting a pod would then leak into every
+ * later game — freezing makes that mistake throw instead.
+ */
+export const START_LOADOUT: Loadout = Object.freeze({
   cannon: 1, side: false, rear: false, homing: 0, speed: 0,
-  laser: false, drones: 0, armour: false, rapid: 0, bombs: 1,
-}
+  laser: false, drones: 0, armour: false, rapid: 0, bombs: 1, pods: Object.freeze([]) as unknown as PodKind[],
+} as const satisfies Loadout) as Loadout
 
 export interface Carry {
   loadout: Loadout
@@ -282,7 +317,7 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
   const spawns: World['spawns'] = []
   for (const w of level.waves) {
     for (let i = 0; i < w.n; i++) {
-      spawns.push({ at: w.at + i * (w.gap ?? 0.35), kind: w.kind, x: w.x + i * (w.dx ?? 0), p: w.p ?? 0, i })
+      spawns.push({ at: w.at + i * (w.gap ?? 0.35), kind: w.kind, x: w.x + i * (w.dx ?? 0), p: w.p ?? 0, i, below: w.from === 'below' })
     }
   }
   spawns.sort((a, b) => a.at - b.at)
@@ -293,7 +328,7 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
     spawns,
     nextSpawn: 0,
     ship: { x: W / 2, y: H - 40, shield: maxShield(carry.loadout), invuln: 1.5, alive: true, respawn: 0 },
-    loadout: { ...carry.loadout },
+    loadout: withPods(cloneLoadout(carry.loadout)),
     enemies: [],
     shots: [],
     enemyShots: [],
@@ -308,6 +343,7 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
     laserCd: 0,
     droneCd: 0,
     droneAngle: 0,
+    podCd: [],
     sideToggle: false,
     nextId: 1,
     rngState: seed >>> 0 || 1,
@@ -323,7 +359,7 @@ export const CONTINUE_SECONDS = 10
  * fresh ships, and — arcade rules — the score back to zero.
  */
 export function continueCarry(levelStart: Carry, lives: number): Carry {
-  return { loadout: { ...levelStart.loadout }, credits: levelStart.credits, score: 0, lives }
+  return { loadout: cloneLoadout(levelStart.loadout), credits: levelStart.credits, score: 0, lives }
 }
 
 /** mulberry32 — small, fast, seedable. */
