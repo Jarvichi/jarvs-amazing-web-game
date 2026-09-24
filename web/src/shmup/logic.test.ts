@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
-  MAX_BOMBS, applyCapsule, buy, continueCarry, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
+  MAX_BOMBS, REAR_KINDS, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
   type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
 import { currentPhase, healthFraction, partPos } from './boss'
@@ -380,6 +380,64 @@ describe('upgrades', () => {
     buy(c, 'bomb')
     expect(c.loadout.bombs).toBe(MAX_BOMBS)
     expect(buy(c, 'bomb')).toBe('maxed')
+  })
+})
+
+describe('rear waves', () => {
+  const rear = (kind: Wave['kind'], at = 2) =>
+    createWorld({ ...EMPTY, waves: [{ at, kind, n: 1, x: 90, from: 'below' }] }, carry())
+
+  it('warn before arriving, then enter below the ship and fly upward', () => {
+    const w = rear('drifter')
+    w.ship.invuln = 999
+    let warnedAt = -1
+    let warnings = 0
+    for (let i = 0; i < 60 * 2; i++) {
+      const ev = step(w, IDLE, DT)
+      if (ev.some(e => e.kind === 'rearwarn')) { warnedAt = w.time; warnings++ }
+      if (w.time < 2) expect(w.enemies).toHaveLength(0)
+    }
+    expect(warnings).toBe(1)
+    expect(warnedAt).toBeCloseTo(2 - REAR_WARNING, 1)
+    expect(rearWarnings(createWorld(w.level, carry()))).toEqual([])
+
+    run(w, 0.2)
+    const e = w.enemies[0]
+    expect(e.below).toBe(true)
+    // Spawns beneath the lowest point the ship can reach, so never on top of it.
+    expect(e.y).toBeGreaterThan(H - 12 + SHIP_H)
+    const y0 = e.y
+    run(w, 1)
+    expect(e.y).toBeLessThan(y0)
+  })
+
+  it('lists upcoming rear waves for the warning arrows', () => {
+    const w = rear('swooper', 3)
+    run(w, 1)
+    expect(rearWarnings(w)).toEqual([])
+    run(w, 0.6)
+    const [warning] = rearWarnings(w)
+    expect(warning.x).toBe(90)
+    expect(warning.t).toBeGreaterThan(0)
+    expect(warning.t).toBeLessThanOrEqual(REAR_WARNING)
+  })
+
+  it('rear spinners shoot from where they really are', () => {
+    const w = rear('spinner', 0)
+    w.ship.invuln = 999
+    w.ship.x = MARGIN + SHIP_W // out of its path, so it isn't rammed
+    for (let i = 0; i < 60 * 4 && w.enemyShots.length === 0; i++) step(w, IDLE, DT)
+    const shot = w.enemyShots[0]
+    const e = w.enemies[0]
+    expect(Math.abs(shot.y - e.y)).toBeLessThan(5)
+  })
+
+  it('only mirror kinds that make sense from behind', () => {
+    for (const l of LEVELS) {
+      for (const wv of l.waves.filter(v => v.from === 'below')) {
+        expect(REAR_KINDS, `${l.name} rear wave at ${wv.at}`).toContain(wv.kind)
+      }
+    }
   })
 })
 

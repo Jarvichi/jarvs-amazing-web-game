@@ -9,7 +9,7 @@
 import { PAL, drawSprite, drawText, hash, makeSprite, textWidth, type Sprite } from '../arcade/gfx'
 import { partPos } from './boss'
 import {
-  ENEMIES, H, MARGIN, W, coreExposed, dronePos, maxShield,
+  ENEMIES, H, MARGIN, REAR_WARNING, W, coreExposed, dronePos, maxShield, rearWarnings,
   type Boss, type BossLook, type BossPart, type Enemy, type GameEvent, type Loadout, type Theme, type World,
 } from './logic'
 
@@ -467,6 +467,19 @@ function drawCarrier(ctx: CanvasRenderingContext2D, x: number, y: number, t: num
 }
 
 function drawEnemy(ctx: CanvasRenderingContext2D, e: Enemy, w: World, t: number) {
+  // Rear attackers are drawn upside down, facing the way they fly.
+  if (e.below) {
+    ctx.save()
+    ctx.translate(0, Math.round(e.y) * 2)
+    ctx.scale(1, -1)
+    drawEnemyBody(ctx, e, w, t)
+    ctx.restore()
+  } else {
+    drawEnemyBody(ctx, e, w, t)
+  }
+}
+
+function drawEnemyBody(ctx: CanvasRenderingContext2D, e: Enemy, w: World, t: number) {
   const s = getSprites()
   const def = ENEMIES[e.kind]
   const x = Math.round(e.x - def.w / 2)
@@ -694,6 +707,20 @@ function drawFx(ctx: CanvasRenderingContext2D, fx: Fx) {
   for (const f of fx.floaters) drawText(ctx, f.text, Math.round(f.x), Math.round(f.y), PAL[f.colour], 1, 'center')
 }
 
+/** Flashing up-arrows along the bottom edge where a rear wave is about to come in. */
+function drawRearWarnings(ctx: CanvasRenderingContext2D, w: World, t: number) {
+  for (const warn of rearWarnings(w)) {
+    // Blink faster as it gets closer.
+    if (Math.floor(t * (6 + 12 * (1 - warn.t / REAR_WARNING))) % 2) continue
+    const x = Math.round(Math.max(MARGIN + 6, Math.min(W - MARGIN - 6, warn.x)))
+    const y = H - 30
+    ctx.fillStyle = PAL[8]
+    for (let r = 0; r < 6; r++) ctx.fillRect(x - r, y + r, r * 2 + 1, 1)
+    ctx.fillRect(x - 1, y + 6, 3, 5)
+    drawText(ctx, '!', x - 1, y + 13, PAL[10])
+  }
+}
+
 // ── Playfield ───────────────────────────────────────────────────────────────
 let pf: HTMLCanvasElement | null = null
 
@@ -714,6 +741,7 @@ export function renderPlayfield(w: World, fx: Fx, t: number): HTMLCanvasElement 
   }
   for (const e of w.enemies) if (e.kind !== 'turret') drawEnemy(ctx, e, w, t)
   drawShip(ctx, w, t)
+  drawRearWarnings(ctx, w, t)
   drawShots(ctx, w, t)
   drawFx(ctx, fx)
   if (fx.flash > 0) {

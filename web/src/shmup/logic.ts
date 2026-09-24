@@ -17,7 +17,7 @@ import { spawnBoss, stepBoss } from './boss'
 import { stepCollisions } from './collisions'
 
 export * from './world'
-export { ENEMIES } from './enemies'
+export { ENEMIES, rearWarnings } from './enemies'
 export { coreExposed } from './boss'
 export { applyCapsule } from './collisions'
 export { detonateBomb } from './weapons'

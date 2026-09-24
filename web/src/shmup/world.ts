@@ -58,7 +58,18 @@ export interface Wave {
    * for snakes.
    */
   p?: number
+  /**
+   * 'below' sends the wave up from behind the ship on a mirrored path, with a
+   * warning arrow first (see REAR_WARNING). Only kinds in REAR_KINDS make
+   * sense this way round.
+   */
+  from?: 'below'
 }
+
+/** Enemies whose flight works mirrored; the rest attack downward by design. */
+export const REAR_KINDS: EnemyKind[] = ['drifter', 'swooper', 'spinner', 'snake']
+/** Seconds of warning before a rear wave arrives. */
+export const REAR_WARNING = 1.5
 
 /**
  * One boss attack, fired every `every` seconds from the core or from each
@@ -148,6 +159,8 @@ export interface Enemy {
   age: number
   fire: number
   flash: number
+  /** Came from behind: its scripted path runs mirrored, bottom to top. */
+  below?: boolean
   /** Sniper lock-on: where it will fire, and seconds of warning left. */
   aim?: { x: number; y: number; t: number }
 }
@@ -218,7 +231,7 @@ export interface World {
   level: LevelDef
   time: number
   scroll: number
-  spawns: { at: number; kind: EnemyKind; x: number; p: number; i: number }[]
+  spawns: { at: number; kind: EnemyKind; x: number; p: number; i: number; below: boolean }[]
   nextSpawn: number
   ship: { x: number; y: number; shield: number; invuln: number; alive: boolean; respawn: number }
   loadout: Loadout
@@ -255,7 +268,7 @@ export interface Input {
 
 export type EventKind =
   | 'shot' | 'hit' | 'explode' | 'bigexplode' | 'credit' | 'capsule'
-  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb'
+  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb' | 'rearwarn'
 
 export interface GameEvent {
   kind: EventKind
@@ -282,7 +295,7 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
   const spawns: World['spawns'] = []
   for (const w of level.waves) {
     for (let i = 0; i < w.n; i++) {
-      spawns.push({ at: w.at + i * (w.gap ?? 0.35), kind: w.kind, x: w.x + i * (w.dx ?? 0), p: w.p ?? 0, i })
+      spawns.push({ at: w.at + i * (w.gap ?? 0.35), kind: w.kind, x: w.x + i * (w.dx ?? 0), p: w.p ?? 0, i, below: w.from === 'below' })
     }
   }
   spawns.sort((a, b) => a.at - b.at)
