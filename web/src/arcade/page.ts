@@ -45,3 +45,53 @@ export function fitFrame(frame: HTMLElement, viewW: number, viewH: number, reser
   frame.style.height = `${Math.floor(viewH * scale)}px`
   return scale
 }
+
+// ── Versions & updates ──────────────────────────────────────────────────────
+// The arcade pages are deliberately left out of the main app's service-worker
+// precache (see vite.config.ts), so a plain reload always fetches the latest
+// deploy. These helpers show which build is running and notice when a newer
+// one has been published, so players can pick it up without knowing that.
+
+/** Short build label for a title screen, e.g. "V0CC7216 2026-09-24", or "DEV BUILD". */
+export function buildLabel(sha: string | undefined, buildDate: string): string {
+  if (!sha) return 'DEV BUILD'
+  return `V${sha.slice(0, 7).toUpperCase()} ${buildDate.slice(0, 10)}`
+}
+
+/**
+ * The page's entry script path from its HTML, e.g. "/assets/shmup-AbC123.js".
+ * Vite puts a content hash in that filename, so it changes on every deploy
+ * that changes the game.
+ */
+export function entryScript(html: string): string | null {
+  const m = html.match(/<script[^>]*type="module"[^>]*src="([^"]+)"/)
+    ?? html.match(/<script[^>]*src="([^"]+)"[^>]*type="module"/)
+  if (!m) return null
+  try { return new URL(m[1], 'https://x').pathname } catch { return null }
+}
+
+/**
+ * Periodically re-fetch this page's HTML (bypassing every cache) and call
+ * `onUpdate` once if it now points at a different entry script. Only checks
+ * while the tab is visible; network errors are ignored (offline is fine).
+ */
+export function watchForUpdates(onUpdate: () => void, intervalMs = 5 * 60_000): void {
+  const current = entryScript(document.documentElement.outerHTML)
+  if (!current || current.startsWith('/src/')) return // dev server: nothing to compare
+  let done = false
+  const check = async () => {
+    if (done || document.hidden) return
+    try {
+      const res = await fetch(location.pathname, { cache: 'no-store' })
+      if (!res.ok) return
+      const latest = entryScript(await res.text())
+      if (latest && latest !== current) {
+        done = true
+        onUpdate()
+      }
+    } catch { /* offline or blocked: try again next time */ }
+  }
+  window.setTimeout(check, 3000)
+  window.setInterval(check, intervalMs)
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) void check() })
+}
