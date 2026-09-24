@@ -83,6 +83,34 @@ export function tone(wave: Wave, from: number, to: number, start: number, dur: n
   osc.stop(start + dur + 0.02)
 }
 
+/** A continuous tone whose pitch and volume are steered live — e.g. an engine. */
+export interface Drone {
+  set: (freq: number, vol: number) => void
+  stop: () => void
+}
+
+/** Start a drone, or null before the first user gesture. */
+export function drone(wave: Wave): Drone | null {
+  if (!ctx || !master) return null
+  const c = ctx
+  const osc = c.createOscillator()
+  const gain = c.createGain()
+  osc.type = wave
+  gain.gain.value = 0
+  osc.connect(gain).connect(master)
+  osc.start()
+  return {
+    set: (freq, vol) => {
+      osc.frequency.setTargetAtTime(freq, c.currentTime, 0.03)
+      gain.gain.setTargetAtTime(vol, c.currentTime, 0.03)
+    },
+    stop: () => {
+      gain.gain.setTargetAtTime(0, c.currentTime, 0.02)
+      osc.stop(c.currentTime + 0.2)
+    },
+  }
+}
+
 /** A run of notes, `gap` seconds apart — for jingles. */
 export function arpeggio(notes: number[], start: number, gap: number, dur: number, vol: number, wave: Wave = 'square'): void {
   notes.forEach((n, i) => tone(wave, midiToHz(n), midiToHz(n), start + i * gap, dur, vol))
