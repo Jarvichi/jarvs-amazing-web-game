@@ -139,6 +139,8 @@
   gap: 6px;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
+/* Links styled as tier buttons (e.g. ARCADE, which leaves the app). */
+a.title-tier-btn { text-decoration: none; }
 .title-tier-btn:hover {
   border-color: var(--game-text-color);
   background: var(--surface-2);
@@ -191,7 +193,7 @@
 
 .title-utility-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 6px;
   width: 100%;
   max-width: 400px;
