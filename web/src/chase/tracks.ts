@@ -39,7 +39,7 @@ export interface Case {
   targetSpeed: number
   /** Head start, world units. */
   startGap: number
-  /** Seconds to reach the target, then to stop it. */
+  /** Seconds on the clock at the start of the pursuit (checkpoints add more), then to stop it. */
   pursuitTime: number
   arrestTime: number
   /** Ram damage multiplier: tougher cars take longer to stop. */
@@ -133,7 +133,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 1: THE VAN MAN',
     brief: ['A DELIVERY VAN JUST ROBBED', 'THE HARBOUR MARKET.', 'HE IS HEADING FOR THE COAST ROAD.', 'GO GET HIM, ROOKIE.'],
-    theme: DUSK, target: 'van', targetSpeed: 0.78, startGap: 84000, pursuitTime: 60, arrestTime: 60, armour: 1.3, traffic: 5,
+    theme: DUSK, target: 'van', targetSpeed: 0.78, startGap: 84000, pursuitTime: 40, arrestTime: 60, armour: 1.3, traffic: 5,
     track: decorate(buildTrack([
       straight(40), bend(40, 2), straight(30, 20), bend(50, -3), straight(20), { fork: 'left' },
       bend(40, 3, -20), straight(40), bend(30, -2, 30), straight(30, -30), bend(40, 4), straight(30),
@@ -142,7 +142,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 2: RED LIGHTNING',
     brief: ['A RED COUPE IS RACING', 'STOLEN CHIPS TO THE BORDER.', 'SHE IS QUICK. USE YOUR TURBO', 'WHEN THE ROAD OPENS UP.'],
-    theme: NIGHT, target: 'coupe', targetSpeed: 0.84, startGap: 72000, pursuitTime: 60, arrestTime: 60, armour: 1.1, traffic: 6,
+    theme: NIGHT, target: 'coupe', targetSpeed: 0.88, startGap: 65000, pursuitTime: 40, arrestTime: 60, armour: 1.1, traffic: 6,
     track: decorate(buildTrack([
       straight(30), bend(40, -3), bend(40, 3), straight(40, 30), { fork: 'right' }, bend(50, -4, -30),
       straight(20), bend(30, 5), straight(40), { fork: 'left' }, bend(40, -3), straight(30),
@@ -151,7 +151,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 3: DUST DEVIL',
     brief: ['A MUSCLE CAR GANG LEADER', 'IS RUNNING THROUGH THE DESERT.', 'WATCH THE HILLS. YOU CANNOT', 'SEE WHAT IS OVER THE TOP.'],
-    theme: DESERT, target: 'muscle', targetSpeed: 0.87, startGap: 68000, pursuitTime: 62, arrestTime: 60, armour: 0.9, traffic: 6,
+    theme: DESERT, target: 'muscle', targetSpeed: 0.87, startGap: 75000, pursuitTime: 40, arrestTime: 60, armour: 0.9, traffic: 6,
     track: decorate(buildTrack([
       straight(30, 40), straight(30, -40), bend(40, 3, 30), straight(20, -30), { fork: 'right' },
       bend(50, -4, 50), straight(30, -50), bend(40, 5), straight(20, 40), straight(20, -40), { fork: 'left' }, straight(30),
@@ -160,7 +160,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 4: TIMBER WOLF',
     brief: ['A PICKUP FULL OF STOLEN', 'GOLD IS TEARING UP THE', 'FOREST ROAD. IT IS BUILT TOUGH.', 'HIT IT HARD AND OFTEN.'],
-    theme: FOREST, target: 'pickup', targetSpeed: 0.86, startGap: 64000, pursuitTime: 62, arrestTime: 65, armour: 0.65, traffic: 6,
+    theme: FOREST, target: 'pickup', targetSpeed: 0.85, startGap: 65000, pursuitTime: 40, arrestTime: 65, armour: 0.65, traffic: 6,
     track: decorate(buildTrack([
       bend(40, 4), bend(40, -4, 20), straight(20), bend(30, 6, -20), { fork: 'left' }, bend(50, -5),
       straight(30, 30), bend(40, 5, -30), { fork: 'right' }, bend(30, -6), straight(20),
@@ -169,7 +169,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 5: THE PHANTOM',
     brief: ['NOBODY HAS EVER CAUGHT', 'THE PHANTOM AND HIS SUPERCAR.', 'THIS IS IT, DETECTIVE.', 'BRING HIM IN.'],
-    theme: NEON, target: 'super', targetSpeed: 0.92, startGap: 40000, pursuitTime: 65, arrestTime: 65, armour: 0.75, traffic: 7,
+    theme: NEON, target: 'super', targetSpeed: 0.88, startGap: 50000, pursuitTime: 40, arrestTime: 65, armour: 0.75, traffic: 7,
     track: decorate(buildTrack([
       straight(30), bend(40, 5), bend(40, -5, 30), { fork: 'right' }, straight(20, -30), bend(40, 6),
       { fork: 'left' }, bend(40, -6, 40), straight(30, -40), { fork: 'right' }, bend(40, 4), straight(20),

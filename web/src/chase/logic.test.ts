@@ -9,7 +9,7 @@ import {
 import { WALL_GAP, createTraffic, hitProp, hitTraffic, makeRng, stepTraffic } from './traffic'
 import { createTarget, ramDamage, ramTarget } from './target'
 import { CASES } from './tracks'
-import { ARREST_GAP, COUNTDOWN, createWorld, wrongWayPenalty, gap, step, type World } from './world'
+import { ARREST_GAP, CHECKPOINT_BONUS, CHECKPOINT_EVERY, COUNTDOWN, createWorld, placeCheckpoint, wrongWayPenalty, gap, step, type World } from './world'
 
 const DT = 1 / 60
 const GAS: Controls = { steer: 0, gas: true, brake: false, turbo: false }
@@ -268,11 +268,11 @@ describe('target', () => {
 })
 
 /**
- * A decent driver: floors it, follows the dispatch hint at forks, changes
- * lane to get round traffic it can see coming, rams the target once on its
- * tail, and saves turbo for straights.
+ * Where a decent driver wants to be: follows the dispatch hint at forks,
+ * changes lane to get round traffic it can see coming (`look` units ahead),
+ * rams the target once on its tail, and saves turbo for straights.
  */
-function autopilot(w: World): Controls {
+function plan(w: World, look: number): { aim: number; turbo: boolean } {
   const { player: p, target: t, track } = w
   const seg = segmentAt(track, p.z)
   // Heads for the right branch as soon as dispatch calls it.
@@ -287,18 +287,46 @@ function autopilot(w: World): Controls {
     lanes = [c - hw / 2, c + hw / 2]
     if (Math.abs(aim - c) > hw * 0.5) aim = c
   }
-  const blocked = (x: number) => w.traffic.some(c => c.z > p.z && c.z - p.z < 4000 && Math.abs(c.x - x) < CAR_W * 1.3)
+  const blocked = (x: number) => w.traffic.some(c => c.z > p.z && c.z - p.z < look && Math.abs(c.x - x) < CAR_W * 1.3)
   if (blocked(aim)) {
     const free = lanes.filter(x => !blocked(x)).sort((a, b) => Math.abs(a - p.x) - Math.abs(b - p.x))
     if (free.length) aim = free[0]
   }
-  const steer = Math.max(-1, Math.min(1, (aim - p.x) * 4 + seg.curve * 0.15))
   const straight = Math.abs(seg.curve) < 1 && Math.abs(segmentAt(track, p.z + 3000).curve) < 1
-  return { steer, gas: true, brake: false, turbo: straight && gap(w) > 8000 }
+  return { aim, turbo: straight && gap(w) > 8000 }
+}
+
+/** A machine: re-plans every tick and steers with perfect precision. */
+function autopilot(w: World): Controls {
+  const { aim, turbo } = plan(w, 4000)
+  const seg = segmentAt(w.track, w.player.z)
+  const steer = Math.max(-1, Math.min(1, (aim - w.player.x) * 4 + seg.curve * 0.15))
+  return { steer, gas: true, brake: false, turbo }
+}
+
+/**
+ * A human on the touch pad: steering is full lock or nothing, it only
+ * re-thinks every `react` ticks, spots traffic `look` units ahead, and
+ * brakes for the sharpest bends. The game is tuned against this driver.
+ */
+function human(react = 20, look = 3000) {
+  let intent = { aim: 0, turbo: false }
+  let tick = 0
+  return (w: World): Controls => {
+    if (tick++ % react === 0) intent = plan(w, look)
+    const p = w.player
+    const seg = segmentAt(w.track, p.z)
+    const err = intent.aim - p.x + seg.curve * 0.04
+    const steer = Math.abs(err) < 0.08 ? 0 : Math.sign(err)
+    const brake = Math.abs(seg.curve) >= 5 && p.speed > MAX_SPEED * 0.9
+    const turbo = intent.turbo
+    intent.turbo = false
+    return { steer, gas: !brake, brake, turbo }
+  }
 }
 
 /** Step until `until` holds; returns the seconds it took. */
-function run(w: World, until: (w: World) => boolean, seconds: number, drive = autopilot): number {
+function run(w: World, until: (w: World) => boolean, seconds: number, drive: (w: World) => Controls = autopilot): number {
   let i = 0
   for (; i < seconds * 60 && !until(w); i++) step(w, drive(w), DT)
   return i / 60
@@ -326,27 +354,67 @@ describe('world', () => {
     w.traffic = []
     const pursuit = run(w, w => w.phase !== 'countdown' && w.phase !== 'pursuit', 120) - COUNTDOWN
     expect(w.phase).toBe('arrest')
-    // With the road to yourself there is plenty of time to spare; the
-    // difficulty comes from traffic (see "winnable in traffic" below).
-    expect(pursuit).toBeLessThan(w.def.pursuitTime * 0.6)
+    // With the road to yourself you should never need a checkpoint's help
+    // for long; the difficulty comes from traffic (see below).
+    expect(pursuit).toBeLessThan(w.def.pursuitTime * 1.5)
     const arrest = run(w, w => w.phase !== 'arrest', 120)
     expect(arrest).toBeGreaterThan(5)
     expect(w.phase).toBe('caught')
     expect(w.timeLeft).toBeGreaterThan(0)
   })
 
-  // The real game has traffic: over 20 runs a decent driver should nearly
-  // always catch the early targets, and the Phantom should still be a fight.
-  const MIN_WINS = [18, 17, 13, 15, 7]
-  it.each(CASES.map((c, i) => [c.title, i] as const))('%s is winnable in traffic', (_, i) => {
+  // The difficulty curve, measured with the touch-pad driver over 20 runs a
+  // case: about 20/16/13/10/7 wins. Bounded both ways, so a change can make
+  // the game neither much harder nor much easier without anyone noticing.
+  const WINS: [number, number][] = [[17, 20], [13, 19], [9, 16], [7, 14], [4, 10]]
+  it.each(CASES.map((c, i) => [c.title, i] as const))('%s is about as hard as intended for a human', (_, i) => {
     let wins = 0
     for (let seed = 1; seed <= 20; seed++) {
       const w = createWorld(i, 0, seed * 7919)
-      run(w, w => w.phase === 'caught' || w.phase === 'escaped', 200)
+      run(w, w => w.phase === 'caught' || w.phase === 'escaped', 300, human())
       if (w.phase === 'caught') wins++
     }
-    expect(wins).toBeGreaterThanOrEqual(MIN_WINS[i])
-    if (i === CASES.length - 1) expect(wins).toBeLessThan(18)
+    expect(wins).toBeGreaterThanOrEqual(WINS[i][0])
+    expect(wins).toBeLessThanOrEqual(WINS[i][1])
+  })
+
+  it('checkpoints top up the pursuit clock', () => {
+    const w = createWorld(0, 0, 3)
+    w.traffic = []
+    w.phase = 'pursuit'
+    w.target.z = w.player.z + 1e7
+    const first = w.checkpoint
+    w.player.z = first - 10
+    w.player.speed = MAX_SPEED
+    const before = w.timer
+    const events = step(w, GAS, DT).map(e => e.kind)
+    expect(events).toContain('checkpoint')
+    expect(w.timer).toBeCloseTo(before - DT + CHECKPOINT_BONUS)
+    expect(w.checkpoint).toBeGreaterThanOrEqual(first + CHECKPOINT_EVERY)
+    // Only once per gantry.
+    expect(step(w, GAS, DT).map(e => e.kind)).not.toContain('checkpoint')
+  })
+
+  it('never puts a checkpoint inside a fork', () => {
+    for (const c of CASES) {
+      let z = 0
+      for (let i = 0; i < 40; i++) {
+        z = placeCheckpoint(c.track, z + CHECKPOINT_EVERY)
+        expect(segmentAt(c.track, z).forkId).toBe(-1)
+      }
+    }
+  })
+
+  it('the arrest clock gets no checkpoints', () => {
+    const w = createWorld(0, 0, 3)
+    w.traffic = []
+    w.phase = 'arrest'
+    w.timer = 30
+    w.player.z = w.checkpoint - 10
+    w.player.speed = MAX_SPEED
+    w.target.z = w.player.z + 1e6
+    expect(step(w, GAS, DT).map(e => e.kind)).not.toContain('checkpoint')
+    expect(w.timer).toBeLessThan(30)
   })
 
   it('the wrong branch of a fork lets the target get away further', () => {

@@ -81,6 +81,7 @@ export function sfx(name: Sfx): void {
     case 'escaped': arpeggio([64, 60, 57, 52], t, 0.2, 0.3, 0.07, 'triangle'); break
     case 'forkhint': arpeggio([84, 88], t, 0.08, 0.07, 0.06); break
     case 'rightway': arpeggio([72, 79], t, 0.08, 0.1, 0.06); break
+    case 'checkpoint': arpeggio([72, 76, 79, 84], t, 0.06, 0.12, 0.07); break
     case 'wrongway': tone('sawtooth', 110, 90, t, 0.5, 0.08); break
     case 'start': arpeggio([60, 64, 67, 72], t, 0.06, 0.1, 0.07); break
     case 'pause': tone('square', 660, 660, t, 0.08, 0.06); break

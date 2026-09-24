@@ -1,8 +1,8 @@
 // ─── /chase: one case, start to finish ──────────────────────────────────────
 //
-// countdown → pursuit (close the gap before the clock runs out) → arrest (a
-// fresh clock; ram the target until it gives up) → caught. Either clock
-// running out means it escaped. Pure: no drawing, no sound — `step` returns
+// countdown → pursuit (close the gap before the clock runs out; checkpoint
+// gantries along the road top it up) → arrest (a fresh clock; ram the target
+// until it gives up) → caught. Either clock running out means it escaped. Pure: no drawing, no sound — `step` returns
 // events for main.ts to turn into both.
 
 import { CAR_W, MAX_SPEED, createPlayer, stepPlayer, type Controls, type Player } from './car'
@@ -15,7 +15,7 @@ export type Phase = 'countdown' | 'pursuit' | 'arrest' | 'caught' | 'escaped'
 
 export type EventKind =
   | 'go' | 'turbo' | 'bump' | 'crash' | 'ram' | 'arrest' | 'caught' | 'escaped'
-  | 'forkhint' | 'rightway' | 'wrongway' | 'tick'
+  | 'forkhint' | 'rightway' | 'wrongway' | 'tick' | 'checkpoint'
 
 export interface WorldEvent {
   kind: EventKind
@@ -31,6 +31,11 @@ export const RAM_POINTS = 500
 export const RIGHT_WAY_POINTS = 2000
 export const TIME_BONUS = 1000
 export const CAUGHT_POINTS = 20000
+/** Distance between checkpoints: about 12 seconds at top speed. */
+export const CHECKPOINT_EVERY = 150_000
+/** Seconds each checkpoint adds to the pursuit clock. */
+export const CHECKPOINT_BONUS = 10
+export const CHECKPOINT_POINTS = 1000
 
 export interface World {
   caseIdx: number
@@ -52,6 +57,8 @@ export interface World {
   forkSide: 'left' | 'right' | null
   /** Fork whose hint has already been shown. */
   hinted: number
+  /** Where the next checkpoint gantry stands (pursuit only). */
+  checkpoint: number
   /** Shown on screen for a moment after a fork (right/wrong way). */
   message: { text: string; t: number }
   rnd: Rng
@@ -69,9 +76,16 @@ export function createWorld(caseIdx: number, score = 0, seed = 1): World {
     traffic: createTraffic(def.traffic, player.z, rnd),
     phase: 'countdown', phaseTime: 0, timer: def.pursuitTime, score, timeLeft: 0,
     forkId: -1, forkSide: null, hinted: -1,
+    checkpoint: placeCheckpoint(def.track, player.z + CHECKPOINT_EVERY),
     message: { text: '', t: 0 },
     rnd,
   }
+}
+
+/** A checkpoint wanted at `z`, moved on past any fork so it spans one road. */
+export function placeCheckpoint(track: Track, z: number): number {
+  while (segmentAt(track, z).forkId >= 0) z += SEG_LEN
+  return z
 }
 
 /** How much further ahead the target gets if you take the wrong branch. */
@@ -146,7 +160,7 @@ export function step(w: World, c: Controls, dt: number): WorldEvent[] {
         events.push({ kind: 'rightway' })
       } else {
         t.z += wrongWayPenalty(w.def)
-        w.message = { text: 'WRONG WAY! HE GAINED GROUND', t: 2.5 }
+        w.message = { text: 'WRONG WAY! THEY GAINED GROUND', t: 2.5 }
         events.push({ kind: 'wrongway' })
       }
     }
@@ -161,6 +175,12 @@ export function step(w: World, c: Controls, dt: number): WorldEvent[] {
   w.score += Math.round((p.speed * dt) / 20)
   w.timer = Math.max(0, w.timer - dt)
 
+  if (w.phase === 'pursuit' && p.z >= w.checkpoint) {
+    w.timer += CHECKPOINT_BONUS
+    w.score += CHECKPOINT_POINTS
+    w.checkpoint = placeCheckpoint(track, w.checkpoint + CHECKPOINT_EVERY)
+    events.push({ kind: 'checkpoint' })
+  }
   if (w.phase === 'pursuit' && gap(w) < ARREST_GAP) {
     setPhase(w, 'arrest')
     w.timer = w.def.arrestTime
