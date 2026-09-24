@@ -4,7 +4,7 @@
 // level's wave timeline, and player shots hitting them.
 
 import {
-  BONUS_WAVE_MIN, BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, REAR_WARNING, SCROLL_SPEED, W, hit, rand, tierScale,
+  BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, REAR_WARNING, SCROLL_SPEED, W, hit, rand, tierScale,
   type Enemy, type EnemyDef, type EnemyKind, type GameEvent, type World,
 } from './world'
 import { powerScale } from './difficulty'
@@ -136,11 +136,11 @@ export function killEnemy(w: World, e: Enemy, ev: GameEvent[]) {
   w.score += def.score
   ev.push({ kind: BIG.includes(e.kind) ? 'bigexplode' : 'explode', x: e.x, y: e.y })
   w.pickups.push({ x: e.x, y: e.y, kind: 'credit', value: def.credits })
-  // Capsules are earned, not random: wipe out a whole formation, none escaping.
+  // Capsules are earned, not random: wipe out a gold bonus formation, none escaping.
   if (e.wave !== undefined) {
     const stats = w.waveStats[e.wave]
     stats.killed++
-    if (stats.killed === stats.n && stats.escaped === 0 && stats.n >= BONUS_WAVE_MIN) {
+    if (stats.killed === stats.n && stats.escaped === 0 && w.level.waves[e.wave].bonus) {
       w.pickups.push({ x: e.x + 6, y: e.y, kind: 'capsule', value: 0 })
       ev.push({ kind: 'wavebonus', x: e.x, y: e.y })
     }

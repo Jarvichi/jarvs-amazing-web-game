@@ -524,6 +524,15 @@ function drawCarrier(ctx: CanvasRenderingContext2D, x: number, y: number, t: num
 }
 
 function drawEnemy(ctx: CanvasRenderingContext2D, e: Enemy, w: World, t: number) {
+  // Gold bonus formations: a pulsing ring behind every member says "get them all".
+  if (e.wave !== undefined && w.level.waves[e.wave]?.bonus) {
+    const def = ENEMIES[e.kind]
+    ctx.strokeStyle = PAL[Math.floor(t * 6) % 2 ? 10 : 9]
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.arc(Math.round(e.x) + 0.5, Math.round(e.y) + 0.5, Math.max(def.w, def.h) / 2 + 3 + Math.sin(t * 8) * 0.8, 0, Math.PI * 2)
+    ctx.stroke()
+  }
   // Rear attackers are drawn upside down, facing the way they fly.
   if (e.below) {
     ctx.save()

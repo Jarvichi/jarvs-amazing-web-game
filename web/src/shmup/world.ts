@@ -31,7 +31,7 @@ export const INVULN_TIME = 2.5
 export const ENEMY_SHOT_SPEED = 90
 export const BOSS_CREDITS = 200
 export const MINI_CREDITS = 100
-/** Smallest formation that can earn a flawless-wave capsule. */
+/** Smallest formation that may be marked as a bonus wave. */
 export const BONUS_WAVE_MIN = 3
 
 export type EnemyKind =
@@ -67,6 +67,12 @@ export interface Wave {
    * sense this way round.
    */
   from?: 'below'
+  /**
+   * A gold bonus formation: wipe out every member, none escaping, and it drops
+   * a weapon capsule. Kept to a few per level so power-ups stay earned (with a
+   * big fleet every wave is flawless, so a rule on all waves paid out ~20).
+   */
+  bonus?: boolean
 }
 
 /** Enemies whose flight works mirrored; the rest attack downward by design. */

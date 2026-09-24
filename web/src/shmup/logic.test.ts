@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
-  MAX_BOMBS, REAR_KINDS, expectedLoadout, firepower, onScreen, powerScale, cloneLoadout, podPos, podSlot, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
+  BONUS_WAVE_MIN, MAX_BOMBS, REAR_KINDS, expectedLoadout, firepower, onScreen, powerScale, cloneLoadout, podPos, podSlot, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
   type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
 import { currentPhase, healthFraction, partPos } from './boss'
@@ -593,9 +593,9 @@ describe('difficulty keeps up with the ship', () => {
   })
 })
 
-describe('flawless waves', () => {
+describe('gold bonus formations', () => {
   const formation = (n: number, extra: Partial<Wave> = {}) =>
-    createWorld({ ...EMPTY, waves: [{ at: 0, kind: 'turret', n, x: 40, dx: 45, gap: 0, ...extra }] }, carry())
+    createWorld({ ...EMPTY, waves: [{ at: 0, kind: 'turret', n, x: 40, dx: 45, gap: 0, bonus: true, ...extra }] }, carry())
   /** Let the wave drift fully on screen, then kill `count` of its members. */
   function killSome(w: World, count: number) {
     run(w, 2)
@@ -622,12 +622,22 @@ describe('flawless waves', () => {
     expect(w.pickups.some(p => p.kind === 'capsule')).toBe(false)
   })
 
-  it('needs a real formation: lone enemies and pairs never drop capsules', () => {
-    for (const n of [1, 2]) {
-      const w = formation(n)
-      w.ship.invuln = 999
-      expect(killSome(w, n)).not.toContain('wavebonus')
-      expect(w.pickups.some(p => p.kind === 'capsule')).toBe(false)
+  it('only gold formations pay out: wiping out an ordinary wave earns nothing', () => {
+    const w = formation(4, { bonus: false })
+    w.ship.invuln = 999
+    expect(killSome(w, 4)).not.toContain('wavebonus')
+    expect(w.pickups.some(p => p.kind === 'capsule')).toBe(false)
+  })
+
+  it('are rare: a few real formations per level, spread through it', () => {
+    for (const l of LEVELS) {
+      const gold = l.waves.filter(v => v.bonus)
+      expect(gold.length, l.name).toBeGreaterThanOrEqual(2)
+      expect(gold.length, l.name).toBeLessThanOrEqual(4)
+      for (const v of gold) expect(v.n, `${l.name} gold wave at ${v.at}`).toBeGreaterThanOrEqual(BONUS_WAVE_MIN)
+      // At least one before the miniboss and one after it.
+      expect(gold.some(v => v.at < l.miniboss!.at), l.name).toBe(true)
+      expect(gold.some(v => v.at > l.miniboss!.at), l.name).toBe(true)
     }
   })
 
