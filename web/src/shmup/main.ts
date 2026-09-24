@@ -8,7 +8,7 @@
 // loop. Rules are in logic.ts, drawing in render.ts, sound in audio.ts.
 
 import {
-  CONTINUE_SECONDS, MAX_CONTINUES, SHOP_ITEMS, START_LOADOUT, buy, continueCarry, createWorld, maxShield, priceOf, step,
+  CONTINUE_SECONDS, MAX_CONTINUES, SHOP_ITEMS, START_LOADOUT, buy, cloneLoadout, continueCarry, createWorld, maxShield, priceOf, step,
   type Carry, type World,
 } from './logic'
 import { LEVELS } from './levels'
@@ -35,7 +35,7 @@ const ctx = canvas.getContext('2d')!
 const toggleCrt = crtToggle(frame, CRT_KEY)
 const fx = new Fx()
 
-const freshCarry = (): Carry => ({ loadout: { ...START_LOADOUT }, score: 0, credits: 0, lives: START_LIVES })
+const freshCarry = (): Carry => ({ loadout: cloneLoadout(START_LOADOUT), score: 0, credits: 0, lives: START_LIVES })
 
 const game = {
   screen: 'title' as Screen,
@@ -65,7 +65,7 @@ function go(screen: Screen) {
 
 function startLevel(idx: number) {
   game.levelIdx = idx
-  game.levelCarry = { ...game.carry, loadout: { ...game.carry.loadout } }
+  game.levelCarry = { ...game.carry, loadout: cloneLoadout(game.carry.loadout) }
   game.world = createWorld(LEVELS[idx], game.carry, (Date.now() & 0xffff) + 1)
   fx.clear()
   go('play')
@@ -107,6 +107,7 @@ const QUIPS = {
   ok: ['PLEASURE DOING BUSINESS', 'FINE CHOICE, PILOT', 'NO REFUNDS!'],
   poor: ['COME BACK WITH MORE CREDITS', 'THIS IS NOT A CHARITY'],
   maxed: ['YOU CANNOT FIT ANY MORE OF THAT'],
+  mounted: ['NEW POD MOUNTED! LOOKING MIGHTY', 'ANOTHER POD! YOUR SHIP GROWS'],
 }
 
 function shopAction(row: number) {
@@ -117,7 +118,7 @@ function shopAction(row: number) {
   const result = buy(game.carry, SHOP_ITEMS[row].id)
   const lines = QUIPS[result]
   game.shopMsg = { text: lines[Math.floor(Math.random() * lines.length)], t: 2 }
-  sfx(result === 'ok' ? 'buy' : 'deny')
+  sfx(result === 'mounted' ? 'mount' : result === 'ok' ? 'buy' : 'deny')
 }
 
 // ── Update ──────────────────────────────────────────────────────────────────
@@ -152,7 +153,7 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
       if (w.status === 'won') {
         game.shieldBonus = Math.max(0, Math.round(w.ship.shield)) * SHIELD_BONUS
         game.carry = {
-          loadout: { ...w.loadout }, score: w.score + game.shieldBonus, credits: w.credits, lives: w.lives,
+          loadout: cloneLoadout(w.loadout), score: w.score + game.shieldBonus, credits: w.credits, lives: w.lives,
         }
         go('clear')
       } else if (w.status === 'gameover') {

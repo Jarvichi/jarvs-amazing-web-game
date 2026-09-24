@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
-  MAX_BOMBS, REAR_KINDS, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
+  MAX_BOMBS, REAR_KINDS, cloneLoadout, podPos, podSlot, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
   type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
 import { currentPhase, healthFraction, partPos } from './boss'
@@ -23,7 +23,7 @@ const EMPTY: LevelDef = {
 }
 
 const carry = (over: Partial<Carry> = {}): Carry =>
-  ({ loadout: { ...START_LOADOUT }, score: 0, credits: 0, lives: 3, ...over })
+  ({ score: 0, credits: 0, lives: 3, ...over, loadout: cloneLoadout(over.loadout ?? START_LOADOUT) })
 
 function run(w: World, seconds: number, input: Partial<Input> = {}) {
   const events: string[] = []
@@ -60,7 +60,11 @@ describe('ship', () => {
       step(w, { ...IDLE, fire: true }, DT)
       return w.shots.length
     }
-    expect([shotsFor(1), shotsFor(2), shotsFor(3)]).toEqual([1, 2, 3])
+    // Maxing the cannon mounts a pod that fires the full 3-shot spread, so
+    // firepower never drops when the base cannon resets.
+    const [one, two, max] = [shotsFor(1), shotsFor(2), shotsFor(3)]
+    expect([one, two]).toEqual([1, 2])
+    expect(max).toBeGreaterThanOrEqual(3)
   })
 })
 
@@ -78,7 +82,7 @@ describe('combat', () => {
   })
 
   it('shots drain the shield and losing it costs a life and a cannon level', () => {
-    const w = createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, cannon: 3 } }))
+    const w = createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, cannon: 2 } }))
     w.ship.invuln = 0
     const hitShip = () => {
       w.ship.invuln = 0
@@ -90,7 +94,7 @@ describe('combat', () => {
     hitShip(); hitShip()
     expect(hitShip()).toContain('die')
     expect(w.lives).toBe(2)
-    expect(w.loadout.cannon).toBe(2)
+    expect(w.loadout.cannon).toBe(1)
     run(w, 2.5)
     expect(w.ship.alive).toBe(true)
     expect(w.ship.shield).toBe(MAX_SHIELD)
@@ -142,9 +146,9 @@ describe('boss', () => {
   const TYPICAL: Partial<Carry['loadout']>[] = [
     {},
     { cannon: 2 },
-    { cannon: 2, side: true, rapid: 1 },
-    { cannon: 3, side: true, rapid: 1, homing: 1, drones: 1 },
-    { cannon: 3, side: true, rapid: 2, homing: 1, drones: 1, laser: true },
+    { cannon: 2, rapid: 1, pods: ['side'] },
+    { cannon: 2, rapid: 1, homing: 1, drones: 1, pods: ['cannon', 'side'] },
+    { cannon: 2, rapid: 2, homing: 1, drones: 1, pods: ['cannon', 'side', 'laser', 'rear'] },
   ]
 
   it.each(LEVELS.map((l, i) => [l.name, l, i] as const))(
@@ -310,6 +314,7 @@ describe('upgrades', () => {
     }
     step(w, { ...IDLE, fire: true }, DT)
     const bolt = w.shots.find(s => s.pierce)!
+    bolt.x = W / 2 // fired from the laser pod beside the ship; line it up with the column
     w.shots = [bolt]
     run(w, 1)
     // Each turret took exactly one bolt (2 damage) — none was hit twice.
@@ -362,20 +367,23 @@ describe('upgrades', () => {
     expect(bw.boss!.pods[0].hp).toBe(1)
   })
 
-  it('capsules never push an upgrade past its maximum', () => {
+  it('capsules keep capped upgrades capped, and turn maxed weapons into pods', () => {
     const w = armed({})
-    for (let i = 0; i < 60; i++) applyCapsule(w)
+    for (let i = 0; i < 80; i++) applyCapsule(w)
     const l = w.loadout
-    expect([l.cannon, l.homing, l.speed, l.drones, l.rapid]).toEqual([3, 2, 2, 2, 2])
+    expect([l.speed, l.drones, l.rapid]).toEqual([2, 2, 2])
     expect(l.bombs).toBeLessThanOrEqual(MAX_BOMBS)
+    expect(l.cannon).toBeLessThan(3)
+    expect(l.homing).toBeLessThan(2)
+    expect(l.pods.length).toBeGreaterThan(0)
+    // Capsules never hand out the shop-only pods.
+    expect(l.pods.every(p => p === 'cannon' || p === 'homing')).toBe(true)
   })
 
-  it('sells every new item at a price, and caps it', () => {
+  it('sells every new item at a price, and caps the ones that cap', () => {
     const c = carry({ credits: 99999 })
-    for (const id of ['laser', 'drone', 'armour', 'rapid', 'bomb'] as const) {
-      expect(buy(c, id), id).toBe('ok')
-    }
-    expect(buy(c, 'laser')).toBe('maxed')
+    for (const id of ['drone', 'armour', 'rapid', 'bomb'] as const) expect(buy(c, id), id).toBe('ok')
+    expect(buy(c, 'laser')).toBe('mounted')
     expect(buy(c, 'armour')).toBe('maxed')
     buy(c, 'bomb')
     expect(c.loadout.bombs).toBe(MAX_BOMBS)
@@ -469,9 +477,69 @@ describe('shop', () => {
   it('refuses maxed items', () => {
     const c = carry({ credits: 99999, lives: MAX_LIVES })
     expect(buy(c, 'life')).toBe('maxed')
-    buy(c, 'cannon'); buy(c, 'cannon')
-    expect(priceOf('cannon', c)).toBeNull()
-    expect(buy(c, 'cannon')).toBe('maxed')
+    buy(c, 'speed'); buy(c, 'speed')
+    expect(priceOf('speed', c)).toBeNull()
+    expect(buy(c, 'speed')).toBe('maxed')
+  })
+})
+
+describe('pods', () => {
+  it('maxing the cannon mounts a cannon pod and starts the cannon over', () => {
+    const c = carry({ credits: 99999 })
+    expect(buy(c, 'cannon')).toBe('ok')
+    expect(buy(c, 'cannon')).toBe('mounted')
+    expect(c.loadout.pods).toEqual(['cannon'])
+    expect(c.loadout.cannon).toBe(1)
+    // The climb starts again, pricier: pods scale up per pod of that type.
+    expect(priceOf('cannon', c)).toBeGreaterThan(250)
+  })
+
+  it('side, rear and laser mount straight away, and keep stacking', () => {
+    const c = carry({ credits: 99999 })
+    for (let i = 0; i < 3; i++) expect(buy(c, 'rear')).toBe('mounted')
+    buy(c, 'side')
+    expect(c.loadout.pods).toEqual(['rear', 'rear', 'rear', 'side'])
+    expect(c.loadout.rear).toBe(false)
+  })
+
+  it('has no cap: dozens of pods all get their own slot inside the tunnel', () => {
+    const slots = Array.from({ length: 40 }, (_, i) => podSlot(i))
+    const keys = new Set(slots.map(s => `${Math.round(s.dx)},${Math.round(s.dy)}`))
+    expect(keys.size).toBe(40)
+    for (const s of slots) expect(Math.abs(s.dx)).toBeLessThan(W / 2 - MARGIN)
+    // The first ring fills the wings before the nose and tail.
+    expect(Math.abs(slots[0].dy)).toBeLessThan(1)
+    expect(Math.abs(slots[1].dy)).toBeLessThan(1)
+  })
+
+  it('pods fire their weapon, but cannot be hit', () => {
+    const w = createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, pods: ['rear', 'laser'] } }))
+    w.ship.invuln = 0
+    run(w, 0.1, { fire: true }) // pods' first shots are staggered slightly
+    expect(w.shots.some(s => s.vy > 0)).toBe(true) // rear pod
+    expect(w.shots.some(s => s.pierce)).toBe(true) // laser pod
+    const pod = podPos(w, 0)
+    w.enemyShots.push({ x: pod.x, y: pod.y, vx: 0, vy: 0, dmg: 25 })
+    step(w, IDLE, DT)
+    expect(w.ship.shield).toBe(MAX_SHIELD)
+  })
+
+  it('survive losing a ship', () => {
+    const w = createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, pods: ['cannon', 'side'] } }))
+    w.ship.invuln = 0
+    w.ship.shield = 1
+    w.enemyShots.push({ x: w.ship.x, y: w.ship.y, vx: 0, vy: 0, dmg: 25 })
+    step(w, IDLE, DT)
+    expect(w.ship.alive).toBe(false)
+    expect(w.loadout.pods).toEqual(['cannon', 'side'])
+  })
+
+  it('are copied, never shared, between a carry and a world', () => {
+    const c = carry({ loadout: { ...START_LOADOUT, pods: ['rear'] } })
+    const w = createWorld(EMPTY, c)
+    w.loadout.pods.push('side')
+    expect(c.loadout.pods).toEqual(['rear'])
+    expect(cloneLoadout(c.loadout).pods).not.toBe(c.loadout.pods)
   })
 })
 

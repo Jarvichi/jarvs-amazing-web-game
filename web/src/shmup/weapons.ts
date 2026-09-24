@@ -8,6 +8,7 @@ import {
 } from './world'
 import { killEnemy } from './enemies'
 import { coreExposed, partPos } from './boss'
+import { firePods } from './pods'
 
 export function stepShip(w: World, input: Input, dt: number, ev: GameEvent[]) {
   const s = w.ship
@@ -36,6 +37,7 @@ export function stepShip(w: World, input: Input, dt: number, ev: GameEvent[]) {
   w.droneCd -= dt
   w.droneAngle += dt * 3
   if (input.bomb) detonateBomb(w, ev)
+  firePods(w, dt, input.fire, ev)
   if (!input.fire) return
   const l = w.loadout
   if (w.fireCd <= 0) {

@@ -9,7 +9,7 @@
 import { PAL, drawSprite, drawText, hash, makeSprite, textWidth, type Sprite } from '../arcade/gfx'
 import { partPos } from './boss'
 import {
-  ENEMIES, H, MARGIN, REAR_WARNING, W, coreExposed, dronePos, maxShield, rearWarnings,
+  ENEMIES, H, MARGIN, POD_SPACING, REAR_WARNING, W, podPos, podSlot, type PodKind, coreExposed, dronePos, maxShield, rearWarnings,
   type Boss, type BossLook, type BossPart, type Enemy, type GameEvent, type Loadout, type Theme, type World,
 } from './logic'
 
@@ -154,6 +154,11 @@ export class Fx {
           this.rings.push({ x: e.x, y: e.y, r: 0, max: 200, life: 0.5 })
           this.rings.push({ x: e.x, y: e.y, r: 0, max: 120, life: 0.4 })
           this.float(e.x, e.y - 16, 'SMART BOMB', 7)
+          break
+        case 'mount':
+          this.float(e.x, e.y - 20, `${(e.detail ?? '').toUpperCase()} POD!`, 10)
+          this.burst(e.x, e.y, 30, 90, [10, 11, 7], 0.7)
+          this.rings.push({ x: e.x, y: e.y, r: 0, max: 40, life: 0.4 })
           break
         case 'phase':
           this.flash = 0.15
@@ -348,6 +353,49 @@ function drawCoreDecor(ctx: CanvasRenderingContext2D, scroll: number, t: number)
 }
 
 // ── Entities ────────────────────────────────────────────────────────────────
+const POD_COLOURS: Record<PodKind, [body: number, tip: number]> = {
+  cannon: [6, 10], homing: [9, 8], laser: [12, 7], side: [11, 3], rear: [8, 14],
+}
+
+/**
+ * The pod lattice: struts first (each pod braced to the ring inside it, the
+ * first ring to the hull) so the whole thing reads as one ship, then pods.
+ */
+function drawPods(ctx: CanvasRenderingContext2D, w: World, t: number) {
+  const s = w.ship
+  const pods = w.loadout.pods
+  ctx.strokeStyle = PAL[5]
+  ctx.lineWidth = 1
+  pods.forEach((_, i) => {
+    const o = podSlot(i)
+    const r = Math.hypot(o.dx, o.dy / 0.8) / POD_SPACING
+    const k = r > 1.5 ? (Math.round(r) - 1) / Math.round(r) : 0
+    ctx.beginPath()
+    ctx.moveTo(Math.round(s.x + o.dx) + 0.5, Math.round(s.y + o.dy) + 0.5)
+    ctx.lineTo(Math.round(s.x + o.dx * k) + 0.5, Math.round(s.y + o.dy * k) + 0.5)
+    ctx.stroke()
+  })
+  pods.forEach((kind, i) => {
+    const { x, y } = podPos(w, i)
+    const [body, tip] = POD_COLOURS[kind]
+    const px = Math.round(x) - 3
+    const py = Math.round(y) - 3
+    ctx.fillStyle = PAL[1]
+    ctx.fillRect(px - 1, py - 1, 8, 8)
+    ctx.fillStyle = PAL[body]
+    ctx.fillRect(px, py, 6, 6)
+    ctx.fillStyle = PAL[tip]
+    // The tip shows which way it fires.
+    if (kind === 'rear') ctx.fillRect(px + 2, py + 4, 2, 2)
+    else if (kind === 'side') { ctx.fillRect(px, py + 2, 1, 2); ctx.fillRect(px + 5, py + 2, 1, 2) }
+    else ctx.fillRect(px + 2, py, 2, 2)
+    if (Math.floor(t * 4 + i) % 8 === 0) {
+      ctx.fillStyle = PAL[7]
+      ctx.fillRect(px + 1, py + 1, 1, 1)
+    }
+  })
+}
+
 function drawShip(ctx: CanvasRenderingContext2D, w: World, t: number) {
   const s = w.ship
   if (!s.alive) return
@@ -355,6 +403,7 @@ function drawShip(ctx: CanvasRenderingContext2D, w: World, t: number) {
   const { ship } = getSprites()
   const x = Math.round(s.x - 7)
   const y = Math.round(s.y - 7)
+  drawPods(ctx, w, t)
   // Engine flicker
   ctx.fillStyle = PAL[Math.floor(t * 30) % 2 ? 10 : 9]
   ctx.fillRect(x + 5, y + 14, 1, 2 + (Math.floor(t * 30) % 2))
@@ -820,7 +869,13 @@ export function drawPanels(ctx: CanvasRenderingContext2D, w: PanelState, info: H
   label('LEVEL', 6, y); value(String(info.levelNum), 6, y + 8); y += 26
   label('SHIPS', 6, y); lifeIcons(ctx, 6, y + 8, w.lives, 'left'); y += 26
   label('SHIELD', 6, y); shieldBar(ctx, 6, y + 8, PANEL_W - 12, w.shield, maxShield(w.loadout)); y += 26
-  label('BOMBS', 6, y); value(String(w.loadout.bombs), 6, y + 8, PAL[w.loadout.bombs ? 10 : 5])
+  label('BOMBS', 6, y); value(String(w.loadout.bombs), 6, y + 8, PAL[w.loadout.bombs ? 10 : 5]); y += 26
+  label('PODS', 6, y); value(String(w.loadout.pods.length), 6, y + 8, PAL[w.loadout.pods.length ? 11 : 5])
+  // One pip per pod, in its colour, wrapping across the panel.
+  w.loadout.pods.forEach((k, i) => {
+    ctx.fillStyle = PAL[POD_COLOURS[k][0]]
+    ctx.fillRect(6 + (i % 12) * 4, y + 16 + Math.floor(i / 12) * 4, 3, 3)
+  })
 
   const rx = right + 6
   y = 10
