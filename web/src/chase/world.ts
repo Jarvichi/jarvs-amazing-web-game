@@ -5,11 +5,11 @@
 // running out means it escaped. Pure: no drawing, no sound — `step` returns
 // events for main.ts to turn into both.
 
-import { MAX_SPEED, createPlayer, stepPlayer, type Controls, type Player } from './car'
-import { FORK_OPEN, SEG_LEN, onRoad, segmentAt, sideOf, type Track } from './road'
+import { CAR_W, MAX_SPEED, createPlayer, stepPlayer, type Controls, type Player } from './car'
+import { FORK_OPEN, PROP_HIT, SEG_LEN, segmentAt, sideOf, type Track } from './road'
 import { createTarget, ramTarget, stepTarget, type Target } from './target'
 import { CASES, type Case } from './tracks'
-import { createTraffic, hitProp, hitTraffic, makeRng, stepTraffic, PROP_HIT, type Rng, type TrafficCar } from './traffic'
+import { createTraffic, hitProp, hitTraffic, makeRng, stepTraffic, type Rng, type TrafficCar } from './traffic'
 
 export type Phase = 'countdown' | 'pursuit' | 'arrest' | 'caught' | 'escaped'
 
@@ -107,15 +107,15 @@ export function step(w: World, c: Controls, dt: number): WorldEvent[] {
   // ── Player ──
   const seg = segmentAt(track, p.z)
   if (stepPlayer(p, controls, seg.curve, seg.fork, dt)) events.push({ kind: 'turbo' })
-  const prop = p.spin <= 0 ? hitProp(p, track) : null
+  const prop = hitProp(p, track)
   if (prop) {
-    // Bounce back towards the road so you can't get stuck in the scenery.
-    p.speed *= 0.2
-    p.spin = 0.8
+    // Lose half your speed and bounce clear of it towards the road (the
+    // chevrons in the middle of a fork: towards the side you hit them on),
+    // so one clip is one crash rather than a chain through the scenery.
+    p.speed *= 0.5
     p.turbo = 0
-    const px = segmentAt(track, p.z).props.find(q => q.kind === prop)?.x ?? p.x
-    p.x = px + (p.x > px ? 1 : -1) * (PROP_HIT[prop] + 0.25)
-    if (!onRoad(p.x, seg.fork) && Math.abs(p.x) > 1) p.x = Math.sign(p.x) * 0.9
+    const dir = prop.x === 0 ? (p.x >= 0 ? 1 : -1) : -Math.sign(prop.x)
+    p.x = prop.x + dir * (PROP_HIT[prop.kind] + CAR_W / 2 + 0.05)
     events.push({ kind: 'crash' })
   }
 

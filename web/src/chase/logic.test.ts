@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest'
 import {
-  FORK_CLOSE, FORK_HOLD, FORK_OPEN, SEG_LEN, branchCentre, buildTrack, heightAt, laneX, onRoad, project, segmentAt,
+  FORK_CLOSE, FORK_HOLD, FORK_OPEN, PROP_HIT, SEG_LEN, branchCentre, branchHalfWidth, buildTrack, heightAt, laneX, onRoad,
+  project, segmentAt, trafficX,
 } from './road'
 import {
-  CAR_LEN, IDLE, MAX_SPEED, OFFROAD_LIMIT, TURBOS, TURBO_SPEED, createPlayer, kmh, stepPlayer, type Controls,
+  CAR_LEN, CAR_W, IDLE, MAX_SPEED, OFFROAD_LIMIT, TURBOS, TURBO_SPEED, createPlayer, kmh, stepPlayer, type Controls,
 } from './car'
 import { createTraffic, hitProp, hitTraffic, makeRng, stepTraffic } from './traffic'
 import { createTarget, ramDamage, ramTarget } from './target'
@@ -67,6 +68,32 @@ describe('road', () => {
     for (const lane of [0, 1, 2]) expect(onRoad(laneX(lane, 1), 1)).toBe(true)
   })
 
+  it('gives traffic two lanes per branch in a fork', () => {
+    const xs = [0, 1, 2, 3].map(f => trafficX(f === 0 ? 0 : f === 3 ? 2 : 1, f, 1))
+    for (const x of xs) expect(onRoad(x, 1)).toBe(true)
+    expect(xs.filter(x => x < 0).length).toBe(2)
+    // Lanes are far enough apart to pass between.
+    for (let i = 1; i < 4; i++) expect(xs[i] - xs[i - 1]).toBeGreaterThan(CAR_W * 1.5)
+    // With no split, the fork lane is ignored.
+    expect(trafficX(0, 0, 0)).toBeCloseTo(laneX(0, 0))
+  })
+
+  it('never puts scenery where a car still on the tarmac can hit it', () => {
+    for (const c of CASES) {
+      for (const seg of c.track.segs) {
+        for (const prop of seg.props) {
+          // Every car position that would clip it must be off the tarmac.
+          const reach = PROP_HIT[prop.kind] + CAR_W / 2
+          for (let f = -0.999; f <= 0.999; f += 0.111) {
+            if (onRoad(prop.x + f * reach, seg.fork)) {
+              throw new Error(`${c.title}: ${prop.kind} at x=${prop.x.toFixed(2)} reaches the road (segment ${seg.index})`)
+            }
+          }
+        }
+      }
+    }
+  })
+
   it('projects straight ahead onto the screen centre', () => {
     const p = project(0, 0, 1000, 0, 0, 0, 320, 180)
     expect(p.x).toBe(160)
@@ -119,15 +146,6 @@ describe('player car', () => {
     for (let i = 0; i < 60 * 2; i++) stepPlayer(p, GAS, 0, 0, DT)
     expect(p.speed).toBeLessThanOrEqual(OFFROAD_LIMIT)
   })
-
-  it('has no control while spinning out', () => {
-    const p = createPlayer()
-    p.speed = MAX_SPEED / 2
-    p.spin = 0.5
-    stepPlayer(p, { ...GAS, steer: 1, turbo: true }, 0, 0, DT)
-    expect(p.x).toBe(0)
-    expect(p.turbos).toBe(TURBOS)
-  })
 })
 
 describe('traffic', () => {
@@ -144,16 +162,32 @@ describe('traffic', () => {
   it('rear-ending a car slows you below its speed', () => {
     const p = createPlayer(1000)
     p.speed = MAX_SPEED
-    const car = { z: 1000 + CAR_LEN * 0.8, x: 0, lane: 1, speed: MAX_SPEED / 2, kind: 0 }
+    const car = { z: 1000 + CAR_LEN * 0.8, x: 0, lane: 1, forkLane: 1, speed: MAX_SPEED / 2, kind: 0 }
     expect(hitTraffic(p, [car])).toBe('rear')
     expect(p.speed).toBeLessThan(car.speed)
     expect(hitTraffic(p, [car])).toBeNull()
   })
 
+  it('a rear-end leaves room to steer round instead of hitting it again', () => {
+    const p = createPlayer(1000)
+    p.speed = MAX_SPEED
+    const car = { z: 1000 + CAR_LEN * 0.8, x: 0, lane: 1, forkLane: 1, speed: MAX_SPEED / 2, kind: 0 }
+    expect(hitTraffic(p, [car])).toBe('rear')
+    expect(p.speed).toBeGreaterThan(car.speed * 0.8)
+    // Floor it straight ahead for a second: no second hit.
+    let hits = 0
+    for (let i = 0; i < 60; i++) {
+      stepPlayer(p, GAS, 0, 0, DT)
+      car.z += car.speed * DT
+      if (hitTraffic(p, [car])) hits++
+    }
+    expect(hits).toBe(0)
+  })
+
   it('side swipes push you apart', () => {
     const p = createPlayer(1000)
     p.x = 0.1
-    const car = { z: 1000, x: 0, lane: 1, speed: 0, kind: 0 }
+    const car = { z: 1000, x: 0, lane: 1, forkLane: 1, speed: 0, kind: 0 }
     expect(hitTraffic(p, [car])).toBe('side')
     expect(p.x).toBeGreaterThan(0.3)
   })
@@ -164,7 +198,7 @@ describe('traffic', () => {
     const p = createPlayer(3 * SEG_LEN + 10)
     expect(hitProp(p, t)).toBeNull()
     p.x = 1.45
-    expect(hitProp(p, t)).toBe('palm')
+    expect(hitProp(p, t)?.kind).toBe('palm')
   })
 })
 
@@ -192,14 +226,31 @@ describe('target', () => {
   })
 })
 
-/** A simple driver: floors it, follows the target's lane and branch, turbos on straights. */
+/**
+ * A decent driver: floors it, follows the dispatch hint at forks, changes
+ * lane to get round traffic it can see coming, rams the target once on its
+ * tail, and saves turbo for straights.
+ */
 function autopilot(w: World): Controls {
   const { player: p, target: t, track } = w
   const seg = segmentAt(track, p.z)
-  const near = segmentAt(track, p.z + FORK_OPEN * SEG_LEN)
-  let aim = w.phase === 'arrest' ? t.x : 0
+  // Heads for the right branch as soon as dispatch calls it.
+  const near = segmentAt(track, p.z + FORK_OPEN * SEG_LEN * 1.5)
   const forkId = seg.forkId >= 0 ? seg.forkId : near.forkId
-  if (forkId >= 0) aim = branchCentre(Math.max(seg.fork, 0.6), track.forks[forkId].side)
+  let aim = Math.max(-2 / 3, Math.min(2 / 3, w.phase === 'arrest' ? t.x : p.x))
+  let lanes = [0, 1, 2].map(l => laneX(l, 0))
+  if (forkId >= 0) {
+    const split = Math.max(seg.fork, 0.6)
+    const c = branchCentre(split, track.forks[forkId].side)
+    const hw = branchHalfWidth(split)
+    lanes = [c - hw / 2, c + hw / 2]
+    if (Math.abs(aim - c) > hw * 0.5) aim = c
+  }
+  const blocked = (x: number) => w.traffic.some(c => c.z > p.z && c.z - p.z < 4000 && Math.abs(c.x - x) < CAR_W * 1.3)
+  if (blocked(aim)) {
+    const free = lanes.filter(x => !blocked(x)).sort((a, b) => Math.abs(a - p.x) - Math.abs(b - p.x))
+    if (free.length) aim = free[0]
+  }
   const steer = Math.max(-1, Math.min(1, (aim - p.x) * 4 + seg.curve * 0.15))
   const straight = Math.abs(seg.curve) < 1 && Math.abs(segmentAt(track, p.z + 3000).curve) < 1
   return { steer, gas: true, brake: false, turbo: straight && gap(w) > 8000 }
@@ -234,13 +285,27 @@ describe('world', () => {
     w.traffic = []
     const pursuit = run(w, w => w.phase !== 'countdown' && w.phase !== 'pursuit', 120) - COUNTDOWN
     expect(w.phase).toBe('arrest')
-    // Not trivially: even with no traffic it takes a good share of the clock.
-    expect(pursuit).toBeGreaterThan(w.def.pursuitTime * 0.3)
-    expect(pursuit).toBeLessThan(w.def.pursuitTime * 0.8)
+    // With the road to yourself there is plenty of time to spare; the
+    // difficulty comes from traffic (see "winnable in traffic" below).
+    expect(pursuit).toBeLessThan(w.def.pursuitTime * 0.6)
     const arrest = run(w, w => w.phase !== 'arrest', 120)
     expect(arrest).toBeGreaterThan(5)
     expect(w.phase).toBe('caught')
     expect(w.timeLeft).toBeGreaterThan(0)
+  })
+
+  // The real game has traffic: over 20 runs a decent driver should nearly
+  // always catch the early targets, and the Phantom should still be a fight.
+  const MIN_WINS = [18, 17, 13, 15, 7]
+  it.each(CASES.map((c, i) => [c.title, i] as const))('%s is winnable in traffic', (_, i) => {
+    let wins = 0
+    for (let seed = 1; seed <= 20; seed++) {
+      const w = createWorld(i, 0, seed * 7919)
+      run(w, w => w.phase === 'caught' || w.phase === 'escaped', 200)
+      if (w.phase === 'caught') wins++
+    }
+    expect(wins).toBeGreaterThanOrEqual(MIN_WINS[i])
+    if (i === CASES.length - 1) expect(wins).toBeLessThan(18)
   })
 
   it('the wrong branch of a fork lets the target get away further', () => {

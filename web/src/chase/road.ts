@@ -34,6 +34,12 @@ export const FORK_CLOSE = 40
 export type PropKind =
   | 'palm' | 'lamp' | 'sign' | 'tower' | 'block' | 'cactus' | 'rock' | 'pine' | 'bush' | 'billboard' | 'chevron' | 'neon'
 
+/** Collision half-widths of roadside props, in normalised x. */
+export const PROP_HIT: Record<PropKind, number> = {
+  palm: 0.1, lamp: 0.05, sign: 0.2, tower: 0.6, block: 0.5, cactus: 0.1, rock: 0.2,
+  pine: 0.15, bush: 0.2, billboard: 0.5, chevron: 0.2, neon: 0.2,
+}
+
 export interface Prop {
   kind: PropKind
   /** Normalised x; beyond ±1 is roadside. */
@@ -164,6 +170,19 @@ export function laneX(lane: number, split: number): number {
   let forked: number
   if (lane === 2) forked = branchCentre(split, 'right')
   else forked = branchCentre(split, 'left') + (lane === 0 ? -hw / 2 : hw / 2)
+  return single + (forked - single) * Math.min(1, split * 1.5)
+}
+
+/**
+ * Traffic lanes. On a single road a car keeps to its lane (0-2); in a fork
+ * each branch has two lanes and a car takes `forkLane` (0-1 left branch,
+ * 2-3 right branch), so neither branch gets every car squeezed into it.
+ */
+export function trafficX(lane: number, forkLane: number, split: number): number {
+  const single = (lane - 1) * (2 / 3)
+  if (split <= 0) return single
+  const hw = branchHalfWidth(split)
+  const forked = branchCentre(split, forkLane < 2 ? 'left' : 'right') + (forkLane % 2 ? hw / 2 : -hw / 2)
   return single + (forked - single) * Math.min(1, split * 1.5)
 }
 
