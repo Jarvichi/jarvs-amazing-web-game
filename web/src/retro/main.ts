@@ -14,7 +14,7 @@ import {
   type Camera,
 } from './render'
 import { initInput, poll, type Frame } from './input'
-import { buildLabel, crtToggle, fitToWindow, readNumber, watchForUpdates, write } from '../arcade/page'
+import { arcadeLink, buildLabel, crtToggle, fitToWindow, readNumber, watchForUpdates, write } from '../arcade/page'
 import { isMuted, sfx, startMusic, stopMusic, toggleMute, unlock } from './audio'
 
 const DT = 1 / 60
@@ -67,7 +67,10 @@ const game: Game = {
 
 const toggleCrt = crtToggle(frame, CRT_KEY)
 
+const toArcade = arcadeLink()
+
 function go(screen: Screen) {
+  toArcade.show(screen === 'title')
   game.screen = screen
   game.screenTime = 0
 }

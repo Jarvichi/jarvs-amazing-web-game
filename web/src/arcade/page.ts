@@ -95,3 +95,47 @@ export function watchForUpdates(onUpdate: () => void, intervalMs = 5 * 60_000): 
   window.setInterval(check, intervalMs)
   document.addEventListener('visibilitychange', () => { if (!document.hidden) void check() })
 }
+
+// ── Back to the arcade ──────────────────────────────────────────────────────
+/**
+ * A small "ARCADE" link in the top-left corner, back to the /arcade index.
+ * Games show it on their title screen only (call `show(screen === 'title')`
+ * whenever the screen changes); Esc follows it while it is showing.
+ */
+export function arcadeLink(): { show: (on: boolean) => void } {
+  const a = document.createElement('a')
+  a.href = '/arcade'
+  a.textContent = '◀ ARCADE'
+  a.setAttribute('aria-label', 'Back to the arcade')
+  Object.assign(a.style, {
+    position: 'fixed',
+    top: 'calc(8px + env(safe-area-inset-top))',
+    left: 'calc(8px + env(safe-area-inset-left))',
+    padding: '7px 10px',
+    border: '2px solid rgba(255, 255, 255, 0.35)',
+    borderRadius: '6px',
+    background: 'rgba(0, 0, 0, 0.45)',
+    color: 'rgba(255, 255, 255, 0.75)',
+    font: 'bold 13px ui-monospace, Menlo, Consolas, monospace',
+    textDecoration: 'none',
+    touchAction: 'manipulation',
+    zIndex: '10',
+  } satisfies Partial<CSSStyleDeclaration>)
+  a.addEventListener('pointerdown', e => {
+    // The games treat any tap as "start"; this tap is only for the link.
+    e.stopPropagation()
+    a.style.transform = 'translateY(1px)'
+  })
+  for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) a.addEventListener(ev, () => { a.style.transform = '' })
+  document.body.appendChild(a)
+  let on = true
+  window.addEventListener('keydown', e => {
+    if (on && e.code === 'Escape') location.href = a.href
+  })
+  return {
+    show: v => {
+      on = v
+      a.style.display = v ? 'block' : 'none'
+    },
+  }
+}
