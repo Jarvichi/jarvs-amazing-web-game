@@ -172,6 +172,10 @@ export function sfx(name: Sfx): void {
       noise(t, 0.15, 0.2)
       arpeggio([60, 64, 67, 72, 76, 79, 84], t + 0.1, 0.05, 0.1, 0.12)
       break
+    case 'podlost':
+      // The mount jingle, falling apart.
+      arpeggio([79, 72, 67, 60], t + 0.2, 0.07, 0.1, 0.1)
+      break
     case 'rearwarn':
       // Two low blips, rising: "look down".
       tone('square', 220, 220, t, 0.08, 0.12)

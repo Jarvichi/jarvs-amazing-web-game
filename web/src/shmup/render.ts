@@ -155,6 +155,10 @@ export class Fx {
           this.rings.push({ x: e.x, y: e.y, r: 0, max: 120, life: 0.4 })
           this.float(e.x, e.y - 16, 'SMART BOMB', 7)
           break
+        case 'podlost':
+          this.burst(e.x, e.y, 16, 70, [6, 5, 9], 0.6)
+          this.float(e.x, e.y - 12, 'POD LOST', 8)
+          break
         case 'mount':
           this.float(e.x, e.y - 20, `${(e.detail ?? '').toUpperCase()} POD!`, 10)
           this.burst(e.x, e.y, 30, 90, [10, 11, 7], 0.7)

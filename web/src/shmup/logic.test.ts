@@ -524,14 +524,16 @@ describe('pods', () => {
     expect(w.ship.shield).toBe(MAX_SHIELD)
   })
 
-  it('survive losing a ship', () => {
-    const w = createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, pods: ['cannon', 'side'] } }))
+  it('losing a ship costs the newest pod instead of a cannon level', () => {
+    const w = createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, cannon: 2, pods: ['cannon', 'side'] } }))
     w.ship.invuln = 0
     w.ship.shield = 1
     w.enemyShots.push({ x: w.ship.x, y: w.ship.y, vx: 0, vy: 0, dmg: 25 })
-    step(w, IDLE, DT)
+    const events = step(w, IDLE, DT)
     expect(w.ship.alive).toBe(false)
-    expect(w.loadout.pods).toEqual(['cannon', 'side'])
+    expect(w.loadout.pods).toEqual(['cannon'])
+    expect(w.loadout.cannon).toBe(2)
+    expect(events.find(e => e.kind === 'podlost')?.detail).toBe('side')
   })
 
   it('are copied, never shared, between a carry and a world', () => {

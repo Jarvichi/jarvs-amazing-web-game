@@ -6,7 +6,7 @@ import {
   H, MAX_BOMBS, RAM_DAMAGE, dronePos, maxShield, SHIP_H, SHIP_W, hit, rand, type GameEvent, type Loadout, type World,
 } from './world'
 import { ENEMIES, killEnemy } from './enemies'
-import { mountPods, upgradeWeapon } from './pods'
+import { mountPods, podPos, upgradeWeapon } from './pods'
 
 // Laser, side and rear only come from the shop: each one mounts a pod
 // outright, and capsules drop too often to hand those out free.
@@ -47,8 +47,15 @@ export function damageShip(w: World, amount: number, ev: GameEvent[]) {
   s.alive = false
   s.respawn = 2
   w.lives--
-  // Losing a ship costs a cannon level.
-  w.loadout.cannon = Math.max(1, w.loadout.cannon - 1) as Loadout['cannon']
+  // Losing a ship costs one thing: the newest (outermost) pod, or a cannon
+  // level if there are no pods. Never both, so a struggling player doesn't
+  // spiral.
+  const lost = w.loadout.pods.length ? podPos(w, w.loadout.pods.length - 1) : null
+  if (lost) {
+    ev.push({ kind: 'podlost', x: lost.x, y: lost.y, detail: w.loadout.pods.pop() })
+  } else {
+    w.loadout.cannon = Math.max(1, w.loadout.cannon - 1) as Loadout['cannon']
+  }
   w.enemyShots = []
   ev.push({ kind: 'die', x: s.x, y: s.y })
   if (w.lives <= 0) w.status = 'gameover'

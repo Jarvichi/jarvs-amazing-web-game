@@ -285,7 +285,7 @@ export interface Input {
 
 export type EventKind =
   | 'shot' | 'hit' | 'explode' | 'bigexplode' | 'credit' | 'capsule'
-  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb' | 'rearwarn' | 'mount'
+  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb' | 'rearwarn' | 'mount' | 'podlost'
 
 export interface GameEvent {
   kind: EventKind
