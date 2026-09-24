@@ -7,7 +7,7 @@ import { mountPods, podCount, upgradeWeapon, type PodKind } from './pods'
 
 export type ShopId =
   | 'cannon' | 'side' | 'rear' | 'homing' | 'speed'
-  | 'laser' | 'drone' | 'armour' | 'rapid' | 'bomb' | 'life'
+  | 'laser' | 'drone' | 'collector' | 'armour' | 'rapid' | 'bomb' | 'life'
 
 export interface ShopItem {
   id: ShopId
@@ -24,6 +24,7 @@ export const SHOP_ITEMS: ShopItem[] = [
   { id: 'rapid', name: 'RAPID FIRE', blurb: 'CANNON FIRES FASTER' },
   { id: 'laser', name: 'LASER POD', blurb: 'A POD WHOSE BOLTS PIERCE ALL' },
   { id: 'drone', name: 'DRONE', blurb: 'ORBITS, SHOOTS, BLOCKS SHOTS' },
+  { id: 'collector', name: 'COLLECTOR', blurb: 'A DRONE THAT FETCHES DROPS' },
   { id: 'armour', name: 'ARMOUR', blurb: '+50 MAX SHIELD' },
   { id: 'bomb', name: 'SMART BOMB', blurb: 'CLEARS THE SCREEN. B TO USE' },
   { id: 'life', name: 'EXTRA SHIP', blurb: '+1 LIFE' },
@@ -48,6 +49,7 @@ export function priceOf(id: ShopId, c: Carry): number | null {
     case 'speed': return l.speed < 2 ? 150 * (l.speed + 1) : null
     case 'rapid': return l.rapid < 2 ? 300 * (l.rapid + 1) : null
     case 'drone': return l.drones < 2 ? 400 + 300 * l.drones : null
+    case 'collector': return l.collector ? null : 450
     case 'armour': return l.armour ? null : 500
     case 'bomb': return l.bombs < MAX_BOMBS ? 150 : null
     case 'life': return c.lives < MAX_LIVES ? 800 : null
@@ -70,6 +72,7 @@ export function buy(c: Carry, id: ShopId): BuyResult {
     case 'speed': l.speed = (l.speed + 1) as Loadout['speed']; break
     case 'rapid': l.rapid = (l.rapid + 1) as Loadout['rapid']; break
     case 'drone': l.drones = (l.drones + 1) as Loadout['drones']; break
+    case 'collector': l.collector = true; break
     case 'armour': l.armour = true; break
     case 'bomb': l.bombs++; break
     case 'life': c.lives++; break

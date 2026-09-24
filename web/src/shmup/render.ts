@@ -404,6 +404,21 @@ function drawPods(ctx: CanvasRenderingContext2D, w: World, t: number) {
   })
 }
 
+/** The collector: a small gold drone with a tractor beam while it's fetching. */
+function drawCollector(ctx: CanvasRenderingContext2D, w: World, t: number) {
+  const c = w.collector
+  const x = Math.round(c.x)
+  const y = Math.round(c.y)
+  if (c.fetching && Math.floor(t * 12) % 2) {
+    ctx.strokeStyle = PAL[10]
+    ctx.beginPath(); ctx.moveTo(Math.round(w.ship.x) + 0.5, Math.round(w.ship.y) + 0.5); ctx.lineTo(x + 0.5, y + 0.5); ctx.stroke()
+  }
+  ctx.fillStyle = PAL[9]
+  ctx.beginPath(); ctx.moveTo(x, y - 4); ctx.lineTo(x + 4, y); ctx.lineTo(x, y + 4); ctx.lineTo(x - 4, y); ctx.fill()
+  ctx.fillStyle = PAL[10]
+  ctx.fillRect(x - 1, y - 1, 2, 2)
+}
+
 function drawShip(ctx: CanvasRenderingContext2D, w: World, t: number) {
   const s = w.ship
   if (!s.alive) return
@@ -822,6 +837,8 @@ export function renderPlayfield(w: World, fx: Fx, t: number): HTMLCanvasElement 
   }
   for (const e of w.enemies) if (e.kind !== 'turret') drawEnemy(ctx, e, w, t)
   drawShip(ctx, w, t)
+  // Drawn apart from the ship so it doesn't blink with it while invulnerable.
+  if (w.loadout.collector && w.ship.alive) drawCollector(ctx, w, t)
   drawRearWarnings(ctx, w, t)
   drawShots(ctx, w, t)
   drawFx(ctx, fx)
@@ -931,6 +948,7 @@ export function drawPanels(ctx: CanvasRenderingContext2D, w: PanelState, info: H
   pips('LASER', l.laser ? 1 : 0, 1)
   pips('DRONES', l.drones, 2)
   pips('ARMOUR', l.armour ? 1 : 0, 1)
+  pips('COLLECT', l.collector ? 1 : 0, 1)
 }
 
 export function centreText(ctx: CanvasRenderingContext2D, text: string, cx: number, y: number, colour: string, scale = 1) {

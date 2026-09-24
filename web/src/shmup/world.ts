@@ -24,6 +24,7 @@ export const LASER_COOLDOWN = 0.3
 export const DRONE_COOLDOWN = 0.3
 export const DRONE_RADIUS = 18
 export const MAX_BOMBS = 3
+export const COLLECTOR_SPEED = 170
 export const BOMB_DAMAGE = 10
 export const BULLET_DAMAGE = 25
 export const RAM_DAMAGE = 40
@@ -162,6 +163,8 @@ export interface Loadout {
   bombs: number
   /** Weapon pods mounted around the ship, in the order they were earned (see pods.ts). */
   pods: PodKind[]
+  /** A drone that fetches credit bubbles and capsules (see stepCollector). */
+  collector: boolean
 }
 
 /** Mount any weapon that arrives already maxed (e.g. a hand-built test loadout). */
@@ -288,6 +291,8 @@ export interface World {
   droneAngle: number
   /** Seconds until each pod fires again, by pod index. */
   podCd: number[]
+  /** Where the collector drone is (only used with loadout.collector). */
+  collector: { x: number; y: number; fetching: boolean }
   sideToggle: boolean
   nextId: number
   rngState: number
@@ -326,6 +331,7 @@ export interface GameEvent {
 export const START_LOADOUT: Loadout = Object.freeze({
   cannon: 1, side: false, rear: false, homing: 0, speed: 0,
   laser: false, drones: 0, armour: false, rapid: 0, bombs: 1, pods: Object.freeze([]) as unknown as PodKind[],
+  collector: false,
 } as const satisfies Loadout) as Loadout
 
 export interface Carry {
@@ -368,6 +374,7 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
     droneCd: 0,
     droneAngle: 0,
     podCd: [],
+    collector: { x: W / 2 - 16, y: H - 30, fetching: false },
     sideToggle: false,
     nextId: 1,
     rngState: seed >>> 0 || 1,

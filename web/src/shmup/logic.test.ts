@@ -708,6 +708,43 @@ describe('minibosses', () => {
   })
 })
 
+describe('collector drone', () => {
+  const withCollector = (on: boolean) => createWorld(EMPTY, carry({ loadout: { ...START_LOADOUT, collector: on } }))
+
+  it('flies out, fetches a far-off bubble and banks it', () => {
+    const w = withCollector(true)
+    w.ship.x = MARGIN + SHIP_W // bubble is on the far side, well out of the ship's reach
+    w.pickups.push({ x: W - 30, y: 120, kind: 'credit', value: 15 })
+    let fetching = false
+    for (let i = 0; i < 60 * 3 && w.pickups.length; i++) { step(w, IDLE, DT); fetching ||= w.collector.fetching }
+    expect(fetching).toBe(true)
+    expect(w.pickups).toHaveLength(0)
+    expect(w.credits).toBe(15)
+  })
+
+  it('brings capsules home too, applying the upgrade', () => {
+    const w = withCollector(true)
+    w.pickups.push({ x: W - 30, y: 120, kind: 'capsule', value: 0 })
+    const events = run(w, 3)
+    expect(events).toContain('capsule')
+  })
+
+  it('does nothing without the upgrade', () => {
+    const w = withCollector(false)
+    w.ship.x = MARGIN + SHIP_W
+    w.pickups.push({ x: W - 30, y: 120, kind: 'credit', value: 15 })
+    run(w, 1)
+    expect(w.credits).toBe(0)
+  })
+
+  it('is a one-off purchase', () => {
+    const c = carry({ credits: 5000 })
+    expect(buy(c, 'collector')).toBe('ok')
+    expect(c.loadout.collector).toBe(true)
+    expect(buy(c, 'collector')).toBe('maxed')
+  })
+})
+
 describe('continues', () => {
   it('restart the level with its starting loadout and credits, fresh ships and no score', () => {
     const start = carry({ credits: 420, score: 9000, lives: 1, loadout: { ...START_LOADOUT, cannon: 3, laser: true } })
