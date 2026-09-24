@@ -36,8 +36,6 @@ export interface Player {
   /** Seconds of turbo left (0 = off). */
   turbo: number
   turbos: number
-  /** Seconds left spinning out after a crash (no control). */
-  spin: number
 }
 
 export interface Controls {
@@ -52,7 +50,7 @@ export interface Controls {
 export const IDLE: Controls = { steer: 0, gas: false, brake: false, turbo: false }
 
 export function createPlayer(z = 0): Player {
-  return { x: 0, z, speed: 0, turbo: 0, turbos: TURBOS, spin: 0 }
+  return { x: 0, z, speed: 0, turbo: 0, turbos: TURBOS }
 }
 
 /**
@@ -61,10 +59,7 @@ export function createPlayer(z = 0): Player {
  */
 export function stepPlayer(p: Player, c: Controls, curve: number, split: number, dt: number): 'turbo' | null {
   let fired: 'turbo' | null = null
-  const control = p.spin <= 0
-  if (!control) p.spin = Math.max(0, p.spin - dt)
-
-  if (control && c.turbo && p.turbos > 0 && p.turbo <= 0) {
+  if (c.turbo && p.turbos > 0 && p.turbo <= 0) {
     p.turbos--
     p.turbo = TURBO_TIME
     fired = 'turbo'
@@ -73,8 +68,7 @@ export function stepPlayer(p: Player, c: Controls, curve: number, split: number,
 
   const top = p.turbo > 0 ? TURBO_SPEED : MAX_SPEED
   const before = p.speed
-  if (!control) p.speed -= BRAKE * 0.6 * dt
-  else if (c.brake) p.speed -= BRAKE * dt
+  if (c.brake) p.speed -= BRAKE * dt
   else if (p.turbo > 0) p.speed += TURBO_ACCEL * dt
   else if (c.gas) p.speed += ACCEL * dt
   else p.speed -= DECEL * dt
@@ -85,7 +79,7 @@ export function stepPlayer(p: Player, c: Controls, curve: number, split: number,
 
   const sp = p.speed / MAX_SPEED
   const dx = dt * 2 * sp
-  if (control) p.x += Math.max(-1, Math.min(1, c.steer)) * dx
+  p.x += Math.max(-1, Math.min(1, c.steer)) * dx
   p.x -= dx * sp * curve * CENTRIFUGAL
   p.x = Math.max(-MAX_X, Math.min(MAX_X, p.x))
   p.z += p.speed * dt

@@ -408,8 +408,7 @@ function drawPlayer(ctx: CanvasRenderingContext2D, w: World, t: number, steer: n
   const p = w.player
   const set = sprites()
   const sp = p.speed / MAX_SPEED
-  const spinning = p.spin > 0
-  const turn = spinning ? Math.floor(t * 16) % 3 : turnFrame(steer)
+  const turn = turnFrame(steer)
   const siren = (w.phase === 'pursuit' || w.phase === 'arrest') && Math.floor(t * 6) % 2 === 0 ? 1 : 0
   const s = set.police.frames[turn][siren]
   const h = Math.round((PLAYER_PX * s.height) / s.width)

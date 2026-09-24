@@ -4,7 +4,8 @@
 // scenery, and the car you are after. All names, cars and places are
 // original to this game.
 
-import { buildTrack, type Piece, type PropKind, type Track } from './road'
+import { CAR_W } from './car'
+import { FORK_OFFSET, PROP_HIT, branchHalfWidth, buildTrack, type Piece, type PropKind, type Track } from './road'
 
 export type Skyline = 'city' | 'hills' | 'mesa' | 'forest' | 'neon'
 
@@ -51,6 +52,17 @@ export interface Case {
 const straight = (n: number, hill = 0): Piece => ({ enter: 10, hold: n, leave: 10, hill })
 const bend = (n: number, curve: number, hill = 0): Piece => ({ enter: 20, hold: n, leave: 20, curve, hill })
 
+/** Outer edge of a fully split fork. */
+const FORK_EDGE = FORK_OFFSET + branchHalfWidth(1)
+
+/**
+ * Distance from the middle for a prop beside a road edge at `edge`: always
+ * far enough out that a car still on the tarmac can't clip it.
+ */
+export function roadside(kind: PropKind, edge: number, r: number): number {
+  return edge + PROP_HIT[kind] + CAR_W / 2 + 0.1 + r * 1.2
+}
+
 function decorate(track: Track, theme: Theme, seed: number): Track {
   let s = seed
   const rnd = () => {
@@ -60,20 +72,26 @@ function decorate(track: Track, theme: Theme, seed: number): Track {
   const pick = () => theme.props[Math.floor(rnd() * theme.props.length)]
   for (const seg of track.segs) {
     if (seg.forkId >= 0) {
-      // The median between branches: chevrons at its nose, scenery after.
-      if (seg.fork > 0.72 && seg.fork < 0.8) seg.props.push({ kind: 'chevron', x: 0 })
-      else if (seg.fork >= 0.99 && seg.index % 6 === 0) seg.props.push({ kind: 'bush', x: 0 })
+      // Chevrons mark the nose of the median, once it is wide enough to hold
+      // them without overhanging either branch. The rest of the median is
+      // left clear: cutting across it is slow (grass), not a string of crashes.
+      const opening = seg.fork > (track.segs[seg.index - 1]?.fork ?? 0)
+      if (opening && seg.fork > 0.97) seg.props.push({ kind: 'chevron', x: 0 })
       if (seg.index % 8 === 0) {
-        seg.props.push({ kind: pick(), x: -(2.2 + rnd()) }, { kind: pick(), x: 2.2 + rnd() })
+        for (const side of [-1, 1]) {
+          const kind = pick()
+          seg.props.push({ kind, x: side * roadside(kind, FORK_EDGE, rnd()) })
+        }
       }
       continue
     }
-    if (seg.index % 20 === 0) seg.props.push({ kind: 'lamp', x: seg.index % 40 === 0 ? -1.25 : 1.25 })
+    if (seg.index % 20 === 0) seg.props.push({ kind: 'lamp', x: (seg.index % 40 === 0 ? -1 : 1) * roadside('lamp', 1, 0) })
     if (rnd() < theme.density) {
       const side = rnd() < 0.5 ? -1 : 1
-      seg.props.push({ kind: pick(), x: side * (1.35 + rnd() * 1.4) })
+      const kind = pick()
+      seg.props.push({ kind, x: side * roadside(kind, 1, rnd()) })
     }
-    if (seg.index % 150 === 75) seg.props.push({ kind: 'billboard', x: seg.index % 300 < 150 ? -1.6 : 1.6 })
+    if (seg.index % 150 === 75) seg.props.push({ kind: 'billboard', x: (seg.index % 300 < 150 ? -1 : 1) * roadside('billboard', 1, 0.2) })
   }
   return track
 }
@@ -113,7 +131,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 1: THE VAN MAN',
     brief: ['A DELIVERY VAN JUST ROBBED', 'THE HARBOUR MARKET.', 'HE IS HEADING FOR THE COAST ROAD.', 'GO GET HIM, ROOKIE.'],
-    theme: DUSK, target: 'van', targetSpeed: 0.78, startGap: 105000, pursuitTime: 60, arrestTime: 60, armour: 1.3, traffic: 9,
+    theme: DUSK, target: 'van', targetSpeed: 0.78, startGap: 84000, pursuitTime: 60, arrestTime: 60, armour: 1.3, traffic: 5,
     track: decorate(buildTrack([
       straight(40), bend(40, 2), straight(30, 20), bend(50, -3), straight(20), { fork: 'left' },
       bend(40, 3, -20), straight(40), bend(30, -2, 30), straight(30, -30), bend(40, 4), straight(30),
@@ -122,7 +140,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 2: RED LIGHTNING',
     brief: ['A RED COUPE IS RACING', 'STOLEN CHIPS TO THE BORDER.', 'SHE IS QUICK. USE YOUR TURBO', 'WHEN THE ROAD OPENS UP.'],
-    theme: NIGHT, target: 'coupe', targetSpeed: 0.84, startGap: 90000, pursuitTime: 60, arrestTime: 60, armour: 1.1, traffic: 11,
+    theme: NIGHT, target: 'coupe', targetSpeed: 0.84, startGap: 72000, pursuitTime: 60, arrestTime: 60, armour: 1.1, traffic: 6,
     track: decorate(buildTrack([
       straight(30), bend(40, -3), bend(40, 3), straight(40, 30), { fork: 'right' }, bend(50, -4, -30),
       straight(20), bend(30, 5), straight(40), { fork: 'left' }, bend(40, -3), straight(30),
@@ -131,7 +149,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 3: DUST DEVIL',
     brief: ['A MUSCLE CAR GANG LEADER', 'IS RUNNING THROUGH THE DESERT.', 'WATCH THE HILLS. YOU CANNOT', 'SEE WHAT IS OVER THE TOP.'],
-    theme: DESERT, target: 'muscle', targetSpeed: 0.87, startGap: 82000, pursuitTime: 62, arrestTime: 60, armour: 0.9, traffic: 9,
+    theme: DESERT, target: 'muscle', targetSpeed: 0.87, startGap: 68000, pursuitTime: 62, arrestTime: 60, armour: 0.9, traffic: 6,
     track: decorate(buildTrack([
       straight(30, 40), straight(30, -40), bend(40, 3, 30), straight(20, -30), { fork: 'right' },
       bend(50, -4, 50), straight(30, -50), bend(40, 5), straight(20, 40), straight(20, -40), { fork: 'left' }, straight(30),
@@ -140,7 +158,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 4: TIMBER WOLF',
     brief: ['A PICKUP FULL OF STOLEN', 'GOLD IS TEARING UP THE', 'FOREST ROAD. IT IS BUILT TOUGH.', 'HIT IT HARD AND OFTEN.'],
-    theme: FOREST, target: 'pickup', targetSpeed: 0.86, startGap: 85000, pursuitTime: 62, arrestTime: 65, armour: 0.65, traffic: 10,
+    theme: FOREST, target: 'pickup', targetSpeed: 0.86, startGap: 64000, pursuitTime: 62, arrestTime: 65, armour: 0.65, traffic: 6,
     track: decorate(buildTrack([
       bend(40, 4), bend(40, -4, 20), straight(20), bend(30, 6, -20), { fork: 'left' }, bend(50, -5),
       straight(30, 30), bend(40, 5, -30), { fork: 'right' }, bend(30, -6), straight(20),
@@ -149,7 +167,7 @@ export const CASES: Case[] = [
   {
     title: 'CASE 5: THE PHANTOM',
     brief: ['NOBODY HAS EVER CAUGHT', 'THE PHANTOM AND HIS SUPERCAR.', 'THIS IS IT, DETECTIVE.', 'BRING HIM IN.'],
-    theme: NEON, target: 'super', targetSpeed: 0.92, startGap: 66000, pursuitTime: 65, arrestTime: 65, armour: 0.75, traffic: 12,
+    theme: NEON, target: 'super', targetSpeed: 0.92, startGap: 40000, pursuitTime: 65, arrestTime: 65, armour: 0.75, traffic: 7,
     track: decorate(buildTrack([
       straight(30), bend(40, 5), bend(40, -5, 30), { fork: 'right' }, straight(20, -30), bend(40, 6),
       { fork: 'left' }, bend(40, -6, 40), straight(30, -40), { fork: 'right' }, bend(40, 4), straight(20),
