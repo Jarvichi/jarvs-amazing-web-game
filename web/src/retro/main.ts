@@ -14,7 +14,7 @@ import {
   type Camera,
 } from './render'
 import { initInput, poll, type Frame } from './input'
-import { crtToggle, fitToWindow, readNumber, write } from '../arcade/page'
+import { buildLabel, crtToggle, fitToWindow, readNumber, watchForUpdates, write } from '../arcade/page'
 import { isMuted, sfx, startMusic, stopMusic, toggleMute, unlock } from './audio'
 
 const DT = 1 / 60
@@ -46,6 +46,10 @@ const canvas = document.getElementById('screen') as HTMLCanvasElement
 const frame = document.getElementById('frame') as HTMLDivElement
 const ctx = canvas.getContext('2d')!
 ctx.imageSmoothingEnabled = false
+
+const BUILD = buildLabel(import.meta.env.VITE_GIT_SHA, __BUILD_DATE__)
+let updateReady = false
+watchForUpdates(() => { updateReady = true })
 
 const game: Game = {
   screen: 'title',
@@ -92,7 +96,9 @@ function update(dt: number, confirm: boolean) {
 
   switch (game.screen) {
     case 'title':
-      if (confirm) {
+      if (confirm && updateReady) {
+        location.reload() // picks up the newer deploy (the page isn't service-worker cached)
+      } else if (confirm) {
         sfx('start')
         game.lives = START_LIVES
         startLevel(0, 0)
@@ -190,6 +196,13 @@ function drawTitle(t: number) {
     ? 'ARROWS MOVE   A JUMP   II PAUSE'
     : 'ARROWS/WASD MOVE   SPACE/Z JUMP   P PAUSE   M MUTE   C CRT', VIEW_W / 2, 152, PAL[6], 1, 'center')
   drawText(ctx, `HI-SCORE ${String(game.hiscore).padStart(6, '0')}`, VIEW_W / 2, 166, PAL[9], 1, 'center')
+  drawText(ctx, BUILD, 3, VIEW_H - 8, PAL[5])
+  if (updateReady) {
+    ctx.fillStyle = PAL[1]
+    ctx.fillRect(0, 124, VIEW_W, 20)
+    drawText(ctx, 'NEW VERSION AVAILABLE!', VIEW_W / 2, 127, PAL[11], 1, 'center')
+    if (blink()) drawText(ctx, touch ? 'TAP TO UPDATE' : 'PRESS ENTER TO UPDATE', VIEW_W / 2, 135, PAL[7], 1, 'center')
+  }
 }
 
 function drawCentered(lines: [string, string, number][], y: number) {

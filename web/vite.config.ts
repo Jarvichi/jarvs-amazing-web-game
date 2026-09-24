@@ -30,6 +30,13 @@ export default defineConfig({
       // the old SW keeps serving a consistent asset set (no stale-chunk risk).
       // Cache all static assets with cache-first strategy
       globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,woff,woff2}'],
+      // The arcade pages are not precached. This app never activates a new
+      // service worker on its own (see registerType above), so a precached
+      // /retro or /shmup stayed on the old build until the player accepted the
+      // main app's update prompt — which the arcade pages don't have. Left
+      // out, their HTML always comes from the network and names the latest
+      // hashed scripts; src/arcade/page.ts watches for new deploys.
+      globIgnores: ['**/node_modules/**/*', 'retro.html', 'shmup.html'],
       // /retro and /shmup are separate games (retro.html, shmup.html), not
       // routes of this app — never let an unmatched navigation there fall
       // back to index.html. Case-insensitive so /Retro reaches the network and

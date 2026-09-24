@@ -19,7 +19,7 @@ import { initInput, poll, type Frame } from './input'
 import {
   isMuted, playBossMusic, playShopMusic, playStageMusic, sfx, stopMusic, toggleMute, unlock,
 } from './audio'
-import { crtToggle, fitFrame, readNumber, write } from '../arcade/page'
+import { buildLabel, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
 
 const DT = 1 / 60
 const START_LIVES = 3
@@ -79,6 +79,11 @@ function saveHiscore(score: number) {
   }
 }
 
+// ── Version ─────────────────────────────────────────────────────────────────
+const BUILD = buildLabel(import.meta.env.VITE_GIT_SHA, __BUILD_DATE__)
+let updateReady = false
+watchForUpdates(() => { updateReady = true })
+
 // ── Layout ──────────────────────────────────────────────────────────────────
 // Landscape screens get the playfield between two side panels; portrait gets
 // the playfield alone with a compact HUD.
@@ -130,7 +135,9 @@ function update(dt: number, f: Frame, confirm: boolean, drag: { x: number; y: nu
   switch (game.screen) {
     case 'title':
       w.scroll += 24 * dt
-      if (confirm) {
+      if (confirm && updateReady) {
+        location.reload() // picks up the newer deploy (the page isn't service-worker cached)
+      } else if (confirm) {
         sfx('start')
         game.carry = freshCarry()
         game.continues = MAX_CONTINUES
@@ -269,13 +276,20 @@ function drawTitle(t: number) {
   centreText(ctx, 'BLAST', cx, 80, PAL[11], 5)
   centreText(ctx, 'A VOYAGE INTO THE BEAST', cx, 116, PAL[7])
   const touch = document.getElementById('touch')?.classList.contains('on')
-  if (blink()) centreText(ctx, touch ? 'TAP TO START' : 'PRESS FIRE TO START', cx, 190, PAL[10])
+  if (blink() && !updateReady) centreText(ctx, touch ? 'TAP TO START' : 'PRESS FIRE TO START', cx, 190, PAL[10])
   if (touch) {
     centreText(ctx, 'DRAG ANYWHERE TO FLY', cx, 214, PAL[6])
     centreText(ctx, 'AUTO-FIRE WHILE TOUCHING', cx, 224, PAL[6])
     centreText(ctx, 'B BUTTON FOR SMART BOMB', cx, 234, PAL[6])
   }
   centreText(ctx, `HI-SCORE ${String(game.hiscore).padStart(7, '0')}`, cx, 290, PAL[9])
+  centreText(ctx, BUILD, cx, 306, PAL[5])
+  if (updateReady) {
+    ctx.fillStyle = PAL[1]
+    ctx.fillRect(ox() + 8, 132, PF_W - 16, 26)
+    centreText(ctx, 'NEW VERSION AVAILABLE!', cx, 137, PAL[11])
+    if (blink()) centreText(ctx, touch ? 'TAP TO UPDATE' : 'PRESS FIRE TO UPDATE', cx, 148, PAL[7])
+  }
   drawSidePanelsForMenus()
 }
 
