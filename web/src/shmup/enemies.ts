@@ -7,6 +7,7 @@ import {
   BULLET_DAMAGE, ENEMY_SHOT_SPEED, H, REAR_WARNING, SCROLL_SPEED, W, hit, rand, tierScale,
   type Enemy, type EnemyDef, type EnemyKind, type GameEvent, type World,
 } from './world'
+import { powerScale } from './difficulty'
 
 export const ENEMIES: Record<EnemyKind, EnemyDef> = {
   drifter: { hp: 2, score: 100, credits: 5, w: 12, h: 12, capsule: 0 },
@@ -143,13 +144,23 @@ export function killEnemy(w: World, e: Enemy, ev: GameEvent[]) {
   if (e.kind === 'mine') ring(w, e.x, e.y, 8, 75)
 }
 
+/**
+ * Enemies can't be hurt until they're fully on screen: otherwise a big
+ * fleet's wall of bullets at the top edge kills them before they appear.
+ */
+export function onScreen(e: Enemy): boolean {
+  const half = ENEMIES[e.kind].h / 2
+  return e.y - half >= 0 && e.y + half <= H
+}
+
 /** Add an enemy with tier-scaled health. Used by the wave timeline and by bosses' summons. */
 export function spawnEnemy(
   w: World, kind: EnemyKind, x: number, y: number, p = 0, member = 0, below = false,
 ): Enemy {
   const e: Enemy = {
     id: w.nextId++, kind, x, y, sx: x, p, member, below,
-    hp: Math.ceil(ENEMIES[kind].hp * tierScale(w.level.tier).hp), age: 0, fire: 0.6 + rand(w), flash: 0,
+    hp: Math.ceil(ENEMIES[kind].hp * tierScale(w.level.tier).hp * powerScale(w.loadout, w.level.tier)),
+    age: 0, fire: 0.6 + rand(w), flash: 0,
   }
   w.enemies.push(e)
   return e
@@ -178,7 +189,7 @@ export function stepEnemies(w: World, dt: number, ev: GameEvent[]) {
   // Player shots vs enemies. Piercing shots carry on, but damage each enemy once.
   for (const b of w.shots) {
     for (const e of w.enemies) {
-      if (e.hp <= 0 || b.hitIds?.includes(e.id)) continue
+      if (e.hp <= 0 || b.hitIds?.includes(e.id) || !onScreen(e)) continue
       const def = ENEMIES[e.kind]
       if (!hit(b.x, b.y, 3, 6, e.x, e.y, def.w, def.h)) continue
       e.hp -= b.dmg

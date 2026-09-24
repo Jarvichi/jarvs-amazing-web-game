@@ -10,12 +10,14 @@ import {
 } from './world'
 import { aimAt, spawnEnemy } from './enemies'
 import { damageShip } from './collisions'
+import { powerScale } from './difficulty'
 
 const BOSS_Y = 64
 const LASER_DAMAGE = 35
 
 export function spawnBoss(w: World, ev: GameEvent[]) {
   const d = w.level.boss
+  const scale = powerScale(w.loadout, w.level.tier)
   const part = (index: number, ox: number, oy: number, hp: number, pw: number, ph: number): BossPart =>
     ({ index, ox, oy, hp, max: hp, w: pw, h: ph, timers: [], spin: 0, flash: 0 })
   const b: Boss = {
@@ -23,8 +25,8 @@ export function spawnBoss(w: World, ev: GameEvent[]) {
     x: W / 2,
     y: -50,
     t: 0,
-    core: part(-1, 0, 0, d.coreHp, 36, 24),
-    pods: d.pods.map((p, i) => part(i, p.ox, p.oy, d.podHp, 14, 14)),
+    core: part(-1, 0, 0, Math.ceil(d.coreHp * scale), 36, 24),
+    pods: d.pods.map((p, i) => part(i, p.ox, p.oy, Math.ceil(d.podHp * scale), 14, 14)),
     phase: 0,
     lasers: [],
     dying: 0,
@@ -165,6 +167,9 @@ export function stepBoss(w: World, dt: number, ev: GameEvent[]) {
   emit(b.core, ph.core)
   stepLasers(w, b, dt)
   if (laserHits(w, b)) damageShip(w, LASER_DAMAGE, ev)
+
+  // Immune while still arriving, like enemies entering the screen.
+  if (!ready) return
 
   const exposed = coreExposed(b)
   const c = b.core
