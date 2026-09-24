@@ -19,7 +19,7 @@ import { initInput, poll, type Frame } from './input'
 import {
   isMuted, playBossMusic, playShopMusic, playStageMusic, sfx, stopMusic, toggleMute, unlock,
 } from './audio'
-import { buildLabel, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
+import { arcadeLink, buildLabel, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
 
 const DT = 1 / 60
 const START_LIVES = 3
@@ -58,7 +58,10 @@ const game = {
 
 const isFinalLevel = () => game.levelIdx === LEVELS.length - 1
 
+const toArcade = arcadeLink()
+
 function go(screen: Screen) {
+  toArcade.show(screen === 'title')
   game.screen = screen
   game.screenTime = 0
 }
