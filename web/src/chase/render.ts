@@ -12,7 +12,7 @@ import {
 } from './road'
 import { PROP_SIZE, sprites, type Sprite } from './sprites'
 import type { Theme } from './tracks'
-import { gap, type World, type WorldEvent } from './world'
+import { CHECKPOINT_BONUS, gap, type World, type WorldEvent } from './world'
 
 export { PAL, drawText }
 export const W = 320
@@ -79,9 +79,10 @@ export class Fx {
           break
         case 'turbo': this.banner = { text: 'TURBO!', t: 1.2, color: PAL[9] }; break
         case 'go': this.banner = { text: 'GO!', t: 1, color: PAL[11] }; break
-        case 'arrest': this.banner = { text: 'PULL HIM OVER!', t: 2.5, color: PAL[8] }; break
+        case 'arrest': this.banner = { text: 'PULL THEM OVER!', t: 2.5, color: PAL[8] }; break
         case 'caught': this.banner = { text: 'CAUGHT!', t: 99, color: PAL[11] }; break
-        case 'escaped': this.banner = { text: 'HE GOT AWAY...', t: 99, color: PAL[8] }; break
+        case 'escaped': this.banner = { text: 'THEY GOT AWAY...', t: 99, color: PAL[8] }; break
+        case 'checkpoint': this.banner = { text: `CHECKPOINT +${CHECKPOINT_BONUS}`, t: 1.5, color: PAL[10] }; break
         case 'forkhint': this.hint = { side: e.detail === 'right' ? 'right' : 'left', t: 4 }; break
       }
     }
@@ -348,6 +349,7 @@ export function renderWorld(
   fx.targetLastX = tg.x
   add({ z: tg.z, x: tg.x, sprite: set.targets[w.def.target].frames[tgTurn][0], target: true })
   fx.targetAt = null
+  const gantry = w.phase === 'pursuit' || w.phase === 'countdown' ? Math.floor(w.checkpoint / SEG_LEN) : null
 
   for (let i = drawn.length - 1; i > 0; i--) {
     const d = drawn[i]
@@ -361,6 +363,7 @@ export function renderWorld(
       drawClipped(ctx, s, p0.x + p0.scale * prop.x * ROAD_W, p0.y, PROP_SIZE[prop.kind] * p0.scale, clip)
     }
     ctx.globalAlpha = 1
+    if (gantry === d.n) drawGantry(ctx, p0, clip, t)
     const cars = bySeg.get(d.n)
     if (!cars) continue
     cars.sort((a, b) => b.z - a.z)
@@ -387,6 +390,35 @@ export function renderWorld(
   if (fx.flash > 0) {
     ctx.fillStyle = 'rgba(255,241,232,0.35)'
     ctx.fillRect(0, 0, W, H)
+  }
+}
+
+/** Fill a rect given in screen space, cut off below `clip`. */
+function clipRect(ctx: CanvasRenderingContext2D, x: number, top: number, w: number, bottom: number, clip: number, col: string) {
+  const b = Math.min(bottom, clip)
+  if (b <= top || w < 0.5) return
+  ctx.fillStyle = col
+  ctx.fillRect(Math.round(x), Math.round(top), Math.max(1, Math.round(w)), Math.round(b - top))
+}
+
+/** A checkpoint gantry spanning the road at a segment's near edge. */
+function drawGantry(ctx: CanvasRenderingContext2D, p: Projected, clip: number, t: number) {
+  const s = p.scale
+  const edge = RUMBLE + 0.08
+  const post = 160 * s
+  const left = p.x - edge * ROAD_W * s
+  const right = p.x + edge * ROAD_W * s
+  const y = (h: number) => p.y - h * s
+  clipRect(ctx, left - post, y(2700), post, p.y, clip, PAL[5])
+  clipRect(ctx, right, y(2700), post, p.y, clip, PAL[5])
+  const top = y(2700)
+  const bottom = y(2050)
+  clipRect(ctx, left - post, top, right - left + post * 2, bottom, clip, PAL[10])
+  const inset = Math.max(1, 40 * s)
+  clipRect(ctx, left - post + inset, top + inset, right - left + post * 2 - inset * 2, bottom - inset, clip, PAL[1])
+  const size = Math.min(Math.floor((bottom - top) / 7), Math.floor((right - left) / 42))
+  if (size >= 1 && bottom < clip) {
+    centreText(ctx, 'CHECKPOINT', Math.round(p.x), Math.round(top + (bottom - top - size * 5) / 2), Math.floor(t * 4) % 2 ? PAL[10] : PAL[7], size)
   }
 }
 

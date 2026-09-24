@@ -10,7 +10,7 @@
 import { MAX_SPEED } from './car'
 import { CASES } from './tracks'
 import { stepTraffic } from './traffic'
-import { createWorld, step, type World } from './world'
+import { CHECKPOINT_BONUS, createWorld, step, type World } from './world'
 import { Fx, H, PAL, W, centreText, drawHud, drawText, renderWorld } from './render'
 import { sprites } from './sprites'
 import { initInput, poll, type Frame } from './input'
@@ -251,8 +251,9 @@ function drawBrief(t: number) {
   const cw = 96
   ctx.drawImage(car, W / 2 - cw / 2 + 60, 96, cw, (cw * car.height) / car.width)
   drawText(ctx, 'TARGET', 62, 104, PAL[8])
-  drawText(ctx, `${w.def.pursuitTime} SECONDS TO CATCH HIM`, 62, 114, PAL[6])
-  drawText(ctx, `THEN ${w.def.arrestTime} TO STOP HIM`, 62, 122, PAL[6])
+  drawText(ctx, `${w.def.pursuitTime} SECONDS ON THE CLOCK`, 62, 114, PAL[6])
+  drawText(ctx, `CHECKPOINTS ADD ${CHECKPOINT_BONUS} MORE`, 62, 122, PAL[6])
+  drawText(ctx, `THEN ${w.def.arrestTime} TO STOP THEM`, 62, 130, PAL[6])
   drawText(ctx, `SCORE ${w.score}`, 14, 92, PAL[6])
   if (game.screenTime > 0.5 && blink()) centreText(ctx, touchUi() ? 'TAP TO ROLL OUT' : 'PRESS ENTER TO ROLL OUT', W / 2, 162, PAL[11])
 }
