@@ -34,6 +34,15 @@ export const FORK_CLOSE = 40
 export type PropKind =
   | 'palm' | 'lamp' | 'sign' | 'tower' | 'block' | 'cactus' | 'rock' | 'pine' | 'bush' | 'billboard' | 'chevron' | 'neon'
 
+/** World width of each prop's sprite. */
+export const PROP_SIZE: Record<PropKind, number> = {
+  palm: 1100, lamp: 520, sign: 1300, tower: 2800, block: 3000, cactus: 560, rock: 900,
+  pine: 1100, bush: 900, billboard: 2400, chevron: 1000, neon: 800,
+}
+
+/** The rumble strip runs this far beyond the road edge (fraction of half-width). */
+export const RUMBLE = 1.12
+
 /** Collision half-widths of roadside props, in normalised x. */
 export const PROP_HIT: Record<PropKind, number> = {
   palm: 0.1, lamp: 0.05, sign: 0.2, tower: 0.6, block: 0.5, cactus: 0.1, rock: 0.2,

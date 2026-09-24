@@ -5,7 +5,7 @@
 // and wheels, plus per-model extras (light bar, spoiler, stripes, open bed).
 // Scenery is drawn the same way. Nothing here copies any real game's art.
 
-import type { PropKind } from './road'
+import { PROP_SIZE, type PropKind } from './road'
 import type { TargetKind } from './tracks'
 
 export type Sprite = HTMLCanvasElement
@@ -27,6 +27,8 @@ interface CarStyle {
   glass: string
   stripe?: string
 }
+
+export { PROP_SIZE }
 
 export const CAR_PX_W = 48
 
@@ -148,12 +150,6 @@ function carSprites(s: CarStyle): CarSprites {
 }
 
 // ── Scenery ─────────────────────────────────────────────────────────────────
-/** World width of each prop's sprite. */
-export const PROP_SIZE: Record<PropKind, number> = {
-  palm: 1100, lamp: 520, sign: 1300, tower: 2800, block: 3000, cactus: 560, rock: 900,
-  pine: 1100, bush: 900, billboard: 2400, chevron: 1000, neon: 800,
-}
-
 function drawProp(kind: PropKind, night: boolean): Sprite {
   const px = (w: number, h: number) => canvas(w, h)
   let c: Sprite

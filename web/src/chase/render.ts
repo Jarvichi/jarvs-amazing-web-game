@@ -7,7 +7,7 @@
 import { PAL, drawText } from '../arcade/gfx'
 import { CAR_W, MAX_SPEED, TURBOS, kmh } from './car'
 import {
-  CAM_DEPTH, CAM_HEIGHT, DRAW_DIST, PLAYER_Z, ROAD_W, SEG_LEN, branchCentre, branchHalfWidth, heightAt, project,
+  CAM_DEPTH, RUMBLE, CAM_HEIGHT, DRAW_DIST, PLAYER_Z, ROAD_W, SEG_LEN, branchCentre, branchHalfWidth, heightAt, project,
   segmentAt, type Projected, type Segment,
 } from './road'
 import { PROP_SIZE, sprites, type Sprite } from './sprites'
@@ -224,7 +224,7 @@ function drawRoadStrip(
   ctx: CanvasRenderingContext2D, theme: Theme, alt: number,
   x0: number, y0: number, w0: number, x1: number, y1: number, w1: number, lanes: number,
 ) {
-  quad(ctx, x0, y0, w0 * 1.12, x1, y1, w1 * 1.12, theme.rumble[alt])
+  quad(ctx, x0, y0, w0 * RUMBLE, x1, y1, w1 * RUMBLE, theme.rumble[alt])
   quad(ctx, x0, y0, w0, x1, y1, w1, theme.road[alt])
   if (alt) return
   const lw0 = Math.max(0.5, w0 / 48)
@@ -273,6 +273,9 @@ function drawClipped(ctx: CanvasRenderingContext2D, s: Sprite, x: number, y: num
   ctx.drawImage(s, 0, 0, s.width, srcH, Math.round(x - w / 2), Math.round(top), Math.round(w), Math.round(visible))
 }
 
+/** How much of the fog colour covers the road `i` segments ahead. */
+const fogAt = (i: number) => 1 - 1 / Math.exp(((i / DRAW_DIST) ** 2) * 4)
+
 const turnFrame = (steer: number) => (steer < -0.2 ? 0 : steer > 0.2 ? 2 : 1)
 
 export function renderWorld(
@@ -311,8 +314,7 @@ export function renderWorld(
     drawn.push(d)
     if (z0 - camZ <= CAM_DEPTH || p1.y >= p0.y || p1.y >= maxy) continue
     d.visible = true
-    const fog = 1 - 1 / Math.exp(((i / DRAW_DIST) ** 2) * 4)
-    drawSegment(ctx, d, segmentAt(track, z0 - SEG_LEN).fork, theme, fog)
+    drawSegment(ctx, d, segmentAt(track, z0 - SEG_LEN).fork, theme, fogAt(i))
     maxy = p1.y
   }
 
@@ -351,10 +353,14 @@ export function renderWorld(
     const d = drawn[i]
     const { seg, p0, p1, clip } = d
     if (p0.y <= 0 && !d.visible) continue
+    // Distant scenery fades into the haze like the road does, so a tall
+    // building peeking over a crest reads as far away, not as on the road.
+    ctx.globalAlpha = 1 - fogAt(i) * 0.85
     for (const prop of seg.props) {
       const s = set.props(prop.kind, theme.night, prop.kind === 'lamp' && prop.x > 0)
       drawClipped(ctx, s, p0.x + p0.scale * prop.x * ROAD_W, p0.y, PROP_SIZE[prop.kind] * p0.scale, clip)
     }
+    ctx.globalAlpha = 1
     const cars = bySeg.get(d.n)
     if (!cars) continue
     cars.sort((a, b) => b.z - a.z)
