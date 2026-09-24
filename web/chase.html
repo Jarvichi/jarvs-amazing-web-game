@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <title>Pursuit 84 — JAWG Chase</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    #frame { position: relative; }
+    #screen {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    /* CRT: scanlines plus a soft vignette, toggled with C. */
+    #frame.crt::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.22) 2px 3px),
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.45) 100%);
+    }
+    /* Portrait phones: the screen sits at the top, the controls below it. */
+    @media (orientation: portrait) {
+      body { justify-content: flex-start; padding-top: calc(52px + env(safe-area-inset-top)); box-sizing: border-box; }
+    }
+    #rotate {
+      display: none;
+      margin-top: 10px;
+      color: #5f574f;
+      font: bold 11px ui-monospace, Menlo, Consolas, monospace;
+      letter-spacing: 1px;
+    }
+    @media (orientation: portrait) { #touch.on ~ #rotate { display: block; } }
+
+    /* Touch controls. They are drawn here but read by position in input.ts. */
+    #touch { display: none; }
+    #touch.on { display: block; }
+    .pad {
+      position: fixed;
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      box-sizing: border-box;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.7);
+      font: bold 14px ui-monospace, Menlo, Consolas, monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #pad-steer {
+      left: calc(16px + env(safe-area-inset-left));
+      width: 180px;
+      height: 96px;
+      border-radius: 48px;
+      justify-content: space-between;
+      padding: 0 22px;
+      font-size: 26px;
+    }
+    #pad-steer.left .l, #pad-steer.right .r { color: #ffec27; transform: scale(1.2); }
+    #pad-brake, #pad-turbo {
+      right: calc(16px + env(safe-area-inset-right));
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+    }
+    #pad-turbo {
+      right: calc(112px + env(safe-area-inset-right));
+      bottom: calc(40px + env(safe-area-inset-bottom));
+      border-color: rgba(255, 163, 0, 0.6);
+      background: rgba(255, 163, 0, 0.15);
+      color: rgba(255, 236, 39, 0.9);
+    }
+    #pad-brake { border-color: rgba(255, 0, 77, 0.55); background: rgba(255, 0, 77, 0.12); }
+    #pad-brake.down, #pad-turbo.down { background: rgba(255, 255, 255, 0.3); transform: scale(0.94); }
+    /* Landscape phones are short: shrink the pads into the corners. */
+    @media (orientation: landscape) and (max-height: 500px) {
+      #pad-steer { width: 150px; height: 80px; bottom: calc(10px + env(safe-area-inset-bottom)); left: calc(8px + env(safe-area-inset-left)); }
+      #pad-brake, #pad-turbo { width: 70px; height: 70px; bottom: calc(10px + env(safe-area-inset-bottom)); }
+      #pad-brake { right: calc(8px + env(safe-area-inset-right)); }
+      #pad-turbo { right: calc(8px + env(safe-area-inset-right)); bottom: calc(92px + env(safe-area-inset-bottom)); }
+    }
+    #touch button {
+      position: fixed;
+      top: calc(8px + env(safe-area-inset-top));
+      right: calc(8px + env(safe-area-inset-right));
+      width: 40px;
+      height: 32px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      color: rgba(255, 255, 255, 0.7);
+      font: bold 14px ui-monospace, Menlo, Consolas, monospace;
+      touch-action: none;
+    }
+    #touch button:active { transform: translateY(1px); }
+  </style>
+</head>
+<body>
+  <div id="frame"><canvas id="screen" width="320" height="180"></canvas></div>
+  <div id="touch">
+    <div id="pad-steer" class="pad"><span class="l">&#9664;</span><span class="r">&#9654;</span></div>
+    <div id="pad-turbo" class="pad">TURBO</div>
+    <div id="pad-brake" class="pad">BRAKE</div>
+    <button data-key="pause" aria-label="Pause">II</button>
+  </div>
+  <div id="rotate">TURN SIDEWAYS FOR A BIGGER SCREEN</div>
+  <script type="module" src="/src/chase/main.ts"></script>
+</body>
+</html>
