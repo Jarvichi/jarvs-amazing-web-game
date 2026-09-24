@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   BASE_SPEED, ENEMIES, H, MARGIN, MAX_LIVES, MAX_SHIELD, SHIP_W, START_LOADOUT, W,
-  MAX_BOMBS, REAR_KINDS, cloneLoadout, podPos, podSlot, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
+  MAX_BOMBS, REAR_KINDS, expectedLoadout, firepower, onScreen, powerScale, cloneLoadout, podPos, podSlot, REAR_WARNING, SHIP_H, applyCapsule, buy, continueCarry, rearWarnings, coreExposed, createWorld, dronePos, maxShield, priceOf, step, tierScale,
   type Attack, type BossPhase, type Carry, type Input, type LevelDef, type Wave, type World,
 } from './logic'
 import { currentPhase, healthFraction, partPos } from './boss'
@@ -140,21 +140,13 @@ describe('boss', () => {
     expect(w.status).toBe('won')
   })
 
-  // What a player could plausibly be flying by each level, given what the
-  // levels before it pay (checked below). Later bosses are tuned against
-  // this, not against starting weapons.
-  const TYPICAL: Partial<Carry['loadout']>[] = [
-    {},
-    { cannon: 2 },
-    { cannon: 2, rapid: 1, pods: ['side'] },
-    { cannon: 2, rapid: 1, homing: 1, drones: 1, pods: ['cannon', 'side'] },
-    { cannon: 2, rapid: 2, homing: 1, drones: 1, pods: ['cannon', 'side', 'laser', 'rear'] },
-  ]
+  // Flies each level with the loadout it's tuned for (EXPECTED_LOADOUT in
+  // difficulty.ts), so enemies there get no power scaling.
 
   it.each(LEVELS.map((l, i) => [l.name, l, i] as const))(
     '%s can be finished with a typical loadout in reasonable time', (_, level, i) => {
       // An invulnerable ship that tracks the nearest threat and holds fire.
-      const w = createWorld(level, carry({ loadout: { ...START_LOADOUT, ...TYPICAL[i] } }), 7)
+      const w = createWorld(level, carry({ loadout: expectedLoadout(level.tier) }), 7)
       for (let n = 0; n < 60 * 60 * 5 && w.status === 'playing'; n++) {
         w.ship.invuln = 1
         const b = w.boss
@@ -542,6 +534,167 @@ describe('pods', () => {
     w.loadout.pods.push('side')
     expect(c.loadout.pods).toEqual(['rear'])
     expect(cloneLoadout(c.loadout).pods).not.toBe(c.loadout.pods)
+  })
+})
+
+describe('difficulty keeps up with the ship', () => {
+  const fleet = (n: number): Carry['loadout'] =>
+    ({ ...expectedLoadout(5), pods: Array.from({ length: n }, (_, i) => (['cannon', 'laser', 'homing'] as const)[i % 3]) })
+
+  it('leaves a ship at the expected power untouched', () => {
+    for (let tier = 1; tier <= 5; tier++) expect(powerScale(expectedLoadout(tier), tier)).toBe(1)
+    expect(powerScale(expectedLoadout(1), 5)).toBe(1) // weaker than expected: never easier than designed
+  })
+
+  it('toughens enemies against a big fleet, but only partly', () => {
+    const big = fleet(24)
+    const scale = powerScale(big, 5)
+    const ratio = firepower(big) / firepower(expectedLoadout(5))
+    expect(scale).toBeGreaterThan(2)
+    // Enemies still die faster to the bigger ship: the upgrades still count.
+    expect(ratio / scale).toBeGreaterThan(1)
+  })
+
+  it('applies to spawned enemies and to bosses', () => {
+    const plain = createWorld({ ...LEVELS[4], waves: [{ at: 0, kind: 'turret', n: 1, x: 90 }] }, carry({ loadout: expectedLoadout(5) }))
+    const strong = createWorld({ ...LEVELS[4], waves: [{ at: 0, kind: 'turret', n: 1, x: 90 }] }, carry({ loadout: fleet(24) }))
+    step(plain, IDLE, DT)
+    step(strong, IDLE, DT)
+    expect(strong.enemies[0].hp).toBeGreaterThan(plain.enemies[0].hp * 2)
+
+    const boss = createWorld({ ...LEVELS[4], waves: [], bossAt: 0, miniboss: undefined }, carry({ loadout: fleet(24) }))
+    step(boss, IDLE, DT)
+    expect(boss.boss!.core.max).toBeGreaterThan(LEVELS[4].boss.coreHp * 2)
+  })
+
+  it('makes enemies immune until they are fully on screen', () => {
+    const w = createWorld({ ...EMPTY, waves: [{ at: 0, kind: 'turret', n: 1, x: 90 }] }, carry())
+    step(w, IDLE, DT)
+    const e = w.enemies[0]
+    expect(onScreen(e)).toBe(false)
+    w.shots.push({ x: e.x, y: e.y, vx: 0, vy: 0, dmg: 99 })
+    step(w, IDLE, DT)
+    expect(e.hp).toBeGreaterThan(0)
+    run(w, 2)
+    expect(onScreen(e)).toBe(true)
+    w.shots.push({ x: e.x, y: e.y, vx: 0, vy: 0, dmg: 99 })
+    step(w, IDLE, DT)
+    expect(e.hp).toBeLessThanOrEqual(0)
+  })
+
+  it('makes a boss immune while it arrives', () => {
+    const w = createWorld({ ...EMPTY, bossAt: 0 }, carry())
+    step(w, IDLE, DT)
+    const b = w.boss!
+    const pod = b.pods[0]
+    for (let i = 0; i < 30; i++) w.shots.push({ x: b.x + pod.ox, y: b.y + pod.oy, vx: 0, vy: 0, dmg: 1 })
+    step(w, IDLE, DT)
+    expect(pod.hp).toBe(pod.max)
+  })
+})
+
+describe('flawless waves', () => {
+  const formation = (n: number, extra: Partial<Wave> = {}) =>
+    createWorld({ ...EMPTY, waves: [{ at: 0, kind: 'turret', n, x: 40, dx: 45, gap: 0, ...extra }] }, carry())
+  /** Let the wave drift fully on screen, then kill `count` of its members. */
+  function killSome(w: World, count: number) {
+    run(w, 2)
+    const targets = w.enemies.slice(0, count)
+    for (const e of targets) w.shots.push({ x: e.x, y: e.y, vx: 0, vy: 0, dmg: 999 })
+    return run(w, DT)
+  }
+
+  it('drops a capsule for wiping out a whole formation', () => {
+    const w = formation(3)
+    w.ship.invuln = 999
+    const events = killSome(w, 3)
+    expect(events).toContain('wavebonus')
+    expect(w.pickups.filter(p => p.kind === 'capsule')).toHaveLength(1)
+  })
+
+  it('gives nothing if any member escapes', () => {
+    const w = formation(3)
+    w.ship.invuln = 999
+    run(w, 2)
+    w.enemies[2].y = H + 100 // this one gets away
+    const events = killSome(w, 2)
+    expect(events).not.toContain('wavebonus')
+    expect(w.pickups.some(p => p.kind === 'capsule')).toBe(false)
+  })
+
+  it('needs a real formation: lone enemies and pairs never drop capsules', () => {
+    for (const n of [1, 2]) {
+      const w = formation(n)
+      w.ship.invuln = 999
+      expect(killSome(w, n)).not.toContain('wavebonus')
+      expect(w.pickups.some(p => p.kind === 'capsule')).toBe(false)
+    }
+  })
+
+  it('ignores enemies released mid-fight (carriers, splitters, bosses)', () => {
+    const w = createWorld(EMPTY, carry())
+    w.ship.invuln = 999
+    run(w, DT)
+    for (let i = 0; i < 3; i++) w.enemies.push({ id: 100 + i, kind: 'turret', x: 40 + i * 40, y: 100, sx: 40, p: 0, member: i, hp: 1, age: 0, fire: 99, flash: 0 })
+    for (const e of w.enemies) w.shots.push({ x: e.x, y: e.y, vx: 0, vy: 0, dmg: 99 })
+    expect(run(w, DT)).not.toContain('wavebonus')
+  })
+})
+
+describe('minibosses', () => {
+  const MINI = { ...LEVELS[0].miniboss!.boss, coreHp: 5, podHp: 3 }
+  const midLevel = (waves: Wave[] = []) =>
+    createWorld({ ...EMPTY, bossAt: 999, waves, miniboss: { at: 1, boss: MINI } }, carry())
+
+  it('appears at its time once the screen is clear, and holds the timeline', () => {
+    const w = midLevel([{ at: 0.5, kind: 'turret', n: 1, x: 90 }, { at: 1.5, kind: 'drifter', n: 1, x: 90 }])
+    w.ship.invuln = 999
+    run(w, 1.2)
+    // A turret from before is still on screen: the timeline waits, nothing new spawns.
+    expect(w.miniState).toBe('waiting')
+    expect(w.boss).toBeNull()
+    const t = w.time
+    w.enemies = []
+    run(w, DT)
+    expect(w.boss?.mini).toBe(true)
+    run(w, 3)
+    expect(w.time).toBe(t) // frozen during the fight
+    expect(w.enemies.some(e => e.kind === 'drifter')).toBe(false)
+  })
+
+  it('resumes the level when killed, paying credits and a capsule', () => {
+    const w = midLevel([{ at: 1.5, kind: 'drifter', n: 1, x: 90 }])
+    w.ship.invuln = 999
+    run(w, 1.1)
+    const b = w.boss!
+    b.y = 64
+    b.pods.forEach(p => { p.hp = 0 })
+    const credits = w.credits
+    for (let i = 0; i < 10; i++) w.shots.push({ x: b.x, y: b.y, vx: 0, vy: 0, dmg: 1 })
+    const events = step(w, IDLE, DT)
+    expect(events.find(e => e.kind === 'bossdie')?.detail).toBe('mini')
+    expect(w.credits).toBeGreaterThan(credits)
+    expect(w.pickups.some(p => p.kind === 'capsule')).toBe(true)
+    run(w, 3)
+    expect(w.status).toBe('playing') // a miniboss never ends the level
+    expect(w.boss).toBeNull()
+    expect(w.miniState).toBe('done')
+    run(w, 1)
+    expect(w.enemies.some(e => e.kind === 'drifter')).toBe(true) // the timeline carries on
+  })
+
+  it('is smaller than a full boss, hitbox and all', () => {
+    const w = midLevel()
+    run(w, 1.1)
+    expect(w.boss!.core.w).toBeLessThan(36)
+  })
+
+  it('every level has one, halfway, before its boss', () => {
+    for (const l of LEVELS) {
+      expect(l.miniboss, l.name).toBeTruthy()
+      expect(l.miniboss!.at).toBeGreaterThan(l.bossAt * 0.3)
+      expect(l.miniboss!.at).toBeLessThan(l.bossAt * 0.7)
+    }
   })
 })
 

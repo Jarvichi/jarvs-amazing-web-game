@@ -14,6 +14,25 @@ export const LEVELS: LevelDef[] = [
     theme: 'flesh',
     tier: 1,
     bossAt: 68,
+    miniboss: {
+      at: 34,
+      boss: {
+        name: 'GRUB',
+        look: 'maw',
+        size: 0.65,
+        coreHp: 25,
+        podHp: 12,
+        pods: [{ ox: -32, oy: 6 }],
+        phases: [
+          {
+            core: [{ kind: 'fan', every: 2.2, n: 3, spread: 0.25, speed: 75 }],
+            pods: [{ kind: 'aimed', every: 1.6, n: 1, speed: 90 }],
+            sway: 0.8,
+          },
+          { when: 'exposed', core: [{ kind: 'fan', every: 1.3, n: 5, spread: 0.22, speed: 80 }], pods: [], sway: 0.9 },
+        ],
+      },
+    },
     waves: [
       { at: 2, kind: 'drifter', n: 5, x: 40, dx: 25, gap: 0.3 },
       { at: 6, kind: 'swooper', n: 5, x: 40, p: 1 },
@@ -63,6 +82,30 @@ export const LEVELS: LevelDef[] = [
     theme: 'machine',
     tier: 2,
     bossAt: 78,
+    miniboss: {
+      at: 38,
+      boss: {
+        name: 'COG WARDEN',
+        look: 'heart',
+        size: 0.65,
+        coreHp: 40,
+        podHp: 18,
+        pods: [{ ox: -36, oy: 4 }, { ox: 36, oy: 4 }],
+        phases: [
+          {
+            core: [{ kind: 'aimed', every: 1.4, n: 2, speed: 100 }],
+            pods: [{ kind: 'fan', every: 2.4, n: 3, spread: 0.3, speed: 85 }],
+            sway: 0.9,
+          },
+          {
+            when: 'exposed',
+            core: [{ kind: 'spiral', every: 0.16, arms: 2, spin: 0.4, speed: 80 }],
+            pods: [],
+            sway: 1,
+          },
+        ],
+      },
+    },
     waves: [
       { at: 2, kind: 'spinner', n: 4, x: 30, dx: 40, gap: 0.3 },
       { at: 5, kind: 'swooper', n: 6, x: 30, p: 1, gap: 0.3 },
@@ -133,6 +176,33 @@ export const LEVELS: LevelDef[] = [
     theme: 'spore',
     tier: 3,
     bossAt: 80,
+    miniboss: {
+      at: 40,
+      boss: {
+        name: 'SPORELING',
+        look: 'spore',
+        size: 0.65,
+        coreHp: 55,
+        podHp: 22,
+        pods: [{ ox: -40, oy: 2, ay: 3, freq: 0.8 }, { ox: 40, oy: 2, ay: 3, freq: 1 }],
+        phases: [
+          {
+            core: [{ kind: 'spiral', every: 0.2, arms: 3, spin: 0.3, speed: 65 }],
+            pods: [{ kind: 'aimed', every: 2, n: 1, speed: 95 }],
+            sway: 0.6,
+          },
+          {
+            when: 'exposed',
+            core: [
+              { kind: 'ring', every: 1.6, n: 10, speed: 70 },
+              { kind: 'summon', every: 4, enemy: 'drifter', n: 2, max: 8 },
+            ],
+            pods: [],
+            sway: 0.8,
+          },
+        ],
+      },
+    },
     waves: [
       { at: 2, kind: 'drifter', n: 6, x: 30, dx: 24, gap: 0.2 },
       { at: 5, kind: 'snake', n: 8, x: 90, gap: 0.12, p: 1 },
@@ -203,6 +273,33 @@ export const LEVELS: LevelDef[] = [
     theme: 'crystal',
     tier: 4,
     bossAt: 84,
+    miniboss: {
+      at: 42,
+      boss: {
+        name: 'SHARD',
+        look: 'hydra',
+        size: 0.65,
+        coreHp: 65,
+        podHp: 25,
+        pods: [{ ox: -38, oy: 10, ax: 8, ay: 6, freq: 1.2 }, { ox: 38, oy: 10, ax: 8, ay: 6, freq: 0.9 }],
+        phases: [
+          {
+            core: [{ kind: 'fan', every: 2.2, n: 5, spread: 0.2, speed: 90 }],
+            pods: [{ kind: 'laser', every: 5, warn: 1, dur: 0.8, width: 7, track: true }],
+            sway: 0.7,
+          },
+          {
+            when: 'exposed',
+            core: [
+              { kind: 'laser', every: 3, warn: 0.8, dur: 1, width: 10, track: true },
+              { kind: 'aimed', every: 1.2, n: 3, speed: 110 },
+            ],
+            pods: [],
+            sway: 0.9,
+          },
+        ],
+      },
+    },
     waves: [
       { at: 2, kind: 'spinner', n: 5, x: 30, dx: 30, gap: 0.2 },
       { at: 5, kind: 'sniper', n: 2, x: 40, dx: 100, gap: 0.4 },
@@ -276,6 +373,39 @@ export const LEVELS: LevelDef[] = [
     theme: 'core',
     tier: 5,
     bossAt: 88,
+    miniboss: {
+      at: 44,
+      boss: {
+        name: 'PULSE',
+        look: 'core',
+        size: 0.65,
+        coreHp: 80,
+        podHp: 28,
+        pods: [{ ox: -44, oy: 0, ax: 3, ay: 3, freq: 2 }, { ox: 44, oy: 0, ax: 3, ay: 3, freq: 2 }],
+        phases: [
+          {
+            core: [{ kind: 'ring', every: 1.8, n: 12, speed: 75 }],
+            pods: [{ kind: 'aimed', every: 1.6, n: 2, speed: 110 }],
+            sway: 0.6,
+          },
+          {
+            when: 0.5,
+            core: [{ kind: 'spiral', every: 0.1, arms: 3, spin: 0.3, speed: 85 }],
+            pods: [{ kind: 'aimed', every: 1.4, n: 2, speed: 115 }],
+            sway: 0.8,
+          },
+          {
+            when: 'exposed',
+            core: [
+              { kind: 'spiral', every: 0.1, arms: 3, spin: 0.3, speed: 85 },
+              { kind: 'laser', every: 3.2, warn: 0.7, dur: 1.2, width: 12, track: true },
+            ],
+            pods: [],
+            sway: 1,
+          },
+        ],
+      },
+    },
     waves: [
       { at: 2, kind: 'drifter', n: 10, x: 25, dx: 14, gap: 0.1 },
       { at: 5, kind: 'sniper', n: 2, x: 40, dx: 100, gap: 0.4 },

@@ -111,6 +111,7 @@ export function stepCollisions(w: World, dt: number, ev: GameEvent[]) {
     }
   }
   const b = w.boss
-  if (b && !b.dying && hit(b.x, b.y, 40, 28, s.x, s.y, SHIP_W, SHIP_H)) damageShip(w, RAM_DAMAGE, ev)
+  const bs = b?.def.size ?? 1
+  if (b && !b.dying && hit(b.x, b.y, 40 * bs, 28 * bs, s.x, s.y, SHIP_W, SHIP_H)) damageShip(w, RAM_DAMAGE, ev)
 }
 

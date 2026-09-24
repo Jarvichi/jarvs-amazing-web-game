@@ -17,23 +17,32 @@ import { spawnBoss, stepBoss } from './boss'
 import { stepCollisions } from './collisions'
 
 export * from './world'
-export { ENEMIES, rearWarnings } from './enemies'
+export { ENEMIES, onScreen, rearWarnings } from './enemies'
 export { coreExposed } from './boss'
 export { applyCapsule } from './collisions'
 export { detonateBomb } from './weapons'
 export * from './shop'
 export * from './pods'
+export * from './difficulty'
 
 /** Advance the world by one tick. Returns what happened this tick. */
 export function step(w: World, input: Input, dt: number): GameEvent[] {
   const ev: GameEvent[] = []
   if (w.status !== 'playing') return ev
-  w.time += dt
+  // The level timeline (w.time) holds still around a miniboss fight.
+  const mini = w.level.miniboss
+  if (mini && w.miniState === 'pending' && w.time >= mini.at) w.miniState = 'waiting'
+  if (w.miniState !== 'waiting' && w.miniState !== 'active') w.time += dt
   if (!w.boss) w.scroll += SCROLL_SPEED * dt
 
   stepShip(w, input, dt, ev)
   stepEnemies(w, dt, ev)
-  if (!w.boss && w.time >= w.level.bossAt && w.nextSpawn >= w.spawns.length && w.enemies.length === 0) {
+  if (mini && w.miniState === 'waiting' && !w.boss && w.enemies.length === 0) {
+    spawnBoss(w, ev, mini.boss, true)
+    w.miniState = 'active'
+  }
+  if (!w.boss && w.miniState === 'done' && w.time >= w.level.bossAt &&
+      w.nextSpawn >= w.spawns.length && w.enemies.length === 0) {
     spawnBoss(w, ev)
   }
   stepBoss(w, dt, ev)

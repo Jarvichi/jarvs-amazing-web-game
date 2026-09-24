@@ -5,17 +5,19 @@
 // the core is armoured until every pod is destroyed.
 
 import {
-  BOSS_CREDITS, BULLET_DAMAGE, SHIP_W, W, hit, rand,
-  type Attack, type Boss, type BossPart, type GameEvent, type World,
+  BOSS_CREDITS, BULLET_DAMAGE, MINI_CREDITS, SHIP_W, W, hit, rand,
+  type Attack, type Boss, type BossDef, type BossPart, type GameEvent, type World,
 } from './world'
 import { aimAt, spawnEnemy } from './enemies'
 import { damageShip } from './collisions'
+import { powerScale } from './difficulty'
 
 const BOSS_Y = 64
 const LASER_DAMAGE = 35
 
-export function spawnBoss(w: World, ev: GameEvent[]) {
-  const d = w.level.boss
+export function spawnBoss(w: World, ev: GameEvent[], d: BossDef = w.level.boss, mini = false) {
+  const scale = powerScale(w.loadout, w.level.tier)
+  const size = d.size ?? 1
   const part = (index: number, ox: number, oy: number, hp: number, pw: number, ph: number): BossPart =>
     ({ index, ox, oy, hp, max: hp, w: pw, h: ph, timers: [], spin: 0, flash: 0 })
   const b: Boss = {
@@ -23,28 +25,30 @@ export function spawnBoss(w: World, ev: GameEvent[]) {
     x: W / 2,
     y: -50,
     t: 0,
-    core: part(-1, 0, 0, d.coreHp, 36, 24),
-    pods: d.pods.map((p, i) => part(i, p.ox, p.oy, d.podHp, 14, 14)),
+    core: part(-1, 0, 0, Math.ceil(d.coreHp * scale), 36 * size, 24 * size),
+    pods: d.pods.map((p, i) => part(i, p.ox, p.oy, Math.ceil(d.podHp * scale), 14 * size, 14 * size)),
     phase: 0,
     lasers: [],
+    mini,
     dying: 0,
   }
   resetTimers(w, b)
   w.boss = b
-  ev.push({ kind: 'boss', x: W / 2, y: 0 })
+  ev.push({ kind: 'boss', x: W / 2, y: 0, detail: mini ? 'mini' : undefined })
 }
 
 export function coreExposed(b: Boss): boolean {
   return b.pods.every(p => p.hp <= 0)
 }
 
-/** A part's current position, including its independent bobbing. */
+/** A part's current position, including its independent bobbing and the boss's size. */
 export function partPos(b: Boss, p: BossPart): { x: number; y: number } {
   const def = p.index >= 0 ? b.def.pods[p.index] : undefined
   const f = def?.freq ?? 1
+  const size = b.def.size ?? 1
   return {
-    x: b.x + p.ox + Math.sin(b.t * f + p.index) * (def?.ax ?? 0),
-    y: b.y + p.oy + Math.cos(b.t * f * 1.3 + p.index) * (def?.ay ?? 0),
+    x: b.x + (p.ox + Math.sin(b.t * f + p.index) * (def?.ax ?? 0)) * size,
+    y: b.y + (p.oy + Math.cos(b.t * f * 1.3 + p.index) * (def?.ay ?? 0)) * size,
   }
 }
 
@@ -134,7 +138,15 @@ export function stepBoss(w: World, dt: number, ev: GameEvent[]) {
     if (Math.floor(b.dying * 8) !== Math.floor((b.dying - dt) * 8)) {
       ev.push({ kind: 'explode', x: b.x + (rand(w) - 0.5) * 60, y: b.y + (rand(w) - 0.5) * 36 })
     }
-    if (b.dying > 2.5) w.status = 'won'
+    if (b.dying > 2.5) {
+      if (b.mini) {
+        // Halfway fight over: the level carries on.
+        w.boss = null
+        w.miniState = 'done'
+      } else {
+        w.status = 'won'
+      }
+    }
     return
   }
 
@@ -166,6 +178,9 @@ export function stepBoss(w: World, dt: number, ev: GameEvent[]) {
   stepLasers(w, b, dt)
   if (laserHits(w, b)) damageShip(w, LASER_DAMAGE, ev)
 
+  // Immune while still arriving, like enemies entering the screen.
+  if (!ready) return
+
   const exposed = coreExposed(b)
   const c = b.core
   for (const s of w.shots) {
@@ -184,13 +199,15 @@ export function stepBoss(w: World, dt: number, ev: GameEvent[]) {
       if (p.hp <= 0) {
         if (p === c) {
           b.dying = dt
-          w.score += 5000
+          w.score += b.mini ? 2000 : 5000
           // Paid out directly: a dropped pickup couldn't reach the ship before
           // the level ends.
-          w.credits += BOSS_CREDITS
-          ev.push({ kind: 'bossdie', x: b.x, y: b.y })
+          w.credits += b.mini ? MINI_CREDITS : BOSS_CREDITS
+          // A miniboss always leaves a capsule; the level goes on, so it can be caught.
+          if (b.mini) w.pickups.push({ x: b.x, y: b.y, kind: 'capsule', value: 0 })
+          ev.push({ kind: 'bossdie', x: b.x, y: b.y, detail: b.mini ? 'mini' : undefined })
         } else {
-          w.score += 1000
+          w.score += b.mini ? 300 : 1000
           ev.push({ kind: 'podkill', x: pos.x, y: pos.y })
         }
       }

@@ -159,6 +159,10 @@ export class Fx {
           this.burst(e.x, e.y, 16, 70, [6, 5, 9], 0.6)
           this.float(e.x, e.y - 12, 'POD LOST', 8)
           break
+        case 'wavebonus':
+          this.float(e.x, e.y - 14, 'WAVE BONUS!', 11)
+          this.burst(e.x, e.y, 16, 70, [11, 10, 7], 0.5)
+          break
         case 'mount':
           this.float(e.x, e.y - 20, `${(e.detail ?? '').toUpperCase()} POD!`, 10)
           this.burst(e.x, e.y, 30, 90, [10, 11, 7], 0.7)
@@ -574,6 +578,17 @@ function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
   const exposed = coreExposed(b)
   const bx = Math.round(b.x)
   const by = Math.round(b.y)
+  // Minibosses are the same art drawn smaller: scale around the core, and map
+  // part positions (already scaled by partPos) back into that local space.
+  const size = b.def.size ?? 1
+  const local = (p: BossPart) => {
+    const at = partPos(b, p)
+    return { x: bx + (at.x - bx) / size, y: by + (at.y - by) / size }
+  }
+  ctx.save()
+  ctx.translate(bx, by)
+  ctx.scale(size, size)
+  ctx.translate(-bx, -by)
 
   // Hydra heads hang from necks drawn behind the body.
   if (look === 'hydra') {
@@ -581,7 +596,7 @@ function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
     ctx.lineWidth = 4
     for (const p of b.pods) {
       if (p.hp <= 0) continue
-      const pos = partPos(b, p)
+      const pos = local(p)
       ctx.beginPath(); ctx.moveTo(bx, by); ctx.quadraticCurveTo(bx + p.ox * 0.4, by + 24, pos.x, pos.y); ctx.stroke()
     }
     ctx.lineWidth = 1
@@ -644,18 +659,20 @@ function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
       ctx.fillRect(bx - 3, by - 3, 6, 6)
     }
   }
-  flashPart(ctx, b, c)
+  flashPart(ctx, local(c), c, size)
 
   for (const p of b.pods) {
-    const pos = partPos(b, p)
+    const pos = local(p)
     if (p.hp <= 0) {
       ctx.fillStyle = PAL[0]
       ctx.beginPath(); ctx.arc(pos.x, pos.y, 5, 0, Math.PI * 2); ctx.fill()
       continue
     }
     drawEye(ctx, pos.x, pos.y, 7, w.ship, PAL[podShell], PAL[podIris])
-    flashPart(ctx, b, p)
+    flashPart(ctx, local(p), p, size)
   }
+
+  ctx.restore()
 
   // Health bar across the top of the playfield.
   const total = b.pods.reduce((s, p) => s + Math.max(0, p.hp), 0) + Math.max(0, c.hp)
@@ -667,11 +684,13 @@ function drawBoss(ctx: CanvasRenderingContext2D, b: Boss, w: World, t: number) {
   drawText(ctx, b.def.name, W / 2, 14, PAL[7], 1, 'center')
 }
 
-function flashPart(ctx: CanvasRenderingContext2D, b: Boss, p: BossPart) {
+/** Hit flash over a part, in the boss's local (unscaled) drawing space. */
+function flashPart(ctx: CanvasRenderingContext2D, pos: { x: number; y: number }, p: BossPart, size: number) {
   if (p.flash <= 0) return
-  const pos = partPos(b, p)
+  const pw = p.w / size
+  const ph = p.h / size
   ctx.fillStyle = 'rgba(255,255,255,0.7)'
-  ctx.fillRect(Math.round(pos.x - p.w / 2), Math.round(pos.y - p.h / 2), p.w, p.h)
+  ctx.fillRect(Math.round(pos.x - pw / 2), Math.round(pos.y - ph / 2), pw, ph)
 }
 
 function drawLasers(ctx: CanvasRenderingContext2D, b: Boss, t: number) {

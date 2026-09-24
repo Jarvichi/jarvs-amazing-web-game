@@ -30,6 +30,9 @@ export const RAM_DAMAGE = 40
 export const INVULN_TIME = 2.5
 export const ENEMY_SHOT_SPEED = 90
 export const BOSS_CREDITS = 200
+export const MINI_CREDITS = 100
+/** Smallest formation that can earn a flawless-wave capsule. */
+export const BONUS_WAVE_MIN = 3
 
 export type EnemyKind =
   | 'drifter' | 'swooper' | 'turret' | 'darter' | 'spinner'
@@ -41,8 +44,6 @@ export interface EnemyDef {
   credits: number
   w: number
   h: number
-  /** Chance (0–1) of also dropping a weapon capsule. */
-  capsule: number
 }
 
 /** A group of enemies entering together. Members spawn `gap` seconds apart. */
@@ -111,6 +112,8 @@ export type BossLook = 'maw' | 'heart' | 'spore' | 'hydra' | 'core'
 export interface BossDef {
   name: string
   look: BossLook
+  /** Drawn and hit at this scale (1 = full boss; minibosses are smaller). */
+  size?: number
   coreHp: number
   podHp: number
   /** Pod positions relative to the core; `ax`/`ay`/`freq` make them bob independently. */
@@ -128,6 +131,11 @@ export interface LevelDef {
   bossAt: number
   waves: Wave[]
   boss: BossDef
+  /**
+   * A halfway fight: once the timeline reaches `at` and the screen is clear,
+   * it appears; the timeline (and scrolling) holds until it dies.
+   */
+  miniboss?: { at: number; boss: BossDef }
 }
 
 export interface Loadout {
@@ -174,6 +182,8 @@ export interface Enemy {
   age: number
   fire: number
   flash: number
+  /** Index of the level wave it belongs to; unset for enemies released by carriers, splitters and bosses. */
+  wave?: number
   /** Came from behind: its scripted path runs mirrored, bottom to top. */
   below?: boolean
   /** Sniper lock-on: where it will fire, and seconds of warning left. */
@@ -237,6 +247,8 @@ export interface Boss {
   pods: BossPart[]
   phase: number
   lasers: Laser[]
+  /** A halfway miniboss: its death resumes the level instead of ending it. */
+  mini: boolean
   dying: number // seconds since death; 0 while alive
 }
 
@@ -246,8 +258,12 @@ export interface World {
   level: LevelDef
   time: number
   scroll: number
-  spawns: { at: number; kind: EnemyKind; x: number; p: number; i: number; below: boolean }[]
+  spawns: { at: number; kind: EnemyKind; x: number; p: number; i: number; below: boolean; wave: number }[]
   nextSpawn: number
+  /** 'waiting' holds the timeline until the screen clears for the miniboss; 'active' holds it during the fight. */
+  miniState: 'pending' | 'waiting' | 'active' | 'done'
+  /** Per wave (index into level.waves): how its members fared, for the flawless-wave bonus. */
+  waveStats: { n: number; killed: number; escaped: number }[]
   ship: { x: number; y: number; shield: number; invuln: number; alive: boolean; respawn: number }
   loadout: Loadout
   enemies: Enemy[]
@@ -285,7 +301,7 @@ export interface Input {
 
 export type EventKind =
   | 'shot' | 'hit' | 'explode' | 'bigexplode' | 'credit' | 'capsule'
-  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb' | 'rearwarn' | 'mount' | 'podlost'
+  | 'hurt' | 'die' | 'boss' | 'bossdie' | 'podkill' | 'phase' | 'laser' | 'bomb' | 'rearwarn' | 'mount' | 'podlost' | 'wavebonus'
 
 export interface GameEvent {
   kind: EventKind
@@ -315,11 +331,11 @@ export interface Carry {
 
 export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
   const spawns: World['spawns'] = []
-  for (const w of level.waves) {
+  level.waves.forEach((w, waveIdx) => {
     for (let i = 0; i < w.n; i++) {
-      spawns.push({ at: w.at + i * (w.gap ?? 0.35), kind: w.kind, x: w.x + i * (w.dx ?? 0), p: w.p ?? 0, i, below: w.from === 'below' })
+      spawns.push({ at: w.at + i * (w.gap ?? 0.35), kind: w.kind, x: w.x + i * (w.dx ?? 0), p: w.p ?? 0, i, below: w.from === 'below', wave: waveIdx })
     }
-  }
+  })
   spawns.sort((a, b) => a.at - b.at)
   return {
     level,
@@ -327,6 +343,8 @@ export function createWorld(level: LevelDef, carry: Carry, seed = 1): World {
     scroll: 0,
     spawns,
     nextSpawn: 0,
+    miniState: level.miniboss ? 'pending' : 'done',
+    waveStats: level.waves.map(v => ({ n: v.n, killed: 0, escaped: 0 })),
     ship: { x: W / 2, y: H - 40, shield: maxShield(carry.loadout), invuln: 1.5, alive: true, respawn: 0 },
     loadout: withPods(cloneLoadout(carry.loadout)),
     enemies: [],

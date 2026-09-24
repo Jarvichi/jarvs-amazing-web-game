@@ -6,7 +6,7 @@ import {
   BOMB_DAMAGE, DRONE_COOLDOWN, FIRE_COOLDOWN, H, HOMING_COOLDOWN, INVULN_TIME, LASER_COOLDOWN, MARGIN, SHIP_W, W,
   dronePos, maxShield, shipSpeed, type GameEvent, type Input, type Shot, type World,
 } from './world'
-import { killEnemy } from './enemies'
+import { killEnemy, onScreen } from './enemies'
 import { coreExposed, partPos } from './boss'
 import { firePods } from './pods'
 
@@ -127,7 +127,7 @@ export function detonateBomb(w: World, ev: GameEvent[]) {
   w.loadout.bombs--
   w.enemyShots = []
   for (const e of w.enemies) {
-    if (e.hp <= 0) continue
+    if (e.hp <= 0 || !onScreen(e)) continue
     e.hp -= BOMB_DAMAGE
     e.flash = 0.2
     if (e.hp <= 0) killEnemy(w, e, ev)
