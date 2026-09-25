@@ -9,7 +9,8 @@ interface Props {
 }
 
 /** Utility tier — quieter than the play tiers above, these are practice/side
- *  content rather than the game's core modes. */
+ *  content rather than the game's core modes. ARCADE is a plain link: the
+ *  arcade games are separate pages (jawg.uk/arcade), not screens of this app. */
 export function UtilityRow({ onTraining, onMiniGames, showMiniGames = true }: Props) {
   return (
     <div className="title-utility-row">
@@ -21,6 +22,9 @@ export function UtilityRow({ onTraining, onMiniGames, showMiniGames = true }: Pr
           <Icon name="minigames" size={14} /> MINI GAMES
         </button>
       )}
+      <a href="/arcade" className="title-tier-btn title-tier-btn--utility">
+        <Icon name="arcade" size={14} /> ARCADE
+      </a>
     </div>
   )
 }

@@ -8,7 +8,7 @@ import React from 'react'
  * `currentColor` so each icon themes with whatever text colour surrounds it.
  *
  * Mount <IconSprite /> once near the app root; every <Icon name="..." />
- * instance references a <symbol> here via <use>, so the markup for all 39
+ * instance references a <symbol> here via <use>, so the markup for all 40
  * icons is only ever parsed once regardless of how many places render them.
  */
 export const ICON_NAMES = [
@@ -17,7 +17,7 @@ export const ICON_NAMES = [
   'lock', 'coin', 'heart', 'mana', 'back-arrow', 'close', 'info', 'filter',
   'search', 'calendar', 'shield', 'bolt', 'pause', 'volume', 'display',
   'database', 'star', 'satchel', 'scroll', 'town', 'warning', 'card', 'pack',
-  'timer', 'compass',
+  'timer', 'compass', 'arcade',
 ] as const
 
 export type IconName = typeof ICON_NAMES[number]
@@ -171,6 +171,13 @@ export function IconSprite() {
         <symbol id="icon-volume" viewBox="0 0 24 24">
           <path d="M4 9h3.5L13 4.5v15L7.5 15H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1z" />
           <path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+        </symbol>
+
+        <symbol id="icon-arcade" viewBox="0 0 24 24">
+          <rect x="3" y="15" width="18" height="6" rx="1.5" />
+          <rect x="11" y="7" width="2" height="9" />
+          <circle cx="12" cy="6" r="3.5" />
+          <circle cx="17.5" cy="13" r="1.5" />
         </symbol>
 
         <symbol id="icon-display" viewBox="0 0 24 24">
