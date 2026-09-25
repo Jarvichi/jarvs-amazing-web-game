@@ -11,6 +11,7 @@ import {
 } from './state'
 import { ENEMIES, harmless, knockEnemy, makeBoss, makeEnemy, updateEnemy, vulnerable } from './enemies'
 import { RH, RW, TILE, VIEW_H, VIEW_W, enemyWalkable, stopsShots, walkable } from './tiles'
+import { paginate } from './text'
 
 export const SPEED = 80
 export const SWING_TIME = 0.25
@@ -166,7 +167,7 @@ function crossEdge(w: World): boolean {
 // ── Dialog ──────────────────────────────────────────────────────────────────
 export function openDialog(w: World, pages: string[], then: Action = { kind: 'none' }) {
   if (!pages.length) return
-  w.dialog = { pages, page: 0, shown: 0, then }
+  w.dialog = { pages: paginate(pages), page: 0, shown: 0, then }
 }
 
 function updateDialog(w: World, c: Controls, dt: number) {

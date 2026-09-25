@@ -5,6 +5,8 @@ import { makeEnemy } from './enemies'
 import {
   NO_INPUT, START_HP, continueGame, createWorld, cycleItem, damage, enterMap, hurtPlayer, step, type Controls,
 } from './world'
+import { DIALOG_COLS, paginate, wrap } from './text'
+import { ENEMY_ART, HERO, ITEM_ART, PERSON } from './sprites'
 import { SAVE_KEY, fromSave, parseSave, toSave } from './save'
 import { RH, RW, TILE, VIEW_H, VIEW_W, enemyWalkable } from './tiles'
 
@@ -357,6 +359,7 @@ describe('dungeons', () => {
     damage(w, king, 1, 'sword', 'up')
     tick(w, NO_INPUT, 100)
     expect(w.dialog?.pages[w.dialog.pages.length - 1]).toBe('EMBERFALL IS SAVED!')
+    expect(w.dialog!.pages.every(p => p.split('\n').every(l => l.length <= DIALOG_COLS))).toBe(true)
     closeDialog(w)
     expect(w.phase).toBe('won')
     expect(w.score).toBeGreaterThan(5000)
@@ -434,5 +437,41 @@ describe('saving', () => {
   it('has a storage key of its own', () => {
     expect(SAVE_KEY).toBe('jawg-adventure-save')
     expect(VIEW_H).toBe(176)
+  })
+})
+
+describe('dialog text', () => {
+  it('wraps at spaces within the box width', () => {
+    expect(wrap('THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG', 10)).toEqual(['THE QUICK', 'BROWN FOX', 'JUMPS OVER', 'THE LAZY', 'DOG'])
+  })
+
+  it('cuts long pages into boxes of three lines', () => {
+    const pages = paginate(['ONE TWO THREE FOUR FIVE SIX SEVEN', 'HI'], 9, 3)
+    expect(pages).toEqual(['ONE TWO\nTHREE\nFOUR FIVE', 'SIX SEVEN', 'HI'])
+  })
+
+  it('every line the game says fits', () => {
+    for (const m of Object.values(MAPS)) {
+      for (const r of Object.values(m.rooms)) {
+        for (const page of paginate([...(r.talk ?? []), ...(r.npcs ?? []).flatMap(n => n.lines)])) {
+          for (const line of page.split('\n')) expect(line.length).toBeLessThanOrEqual(DIALOG_COLS)
+        }
+      }
+    }
+  })
+})
+
+describe('sprite art', () => {
+  const all: [string, string[]][] = [
+    ...Object.entries(HERO).flatMap(([d, frames]) => frames.map((f, i) => [`hero ${d} ${i}`, f] as [string, string[]])),
+    ['person', PERSON],
+    ...Object.entries(ENEMY_ART),
+    ...Object.entries(ITEM_ART),
+  ]
+  it.each(all)('%s is a clean rectangle of palette digits', (_, rows) => {
+    for (const row of rows) {
+      expect(row).toHaveLength(rows[0].length)
+      expect(row).toMatch(/^[0-9a-f.]+$/)
+    }
   })
 })
