@@ -35,6 +35,11 @@ describe('GAMES', () => {
     for (const g of GAMES) expect(read(`src${g.path}/main.ts`)).toContain(`'${g.hiscoreKey}'`)
   })
 
+  // iOS Safari ignores user-scalable=no, so a page without this zooms on a double tap.
+  it('every game stops phones zooming the page', () => {
+    for (const g of GAMES) expect(read(`src${g.path}/main.ts`)).toMatch(/^preventZoom\(\)/m)
+  })
+
   it('arrow navigation wraps round', () => {
     expect(step(0, -1)).toBe(GAMES.length - 1)
     expect(step(GAMES.length - 1, 1)).toBe(0)

@@ -15,7 +15,7 @@ import { paginate } from './text'
 import { Fx, H, HUD, PAL, W, centreText, drawInventory, drawText, drawTitleScene, renderWorld } from './render'
 import { initInput, poll, type Frame } from './input'
 import { isMuted, music, resetMusic, sfx, toggleMute, unlock, type Music } from './audio'
-import { arcadeLink, buildLabel, crtToggle, fitToWindow, readNumber, watchForUpdates, write } from '../arcade/page'
+import { arcadeLink, buildLabel, crtToggle, fitToWindow, preventZoom, readNumber, watchForUpdates, write } from '../arcade/page'
 
 const DT = 1 / 60
 const HISCORE_KEY = 'jawg-adventure-hiscore'
@@ -29,6 +29,7 @@ ctx.imageSmoothingEnabled = false
 const toggleCrt = crtToggle(frame, 'jawg-adventure-crt')
 const fx = new Fx()
 const toArcade = arcadeLink()
+preventZoom()
 
 const INTRO = paginate([
   'LONG AGO, THREE HEARTH-FLAMES KEPT THE VALE OF EMBERFALL WARM AND SAFE.',
