@@ -13,7 +13,7 @@ import {
 import { Fx, H, PAL, W, centreText, drawCrosshair, drawHud, drawText, renderWorld } from './render'
 import { initInput, poll, type Frame } from './input'
 import { isMuted, playTitle, sfx, stopMusic, toggleMute, unlock } from './audio'
-import { arcadeLink, buildLabel, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
+import { arcadeLink, buildLabel, crtToggle, fitFrame, preventZoom, readNumber, watchForUpdates, write } from '../arcade/page'
 
 const DT = 1 / 60
 const PANEL = 70
@@ -29,6 +29,7 @@ const ctx = canvas.getContext('2d')!
 const toggleCrt = crtToggle(frame, 'jawg-defend-crt')
 const fx = new Fx()
 const toArcade = arcadeLink()
+preventZoom()
 
 const game = {
   screen: 'title' as Screen,

@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { buildLabel, entryScript } from './page'
+import { describe, it, expect, vi } from 'vitest'
+import { buildLabel, entryScript, preventZoom } from './page'
 
 describe('buildLabel', () => {
   it('shows a short commit and the build date', () => {
@@ -29,5 +29,40 @@ describe('entryScript', () => {
 
   it('returns null when there is no module script', () => {
     expect(entryScript('<p>nothing here</p>')).toBeNull()
+  })
+})
+
+describe('preventZoom', () => {
+  function setup() {
+    const listeners: Record<string, (e: unknown) => void> = {}
+    vi.stubGlobal('document', { addEventListener: (type: string, fn: (e: unknown) => void) => { listeners[type] = fn } })
+    preventZoom()
+    vi.unstubAllGlobals()
+    const touchend = (target: { closest: (s: string) => unknown }, cancelable = true) => {
+      const e = { cancelable, target, preventDefault: vi.fn() }
+      listeners.touchend(e)
+      return e.preventDefault.mock.calls.length > 0
+    }
+    return { listeners, touchend }
+  }
+  const canvas = { closest: () => null }
+  const link = { closest: (s: string) => (s.includes('a') ? {} : null) }
+
+  it('cancels taps on the game so a double tap cannot zoom', () => {
+    expect(setup().touchend(canvas)).toBe(true)
+  })
+
+  it('leaves links alone so they still follow', () => {
+    expect(setup().touchend(link)).toBe(false)
+  })
+
+  it('does not touch events the browser will not let it cancel (mid-scroll)', () => {
+    expect(setup().touchend(canvas, false)).toBe(false)
+  })
+
+  it('also cancels dblclick', () => {
+    const e = { preventDefault: vi.fn() }
+    setup().listeners.dblclick(e)
+    expect(e.preventDefault).toHaveBeenCalled()
   })
 })

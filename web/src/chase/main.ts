@@ -17,7 +17,7 @@ import { initInput, poll, type Frame } from './input'
 import {
   isMuted, playArrest, playBrief, playPursuit, sfx, stopMusic, toggleMute, unlock, updateEngine,
 } from './audio'
-import { arcadeLink, buildLabel, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
+import { arcadeLink, buildLabel, crtToggle, fitFrame, preventZoom, readNumber, watchForUpdates, write } from '../arcade/page'
 
 const DT = 1 / 60
 const HISCORE_KEY = 'jawg-chase-hiscore'
@@ -49,6 +49,7 @@ const game = {
 }
 
 const toArcade = arcadeLink()
+preventZoom()
 
 function go(screen: Screen) {
   toArcade.show(screen === 'title')

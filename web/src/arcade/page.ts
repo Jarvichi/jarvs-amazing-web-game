@@ -139,3 +139,18 @@ export function arcadeLink(): { show: (on: boolean) => void } {
     },
   }
 }
+
+/**
+ * Stop a quick double tap from zooming the page. iOS Safari ignores
+ * `user-scalable=no` and doesn't apply `touch-action` to the page itself, so
+ * two fast taps on a control zoomed in, and with pinch blocked there was no
+ * way back out. Cancelling touchend stops the zoom; the games read pointer
+ * events, which still fire. Links are left alone so they still get a click.
+ */
+export function preventZoom(): void {
+  document.addEventListener('touchend', e => {
+    if (!e.cancelable || (e.target as Element).closest?.('a, input, select, textarea')) return
+    e.preventDefault()
+  }, { passive: false })
+  document.addEventListener('dblclick', e => e.preventDefault())
+}
