@@ -61,8 +61,28 @@ describe('preventZoom', () => {
   })
 
   it('also cancels dblclick', () => {
-    const e = { preventDefault: vi.fn() }
+    const e = { cancelable: true, preventDefault: vi.fn() }
     setup().listeners.dblclick(e)
     expect(e.preventDefault).toHaveBeenCalled()
+  })
+
+  it('cancels a two-finger pinch but not a one-finger drag', () => {
+    const { listeners } = setup()
+    const move = (fingers: number) => {
+      const e = { cancelable: true, touches: { length: fingers }, preventDefault: vi.fn() }
+      listeners.touchmove(e)
+      return e.preventDefault.mock.calls.length > 0
+    }
+    expect(move(2)).toBe(true)
+    expect(move(1)).toBe(false)
+  })
+
+  it("cancels Safari's pinch gesture events", () => {
+    const { listeners } = setup()
+    for (const type of ['gesturestart', 'gesturechange', 'gestureend']) {
+      const e = { cancelable: true, preventDefault: vi.fn() }
+      listeners[type](e)
+      expect(e.preventDefault, type).toHaveBeenCalled()
+    }
   })
 })

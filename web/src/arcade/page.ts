@@ -141,16 +141,28 @@ export function arcadeLink(): { show: (on: boolean) => void } {
 }
 
 /**
- * Stop a quick double tap from zooming the page. iOS Safari ignores
- * `user-scalable=no` and doesn't apply `touch-action` to the page itself, so
- * two fast taps on a control zoomed in, and with pinch blocked there was no
- * way back out. Cancelling touchend stops the zoom; the games read pointer
- * events, which still fire. Links are left alone so they still get a click.
+ * Stop a phone zooming a game page. iOS Safari ignores `user-scalable=no`
+ * and doesn't apply `touch-action` to the page itself, so two fast taps on a
+ * control zoomed in, and with pinch blocked there was no way back out.
+ *  - Double tap: cancelling touchend stops it; the games read pointer events,
+ *    which still fire. Links are left alone so they still get a click.
+ *  - Pinch: Safari's own gesture events, plus any two-finger touchmove for
+ *    browsers without them. One-finger drags are untouched.
+ * Keyboard zoom on desktop (Ctrl/Cmd +/-) is left alone: it's easy to undo
+ * and the canvas refits to the window.
  */
 export function preventZoom(): void {
+  const cancel = (e: Event) => { if (e.cancelable) e.preventDefault() }
   document.addEventListener('touchend', e => {
-    if (!e.cancelable || (e.target as Element).closest?.('a, input, select, textarea')) return
-    e.preventDefault()
+    if ((e.target as Element).closest?.('a, input, select, textarea')) return
+    cancel(e)
   }, { passive: false })
-  document.addEventListener('dblclick', e => e.preventDefault())
+  document.addEventListener('touchmove', e => {
+    if (e.touches.length > 1) cancel(e)
+  }, { passive: false })
+  document.addEventListener('dblclick', cancel)
+  // Safari-only (not in the standard event map).
+  for (const type of ['gesturestart', 'gesturechange', 'gestureend']) {
+    document.addEventListener(type, cancel, { passive: false })
+  }
 }
