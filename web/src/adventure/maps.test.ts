@@ -205,6 +205,21 @@ describe('the adventure can be finished', () => {
     }
   })
 
+  // A gate you walk into must be on the screen you're on, so you can see what stops you.
+  it.each([['bombs', 'C'], ['rod', 'X'], ['boots', 'w']] as const)('every %s gate is in plain sight where you meet it', (gear, gate) => {
+    const { reached } = explore(gear)
+    const roomOf = (map: string, x: number, y: number) => `${map}:${Math.floor(x / RW)},${Math.floor(y / RH)}`
+    const seen = new Set([...reached].map(k => { const [map, pos] = k.split(':'); const [x, y] = pos.split(',').map(Number); return roomOf(map, x, y) }))
+    for (const k of reached) {
+      const [map, pos] = k.split(':')
+      const [x, y] = pos.split(',').map(Number)
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        if (MAPS[map].tiles[y + dy]?.[x + dx] !== gate) continue
+        expect(seen.has(roomOf(map, x + dx, y + dy)), `${map} ${gate} at ${x + dx},${y + dy} is off-screen`).toBe(true)
+      }
+    }
+  })
+
   it.each([
     ['bombs', 'mine'],
     ['rod', 'shrine'],

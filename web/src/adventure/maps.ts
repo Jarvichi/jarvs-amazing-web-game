@@ -31,6 +31,8 @@ export interface Npc {
   y: number
   look: Look
   lines: string[]
+  /** Points the way to the next goal (after their own lines, the first time). */
+  guide?: boolean
 }
 
 export interface ShopItem { item: ItemKind; price: number }
@@ -104,9 +106,9 @@ TTTTTT....TTTTTT TTTTTTTTTTTTTTTT TTTTTTwwwwTWWTTT TTTTTTwwwwTTTTTT MMMMMMMMMMMM
 T..T..........TT TTT..T....T..TTT T.....ww...WW..T T.....ww.......T MMM...MMMM...MMM MMMMMMMCMMMMMMMM
 T.T....T.......T T.....T.......TT T..........WW..T T..RRDRR....g..T M.....R.......MM MM.............M
 T....B.....T...T T..B......B....T T..B.......WW..T T....X......g..T M..R.......R...M M...R.....R....M
-T..............X ................ ...........==... ..R............. ...........MMMMM M.......~~.....M
-T,,,,,,,,,,,,,,X ,,,,,,,,,,,,,,,, ,,,,,,,,,,,==,,, ,,,,,,,,,,,,,,,, ,,,,,,,,,,..MMMM M.R.....~~...R.M
-T....T.........X .....T.......... ...........==... .......R........ ........,,...MMM M..............M
+T............... X............... ...........==... ..R............. ...........MMMMM M.......~~.....M
+T,,,,,,,,,,,,,,, X,,,,,,,,,,,,,,, ,,,,,,,,,,,==,,, ,,,,,,,,,,,,,,,, ,,,,,,,,,,..MMMM M.R.....~~...R.M
+T....T.......... X....T.......... ...........==... .......R........ ........,,...MMM M..............M
 T..B.......T...T T.T.......T....T T.....,,...WW..T T.g.......g....T M.......,,....MM M....R.........M
 T.T....T.....T.T TT...B.......T.T T.....,,...WW..T T.....,,,,.....T M..R....,,.R..MM M.........R....M
 TT...T....T...TT TTT.......T..TTT T.T...,,,,.WW..T T..R..,,,,..R..T M.....,,,,.....M M.....,,,,.....M
@@ -148,10 +150,7 @@ export const START: Warp = { map: 'overworld', x: (2 * RW + 7) * 16 + 8, y: (4 *
 const OVERWORLD_ROOMS: Record<string, RoomDef> = {
   // ── the south: home ──
   '2,4': {
-    npcs: [{ x: 11, y: 7, look: 'villager', lines: [
-      'YOU ARE AWAKE AT LAST! THE OLD SMITH WAS ASKING FOR YOU.',
-      'HIS FORGE IS THE HOUSE JUST THERE, BY THE PATH.',
-    ] }],
+    npcs: [{ x: 11, y: 7, look: 'villager', lines: [], guide: true }],
   },
   '3,4': {
     npcs: [
@@ -159,7 +158,7 @@ const OVERWORLD_ROOMS: Record<string, RoomDef> = {
         'THREE HEARTH-FLAMES ONCE BURNED OVER EMBERFALL, AND NO SHADOW COULD CROSS THEM.',
         'THEN THE ASHEN KING CAME DOWN FROM THE NORTH AND SNUFFED THEM OUT, ONE BY ONE.',
         'THEIR EMBERS SLEEP IN THREE DEEP PLACES. RELIGHT THEM, AND HIS GATE WILL OPEN TO YOU.',
-      ] },
+      ], guide: true },
       { x: 9, y: 7, look: 'kid', lines: [
         'THE BARROW IN THE WESTERN WOODS GROWLS AT NIGHT. I DARED MY BROTHER TO GO IN.',
         'HE DID NOT.',
@@ -203,6 +202,32 @@ const OVERWORLD_ROOMS: Record<string, RoomDef> = {
   '3,0': { enemies: ['knight', 'knight', 'wisp'] },
   '4,0': { enemies: ['boar', 'knight', 'knight', 'bat'] },
   '5,0': { enemies: ['wisp', 'wisp', 'wisp', 'bat'] },
+}
+
+// ── Where to go next ────────────────────────────────────────────────────────
+// Guides in the village, and each flame as it is relit, point to the next
+// goal; the minimap blinks on its screen.
+export type Goal = 'sword' | 'barrow' | 'mine' | 'shrine' | 'keep' | 'done'
+
+export const GOALS: Record<Goal, { room: [number, number] | null; hint: string[] }> = {
+  sword: { room: [2, 4], hint: [
+    'THE OLD SMITH WAS ASKING FOR YOU. HIS FORGE IS THE HOUSE BY THE PATH, ON THE WEST SIDE OF THE VILLAGE.',
+  ] },
+  barrow: { room: [0, 3], hint: [
+    'THE FIRST FLAME SLEEPS IN THE MOSSY BARROW. GO WEST INTO THE WOODS, THEN NORTH TO THE GLADE.',
+  ] },
+  mine: { room: [5, 3], hint: [
+    'THE SECOND FLAME BURNS LOW IN THE CINDER MINE, IN THE EASTERN MOUNTAINS.',
+    'CRACKED ROCKS BLOCK THE FOOTHILLS NORTH-EAST OF THE VILLAGE. SET A BOMB BESIDE THEM.',
+  ] },
+  shrine: { room: [0, 1], hint: [
+    'THE THIRD FLAME IS HIDDEN IN THE DROWNED SHRINE, OUT IN THE MARSH.',
+    'THORNS CHOKE THE ROAD WEST OF THE RIVER BEND, NORTH-WEST OF THE VILLAGE. BURN THEM WITH THE EMBER ROD.',
+  ] },
+  keep: { room: [3, 0], hint: [
+    'THE ASHEN KEEP STANDS AT THE TOP OF THE WORLD. WADE NORTH ACROSS THE SHALLOWS ABOVE THE OLD BRIDGE.',
+  ] },
+  done: { room: null, hint: ['THE ASHEN KING IS GONE. REST NOW, HERO OF EMBERFALL.'] },
 }
 
 // ── Caves ───────────────────────────────────────────────────────────────────
