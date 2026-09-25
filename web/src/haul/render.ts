@@ -283,17 +283,27 @@ export function drawHud(g: CanvasRenderingContext2D, w: World, hiscore: number, 
 export function drawStatus(g: CanvasRenderingContext2D, w: World, x: number, y: number, width: number, t: number): void {
   const art = sprites()
   const full = w.bag >= BAG
-  drawText(g, full ? 'BAG FULL! GO HOME' : 'BAG', x, y, full && Math.floor(t * 4) % 2 === 0 ? PAL[8] : PAL[9])
+  // Narrow side panels (landscape) stack the bag in two rows of five.
+  const perRow = width >= BAG * 9 ? BAG : BAG / 2
+  const rows = BAG / perRow
+  const label = full ? (perRow === BAG ? 'BAG FULL! GO HOME' : 'GO HOME!') : 'BAG'
+  drawText(g, label, x, y, full && Math.floor(t * 4) % 2 === 0 ? PAL[8] : PAL[9])
   for (let i = 0; i < BAG; i++) {
-    const cx = x + i * 9
-    const cy = y + 8
+    const cx = x + (i % perRow) * 9
+    const cy = y + 8 + Math.floor(i / perRow) * 5
     if (i < w.bag) drawSprite(g, art.candy, cx, cy, false)
     else {
       g.fillStyle = PAL[5]
       g.fillRect(cx + 2, cy + 1, 3, 1)
     }
   }
+  y += (rows - 1) * 5
   drawText(g, `DOORS ${doorsLeft(w)}`, x, y + 15, PAL[6])
-  if (bankRate(w) > 1) drawText(g, 'OVERTIME X2', x + width, y + 15, Math.floor(t * 3) % 2 ? PAL[10] : PAL[9], 1, 'right')
-  for (let i = 0; i < Math.min(w.lives - 1, 5); i++) drawHero(g, w.hero, x + i * 11, y + 23, false, 0)
+  const lifeY = perRow === BAG ? y + 23 : y + 32
+  if (bankRate(w) > 1) {
+    const colour = Math.floor(t * 3) % 2 ? PAL[10] : PAL[9]
+    if (perRow === BAG) drawText(g, 'OVERTIME X2', x + width, y + 15, colour, 1, 'right')
+    else drawText(g, 'OVERTIME X2', x, y + 23, colour)
+  }
+  for (let i = 0; i < Math.min(w.lives - 1, 5); i++) drawHero(g, w.hero, x + i * 11, lifeY, false, 0)
 }

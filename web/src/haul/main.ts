@@ -184,7 +184,7 @@ function drawBigSprite(img: CanvasImageSource, x: number, y: number, s: number, 
   ctx.restore()
 }
 
-function drawNight(t: number) {
+function drawNight(t: number, moon = true) {
   const W = canvas.width
   const H = canvas.height
   const grad = ctx.createLinearGradient(0, 0, 0, H)
@@ -198,15 +198,17 @@ function drawNight(t: number) {
     ctx.fillStyle = (i + Math.floor(t * 2)) % 7 === 0 ? PAL[6] : PAL[5]
     ctx.fillRect(sx, sy, 1, 1)
   }
-  // The moon.
-  const mx = W - 34
-  ctx.fillStyle = '#f4ecd0'
-  ctx.beginPath()
-  ctx.arc(mx, 30, 16, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.fillStyle = 'rgba(0,0,0,0.12)'
-  ctx.fillRect(mx - 6, 24, 4, 3)
-  ctx.fillRect(mx + 3, 33, 5, 3)
+  // The moon (left out behind busy screens).
+  if (moon) {
+    const mx = W - 34
+    ctx.fillStyle = '#f4ecd0'
+    ctx.beginPath()
+    ctx.arc(mx, 30, 16, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = 'rgba(0,0,0,0.12)'
+    ctx.fillRect(mx - 6, 24, 4, 3)
+    ctx.fillRect(mx + 3, 33, 5, 3)
+  }
   // Rooftops and a church spire along the bottom.
   const base = H - 30
   ctx.fillStyle = '#0a0612'
@@ -261,7 +263,7 @@ const HERO_INFO: Record<Hero, { name: string; perk: string[]; colour: number }> 
 }
 
 function drawSelect(t: number) {
-  drawNight(t)
+  drawNight(t, false)
   const W = canvas.width
   const cx = W / 2
   centreText(ctx, 'WHO IS GOING', cx, 12, PAL[7], 2)
@@ -288,13 +290,13 @@ function drawSelect(t: number) {
 }
 
 function drawHowto(t: number) {
-  drawNight(t)
+  drawNight(t, false)
   const cx = canvas.width / 2
   const art = sprites()
   centreText(ctx, 'HOW TO HAUL', cx, 16, PAL[9], 2)
   const rows: [() => void, string, string][] = [
     [() => { ctx.fillStyle = PAL[9]; ctx.fillRect(10, 44, 4, 6) }, 'KNOCK ON LIT DOORS', `FOR SWEETS. BAG HOLDS ${BAG}`],
-    [() => { ctx.fillStyle = PAL[11]; ctx.fillRect(10, 68, 4, 6) }, 'BANK THEM AT YOUR', 'GREEN DOOR. FULLER = MORE'],
+    [() => { ctx.fillStyle = PAL[11]; ctx.fillRect(10, 68, 4, 6) }, 'BANK THEM AT YOUR', 'GREEN DOOR. FULL BAGS PAY'],
     [() => ctx.drawImage(art.ghouls.zombie[0], 7, 88), 'GHOULS SPILL YOUR BAG', 'AND COST A LIFE'],
     [() => ctx.drawImage(art.lantern, 8, 114), 'LANTERNS TURN THEM', 'SO YOU CAN SCARE THEM'],
   ]
@@ -303,7 +305,7 @@ function drawHowto(t: number) {
     drawText(ctx, a, 24, 42 + i * 24, PAL[7])
     drawText(ctx, b, 24, 50 + i * 24, PAL[6])
   })
-  centreText(ctx, `FULL BAG = ${bankPoints(BAG)} POINTS`, cx, 146, PAL[10])
+  centreText(ctx, `FULL BAG: ${bankPoints(BAG)} POINTS`, cx, 146, PAL[10])
   centreText(ctx, 'BEAT THE MIDNIGHT BELL', cx, 156, PAL[14])
   centreText(ctx, touchUi() ? 'SWIPE ANYWHERE TO WALK' : 'ARROW KEYS TO WALK', cx, 170, PAL[12])
   if (blink() && game.screenTime > 0.4) centreText(ctx, touchUi() ? 'TAP TO GO' : 'PRESS ENTER', cx, 186, PAL[11])
