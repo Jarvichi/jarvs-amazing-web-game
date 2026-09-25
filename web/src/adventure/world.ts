@@ -357,7 +357,12 @@ function useItem(w: World) {
 /** The next thing to do: fetch the blade, relight each flame in turn, then the keep. */
 export function nextGoal(w: World): Goal {
   if (!w.inv.sword) return 'sword'
-  for (const d of ['barrow', 'mine', 'shrine'] as const) if (!w.flags.has(`got:flame:${d}`)) return d
+  // Each dungeon's treasure is needed for the next leg, so fetch it if it was left behind.
+  const legs = [['barrow', w.inv.hasBombs, 'bombs'], ['mine', w.inv.rod, 'rod'], ['shrine', w.inv.boots, 'boots']] as const
+  for (const [dungeon, have, treasure] of legs) {
+    if (!w.flags.has(`got:flame:${dungeon}`)) return dungeon
+    if (!have) return treasure
+  }
   return w.flags.has('boss:keep') ? 'done' : 'keep'
 }
 

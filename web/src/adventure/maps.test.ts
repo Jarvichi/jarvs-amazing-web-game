@@ -129,7 +129,7 @@ function explore(withhold?: Gear) {
     }
   }
   const mapsReached = new Set([...reached].map(k => k.split(':')[0]))
-  return { gear, flames, kingBeaten, reached, mapsReached }
+  return { gear, flames, kingBeaten, reached, mapsReached, taken }
 }
 
 describe('map data', () => {
@@ -218,6 +218,16 @@ describe('the adventure can be finished', () => {
         expect(seen.has(roomOf(map, x + dx, y + dy)), `${map} ${gate} at ${x + dx},${y + dy} is off-screen`).toBe(true)
       }
     }
+  })
+
+  // Otherwise a player can relight a flame, walk out without the treasure and be stuck.
+  it.each([
+    ['bombs', 'barrow:0,0'],
+    ['rod', 'mine:1,0'],
+    ['boots', 'shrine:1,0'],
+  ] as const)('the %s are needed to reach the boss of the dungeon they are found in (%s)', (gear, bossRoom) => {
+    expect(explore(gear).taken.has(`${bossRoom}:boss`)).toBe(false)
+    expect(explore().taken.has(`${bossRoom}:boss`)).toBe(true)
   })
 
   it.each([
