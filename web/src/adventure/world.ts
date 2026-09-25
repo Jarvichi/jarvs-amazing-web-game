@@ -4,7 +4,7 @@
 // happened (for sound and screen shake). No drawing, no DOM: tests drive it
 // directly.
 
-import { MAPS, START, type ItemKind, type RoomDef, type Warp } from './maps'
+import { GOALS, MAPS, START, type Goal, type ItemKind, type RoomDef, type Warp } from './maps'
 import {
   VEC, body, emit, enemyBox, facing, feet, openKey, overlap, rand, roomKey, roomLeft, roomTop,
   tileAt, type Action, type Box, type DropKind, type Enemy, type GameEvent, type World,
@@ -354,6 +354,13 @@ function useItem(w: World) {
   }
 }
 
+/** The next thing to do: fetch the blade, relight each flame in turn, then the keep. */
+export function nextGoal(w: World): Goal {
+  if (!w.inv.sword) return 'sword'
+  for (const d of ['barrow', 'mine', 'shrine'] as const) if (!w.flags.has(`got:flame:${d}`)) return d
+  return w.flags.has('boss:keep') ? 'done' : 'keep'
+}
+
 function talk(w: World): boolean {
   const p = w.player
   const [dx, dy] = VEC[p.dir]
@@ -361,7 +368,14 @@ function talk(w: World): boolean {
   const y = p.y + 10 + dy * 12
   for (const n of w.npcs) {
     if (x >= n.px && x < n.px + TILE && y >= n.py && y < n.py + TILE) {
-      openDialog(w, n.lines.length ? n.lines : roomDef(w).talk ?? [])
+      let pages = n.lines.length ? n.lines : roomDef(w).talk ?? []
+      if (n.guide) {
+        // Their own story once; after that, just the way on.
+        const heard = `heard:${w.map.id}:${roomKey(w)}:${n.look}`
+        pages = w.flags.has(heard) ? GOALS[nextGoal(w)].hint : [...pages, ...GOALS[nextGoal(w)].hint]
+        w.flags.add(heard)
+      }
+      openDialog(w, pages)
       emit(w, 'talk')
       return true
     }
@@ -626,6 +640,7 @@ export function give(w: World, item: DropKind) {
         `THE ${ORDINAL[inv.flames - 1]} HEARTH-FLAME BURNS AGAIN!`,
         left ? `${left === 1 ? 'ONE MORE FLAME SLEEPS' : 'TWO MORE FLAMES SLEEP'} SOMEWHERE IN EMBERFALL.`
           : 'ALL THREE BURN! THE ASHEN GATE IN THE FAR NORTH WILL OPEN FOR YOU NOW.',
+        ...GOALS[nextGoal(w)].hint,
       ], { kind: 'warp', warp: exitOf(w) })
       break
     }

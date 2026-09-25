@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { MAPS, START } from './maps'
+import { GOALS, MAPS, START } from './maps'
 import { tileAt, type GameEvent, type World } from './state'
 import { makeEnemy } from './enemies'
 import {
-  NO_INPUT, START_HP, continueGame, createWorld, cycleItem, damage, enterMap, hurtPlayer, step, type Controls,
+  NO_INPUT, START_HP, nextGoal, continueGame, createWorld, cycleItem, damage, enterMap, hurtPlayer, step, type Controls,
 } from './world'
 import { DIALOG_COLS, paginate, wrap } from './text'
 import { ENEMY_ART, HERO, ITEM_ART, PERSON } from './sprites'
@@ -470,7 +470,7 @@ describe('dialog text', () => {
   it('every line the game says fits', () => {
     for (const m of Object.values(MAPS)) {
       for (const r of Object.values(m.rooms)) {
-        for (const page of paginate([...(r.talk ?? []), ...(r.npcs ?? []).flatMap(n => n.lines)])) {
+        for (const page of paginate([...(r.talk ?? []), ...(r.npcs ?? []).flatMap(n => n.lines), ...Object.values(GOALS).flatMap(g => g.hint)])) {
           for (const line of page.split('\n')) expect(line.length).toBeLessThanOrEqual(DIALOG_COLS)
         }
       }
@@ -490,5 +490,52 @@ describe('sprite art', () => {
       expect(row).toHaveLength(rows[0].length)
       expect(row).toMatch(/^[0-9a-f.]+$/)
     }
+  })
+})
+
+describe('finding the way', () => {
+  it('the next goal follows the story', () => {
+    const w = createWorld()
+    expect(nextGoal(w)).toBe('sword')
+    w.inv.sword = true
+    expect(nextGoal(w)).toBe('barrow')
+    w.flags.add('got:flame:barrow')
+    expect(nextGoal(w)).toBe('mine')
+    w.flags.add('got:flame:mine')
+    w.flags.add('got:flame:shrine')
+    expect(nextGoal(w)).toBe('keep')
+    w.flags.add('boss:keep')
+    expect(nextGoal(w)).toBe('done')
+  })
+
+  it('the elder tells the story once, then points the way from where you are', () => {
+    const w = createWorld()
+    w.inv.sword = true
+    put(w, 'overworld', 52, 48) // just below the elder in the village's east half
+    w.player.dir = 'up'
+    press(w, 'a')
+    expect(w.dialog!.pages.join(' ')).toContain('ASHEN KING')
+    expect(w.dialog!.pages.join(' ')).toContain('MOSSY BARROW')
+    closeDialog(w)
+    w.flags.add('got:flame:barrow')
+    press(w, 'a')
+    expect(w.dialog!.pages.join(' ')).not.toContain('ASHEN KING CAME')
+    expect(w.dialog!.pages.join(' ')).toContain('CINDER MINE')
+  })
+
+  it('relighting a flame says where to go next', () => {
+    const w = createWorld()
+    w.inv.sword = true
+    put(w, 'barrow', 7, 8)
+    const boss = w.enemies.find(e => e.boss)!
+    boss.spawn = 0
+    boss.hp = 1
+    damage(w, boss, 1, 'sword', 'up')
+    tick(w, NO_INPUT, 100)
+    const flame = w.drops.find(d => d.item === 'flame')!
+    w.player.x = flame.x
+    w.player.y = flame.y
+    tick(w)
+    expect(w.dialog!.pages.join(' ')).toContain('CRACKED ROCKS')
   })
 })

@@ -6,12 +6,12 @@
 
 import { PAL, drawSprite, drawText, hash, makeSprite, textWidth, type Sprite } from '../arcade/gfx'
 import type { Dir, GameMap, Look } from './maps'
-import { MAPS } from './maps'
+import { GOALS, MAPS } from './maps'
 import { jumpHeight } from './enemies'
 import { tileAt, type Drop, type Enemy, type World } from './state'
 import { ENEMY_ART, HERO, ITEM_ART, PERSON } from './sprites'
 import { RH, RW, TILE, VIEW_H, VIEW_W } from './tiles'
-import { SCROLL_TIME, SWING_TIME, SWORD_REACH, swordAngle, swordPivot } from './world'
+import { nextGoal, SCROLL_TIME, SWING_TIME, SWORD_REACH, swordAngle, swordPivot } from './world'
 
 export { PAL, drawText }
 
@@ -562,7 +562,7 @@ export function renderWorld(g: G, w: World, fx: Fx, t: number) {
 }
 
 // ── Status bar ──────────────────────────────────────────────────────────────
-function drawMinimap(g: G, w: World) {
+function drawMinimap(g: G, w: World, t: number) {
   const m = w.map
   if (m.kind === 'cave') {
     drawText(g, m.name.slice(0, 12), 6, 12, PAL[6])
@@ -580,6 +580,11 @@ function drawMinimap(g: G, w: World) {
       rect(g, ox + rx * cw, oy + ry * ch, cw - 1, ch - 1, here ? PAL[11] : m.kind === 'overworld' ? PAL[1] : PAL[13])
     }
   }
+  // The next goal blinks on the overworld map.
+  const goal = GOALS[nextGoal(w)].room
+  if (m.kind === 'overworld' && goal && Math.floor(t * 3) % 2 === 0) {
+    rect(g, ox + goal[0] * cw + cw / 2 - 2, oy + goal[1] * ch + 1, 3, 2, PAL[10])
+  }
 }
 
 export function drawHeart(g: G, x: number, y: number, fill: number) {
@@ -593,7 +598,7 @@ export function drawHeart(g: G, x: number, y: number, fill: number) {
 
 function drawHud(g: G, w: World, t: number) {
   rect(g, 0, 0, W, HUD, PAL[0])
-  drawMinimap(g, w)
+  drawMinimap(g, w, t)
   const inv = w.inv
   const col = 62
   drawItem(g, 'coin', col - 6, -1)
