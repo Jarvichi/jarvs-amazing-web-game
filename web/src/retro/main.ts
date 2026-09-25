@@ -14,7 +14,7 @@ import {
   type Camera,
 } from './render'
 import { initInput, poll, type Frame } from './input'
-import { arcadeLink, buildLabel, crtToggle, fitToWindow, readNumber, watchForUpdates, write } from '../arcade/page'
+import { arcadeLink, buildLabel, preventZoom, crtToggle, fitToWindow, readNumber, watchForUpdates, write } from '../arcade/page'
 import { isMuted, sfx, startMusic, stopMusic, toggleMute, unlock } from './audio'
 
 const DT = 1 / 60
@@ -324,5 +324,7 @@ document.addEventListener('visibilitychange', () => {
   }
 })
 
+// iOS ignores user-scalable=no: without this a double-tap zooms in for good.
+preventZoom()
 initInput(unlock)
 requestAnimationFrame(loop)

@@ -139,3 +139,30 @@ export function arcadeLink(): { show: (on: boolean) => void } {
     },
   }
 }
+
+// ── Zoom ────────────────────────────────────────────────────────────────────
+
+/** Two taps closer together than this (ms) count as a double-tap. */
+export const DOUBLE_TAP_MS = 350
+
+/**
+ * Stop iOS Safari zooming a game page. Since iOS 10 it ignores the viewport's
+ * `user-scalable=no`, so an accidental double-tap zooms in — and because the
+ * games block pinch gestures to read drags, there's then no way back out.
+ * Cancelling the second tap of a double-tap and Safari's own gesture events
+ * prevents it. Safe for the games: they act on pointer/touch events, not the
+ * `click` a cancelled touchend would suppress. Not for scrolling pages (the
+ * arcade hub), where zoom is an accessibility need.
+ */
+export function preventZoom(doc: Pick<Document, 'addEventListener'> = document): void {
+  let lastTouchEnd = -Infinity
+  doc.addEventListener('touchend', e => {
+    if (e.timeStamp - lastTouchEnd < DOUBLE_TAP_MS) e.preventDefault()
+    lastTouchEnd = e.timeStamp
+  }, { passive: false })
+  doc.addEventListener('dblclick', e => e.preventDefault())
+  // Safari-only pinch gesture events (not in the standard event map).
+  for (const type of ['gesturestart', 'gesturechange', 'gestureend']) {
+    doc.addEventListener(type, e => e.preventDefault())
+  }
+}

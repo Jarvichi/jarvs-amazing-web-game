@@ -17,7 +17,7 @@ import { initInput, poll, type Frame } from './input'
 import {
   isMuted, playArrest, playBrief, playPursuit, sfx, stopMusic, toggleMute, unlock, updateEngine,
 } from './audio'
-import { arcadeLink, buildLabel, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
+import { arcadeLink, buildLabel, preventZoom, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
 
 const DT = 1 / 60
 const HISCORE_KEY = 'jawg-chase-hiscore'
@@ -364,6 +364,8 @@ document.addEventListener('visibilitychange', () => {
   }
 })
 
+// iOS ignores user-scalable=no: without this a double-tap zooms in for good.
+preventZoom()
 initInput(canvas, unlock)
 requestAnimationFrame(loop)
 

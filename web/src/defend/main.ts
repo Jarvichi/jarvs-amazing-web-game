@@ -13,7 +13,7 @@ import {
 import { Fx, H, PAL, W, centreText, drawCrosshair, drawHud, drawText, renderWorld } from './render'
 import { initInput, poll, type Frame } from './input'
 import { isMuted, playTitle, sfx, stopMusic, toggleMute, unlock } from './audio'
-import { arcadeLink, buildLabel, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
+import { arcadeLink, buildLabel, preventZoom, crtToggle, fitFrame, readNumber, watchForUpdates, write } from '../arcade/page'
 
 const DT = 1 / 60
 const PANEL = 70
@@ -304,6 +304,8 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden && game.screen === 'play' && !game.paused) game.paused = true
 })
 
+// iOS ignores user-scalable=no: without this a double-tap zooms in for good.
+preventZoom()
 initInput(canvas, () => { unlock(); if (game.screen === 'title') playTitle() })
 toArcade.show(true)
 requestAnimationFrame(loop)
