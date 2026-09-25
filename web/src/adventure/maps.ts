@@ -207,7 +207,7 @@ const OVERWORLD_ROOMS: Record<string, RoomDef> = {
 // ── Where to go next ────────────────────────────────────────────────────────
 // Guides in the village, and each flame as it is relit, point to the next
 // goal; the minimap blinks on its screen.
-export type Goal = 'sword' | 'barrow' | 'mine' | 'shrine' | 'keep' | 'done'
+export type Goal = 'sword' | 'barrow' | 'bombs' | 'mine' | 'rod' | 'shrine' | 'boots' | 'keep' | 'done'
 
 export const GOALS: Record<Goal, { room: [number, number] | null; hint: string[] }> = {
   sword: { room: [2, 4], hint: [
@@ -215,6 +215,16 @@ export const GOALS: Record<Goal, { room: [number, number] | null; hint: string[]
   ] },
   barrow: { room: [0, 3], hint: [
     'THE FIRST FLAME SLEEPS IN THE MOSSY BARROW. GO WEST INTO THE WOODS, THEN NORTH TO THE GLADE.',
+  ] },
+  // A dungeon's treasure left behind (only possible in saves from before its boss needed it).
+  bombs: { room: [0, 3], hint: [
+    'YOU LEFT SOMETHING IN THE MOSSY BARROW: A BAG OF BOMBS, IN A SEALED ROOM NORTH OF ITS EASTERN HALL. YOU WILL NEED THEM.',
+  ] },
+  rod: { room: [5, 3], hint: [
+    'THE EMBER ROD STILL LIES IN THE CINDER MINE, BEHIND A LOCKED DOOR NORTH OF ITS EASTERN HALL. YOU WILL NEED ITS FIRE.',
+  ] },
+  boots: { room: [0, 1], hint: [
+    'THE HERON BOOTS ARE STILL IN THE DROWNED SHRINE, IN ITS NORTH-WEST ROOM. WITHOUT THEM YOU CANNOT WADE NORTH.',
   ] },
   mine: { room: [5, 3], hint: [
     'THE SECOND FLAME BURNS LOW IN THE CINDER MINE, IN THE EASTERN MOUNTAINS.',
@@ -298,7 +308,7 @@ const roomSpawn = (map: string, rx: number, ry: number): Warp =>
 // ── Dungeons ────────────────────────────────────────────────────────────────
 type Layout = keyof typeof LAYOUTS
 type Side = 'n' | 's' | 'e' | 'w'
-type DoorKind = 'open' | 'lock' | 'shut' | 'bomb'
+type DoorKind = 'open' | 'lock' | 'shut' | 'bomb' | 'thorn'
 
 // Room interiors (14×9, inside the walls). Door approaches are cleared.
 const LAYOUTS = {
@@ -421,14 +431,15 @@ const DUNGEONS: DungeonSpec[] = [
       '1,2': { layout: 'entry', enemies: ['blob', 'blob'] },
       '1,1': { layout: 'pillars', enemies: ['blob', 'blob', 'beetle', 'beetle'] },
       '0,1': { layout: 'blocks', enemies: ['beetle', 'beetle', 'beetle'], key: 'clear' },
-      '2,1': { layout: 'entry', enemies: ['bat', 'bat', 'blob'], key: 'floor' },
+      '2,1': { layout: 'entry', enemies: ['bat', 'bat', 'blob'] },
       '2,0': { layout: 'pillars', enemies: ['beetle', 'beetle', 'thornling', 'thornling'], item: 'bombs' },
       '1,0': { layout: 'maze', enemies: ['thornling', 'thornling', 'blob', 'blob'] },
       '0,0': { layout: 'arena', boss: 'mossback' },
     },
     doors: [
       ['1,2', 'n', 'open'], ['1,1', 'w', 'open'], ['1,1', 'e', 'open'], ['1,1', 'n', 'lock'],
-      ['2,1', 'n', 'shut'], ['1,0', 'w', 'lock'],
+      // The boss is behind a cracked wall: you need this barrow's bombs to reach it.
+      ['2,1', 'n', 'shut'], ['1,0', 'w', 'bomb'],
     ],
   },
   {
@@ -439,12 +450,13 @@ const DUNGEONS: DungeonSpec[] = [
       '2,2': { layout: 'blocks', enemies: ['boar', 'boar', 'thornling'], key: 'clear' },
       '2,1': { layout: 'lava', enemies: ['knight', 'knight', 'bat'], item: 'rod' },
       '1,1': { layout: 'maze', enemies: ['thornling', 'thornling', 'thornling', 'beetle'] },
-      '0,1': { layout: 'blocks', enemies: ['boar', 'boar', 'boar'] },
+      '0,1': { layout: 'blocks', enemies: ['boar', 'boar', 'boar'], item: 'heart' },
       '1,0': { layout: 'lava', boss: 'drake' },
     },
     doors: [
       ['1,2', 'n', 'open'], ['1,2', 'e', 'open'], ['1,2', 'w', 'bomb'], ['2,2', 'n', 'lock'],
-      ['2,1', 'w', 'shut'], ['1,1', 'w', 'open'], ['1,1', 'n', 'lock'],
+      // The boss is behind thorns: you need this mine's ember rod to reach it.
+      ['2,1', 'w', 'shut'], ['1,1', 'w', 'lock'], ['1,1', 'n', 'thorn'],
     ],
   },
   {
@@ -500,7 +512,7 @@ const ENTRANCES: Record<string, [number, number, number, number]> = {
 
 const SIDE_DIR: Record<Side, [number, number]> = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] }
 const OPPOSITE: Record<Side, Side> = { n: 's', s: 'n', e: 'w', w: 'e' }
-const DOOR_CHAR: Record<DoorKind, string> = { open: ':', lock: 'L', shut: 'S', bomb: 'C' }
+const DOOR_CHAR: Record<DoorKind, string> = { open: ':', lock: 'L', shut: 'S', bomb: 'C', thorn: 'X' }
 
 /** The wall tiles a door on `side` of room (rx, ry) occupies. */
 function doorTiles(rx: number, ry: number, side: Side): [number, number][] {

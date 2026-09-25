@@ -500,9 +500,14 @@ describe('finding the way', () => {
     w.inv.sword = true
     expect(nextGoal(w)).toBe('barrow')
     w.flags.add('got:flame:barrow')
+    expect(nextGoal(w)).toBe('bombs') // the flame relit, but the bombs left behind
+    w.inv.hasBombs = true
     expect(nextGoal(w)).toBe('mine')
     w.flags.add('got:flame:mine')
+    w.inv.rod = true
     w.flags.add('got:flame:shrine')
+    expect(nextGoal(w)).toBe('boots')
+    w.inv.boots = true
     expect(nextGoal(w)).toBe('keep')
     w.flags.add('boss:keep')
     expect(nextGoal(w)).toBe('done')
@@ -518,14 +523,19 @@ describe('finding the way', () => {
     expect(w.dialog!.pages.join(' ')).toContain('MOSSY BARROW')
     closeDialog(w)
     w.flags.add('got:flame:barrow')
+    w.inv.hasBombs = true
     press(w, 'a')
     expect(w.dialog!.pages.join(' ')).not.toContain('ASHEN KING CAME')
     expect(w.dialog!.pages.join(' ')).toContain('CINDER MINE')
   })
 
-  it('relighting a flame says where to go next', () => {
+  it.each([
+    [true, 'CRACKED ROCKS'],
+    [false, 'BAG OF BOMBS'], // left behind: sent back for it
+  ])('relighting a flame says where to go next (bombs in hand: %s)', (hasBombs, hint) => {
     const w = createWorld()
     w.inv.sword = true
+    w.inv.hasBombs = hasBombs
     put(w, 'barrow', 7, 8)
     const boss = w.enemies.find(e => e.boss)!
     boss.spawn = 0
@@ -536,6 +546,6 @@ describe('finding the way', () => {
     w.player.x = flame.x
     w.player.y = flame.y
     tick(w)
-    expect(w.dialog!.pages.join(' ')).toContain('CRACKED ROCKS')
+    expect(w.dialog!.pages.join(' ').replace(/\n/g, ' ')).toContain(hint)
   })
 })
