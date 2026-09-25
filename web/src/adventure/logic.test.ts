@@ -356,7 +356,7 @@ describe('dungeons', () => {
     king.bare = 3
     damage(w, king, 1, 'sword', 'up')
     tick(w, NO_INPUT, 100)
-    expect(w.dialog?.pages.at(-1)).toBe('EMBERFALL IS SAVED!')
+    expect(w.dialog?.pages[w.dialog.pages.length - 1]).toBe('EMBERFALL IS SAVED!')
     closeDialog(w)
     expect(w.phase).toBe('won')
     expect(w.score).toBeGreaterThan(5000)
