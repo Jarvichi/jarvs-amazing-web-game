@@ -229,7 +229,54 @@ function quest(g: CanvasRenderingContext2D, t: number) {
   }
 }
 
-const SCENES = { platform, shooter, racer, missile, quest }
+function maze(g: CanvasRenderingContext2D, t: number) {
+  // A trick-or-treater runs along a row of houses with lit doors, a ghost behind.
+  g.fillStyle = '#0d0a1a'
+  g.fillRect(0, 0, W, SCENE_H)
+  g.fillStyle = '#f4ecd0'
+  g.beginPath(); g.arc(136, 12, 7, 0, Math.PI * 2); g.fill()
+  for (let i = 0; i < 6; i++) {
+    const x = i * 28 + 2
+    g.fillStyle = PAL[4]
+    g.fillRect(x, 16, 22, 18)
+    g.fillStyle = '#5a2a14'
+    g.fillRect(x - 1, 13, 24, 4)
+    // Doors go dark once the runner has passed.
+    const passed = ((t * 30) % (W + 60)) - 30 > x + 12
+    g.fillStyle = passed ? '#2a1a10' : PAL[9]
+    g.fillRect(x + 9, 26, 5, 8)
+    if (hash(i + 3) > 0.4) {
+      g.fillStyle = Math.sin(t * 3 + i) > -0.5 ? PAL[10] : '#0a0a18'
+      g.fillRect(x + 3, 20, 4, 3)
+    }
+  }
+  const x = ((t * 30) % (W + 60)) - 30
+  const step = Math.floor(t * 8) % 2
+  // The witch: hat, robe, legs.
+  g.fillStyle = PAL[2]
+  g.fillRect(x + 3, 36, 2, 2); g.fillRect(x + 2, 38, 4, 2); g.fillRect(x, 40, 9, 1)
+  g.fillStyle = PAL[15]
+  g.fillRect(x + 3, 41, 3, 3)
+  g.fillStyle = PAL[2]
+  g.fillRect(x + 2, 44, 5, 5)
+  g.fillRect(x + 2 + step, 49, 1, 2); g.fillRect(x + 6 - step, 49, 1, 2)
+  // The ghost, bobbing along behind.
+  const gx = x - 26
+  const gy = 38 + Math.round(Math.sin(t * 5) * 2)
+  g.globalAlpha = 0.8
+  g.fillStyle = PAL[7]
+  g.fillRect(gx + 1, gy, 8, 10); g.fillRect(gx, gy + 2, 10, 8)
+  g.globalAlpha = 1
+  g.fillStyle = PAL[0]
+  g.fillRect(gx + 2, gy + 3, 2, 2); g.fillRect(gx + 6, gy + 3, 2, 2)
+  // A jack-o'-lantern on the pavement.
+  g.fillStyle = PAL[9]
+  g.fillRect(118, 46, 8, 6)
+  g.fillStyle = Math.floor(t * 5) % 2 ? PAL[10] : PAL[8]
+  g.fillRect(120, 48, 1, 1); g.fillRect(123, 48, 1, 1); g.fillRect(120, 50, 4, 1)
+}
+
+const SCENES = { platform, shooter, racer, missile, quest, maze }
 
 function drawCard(g: CanvasRenderingContext2D, game: ArcadeGame, best: number, t: number) {
   SCENES[game.scene](g, t)
