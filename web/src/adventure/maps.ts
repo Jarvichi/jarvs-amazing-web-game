@@ -428,7 +428,7 @@ const DUNGEONS: DungeonSpec[] = [
       '1,2': { layout: 'pool', enemies: ['blob', 'blob', 'bat'] },
       '0,2': { layout: 'pools', enemies: ['thornling', 'thornling', 'thornling'], key: 'clear' },
       '0,1': { layout: 'pillars', enemies: ['bat', 'bat', 'bat', 'wisp'] },
-      '0,0': { layout: 'pool', enemies: ['knight', 'knight'], item: 'boots' },
+      '0,0': { layout: 'pillars', enemies: ['knight', 'knight'], item: 'boots' },
       '1,1': { layout: 'blocks', enemies: ['knight', 'boar', 'boar'] },
       '2,2': { layout: 'maze', enemies: ['beetle', 'beetle', 'beetle', 'beetle'], key: 'floor' },
       '2,1': { layout: 'shallows', enemies: ['wisp', 'wisp'] },
