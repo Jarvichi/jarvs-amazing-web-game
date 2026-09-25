@@ -142,7 +142,45 @@ function racer(g: CanvasRenderingContext2D, t: number) {
   g.fillStyle = flash ? PAL[1] : PAL[12]; g.fillRect(cx, SCENE_H - 16, 4, 2)
 }
 
-const SCENES = { platform, shooter, racer }
+function missile(g: CanvasRenderingContext2D, t: number) {
+  const sky = g.createLinearGradient(0, 0, 0, SCENE_H)
+  sky.addColorStop(0, '#05060f')
+  sky.addColorStop(1, '#1d2b53')
+  g.fillStyle = sky
+  g.fillRect(0, 0, W, SCENE_H)
+  for (let i = 0; i < 25; i++) {
+    g.fillStyle = i % 4 ? PAL[5] : PAL[6]
+    g.fillRect(Math.floor(hash(i) * W), Math.floor(hash(i + 50) * 30), 1, 1)
+  }
+  // Warheads streak down; interceptors rise to meet them in fireballs.
+  const cycle = 3
+  for (let i = 0; i < 3; i++) {
+    const p = ((t + i * 1.1) % cycle) / cycle
+    const sx = 20 + i * 55
+    const x = sx + p * (i % 2 ? -18 : 18)
+    const y = p * (SCENE_H - 12)
+    g.strokeStyle = PAL[8]
+    g.beginPath(); g.moveTo(sx, 0); g.lineTo(x, y); g.stroke()
+    g.fillStyle = PAL[7]
+    g.fillRect(Math.round(x), Math.round(y), 1, 1)
+    if (p > 0.55 && p < 0.8) {
+      const r = Math.sin(((p - 0.55) / 0.25) * Math.PI) * 9
+      g.fillStyle = Math.floor(t * 12) % 2 ? PAL[10] : PAL[7]
+      g.beginPath(); g.arc(sx + 0.55 * (i % 2 ? -18 : 18), 0.55 * (SCENE_H - 12), r, 0, Math.PI * 2); g.fill()
+    }
+  }
+  // Ground, cities and the centre base.
+  g.fillStyle = '#ab5236'
+  g.fillRect(0, SCENE_H - 5, W, 5)
+  for (const x of [22, 40, 58, 102, 120, 138]) {
+    g.fillStyle = PAL[12]
+    g.fillRect(x, SCENE_H - 9, 3, 4); g.fillRect(x + 3, SCENE_H - 11, 3, 6); g.fillRect(x + 6, SCENE_H - 8, 3, 3)
+  }
+  g.fillStyle = PAL[9]
+  g.fillRect(W / 2 - 6, SCENE_H - 9, 12, 4)
+}
+
+const SCENES = { platform, shooter, racer, missile }
 
 function drawCard(g: CanvasRenderingContext2D, game: ArcadeGame, best: number, t: number) {
   SCENES[game.scene](g, t)
