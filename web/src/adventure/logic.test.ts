@@ -134,6 +134,23 @@ describe('fighting', () => {
     tick(w, NO_INPUT, 30)
   })
 
+  it.each([
+    ['dead ahead', 0, 18, true],
+    ['ahead and to one side', 14, 14, true],
+    ['right beside', 18, 0, true],
+    ['behind', 0, -18, false],
+    ['out of reach', 0, 34, false],
+  ] as const)('the swing sweeps a half-circle: an enemy %s is hit=%s', (_, ox, oy, hit) => {
+    const { w, e } = arena('beetle')
+    w.player.hp = 1 // no beam
+    e.x = w.player.x + ox
+    e.y = w.player.y + oy
+    e.stun = 5
+    press(w, 'a')
+    tick(w, NO_INPUT, 15)
+    expect(e.hp < 2).toBe(hit)
+  })
+
   it('killing an enemy counts, scores and may leave loot', () => {
     const { w, e } = arena('blob')
     const ev = press(w, 'a')

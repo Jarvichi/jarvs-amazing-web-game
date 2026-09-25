@@ -11,7 +11,7 @@ import { jumpHeight } from './enemies'
 import { tileAt, type Drop, type Enemy, type World } from './state'
 import { ENEMY_ART, HERO, ITEM_ART, PERSON } from './sprites'
 import { RH, RW, TILE, VIEW_H, VIEW_W } from './tiles'
-import { SCROLL_TIME, swordBox } from './world'
+import { SCROLL_TIME, SWING_TIME, SWORD_REACH, swordAngle, swordPivot } from './world'
 
 export { PAL, drawText }
 
@@ -463,19 +463,19 @@ function drawHero(g: G, w: World, cx: number, cy: number, t: number) {
   const frame = p.swing > 0 ? 0 : Math.floor(p.step * 8) % 2
   const { s, flip } = heroSprite(dir, frame)
   if (p.swing > 0) {
-    const b = swordBox(w)
-    const bx = Math.round(b.x - cx)
-    const by = Math.round(b.y - cy + HUD)
-    if (dir === 'left' || dir === 'right') {
-      const hilt = dir === 'right' ? bx : bx + b.w - 3
-      rect(g, dir === 'right' ? bx + 3 : bx, by + 1, b.w - 3, 3, PAL[7])
-      rect(g, dir === 'right' ? bx + 3 : bx, by + 3, b.w - 3, 1, PAL[6])
-      rect(g, hilt, by - 1, 3, 7, PAL[10])
-    } else {
-      const hilt = dir === 'down' ? by : by + b.h - 3
-      rect(g, bx + 1, dir === 'down' ? by + 3 : by, 3, b.h - 3, PAL[7])
-      rect(g, bx + 3, dir === 'down' ? by + 3 : by, 1, b.h - 3, PAL[6])
-      rect(g, bx - 1, hilt, 7, 3, PAL[10])
+    // A pale trail over the arc swept so far, then the blade itself.
+    const { x: px, y: py } = swordPivot(w)
+    const ox = px - cx
+    const oy = py - cy + HUD
+    const now = swordAngle(w)
+    const from = now - (1 - p.swing / SWING_TIME) * Math.PI
+    g.fillStyle = 'rgba(255,241,232,0.35)'
+    for (let a = from; a < now; a += 0.12) {
+      g.fillRect(Math.round(ox + Math.cos(a) * (SWORD_REACH - 3)), Math.round(oy + Math.sin(a) * (SWORD_REACH - 3)), 2, 2)
+    }
+    for (let r = 5; r <= SWORD_REACH; r++) {
+      const c = r < 9 ? PAL[10] : r > SWORD_REACH - 2 ? PAL[6] : PAL[7]
+      rect(g, Math.round(ox + Math.cos(now) * r) - 1, Math.round(oy + Math.sin(now) * r) - 1, 2, 2, c)
     }
   }
   drawSprite(g, s, x, y, flip)
