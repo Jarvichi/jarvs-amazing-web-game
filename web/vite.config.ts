@@ -32,17 +32,17 @@ export default defineConfig({
       globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,woff,woff2}'],
       // The arcade pages are not precached. This app never activates a new
       // service worker on its own (see registerType above), so a precached
-      // /retro, /shmup, /chase, /defend or /arcade stayed on the old build
+      // /retro, /shmup, /chase, /defend, /adventure or /arcade stayed on the old build
       // until the player accepted the main app's update prompt — which the
       // arcade pages don't have. Left out, their HTML always comes from the network and names the latest
       // hashed scripts; src/arcade/page.ts watches for new deploys.
-      globIgnores: ['**/node_modules/**/*', 'retro.html', 'shmup.html', 'chase.html', 'arcade.html', 'defend.html'],
-      // /retro, /shmup, /chase and /defend are separate games (retro.html,
-      // shmup.html, chase.html, defend.html) and /arcade is their index
+      globIgnores: ['**/node_modules/**/*', 'retro.html', 'shmup.html', 'chase.html', 'arcade.html', 'defend.html', 'adventure.html'],
+      // /retro, /shmup, /chase, /defend and /adventure are separate games
+      // (retro.html, shmup.html, chase.html, defend.html, adventure.html) and /arcade is their index
       // (arcade.html), not routes of this app — never let an unmatched
       // navigation there fall back to index.html. Case-insensitive so /Retro reaches the network and
       // public/404.html can redirect it.
-      navigateFallbackDenylist: [/^\/(retro|shmup|chase|defend|arcade)/i],
+      navigateFallbackDenylist: [/^\/(retro|shmup|chase|defend|adventure|arcade)/i],
     },
     manifest: {
       name: "Jarv's Amazing Web Game",
@@ -79,7 +79,7 @@ export default defineConfig({
     rollupOptions: {
       // Entry points: the game, the standalone /chronicle-status endpoint
       // (see src/chronicleStatus.ts), and the separate arcade games at
-      // /retro, /shmup, /chase and /defend (see src/<name>/main.ts), and their index /arcade (src/arcade/index.ts).
+      // /retro, /shmup, /chase, /defend and /adventure (see src/<name>/main.ts), and their index /arcade (src/arcade/index.ts).
       input: {
         main: path.resolve(dirname, 'index.html'),
         chronicleStatus: path.resolve(dirname, 'chronicle-status.html'),
@@ -87,6 +87,7 @@ export default defineConfig({
         shmup: path.resolve(dirname, 'shmup.html'),
         chase: path.resolve(dirname, 'chase.html'),
         defend: path.resolve(dirname, 'defend.html'),
+        adventure: path.resolve(dirname, 'adventure.html'),
         arcade: path.resolve(dirname, 'arcade.html'),
       },
       output: {

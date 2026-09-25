@@ -4,7 +4,7 @@
 // the index; games.test.ts checks its page is registered everywhere a new
 // page must be (see vite.config.ts and public/404.html).
 
-export type Scene = 'platform' | 'shooter' | 'racer' | 'missile'
+export type Scene = 'platform' | 'shooter' | 'racer' | 'missile' | 'quest'
 
 export interface ArcadeGame {
   /** Page path, also its Vite input name without the slash. */
@@ -34,6 +34,10 @@ export const GAMES: ArcadeGame[] = [
   {
     path: '/defend', title: 'LAST LINE', blurb: 'HOLD THE SKY. SAVE THE CITIES',
     hiscoreKey: 'jawg-defend-hiscore', scene: 'missile', colour: 12,
+  },
+  {
+    path: '/adventure', title: 'EMBERFALL', blurb: 'RELIGHT THE THREE FLAMES',
+    hiscoreKey: 'jawg-adventure-hiscore', scene: 'quest', colour: 9,
   },
 ]
 

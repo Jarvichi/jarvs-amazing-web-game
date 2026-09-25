@@ -21,7 +21,7 @@
   <title>Not found — Jarv's Amazing Web Game</title>
   <script>
     (function () {
-      var games = ['retro', 'shmup', 'chase', 'defend', 'arcade']
+      var games = ['retro', 'shmup', 'chase', 'defend', 'adventure', 'arcade']
       var first = location.pathname.split('/').filter(Boolean)[0] || ''
       first = first.toLowerCase().replace(/\.html$/, '')
       if (games.indexOf(first) !== -1) {
@@ -61,6 +61,7 @@
     <a href="/shmup">Bioblast</a>
     <a href="/chase">Pursuit 84</a>
     <a href="/defend">Last Line</a>
+    <a href="/adventure">Emberfall</a>
   </nav>
 </body>
 </html>

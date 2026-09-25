@@ -180,7 +180,56 @@ function missile(g: CanvasRenderingContext2D, t: number) {
   g.fillRect(W / 2 - 6, SCENE_H - 9, 12, 4)
 }
 
-const SCENES = { platform, shooter, racer, missile }
+function quest(g: CanvasRenderingContext2D, t: number) {
+  // A hero walks a forest path towards a cave, sword ready; a blob waits.
+  g.fillStyle = '#4c9a3c'
+  g.fillRect(0, 0, W, SCENE_H)
+  g.fillStyle = '#d8b77a'
+  g.fillRect(0, 30, W, 12)
+  for (let i = 0; i < 9; i++) {
+    const x = i * 18 + 4
+    g.fillStyle = '#5e3a1a'
+    g.fillRect(x + 5, 16, 3, 5)
+    g.fillStyle = i % 2 ? '#1e5a2a' : '#2f7a36'
+    g.fillRect(x, 4, 13, 12)
+    g.fillRect(x + 2, 2, 9, 16)
+  }
+  g.fillStyle = '#8b5a3c'
+  g.fillRect(126, 44, 34, 14)
+  g.fillStyle = PAL[0]
+  g.fillRect(138, 48, 10, 10)
+  // The hero, marching left to right.
+  const x = Math.floor((t * 22) % 140) - 10
+  const step = Math.floor(t * 8) % 2
+  g.fillStyle = '#ab5236'
+  g.fillRect(x + 2, 28, 6, 3)
+  g.fillStyle = '#ffccaa'
+  g.fillRect(x + 3, 31, 5, 3)
+  g.fillStyle = PAL[9]
+  g.fillRect(x + 2, 34, 6, 5)
+  g.fillStyle = PAL[5]
+  g.fillRect(x + 2 + step, 39, 2, 2)
+  g.fillRect(x + 6 - step, 39, 2, 2)
+  g.fillStyle = PAL[7]
+  g.fillRect(x + 9, 35, 6, 1)
+  // A blob bobbing on the path ahead.
+  const bx = 96
+  const by = 36 + (Math.floor(t * 3) % 2)
+  g.fillStyle = PAL[11]
+  g.fillRect(bx, by, 8, 5)
+  g.fillRect(bx + 1, by - 1, 6, 1)
+  g.fillStyle = PAL[7]
+  g.fillRect(bx + 2, by + 1, 1, 1)
+  g.fillRect(bx + 5, by + 1, 1, 1)
+  // Three hearth-flames in the corner.
+  for (let i = 0; i < 3; i++) {
+    g.fillStyle = Math.floor(t * 6 + i) % 2 ? PAL[9] : PAL[10]
+    g.fillRect(6 + i * 7, 46, 3, 4)
+    g.fillRect(7 + i * 7, 44, 1, 2)
+  }
+}
+
+const SCENES = { platform, shooter, racer, missile, quest }
 
 function drawCard(g: CanvasRenderingContext2D, game: ArcadeGame, best: number, t: number) {
   SCENES[game.scene](g, t)

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <title>Emberfall — JAWG Adventure</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Portrait phones: screen at the top, thumbs underneath. */
+    @media (pointer: coarse) and (orientation: portrait) {
+      body { align-items: flex-start; padding-top: calc(52px + env(safe-area-inset-top)); box-sizing: border-box; }
+    }
+    #frame { position: relative; }
+    #screen {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    /* CRT: scanlines plus a soft vignette, toggled with C. */
+    #frame.crt::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.22) 2px 3px),
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.45) 100%);
+    }
+    /* Touch: a thumbstick wherever the finger lands, A and B bottom right, START top right. */
+    #touch {
+      position: fixed;
+      right: calc(14px + env(safe-area-inset-right));
+      bottom: calc(22px + env(safe-area-inset-bottom));
+      display: none;
+      gap: 14px;
+      align-items: flex-end;
+    }
+    #touch.on { display: flex; }
+    #touch button {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.75);
+      font: bold 22px ui-monospace, Menlo, Consolas, monospace;
+      touch-action: none;
+    }
+    #touch button[data-key="a"] { width: 74px; height: 74px; margin-bottom: 26px; background: rgba(255, 163, 0, 0.2); }
+    #touch button.down { background: rgba(255, 255, 255, 0.35); }
+    #touch button:active { transform: scale(0.94); }
+    #touch-start {
+      position: fixed;
+      top: calc(8px + env(safe-area-inset-top));
+      right: calc(8px + env(safe-area-inset-right));
+      display: none;
+    }
+    #touch.on ~ #touch-start { display: block; }
+    #touch-start button {
+      height: 32px;
+      padding: 0 10px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.45);
+      color: rgba(255, 255, 255, 0.75);
+      font: bold 13px ui-monospace, Menlo, Consolas, monospace;
+      touch-action: none;
+    }
+    #touch-start button:active { transform: translateY(1px); }
+    #stick {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-sizing: border-box;
+      pointer-events: none;
+      display: none;
+    }
+    #knob {
+      position: absolute;
+      left: 22px;
+      top: 22px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+    }
+    @media (pointer: fine) { #stick { visibility: hidden; } }
+  </style>
+</head>
+<body>
+  <div id="frame"><canvas id="screen" width="256" height="208"></canvas></div>
+  <div id="stick"><div id="knob"></div></div>
+  <div id="touch">
+    <button data-key="b" aria-label="Item">B</button>
+    <button data-key="a" aria-label="Sword">A</button>
+  </div>
+  <div id="touch-start">
+    <button data-key="start" aria-label="Start / pause">START</button>
+  </div>
+  <script type="module" src="/src/adventure/main.ts"></script>
+</body>
+</html>
