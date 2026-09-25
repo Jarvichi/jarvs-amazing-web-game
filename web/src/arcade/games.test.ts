@@ -11,6 +11,14 @@ describe('every arcade page is registered', () => {
   const vite = read('vite.config.ts')
   const notFound = read('public/404.html')
   const pages = [...GAMES.map(g => g.path.slice(1)), 'arcade']
+  // The service worker's fallback rule; Workbox tests it against path + query.
+  const allow = new RegExp(vite.match(/navigateFallbackAllowlist: \[\/(.*)\/\]/)![1])
+  const fallsBackToApp = (url: string) => allow.test(url)
+
+  it("only the main app's own URL falls back to it", () => {
+    for (const url of ['/', '/index.html', '/?invite=abc']) expect(fallsBackToApp(url), url).toBe(true)
+    for (const url of ['/privacy', '/chronicle-status', '/some-future-game']) expect(fallsBackToApp(url), url).toBe(false)
+  })
 
   it.each(pages)('%s', name => {
     // Its own HTML entry, built by Vite...
@@ -18,8 +26,9 @@ describe('every arcade page is registered', () => {
     expect(vite).toMatch(new RegExp(`${name}: path\\.resolve\\(dirname, '${name}\\.html'\\)`))
     // ...kept out of the main app's service worker...
     expect(vite).toContain(`'${name}.html'`)
-    const deny = vite.match(/navigateFallbackDenylist: \[\/(.*)\/i\]/)?.[1]
-    expect(deny && new RegExp(deny, 'i').test(`/${name}`)).toBe(true)
+    for (const url of [`/${name}`, `/${name}/`, `/${name.toUpperCase()}`, `/${name}?x=1`]) {
+      expect(fallsBackToApp(url), url).toBe(false)
+    }
     // ...and reachable from near-miss URLs like /Chase or /chase/.
     expect(notFound).toMatch(new RegExp(`var games = \\[[^\\]]*'${name}'`))
   })
