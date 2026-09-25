@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { DX, DY, LAYOUTS, MAZES, exits, houseFor, parseMaze, walkable } from './maze'
 import {
-  BAG, CANDY_PER_DOOR, EXTRA_LIFE_EVERY, LANTERN_TIME, LIVES, PLAYER_SPEED, READY_TIME, STREETS, TIME_BONUS,
+  BAG, CANDY_PER_DOOR, CORNER_GRACE, EXTRA_LIFE_EVERY, LANTERN_TIME, LIVES, PLAYER_SPEED, READY_TIME, STREETS, TIME_BONUS,
   bankPoints, createWorld, doorsLeft, huntTarget, lanternTime, playerSpeed, step, steer, streetDef, walk,
   type Ghoul, type World,
 } from './world'
@@ -85,6 +85,25 @@ describe('walking', () => {
     expect(walkable(m, 4, 14)).toBe(true)
     expect(Math.round(w.player.x)).toBe(4)
     expect(w.player.y).toBeLessThan(15)
+  })
+
+  it('a swipe that comes just after the corner still takes it', () => {
+    const w = quiet()
+    // Walking left on row 15 of Pumpkin Lane, a little past the corner at col 4.
+    Object.assign(w.player, { x: 4 - CORNER_GRACE + 0.05, y: 15, dir: 'left', want: null })
+    steer(w, 'up')
+    run(w, 0.1)
+    expect(w.player.x).toBe(4)
+    expect(w.player.y).toBeLessThan(15)
+  })
+
+  it('but not once well past it: the turn waits for the next corner', () => {
+    const w = quiet()
+    Object.assign(w.player, { x: 4 - CORNER_GRACE - 0.05, y: 15, dir: 'left', want: null })
+    steer(w, 'up')
+    run(w, 0.05)
+    expect(w.player.y).toBe(15)
+    expect(w.player.x).toBeLessThan(4 - CORNER_GRACE)
   })
 
   it('turns back at once, without needing a corner', () => {

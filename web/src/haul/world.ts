@@ -223,11 +223,33 @@ export function walk(m: Maze, a: Walker, dist: number, choose: (cx: number, cy: 
   }
 }
 
+/**
+ * How far past a corner (in tiles) a swipe can come and still take it. A
+ * turn at full speed lasts three frames at the centre, which a thumb misses.
+ */
+export const CORNER_GRACE = 0.45
+
+/** A turn asked for just after passing a corner steps back and takes it. */
+function lateTurn(m: Maze, p: Player) {
+  if (!p.want || !p.dir || p.want === p.dir || p.want === OPPOSITE[p.dir]) return
+  const horiz = p.dir === 'left' || p.dir === 'right'
+  const along = horiz ? p.x : p.y
+  const behind = DX[p.dir] + DY[p.dir] > 0 ? Math.floor(along) : Math.ceil(along)
+  if (Math.abs(along - behind) > CORNER_GRACE) return
+  const cx = horiz ? behind : p.x
+  const cy = horiz ? p.y : behind
+  if (!walkable(m, cx + DX[p.want], cy + DY[p.want])) return
+  p.x = cx
+  p.y = cy
+  p.dir = p.want
+}
+
 function movePlayer(w: World, dt: number) {
   const p = w.player
   const m = w.maze
   // Turning back needs no corner.
   if (p.want && p.dir && p.want === OPPOSITE[p.dir]) p.dir = p.want
+  lateTurn(m, p)
   walk(m, p, playerSpeed(w) * dt, (cx, cy) => {
     if (p.want && walkable(m, cx + DX[p.want], cy + DY[p.want])) return p.want
     if (p.dir && walkable(m, cx + DX[p.dir], cy + DY[p.dir])) return p.dir
