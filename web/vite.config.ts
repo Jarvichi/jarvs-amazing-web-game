@@ -32,11 +32,11 @@ export default defineConfig({
       globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,woff,woff2}'],
       // The arcade pages are not precached. This app never activates a new
       // service worker on its own (see registerType above), so a precached
-      // /retro, /shmup, /chase, /defend, /adventure or /arcade stayed on the old build
+      // /retro, /shmup, /chase, /defend, /adventure, /haul or /arcade stayed on the old build
       // until the player accepted the main app's update prompt — which the
       // arcade pages don't have. Left out, their HTML always comes from the network and names the latest
       // hashed scripts; src/arcade/page.ts watches for new deploys.
-      globIgnores: ['**/node_modules/**/*', 'retro.html', 'shmup.html', 'chase.html', 'arcade.html', 'defend.html', 'adventure.html'],
+      globIgnores: ['**/node_modules/**/*', 'retro.html', 'shmup.html', 'chase.html', 'arcade.html', 'defend.html', 'adventure.html', 'haul.html'],
       // Only the main app's own URL (/, /index.html, with or without a query)
       // may fall back to the precached index.html. Every other page on the
       // site is a separate one: the arcade games and their index /arcade,
@@ -83,7 +83,7 @@ export default defineConfig({
     rollupOptions: {
       // Entry points: the game, the standalone /chronicle-status endpoint
       // (see src/chronicleStatus.ts), and the separate arcade games at
-      // /retro, /shmup, /chase, /defend and /adventure (see src/<name>/main.ts), and their index /arcade (src/arcade/index.ts).
+      // /retro, /shmup, /chase, /defend, /adventure and /haul (see src/<name>/main.ts), and their index /arcade (src/arcade/index.ts).
       input: {
         main: path.resolve(dirname, 'index.html'),
         chronicleStatus: path.resolve(dirname, 'chronicle-status.html'),
@@ -92,6 +92,7 @@ export default defineConfig({
         chase: path.resolve(dirname, 'chase.html'),
         defend: path.resolve(dirname, 'defend.html'),
         adventure: path.resolve(dirname, 'adventure.html'),
+        haul: path.resolve(dirname, 'haul.html'),
         arcade: path.resolve(dirname, 'arcade.html'),
       },
       output: {
