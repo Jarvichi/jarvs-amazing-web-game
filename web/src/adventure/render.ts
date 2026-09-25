@@ -669,8 +669,7 @@ export function drawInventory(g: G, w: World, t: number, hint: string) {
   drawText(g, 'HEARTH-FLAMES', 20, HUD + 104, PAL[9])
   for (let i = 0; i < 3; i++) {
     if (i < inv.flames) drawItem(g, 'flame', 20 + i * 20, HUD + 112, t)
-    else drawItem(g, 'flame', 20 + i * 20, HUD + 112, 0)
-    if (i >= inv.flames) rect(g, 22 + i * 20, HUD + 112, 12, 14, 'rgba(0,0,0,0.7)')
+    else g.drawImage(sprite('flameOut', () => ITEM_ART.flame.map(r => r.replace(/[^.]/g, '5'))), 24 + i * 20, HUD + 114)
   }
   const mins = Math.floor(w.time / 60)
   drawText(g, `TIME ${String(Math.floor(mins / 60))}:${String(mins % 60).padStart(2, '0')}`, 150, HUD + 108, PAL[6])
