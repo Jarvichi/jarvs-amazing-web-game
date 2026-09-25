@@ -37,12 +37,16 @@ export default defineConfig({
       // arcade pages don't have. Left out, their HTML always comes from the network and names the latest
       // hashed scripts; src/arcade/page.ts watches for new deploys.
       globIgnores: ['**/node_modules/**/*', 'retro.html', 'shmup.html', 'chase.html', 'arcade.html', 'defend.html', 'adventure.html'],
-      // /retro, /shmup, /chase, /defend and /adventure are separate games
-      // (retro.html, shmup.html, chase.html, defend.html, adventure.html) and /arcade is their index
-      // (arcade.html), not routes of this app — never let an unmatched
-      // navigation there fall back to index.html. Case-insensitive so /Retro reaches the network and
-      // public/404.html can redirect it.
-      navigateFallbackDenylist: [/^\/(retro|shmup|chase|defend|adventure|arcade)/i],
+      // Only the main app's own URL (/, /index.html, with or without a query)
+      // may fall back to the precached index.html. Every other page on the
+      // site is a separate one: the arcade games and their index /arcade,
+      // /privacy, /chronicle-status. A denylist of those used to go stale
+      // each time a game was added, and a visitor whose installed service
+      // worker predated the new page got the main app instead (the SW only
+      // updates when they accept the update prompt). Anything unlisted here
+      // goes to the network, so near-misses like /Retro still reach
+      // public/404.html and its redirect.
+      navigateFallbackAllowlist: [/^\/(index\.html)?(\?|$)/],
     },
     manifest: {
       name: "Jarv's Amazing Web Game",
