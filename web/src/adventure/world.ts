@@ -276,14 +276,30 @@ function move(w: World, axis: 'x' | 'y', amount: number, slide: boolean) {
   }
 }
 
-export function swordBox(w: World): Box {
-  const p = w.player
-  switch (p.dir) {
-    case 'right': return { x: p.x + 12, y: p.y + 7, w: 13, h: 5 }
-    case 'left': return { x: p.x - 9, y: p.y + 7, w: 13, h: 5 }
-    case 'up': return { x: p.x + 6, y: p.y - 9, w: 5, h: 13 }
-    case 'down': return { x: p.x + 5, y: p.y + 12, w: 5, h: 13 }
-  }
+/** How far the blade reaches from the hero's middle. */
+export const SWORD_REACH = 24
+
+/** The middle of the hero, where the swing pivots. */
+export const swordPivot = (w: World) => ({ x: w.player.x + 8, y: w.player.y + 9 })
+
+/**
+ * The swing sweeps a half-circle on the side the hero faces, so an enemy
+ * slightly to one side still gets hit, not only one dead ahead.
+ */
+export function inSwordArc(w: World, b: Box): boolean {
+  const { x, y } = swordPivot(w)
+  const qx = Math.max(b.x, Math.min(x, b.x + b.w))
+  const qy = Math.max(b.y, Math.min(y, b.y + b.h))
+  if (Math.hypot(qx - x, qy - y) > SWORD_REACH) return false
+  const [dx, dy] = VEC[w.player.dir]
+  return (qx - x) * dx + (qy - y) * dy >= 0
+}
+
+/** The blade's angle (radians) at this moment of the swing: side to side across the facing. */
+export function swordAngle(w: World): number {
+  const [dx, dy] = VEC[w.player.dir]
+  const k = 1 - Math.max(0, w.player.swing) / SWING_TIME
+  return Math.atan2(dy, dx) + (k - 0.5) * Math.PI
 }
 
 function swing(w: World) {
@@ -300,16 +316,16 @@ function swing(w: World) {
 }
 
 function swordHits(w: World) {
-  const box = swordBox(w)
   for (const e of w.enemies) {
-    if (e.hitBy !== w.swingId && e.hp > 0 && overlap(box, enemyBox(e))) {
+    if (e.hitBy !== w.swingId && e.hp > 0 && inSwordArc(w, enemyBox(e))) {
       e.hitBy = w.swingId
       damage(w, e, 1, 'sword', w.player.dir)
     }
   }
-  for (let ty = Math.floor(box.y / TILE); ty <= Math.floor((box.y + box.h - 1) / TILE); ty++) {
-    for (let tx = Math.floor(box.x / TILE); tx <= Math.floor((box.x + box.w - 1) / TILE); tx++) {
-      if (tileAt(w, tx, ty) === 'B') cutBush(w, tx, ty)
+  const { x, y } = swordPivot(w)
+  for (let ty = Math.floor((y - SWORD_REACH) / TILE); ty <= Math.floor((y + SWORD_REACH) / TILE); ty++) {
+    for (let tx = Math.floor((x - SWORD_REACH) / TILE); tx <= Math.floor((x + SWORD_REACH) / TILE); tx++) {
+      if (tileAt(w, tx, ty) === 'B' && inSwordArc(w, { x: tx * TILE + 4, y: ty * TILE + 4, w: 8, h: 8 })) cutBush(w, tx, ty)
     }
   }
 }
