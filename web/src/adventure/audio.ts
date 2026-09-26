@@ -157,6 +157,12 @@ export function sfx(name: Sfx): void {
     case 'shoot': tone('square', 500, 350, t, 0.07, 0.025); break
     case 'thud': noise(t, 0.2, 0.1); tone('triangle', 90, 50, t, 0.2, 0.1); break
     case 'win': break
+    case 'lift': tone('square', 150, 300, t, 0.15, 0.05); break
+    case 'throw': tone('square', 400, 200, t, 0.12, 0.05); noise(t, 0.08, 0.04); break
+    case 'reflect': tone('square', 1400, 2200, t, 0.1, 0.04); tone('square', 2200, 2200, t + 0.05, 0.06, 0.03); break
+    case 'hook': tone('square', 800, 1600, t, 0.2, 0.03); break
+    case 'latch': tone('square', 1600, 1600, t, 0.04, 0.05); tone('square', 900, 400, t + 0.05, 0.25, 0.04); break
+    case 'sail': arpeggio([62, 66, 69, 74, 78], t, 0.12, 0.2, 0.05, 'triangle'); break
     case 'room': break
     case 'start': arpeggio([60, 64, 67, 72, 76], t, 0.07, 0.12, 0.06); break
     case 'pause': tone('square', 660, 660, t, 0.06, 0.05); break
