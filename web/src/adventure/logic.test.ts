@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { ALL_HINTS, MAPS, START } from './maps'
+import { ALL_HINTS, MAPS, QUESTS, START } from './maps'
 import { tileAt, type GameEvent, type World } from './state'
 import { makeEnemy } from './enemies'
 import {
-  NO_INPUT, START_HP, nextGoal, continueGame, createWorld, cycleItem, damage, enterMap, hurtPlayer, step, type Controls,
+  MAX_HP, NO_INPUT, START_HP, give, nextGoal, continueGame, createWorld, cycleItem, damage, enterMap, hurtPlayer, step, type Controls,
 } from './world'
 import { DIALOG_COLS, paginate, wrap } from './text'
 import { ENEMY_ART, HERO, ITEM_ART, PERSON } from './sprites'
@@ -513,6 +513,8 @@ describe('finding the way', () => {
     w.inv.boots = true
     expect(nextGoal(w)).toBe('keep')
     w.flags.add('boss:keep')
+    expect(nextGoal(w)).toBe('sail') // on to the Frostreach
+    w.flags.add('visited:frostreach')
     expect(nextGoal(w)).toBe('done')
   })
 
@@ -550,5 +552,150 @@ describe('finding the way', () => {
     w.player.y = flame.y
     tick(w)
     expect(w.dialog!.pages.join(' ').replace(/\n/g, ' ')).toContain(hint)
+  })
+})
+
+describe('the Frostreach', () => {
+  it('the ship waits until the Ashen King is gone, then sails north', () => {
+    const w = createWorld()
+    put(w, 'overworld', 7, 3)
+    w.player.dir = 'up'
+    press(w, 'a')
+    expect(w.dialog!.pages.join(' ')).toContain('FROZEN SOLID')
+    closeDialog(w)
+    expect(w.map.id).toBe('overworld')
+    w.flags.add('boss:keep')
+    press(w, 'a')
+    closeDialog(w)
+    expect(w.map.id).toBe('frost')
+    expect(w.respawn).toEqual(QUESTS.frostreach.start)
+    expect(w.flags.has('visited:frostreach')).toBe(true)
+  })
+
+  it('iron gloves lift a boulder, and A throws it', () => {
+    const w = createWorld()
+    w.inv.sword = true
+    put(w, 'overworld', 38, 49)
+    enterMap(w, { map: 'frost', x: 62 * TILE, y: 38 * TILE, dir: 'right' })
+    w.dialog = null
+    w.enemies = []
+    expect(tileAt(w, 63, 38)).toBe('O')
+    expect(kinds(press(w, 'a'))).toContain('swing') // no gloves yet
+    tick(w, NO_INPUT, 30)
+    w.inv.gloves = true
+    expect(kinds(press(w, 'a'))).toContain('lift')
+    expect(w.player.carry).toBe(true)
+    expect(tileAt(w, 63, 38)).toBe('.')
+    const ev = [...press(w, 'a'), ...tick(w, NO_INPUT, 40)]
+    expect(kinds(ev)).toContain('throw')
+    expect(w.player.carry).toBe(false)
+  })
+
+  it('the grapple pulls you across the chasm to a post', () => {
+    const w = createWorld()
+    enterMap(w, { map: 'frost', x: 19 * TILE, y: 28 * TILE, dir: 'up' })
+    w.dialog = null
+    w.enemies = []
+    w.inv.grapple = true
+    w.inv.b = 'grapple'
+    expect(tileAt(w, 19, 26)).toBe('V')
+    expect(kinds(press(w, 'b'))).toContain('hook')
+    const ev = tick(w, NO_INPUT, 90)
+    expect(kinds(ev)).toContain('latch')
+    expect(w.hook).toBe(null)
+    expect([w.player.x, w.player.y]).toEqual([19 * TILE, 24 * TILE])
+  })
+
+  it('the grapple comes back empty when there is no post in reach', () => {
+    const w = createWorld()
+    put(w, 'overworld', 38, 49)
+    w.enemies = []
+    w.inv.grapple = true
+    w.inv.b = 'grapple'
+    const at = [w.player.x, w.player.y]
+    press(w, 'b')
+    tick(w, NO_INPUT, 90)
+    expect(w.hook).toBe(null)
+    expect([w.player.x, w.player.y]).toEqual(at)
+  })
+
+  function incoming(w: ReturnType<typeof createWorld>) {
+    const p = w.player
+    p.dir = 'up'
+    const shot = { x: p.x + 8, y: p.y - 24, vx: 0, vy: 120, kind: 'orb' as const, owner: 'enemy' as const, dmg: 1, life: 3 }
+    w.shots = [shot]
+    return shot
+  }
+
+  it('the mirror shield throws a shot back when you stand still, and blocks it when you move', () => {
+    const w = createWorld()
+    put(w, 'overworld', 38, 49)
+    w.enemies = []
+    w.inv.shield = true
+    const hp = w.player.hp
+    const shot = incoming(w)
+    const ev = tick(w, NO_INPUT, 20)
+    expect(kinds(ev)).toContain('reflect')
+    expect(shot.owner).toBe('player')
+    expect(shot.vy).toBeLessThan(0)
+    incoming(w)
+    expect(kinds(hold(w, { dy: -1 }, 0.3))).toContain('clang')
+    expect(w.player.hp).toBe(hp)
+    w.inv.shield = false
+    incoming(w)
+    tick(w, NO_INPUT, 20)
+    expect(w.player.hp).toBeLessThan(hp)
+  })
+
+  it('the Glass Eye only feels reflected light, and the Warden only loses her armour to it', () => {
+    const w = createWorld()
+    put(w, 'sanctum', 23, 8)
+    const eye = w.enemies.find(e => e.kind === 'glasseye')!
+    eye.spawn = 0
+    expect(damage(w, eye, 1, 'sword', 'up')).toBe(false)
+    expect(damage(w, eye, 1, 'reflect', 'up')).toBe(true)
+    put(w, 'citadel', 23, 8)
+    const warden = w.enemies.find(e => e.kind === 'warden')!
+    warden.spawn = 0
+    const hp = warden.hp
+    expect(damage(w, warden, 1, 'sword', 'up')).toBe(false)
+    expect(damage(w, warden, 1, 'fire', 'up')).toBe(false)
+    expect(damage(w, warden, 1, 'reflect', 'up')).toBe(true)
+    expect(warden.hp).toBe(hp)
+    expect(damage(w, warden, 1, 'sword', 'up')).toBe(true)
+    expect(warden.hp).toBe(hp - 1)
+  })
+
+  it('an ice slime shatters into two little slimes', () => {
+    const w = createWorld()
+    enterMap(w, { map: 'frost', x: 38 * TILE, y: 38 * TILE, dir: 'down' })
+    w.dialog = null
+    const e = makeEnemy(w, 'iceblob', 38 * TILE, 39 * TILE)
+    e.spawn = 0
+    w.enemies = [e]
+    e.hp = 1
+    damage(w, e, 1, 'sword', 'down')
+    expect(w.enemies.filter(o => o.kind === 'blob')).toHaveLength(2)
+  })
+
+  it("chapter one's enemies are tougher here, and hearts stop at sixteen", () => {
+    const w = createWorld()
+    expect(makeEnemy(w, 'blob', 0, 0).hp).toBe(1)
+    enterMap(w, { map: 'frost', x: 38 * TILE, y: 38 * TILE, dir: 'down' })
+    expect(makeEnemy(w, 'blob', 0, 0).hp).toBe(2)
+    w.player.maxHp = MAX_HP
+    give(w, 'heart')
+    expect(w.player.maxHp).toBe(MAX_HP)
+  })
+
+  it('the harbour elder points to the first beacon', () => {
+    const w = createWorld()
+    w.inv.sword = true
+    enterMap(w, { map: 'frost', x: 19 * TILE, y: 40 * TILE, dir: 'up' })
+    w.dialog = null
+    w.enemies = []
+    w.flags.add('heard:frost:1,3:elder')
+    press(w, 'a')
+    expect(w.dialog!.pages.join(' ').replace(/\n/g, ' ')).toContain('RIMEGLASS CAVERNS')
   })
 })

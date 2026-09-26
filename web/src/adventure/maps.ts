@@ -14,16 +14,18 @@
 //   :  dungeon floor           #  dungeon wall             s  statue
 //   o  brazier    L  locked door (key)        S  shutter (clear the room)
 //   ;  cave floor _  nothing
+//   O  boulder (iron gloves)  V  chasm      P  grapple post  I  ice
 
 import { RH, RW } from './tiles'
 import { EMBERFALL } from './emberfall'
+import { FROSTREACH } from './frostreach'
 
 export type Dir = 'up' | 'down' | 'left' | 'right'
-export type EnemyKind = 'blob' | 'beetle' | 'thornling' | 'boar' | 'bat' | 'wisp' | 'knight'
-export type BossKind = 'mossback' | 'drake' | 'serpent' | 'king'
+export type EnemyKind = 'blob' | 'beetle' | 'thornling' | 'boar' | 'bat' | 'wisp' | 'knight' | 'iceblob' | 'yeti' | 'wolf'
+export type BossKind = 'mossback' | 'drake' | 'serpent' | 'king' | 'rimefang' | 'stormcrow' | 'glasseye' | 'warden'
 export type ItemKind =
-  | 'sword' | 'bombs' | 'rod' | 'boots' | 'heart' | 'flame' | 'key' | 'potion' | 'coins' | 'bombPack'
-export type Look = 'smith' | 'elder' | 'villager' | 'kid' | 'sage' | 'merchant'
+  | 'sword' | 'bombs' | 'rod' | 'boots' | 'heart' | 'flame' | 'key' | 'potion' | 'coins' | 'bombPack' | 'gloves' | 'grapple' | 'shield'
+export type Look = 'smith' | 'elder' | 'villager' | 'kid' | 'sage' | 'merchant' | 'captain'
 
 export interface Npc {
   /** Tile position within the room (fractions allowed). */
@@ -33,6 +35,8 @@ export interface Npc {
   lines: string[]
   /** Points the way to the next goal (after their own lines, the first time). */
   guide?: boolean
+  /** A ship's captain: after their lines, sails you to `to` — once `needs` is flagged (else says `wait`). */
+  ferry?: { to: Warp; needs?: string; wait?: string[] }
 }
 
 export interface ShopItem { item: ItemKind; price: number }
@@ -68,7 +72,7 @@ export interface GameMap {
   groups: Record<string, string>
   /** "rx,ry" → contents. */
   rooms: Record<string, RoomDef>
-  music: 'overworld' | 'dungeon' | 'keep' | 'cave'
+  music: 'overworld' | 'frost' | 'dungeon' | 'keep' | 'cave'
   /** The quest this map belongs to. */
   quest: QuestId
   /** Overworld look: the default theme, and themes for some rooms ("rx,ry"). */
@@ -77,10 +81,10 @@ export interface GameMap {
 }
 
 // ── Quests ──────────────────────────────────────────────────────────────────
-export type QuestId = 'emberfall'
+export type QuestId = 'emberfall' | 'frostreach'
 
 /** Gear a quest step can ask for (fields of the inventory). */
-export type Gear = 'sword' | 'hasBombs' | 'rod' | 'boots'
+export type Gear = 'sword' | 'hasBombs' | 'rod' | 'boots' | 'gloves' | 'grapple' | 'shield'
 
 export interface Step {
   id: string
@@ -110,7 +114,7 @@ export interface Quest {
 
 export interface Land {
   quest: Quest
-  overworld: Pick<GameMap, 'id' | 'name' | 'cols' | 'rows' | 'tiles' | 'rooms' | 'theme' | 'regions'>
+  overworld: Pick<GameMap, 'id' | 'name' | 'cols' | 'rows' | 'tiles' | 'rooms' | 'theme' | 'regions' | 'music'>
   caves: CaveSpec[]
   dungeons: DungeonSpec[]
   /** The overworld doorway that leads into each cave and dungeon: [screen x, y, tile x, y]. */
@@ -152,7 +156,7 @@ const roomSpawn = (map: string, rx: number, ry: number): Warp =>
 // ── Dungeons ────────────────────────────────────────────────────────────────
 export type Layout = keyof typeof LAYOUTS
 export type Side = 'n' | 's' | 'e' | 'w'
-export type DoorKind = 'open' | 'lock' | 'shut' | 'bomb' | 'thorn'
+export type DoorKind = 'open' | 'lock' | 'shut' | 'bomb' | 'thorn' | 'boulder'
 
 // Room interiors (14×9, inside the walls). Door approaches are cleared.
 const LAYOUTS = {
@@ -242,6 +246,27 @@ const LAYOUTS = {
     '..............',
     '.o..........o.',
   ],
+  // A chasm across the room with grapple posts on both sides (N and S doors only).
+  chasm: [
+    '..............',
+    '..P........P..',
+    '..............',
+    'VVVVVVVVVVVVVV',
+    'VVVVVVVVVVVVVV',
+    'VVVVVVVVVVVVVV',
+    '..............',
+    '..P........P..',
+  ],
+  hall: [
+    '..............',
+    '.o..I....I..o.',
+    '....I....I....',
+    '..............',
+    '..............',
+    '..............',
+    '....I....I....',
+    '.o..I....I..o.',
+  ],
   throne: [
     '..............',
     '.o...~~~~...o.',
@@ -271,7 +296,7 @@ export interface DungeonSpec {
 
 const SIDE_DIR: Record<Side, [number, number]> = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] }
 const OPPOSITE: Record<Side, Side> = { n: 's', s: 'n', e: 'w', w: 'e' }
-const DOOR_CHAR: Record<DoorKind, string> = { open: ':', lock: 'L', shut: 'S', bomb: 'C', thorn: 'X' }
+const DOOR_CHAR: Record<DoorKind, string> = { open: ':', lock: 'L', shut: 'S', bomb: 'C', thorn: 'X', boulder: 'O' }
 
 /** The wall tiles a door on `side` of room (rx, ry) occupies. */
 function doorTiles(rx: number, ry: number, side: Side): [number, number][] {
@@ -357,7 +382,7 @@ function buildCave(spec: CaveSpec, exit: Warp, quest: QuestId): GameMap {
 function buildLand(land: Land): Record<string, GameMap> {
   const quest = land.quest.id
   const o = land.overworld
-  const overworld: GameMap = { ...o, kind: 'overworld', floor: '.', warps: {}, groups: {}, music: 'overworld', quest }
+  const overworld: GameMap = { ...o, kind: 'overworld', floor: '.', warps: {}, groups: {}, quest }
   const maps: Record<string, GameMap> = { [o.id]: overworld }
   for (const [id, [sx, sy, lx, ly]] of Object.entries(land.entrances)) {
     const tx = sx * RW + lx
@@ -376,7 +401,7 @@ function buildLand(land: Land): Record<string, GameMap> {
   return maps
 }
 
-const LANDS: Land[] = [EMBERFALL]
+const LANDS: Land[] = [EMBERFALL, FROSTREACH]
 
 export const QUESTS = Object.fromEntries(LANDS.map(l => [l.quest.id, l.quest])) as Record<QuestId, Quest>
 export const MAPS: Record<string, GameMap> = Object.assign({}, ...LANDS.map(buildLand))

@@ -1,44 +1,53 @@
 import { describe, it, expect } from 'vitest'
-import { MAPS, START, DUNGEON_IDS, type GameMap } from './maps'
+import { MAPS, QUESTS, START, DUNGEON_IDS, type GameMap } from './maps'
 import { OVERWORLD_TILES } from './emberfall'
-import { RH, RW, TILE, walkable } from './tiles'
+import { RH, RW, TILE, stopsShots, walkable } from './tiles'
+import { FROST_TILES } from './frostreach'
 
-const LEGAL = new Set('.,FA=TaRMgWw~BXCDhHQK:#soLS;_')
+const LEGAL = new Set('.,FA=TaRMgWw~BXCDhHQK:#soLS;_OVPI')
 const tileKey = (x: number, y: number) => `${x},${y}`
+const SIDES = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
-type Gear = 'sword' | 'bombs' | 'rod' | 'boots'
+type Gear = 'sword' | 'bombs' | 'rod' | 'boots' | 'gloves' | 'grapple' | 'shield'
+const GEAR = new Set<string>(['sword', 'bombs', 'rod', 'boots', 'gloves', 'grapple', 'shield'])
+
+/** Gear a boss can't be beaten without (besides the sword). */
+const BOSS_NEEDS: Partial<Record<string, Gear>> = { king: 'rod', glasseye: 'shield', warden: 'shield' }
 
 /**
- * Walk the whole world tile by tile, the way a player could: pick up what is
- * reachable, spend keys on locked doors, blow up / burn / cut what the gear
- * allows, and repeat until nothing new opens. `withhold` never hands over
- * that piece of gear, to prove it really is needed.
+ * Walk every land tile by tile, the way a player could: pick up what is
+ * reachable, spend keys on locked doors, blow up / burn / cut / lift what the
+ * gear allows, grapple across chasms, take ships, and repeat until nothing new
+ * opens. `withhold` never hands over that piece of gear, to prove it's needed.
  */
 function explore(withhold?: Gear) {
   const gear = new Set<Gear>()
+  const flags = new Set<string>()
   const reached = new Set<string>() // "map:x,y"
   const opened = new Set<string>() // "map:group"
   const taken = new Set<string>()
   const keys: Record<string, number> = {}
-  let flames = 0
-  let kingBeaten = false
   const queue: [string, number, number][] = []
 
   const visit = (map: string, x: number, y: number) => {
     const k = `${map}:${x},${y}`
-    if (reached.has(k)) return
+    if (reached.has(k)) return false
     reached.add(k)
     queue.push([map, x, y])
+    return true
   }
+  const visitWarp = (w: { map: string; x: number; y: number }) =>
+    visit(w.map, Math.floor((w.x + 8) / TILE), Math.floor((w.y + 12) / TILE))
   const tileOf = (m: GameMap, x: number, y: number) => m.tiles[y]?.[x]
   const groupOf = (m: GameMap, x: number, y: number) => m.groups[tileKey(x, y)] ?? tileKey(x, y)
+  const flamesIn = (m: GameMap) => QUESTS[m.quest].dungeons.filter(d => flags.has(`got:flame:${d}`)).length
 
   const passable = (m: GameMap, x: number, y: number): boolean => {
     const ch = tileOf(m, x, y)
     if (ch === undefined) return false
-    if ('LCX'.includes(ch)) return opened.has(`${m.id}:${groupOf(m, x, y)}`)
+    if ('LCXO'.includes(ch)) return opened.has(`${m.id}:${groupOf(m, x, y)}`)
     if (ch === 'B') return gear.has('sword')
-    if (ch === 'K') return flames >= 3
+    if (ch === 'K') return flamesIn(m) >= QUESTS[m.quest].dungeons.length
     if (ch === 'S') return true // shutters open once the room is cleared
     return walkable(ch, { boots: gear.has('boots') })
   }
@@ -48,17 +57,43 @@ function explore(withhold?: Gear) {
     const k = `${m.id}:${groupOf(m, x, y)}`
     if (!ch || opened.has(k)) return false
     const can = (ch === 'C' && gear.has('bombs')) || (ch === 'X' && gear.has('rod'))
-      || (ch === 'L' && (keys[m.id] ?? 0) > 0)
+      || (ch === 'O' && gear.has('gloves')) || (ch === 'L' && (keys[m.id] ?? 0) > 0)
     if (!can) return false
     if (ch === 'L') keys[m.id]--
     opened.add(k)
     return true
   }
 
-  const give = (item: string) => {
-    if (item === 'sword' || item === 'bombs' || item === 'rod' || item === 'boots') {
-      if (item !== withhold) gear.add(item)
+  /** The grapple: a straight line over gaps and ground to a post in the same room. */
+  const grapple = (m: GameMap, x: number, y: number) => {
+    if (!gear.has('grapple')) return false
+    let moved = false
+    const room = `${Math.floor(x / RW)},${Math.floor(y / RH)}`
+    for (const [dx, dy] of SIDES) {
+      for (let k = 1; k <= 7; k++) {
+        const tx = x + dx * k
+        const ty = y + dy * k
+        if (`${Math.floor(tx / RW)},${Math.floor(ty / RH)}` !== room) break
+        const ch = tileOf(m, tx, ty)
+        if (ch === 'P') {
+          if (k > 1 && passable(m, tx - dx, ty - dy)) moved = visit(m.id, tx - dx, ty - dy) || moved
+          break
+        }
+        if (ch === undefined || (stopsShots(ch) && !passable(m, tx, ty))) break
+      }
     }
+    return moved
+  }
+
+  const give = (item: string) => {
+    if (GEAR.has(item) && item !== withhold) gear.add(item as Gear)
+  }
+
+  const roomReached = (m: GameMap, rx: number, ry: number) => {
+    for (let y = 0; y < RH; y++) {
+      for (let x = 0; x < RW; x++) if (reached.has(`${m.id}:${rx * RW + x},${ry * RH + y}`)) return true
+    }
+    return false
   }
 
   const collect = () => {
@@ -66,11 +101,7 @@ function explore(withhold?: Gear) {
     for (const m of Object.values(MAPS)) {
       for (const [room, def] of Object.entries(m.rooms)) {
         const [rx, ry] = room.split(',').map(Number)
-        let inRoom = false
-        for (let y = 0; y < RH && !inRoom; y++) {
-          for (let x = 0; x < RW && !inRoom; x++) inRoom = reached.has(`${m.id}:${rx * RW + x},${ry * RH + y}`)
-        }
-        if (!inRoom) continue
+        if (!roomReached(m, rx, ry)) continue
         const id = `${m.id}:${room}`
         const take = (what: string, fn: () => void) => {
           if (taken.has(`${id}:${what}`)) return
@@ -80,63 +111,64 @@ function explore(withhold?: Gear) {
         }
         if (def.key) take('key', () => { keys[m.id] = (keys[m.id] ?? 0) + 1 })
         if (def.item) take('item', () => give(def.item!))
-        if (def.boss && (def.boss !== 'king' || gear.has('rod')) && gear.has('sword')) {
-          take('boss', () => { if (def.boss === 'king') kingBeaten = true; else flames++ })
+        const needs = def.boss && BOSS_NEEDS[def.boss]
+        if (def.boss && gear.has('sword') && (!needs || gear.has(needs))) {
+          take('boss', () => {
+            flags.add(`boss:${m.id}`)
+            if (QUESTS[m.quest].dungeons.includes(m.id)) flags.add(`got:flame:${m.id}`)
+          })
+        }
+        for (const n of def.npcs ?? []) {
+          if (n.ferry && (!n.ferry.needs || flags.has(n.ferry.needs)) && visitWarp(n.ferry.to)) changed = true
         }
       }
     }
     return changed
   }
 
-  visit('overworld', Math.floor((START.x + 8) / TILE), Math.floor((START.y + 12) / TILE))
+  visitWarp(START)
   for (let changed = true; changed;) {
     changed = false
     while (queue.length) {
       const [id, x, y] = queue.shift()!
       const m = MAPS[id]
       const warp = m.warps[tileKey(x, y)]
-      if (warp && ['D', 'C'].includes(tileOf(m, x, y))) {
-        visit(warp.map, Math.floor((warp.x + 8) / TILE), Math.floor((warp.y + 12) / TILE))
-      }
-      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
-        const nx = x + dx
-        const ny = y + dy
-        if (passable(m, nx, ny)) visit(id, nx, ny)
-      }
+      if (warp && ['D', 'C', 'O'].includes(tileOf(m, x, y))) visitWarp(warp)
+      for (const [dx, dy] of SIDES) if (passable(m, x + dx, y + dy)) visit(id, x + dx, y + dy)
     }
-    // Spend what we have on whatever blocks the edge of the explored area.
     for (const k of [...reached]) {
       const [id, pos] = k.split(':')
       const [x, y] = pos.split(',').map(Number)
       const m = MAPS[id]
-      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      // Spend what we have on whatever blocks the edge of the explored area.
+      for (const [dx, dy] of SIDES) {
         if (tryOpen(m, x + dx, y + dy)) {
           changed = true
           visit(id, x + dx, y + dy)
         }
-      }
-    }
-    if (collect()) changed = true
-    // Newly passable tiles next to explored ones (a bush once the sword is in hand, the gate…).
-    for (const k of [...reached]) {
-      const [id, pos] = k.split(':')
-      const [x, y] = pos.split(',').map(Number)
-      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
-        if (!reached.has(`${id}:${x + dx},${y + dy}`) && passable(MAPS[id], x + dx, y + dy)) {
+        // Newly passable tiles (a bush once the sword is in hand, the gate…).
+        if (!reached.has(`${id}:${x + dx},${y + dy}`) && passable(m, x + dx, y + dy)) {
           visit(id, x + dx, y + dy)
           changed = true
         }
       }
+      if (grapple(m, x, y)) changed = true
     }
+    if (collect()) changed = true
   }
   const mapsReached = new Set([...reached].map(k => k.split(':')[0]))
-  return { gear, flames, kingBeaten, reached, mapsReached, taken }
+  const finals = new Set(Object.values(QUESTS).filter(q => flags.has(`boss:${q.final.map}`)).map(q => q.final.boss))
+  const flames = (quest: keyof typeof QUESTS) => QUESTS[quest].dungeons.filter(d => flags.has(`got:flame:${d}`)).length
+  return { gear, flames, finals, reached, mapsReached, taken }
 }
 
 describe('map data', () => {
-  it('overworld is 6×5 screens of 16×11 tiles', () => {
-    expect(OVERWORLD_TILES).toHaveLength(5 * RH)
-    OVERWORLD_TILES.forEach((row, y) => expect(row.length, `row ${y}`).toBe(6 * RW))
+  it.each([
+    ['Emberfall', OVERWORLD_TILES, 6, 5],
+    ['the Frostreach', FROST_TILES, 5, 4],
+  ] as const)('%s is %i×%i screens of 16×11 tiles', (_, tiles, cols, rows) => {
+    expect(tiles).toHaveLength(rows * RH)
+    tiles.forEach((row, y) => expect(row.length, `row ${y}`).toBe(cols * RW))
   })
 
   it('every map is rectangular and uses known tiles only', () => {
@@ -158,8 +190,8 @@ describe('map data', () => {
         const dest = MAPS[w.map]
         expect(dest, `${m.id} ${at} → ${w.map}`).toBeDefined()
         const ch = dest.tiles[Math.floor((w.y + 12) / TILE)][Math.floor((w.x + 8) / TILE)]
-        // Thorns and the gate are open by the time you can be coming back out.
-        const open = walkable(ch, { boots: false }) || ch === 'X' || ch === 'K'
+        // Thorns, boulders and the gate are open by the time you can be coming back out.
+        const open = walkable(ch, { boots: false }) || ch === 'X' || ch === 'O' || ch === 'K'
         expect(open && ch !== 'D', `${m.id} ${at} lands on '${ch}'`).toBe(true)
       }
     }
@@ -176,19 +208,30 @@ describe('map data', () => {
     }
   })
 
-  it('has three flame-keeping bosses and the Ashen King', () => {
+  it('each land has three dungeon bosses and a final one', () => {
     const bosses = Object.values(MAPS).flatMap(m => Object.values(m.rooms).map(r => r.boss).filter(Boolean))
-    expect(bosses.sort()).toEqual(['drake', 'king', 'mossback', 'serpent'])
+    expect(bosses.sort()).toEqual(['drake', 'glasseye', 'king', 'mossback', 'rimefang', 'serpent', 'stormcrow', 'warden'])
   })
 })
 
 describe('the adventure can be finished', () => {
   const run = explore()
 
-  it('relights all three flames and beats the Ashen King', () => {
-    expect([...run.gear].sort()).toEqual(['bombs', 'boots', 'rod', 'sword'])
-    expect(run.flames).toBe(3)
-    expect(run.kingBeaten).toBe(true)
+  it('relights every flame and beats both final bosses', () => {
+    expect([...run.gear].sort()).toEqual(['bombs', 'boots', 'gloves', 'grapple', 'rod', 'shield', 'sword'])
+    expect(run.flames('emberfall')).toBe(3)
+    expect(run.flames('frostreach')).toBe(3)
+    expect([...run.finals].sort()).toEqual(['king', 'warden'])
+  })
+
+  it('the Frostreach opens only once the Ashen King is beaten', () => {
+    const noKing = explore('rod')
+    expect(noKing.finals.has('king')).toBe(false)
+    expect(noKing.mapsReached.has('frost')).toBe(false)
+  })
+
+  it('the Pale Warden needs the mirror shield', () => {
+    expect(explore('shield').finals.has('warden')).toBe(false)
   })
 
   it('every room of every map can be reached', () => {
@@ -207,7 +250,7 @@ describe('the adventure can be finished', () => {
   })
 
   // A gate you walk into must be on the screen you're on, so you can see what stops you.
-  it.each([['bombs', 'C'], ['rod', 'X'], ['boots', 'w']] as const)('every %s gate is in plain sight where you meet it', (gear, gate) => {
+  it.each([['bombs', 'C'], ['rod', 'X'], ['boots', 'w'], ['gloves', 'O'], ['grapple', 'V']] as const)('every %s gate is in plain sight where you meet it', (gear, gate) => {
     const { reached } = explore(gear)
     const roomOf = (map: string, x: number, y: number) => `${map}:${Math.floor(x / RW)},${Math.floor(y / RH)}`
     const seen = new Set([...reached].map(k => { const [map, pos] = k.split(':'); const [x, y] = pos.split(',').map(Number); return roomOf(map, x, y) }))
@@ -226,6 +269,9 @@ describe('the adventure can be finished', () => {
     ['bombs', 'barrow:0,0'],
     ['rod', 'mine:1,0'],
     ['boots', 'shrine:1,0'],
+    ['gloves', 'rimeglass:0,0'],
+    ['grapple', 'spire:1,0'],
+    ['shield', 'sanctum:1,0'],
   ] as const)('the %s are needed to reach the boss of the dungeon they are found in (%s)', (gear, bossRoom) => {
     expect(explore(gear).taken.has(`${bossRoom}:boss`)).toBe(false)
     expect(explore().taken.has(`${bossRoom}:boss`)).toBe(true)
@@ -235,9 +281,9 @@ describe('the adventure can be finished', () => {
     ['bombs', 'mine'],
     ['rod', 'shrine'],
     ['boots', 'keep'],
+    ['gloves', 'spire'],
+    ['grapple', 'sanctum'],
   ] as const)('the %s are needed to reach the %s', (gear, map) => {
-    const without = explore(gear)
-    expect(without.mapsReached.has(map)).toBe(false)
-    expect(without.kingBeaten).toBe(false)
+    expect(explore(gear).mapsReached.has(map)).toBe(false)
   })
 })

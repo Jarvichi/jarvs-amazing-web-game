@@ -40,6 +40,26 @@ const OVERWORLD: Song = {
   hat: every(4),
 }
 
+// The Frostreach: a lilting minor waltz feel over a slow walking bass.
+const FROST: Song = {
+  tempo: 120,
+  voices: [
+    { wave: 'triangle', vol: 0.045, gate: 1.6, notes: [
+      76, 0, 0, 79, 0, 83, 81, 0, 79, 0, 76, 0, 74, 0, 0, 0,
+      72, 0, 0, 76, 0, 79, 77, 0, 76, 0, 74, 0, 71, 0, 0, 0,
+      76, 0, 0, 79, 0, 83, 84, 0, 83, 0, 81, 0, 79, 0, 0, 0,
+      77, 0, 76, 0, 74, 0, 71, 0, 72, 0, 0, 0, 0, 0, 0, 0,
+    ] },
+    { wave: 'triangle', vol: 0.11, notes: [
+      45, 0, 0, 0, 52, 0, 0, 0, 45, 0, 0, 0, 52, 0, 0, 0,
+      41, 0, 0, 0, 48, 0, 0, 0, 43, 0, 0, 0, 50, 0, 0, 0,
+      45, 0, 0, 0, 52, 0, 0, 0, 40, 0, 0, 0, 47, 0, 0, 0,
+      41, 0, 0, 0, 43, 0, 0, 0, 45, 0, 52, 0, 45, 0, 0, 0,
+    ] },
+  ],
+  hat: i => i % 8 === 4,
+}
+
 const DUNGEON: Song = {
   tempo: 100,
   voices: [
@@ -79,10 +99,10 @@ const ENDING: Song = {
   ],
 }
 
-export type Music = 'title' | 'overworld' | 'dungeon' | 'keep' | 'boss' | 'cave' | 'ending' | 'none'
+export type Music = 'title' | 'overworld' | 'frost' | 'dungeon' | 'keep' | 'boss' | 'cave' | 'ending' | 'none'
 
 const SONGS: Record<Exclude<Music, 'none'>, Song> = {
-  title: TITLE, overworld: OVERWORLD, dungeon: DUNGEON, keep: KEEP, boss: BOSS, cave: CAVE, ending: ENDING,
+  title: TITLE, overworld: OVERWORLD, frost: FROST, dungeon: DUNGEON, keep: KEEP, boss: BOSS, cave: CAVE, ending: ENDING,
 }
 
 let playing: Music = 'none'

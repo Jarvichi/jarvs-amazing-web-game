@@ -7,6 +7,7 @@
 
 import type { CaveSpec, DungeonSpec, Land, RoomDef, Warp } from './maps'
 import { RH, RW } from './tiles'
+import { FROST_START } from './frostreach'
 
 // ── Overworld ───────────────────────────────────────────────────────────────
 // One line per tile row; the six screens of a row are separated by spaces.
@@ -15,7 +16,7 @@ const OVERWORLD_ROWS = [
   `
 aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa MMMMMMMMMMMMMMMM aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa
 aWWWWWWWWWWWWWWa a..............a a....g....g....a MQQQQQQQQQQQQQQM a..~~~~....~~~.a a~~~~~~~~~~~~~~a
-a..WWWWWWWWWW..a a...a......a...a a..............a MQQQQQQDDQQQQQQM a..~~~~.....~..a a~~..........~~a
+a..WWWW==WWWW..a a...a......a...a a..............a MQQQQQQDDQQQQQQM a..~~~~.....~..a a~~..........~~a
 a..............a a......R.......a a..~~......~~..a MQQQQQQKKQQQQQQM a..............a a..............a
 a...a........... ................ ...~~......~~... .......,,....... .......R........ .....R......R..a
 a,,,,,,,,,,,,,,, ,,,,,,,,,,,,,,,, ,,,,,,,,,,,,,,,, ,,,,,,,,,,,,,,,, ,,,,,,,,,,,,,,,, ,,,,,,,,,,.....a
@@ -133,7 +134,15 @@ const OVERWORLD_ROOMS: Record<string, RoomDef> = {
   '3,1': { enemies: ['knight', 'knight', 'wisp'] },
   '4,1': { enemies: ['boar', 'boar', 'knight', 'bat'] },
   '5,1': { enemies: ['wisp', 'wisp', 'knight'] },
-  '0,0': { enemies: ['knight', 'bat', 'bat', 'wisp'] },
+  '0,0': {
+    enemies: ['knight', 'bat', 'bat', 'wisp'],
+    // The ship to the Frostreach, once the Ashen King is gone.
+    npcs: [{ x: 7.5, y: 2, look: 'captain', lines: [
+      'THE ICE IN THE NORTHERN SEA HAS BROKEN AT LAST! THE FROSTREACH LIES BEYOND IT. ALL ABOARD!',
+    ], ferry: { to: FROST_START, needs: 'boss:keep', wait: [
+      'I SAIL NORTH TO THE FROSTREACH, BUT THE SEA IS FROZEN SOLID. THEY SAY IT WILL NOT THAW WHILE THE ASHEN KING LIVES.',
+    ] } }],
+  },
   '1,0': { enemies: ['knight', 'knight', 'boar'] },
   '2,0': { enemies: ['wisp', 'wisp', 'knight', 'thornling'] },
   '3,0': { enemies: ['knight', 'knight', 'wisp'] },
@@ -306,8 +315,11 @@ export const EMBERFALL: Land = {
       { id: 'keep', need: { flag: 'boss:keep' }, room: [3, 0], hint: [
         'THE ASHEN KEEP STANDS AT THE TOP OF THE WORLD. WADE NORTH ACROSS THE SHALLOWS ABOVE THE OLD BRIDGE.',
       ] },
+      { id: 'sail', need: { flag: 'visited:frostreach' }, room: [0, 0], hint: [
+        'THE ASHEN KING IS GONE, BUT WHO SENT HIM? A SHIP WAITS AT THE DEAD SHORE, FAR TO THE NORTH-WEST, READY TO SAIL FOR THE FROSTREACH.',
+      ] },
     ],
-    done: { room: null, hint: ['THE ASHEN KING IS GONE. REST NOW, HERO OF EMBERFALL.'] },
+    done: { room: [0, 0], hint: ['THE SHIP AT THE DEAD SHORE WILL CARRY YOU BACK TO THE FROSTREACH WHENEVER YOU LIKE.'] },
     ending: [
       'THE ASHEN KING CRUMBLES INTO COLD GREY DUST, AND THE WIND CARRIES HIM AWAY.',
       'FAR TO THE SOUTH, THE THREE HEARTH-FLAMES LEAP UP BRIGHTER THAN EVER BEFORE.',
@@ -316,7 +328,7 @@ export const EMBERFALL: Land = {
   },
   overworld: {
     id: 'overworld', name: 'EMBERFALL', cols: 6, rows: 5, tiles: OVERWORLD_TILES, rooms: OVERWORLD_ROOMS,
-    theme: 'green',
+    theme: 'green', music: 'overworld',
     regions: {
       ash: ['0,0', '1,0', '2,0', '3,0', '4,0', '5,0', '2,1', '3,1', '4,1', '5,1'],
       marsh: ['0,1', '1,1', '0,2'],

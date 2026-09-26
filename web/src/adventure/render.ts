@@ -302,6 +302,7 @@ const LOOKS: Record<Look, [string, string, string]> = {
   kid: ['9', 'c', '1'],
   sage: ['1', '1', '0'],
   merchant: ['a', 'e', '2'],
+  captain: ['5', '1', '7'],
 }
 
 function heroSprite(dir: Dir, frame: number): { s: Sprite; flip: boolean } {
