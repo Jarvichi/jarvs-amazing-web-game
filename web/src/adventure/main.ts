@@ -8,7 +8,7 @@
 // drawing in render.ts, sound in audio.ts.
 
 import { MAPS } from './maps'
-import type { World } from './state'
+import { questOf, type World } from './state'
 import { continueGame, createWorld, cycleItem, enterMap, give, step, type Controls } from './world'
 import { SAVE_KEY, fromSave, parseSave, toSave } from './save'
 import { paginate } from './text'
@@ -50,6 +50,8 @@ const game = {
   menu: 0,
   confirmErase: false,
   hasSave: readSave() !== null,
+  /** The save has beaten the Ashen King, so the Frostreach is open. */
+  chapter2: readSave()?.flags.includes('boss:keep') ?? false,
   intro: { page: 0, shown: 0 },
   lowBeep: 0,
   lastMap: '',
@@ -65,6 +67,7 @@ function save() {
   const w = game.world
   write(SAVE_KEY, JSON.stringify(toSave(w)))
   game.hasSave = true
+  game.chapter2 = w.flags.has('boss:keep')
   if (w.score > game.hiscore) {
     game.hiscore = w.score
     write(HISCORE_KEY, String(w.score))
@@ -128,7 +131,9 @@ function handle(w: World) {
     }
   }
   if (w.map.id !== game.lastMap) {
-    if (w.map.kind !== 'overworld') fx.banner = { text: w.map.name, t: 2.5 }
+    // Dungeons and caves announce themselves, and so does a new land.
+    const newLand = MAPS[game.lastMap]?.quest !== w.map.quest
+    if (w.map.kind !== 'overworld' || newLand) fx.banner = { text: w.map.name, t: 2.5 }
     game.lastMap = w.map.id
   }
   if (dirty) save()
@@ -273,6 +278,7 @@ function drawTitle(t: number) {
   centreText(ctx, 'EMBERFALL', W / 2, 33, PAL[10], 5)
   centreText(ctx, 'RELIGHT THE THREE HEARTH-FLAMES', W / 2, 66, PAL[7])
   centreText(ctx, 'AND SAVE YOUR HOMELAND', W / 2, 76, PAL[7])
+  if (game.chapter2 && !game.confirmErase) centreText(ctx, 'CHAPTER 2: THE FROSTREACH IS OPEN', W / 2, 96, blink(0.8) ? PAL[12] : PAL[7])
   if (game.confirmErase) {
     centreText(ctx, 'START OVER? YOUR SAVE', W / 2, 124, PAL[8])
     centreText(ctx, 'WILL BE ERASED.', W / 2, 134, PAL[8])
@@ -321,15 +327,27 @@ function drawWon(t: number) {
   drawTitleScene(ctx, t)
   dim(0.35)
   const w = game.world
-  centreText(ctx, 'EMBERFALL IS SAVED!', W / 2, 30, PAL[10], 2)
-  centreText(ctx, 'THE HEARTH-FLAMES BURN ONCE MORE,', W / 2, 60, PAL[7])
-  centreText(ctx, 'AND THE VALE SINGS YOUR NAME.', W / 2, 70, PAL[7])
+  const frost = questOf(w).id === 'frostreach'
+  centreText(ctx, frost ? 'THE NORTH IS FREE!' : 'EMBERFALL IS SAVED!', W / 2, 26, PAL[10], 2)
+  if (frost) {
+    centreText(ctx, 'THE BEACONS BLAZE AND THE SNOW MELTS.', W / 2, 50, PAL[7])
+    centreText(ctx, 'BOTH LANDS SING YOUR NAME.', W / 2, 60, PAL[7])
+  } else {
+    centreText(ctx, 'THE HEARTH-FLAMES BURN ONCE MORE...', W / 2, 50, PAL[7])
+    centreText(ctx, 'BUT WHO SENT THE ASHEN KING?', W / 2, 60, PAL[7])
+  }
   const mins = Math.floor(w.time / 60)
-  centreText(ctx, `TIME ${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`, W / 2, 96, PAL[6])
-  centreText(ctx, `FOES BEATEN ${w.kills}`, W / 2, 108, PAL[6])
-  centreText(ctx, `SCORE ${w.score}`, W / 2, 124, PAL[10], 2)
-  if (w.score >= game.hiscore) centreText(ctx, 'NEW HI-SCORE!', W / 2, 144, PAL[14])
-  centreText(ctx, 'THANK YOU FOR PLAYING', W / 2, 164, PAL[9])
+  centreText(ctx, `TIME ${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`, W / 2, 80, PAL[6])
+  centreText(ctx, `FOES BEATEN ${w.kills}`, W / 2, 90, PAL[6])
+  centreText(ctx, `SCORE ${w.score}`, W / 2, 104, PAL[10], 2)
+  if (w.score >= game.hiscore) centreText(ctx, 'NEW HI-SCORE!', W / 2, 122, PAL[14])
+  if (frost) centreText(ctx, 'THANK YOU FOR PLAYING', W / 2, 142, PAL[9])
+  else {
+    ctx.fillStyle = PAL[1]
+    ctx.fillRect(16, 134, W - 32, 26)
+    centreText(ctx, 'CHAPTER 2 UNLOCKED!', W / 2, 138, PAL[12])
+    centreText(ctx, 'CONTINUE YOUR SAVE: A SHIP AWAITS AT THE DEAD SHORE', W / 2, 150, PAL[7])
+  }
   if (game.screenTime > 3 && blink()) centreText(ctx, touchUi() ? 'PRESS A' : 'PRESS ENTER', W / 2, 184, PAL[6])
 }
 

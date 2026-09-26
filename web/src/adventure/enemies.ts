@@ -19,6 +19,10 @@ export const ENEMIES: Record<EnemyKind, { hp: number; dmg: number; speed: number
   bat: { hp: 1, dmg: 1, speed: 60, fly: true },
   wisp: { hp: 3, dmg: 2, speed: 26, fly: true },
   knight: { hp: 5, dmg: 2, speed: 38 },
+  // The Frostreach.
+  iceblob: { hp: 2, dmg: 1, speed: 26 },
+  yeti: { hp: 6, dmg: 2, speed: 32 },
+  wolf: { hp: 3, dmg: 2, speed: 55 },
 }
 
 export const BOSSES: Record<BossKind, { hp: number; dmg: number; w: number; h: number }> = {
@@ -26,6 +30,10 @@ export const BOSSES: Record<BossKind, { hp: number; dmg: number; w: number; h: n
   drake: { hp: 10, dmg: 2, w: 32, h: 24 },
   serpent: { hp: 10, dmg: 2, w: 32, h: 32 },
   king: { hp: 8, dmg: 3, w: 24, h: 32 },
+  rimefang: { hp: 12, dmg: 2, w: 32, h: 24 },
+  stormcrow: { hp: 10, dmg: 2, w: 32, h: 24 },
+  glasseye: { hp: 6, dmg: 2, w: 32, h: 32 },
+  warden: { hp: 10, dmg: 3, w: 24, h: 32 },
 }
 
 const CHARGE_SPEED = 130
@@ -46,7 +54,14 @@ function base(w: World, kind: EnemyKind | BossKind, x: number, y: number): Enemy
   }
 }
 
-export const makeEnemy = (w: World, kind: EnemyKind, x: number, y: number) => base(w, kind, x, y)
+// Chapter one's enemies are tougher in the Frostreach.
+const NATIVE_TO_FROST = new Set<EnemyKind>(['iceblob', 'yeti', 'wolf'])
+
+export function makeEnemy(w: World, kind: EnemyKind, x: number, y: number): Enemy {
+  const e = base(w, kind, x, y)
+  if (w.map.quest === 'frostreach' && !NATIVE_TO_FROST.has(kind)) e.hp = e.maxHp = e.hp + 1
+  return e
+}
 
 // The Drowned Shrine's boss rises from one of four pools (see the 'pools' layout).
 const POOLS: [number, number][] = [[72, 64], [184, 64], [72, 112], [184, 112]]
@@ -62,7 +77,10 @@ export function makeBoss(w: World, kind: BossKind): Enemy {
   e.state = 'idle'
   if (kind === 'drake') { e.y = T + 24; e.vx = 45 }
   if (kind === 'serpent') { e.state = 'under'; e.t = 1; placeInPool(w, e, 0) }
-  if (kind === 'king') { e.state = 'stand'; e.t = 2.2; e.x = L + 116; e.y = T + 40 }
+  if (kind === 'king' || kind === 'warden') { e.state = 'stand'; e.t = 2.2; e.x = L + 116; e.y = T + 40 }
+  if (kind === 'rimefang') { e.state = 'prowl'; e.t = 1.5 }
+  if (kind === 'stormcrow') { e.state = 'circle'; e.t = 3 }
+  if (kind === 'glasseye') { e.y = T + 32; e.vx = 24; e.t = 1.5 }
   return e
 }
 
@@ -161,7 +179,8 @@ export function harmless(e: Enemy): boolean {
   if (e.spawn > 0 || e.dying > 0) return true
   if (e.kind === 'serpent') return e.state !== 'up' && e.state !== 'rise'
   if (e.kind === 'mossback' && e.state === 'jump') return Math.sin((1 - e.t / JUMP_TIME) * Math.PI) > 0.5
-  if (e.kind === 'king') return e.state === 'out'
+  if (e.kind === 'king' || e.kind === 'warden') return e.state === 'out'
+  if (e.kind === 'stormcrow') return e.state === 'circle'
   return false
 }
 
@@ -169,7 +188,8 @@ export function harmless(e: Enemy): boolean {
 export function vulnerable(e: Enemy): boolean {
   if (e.spawn > 0 || e.dying > 0) return false
   if (e.kind === 'serpent') return e.state === 'up'
-  if (e.kind === 'king') return e.state !== 'out'
+  if (e.kind === 'king' || e.kind === 'warden') return e.state !== 'out'
+  if (e.kind === 'stormcrow') return e.state !== 'circle'
   return true
 }
 
@@ -303,6 +323,43 @@ export function updateEnemy(w: World, e: Enemy, dt: number) {
       break
     }
 
+    case 'iceblob':
+      if (resting) return
+      e.state = 'walk'
+      walk(w, e, dt, speed, free => {
+        if (rand(w) < 0.25) { e.state = 'rest'; e.t = 0.3 + rand(w) * 0.5; return null }
+        return pick(w, free)
+      })
+      break
+
+    case 'yeti':
+      if (e.left === 0 && e.t <= 0) {
+        aimed(w, e, 'snow', 80, 1, 0, 2)
+        e.dir = facing(e.x + 8, e.y + 8, w.player.x + 8, w.player.y + 8)
+        e.t = 2.2 + rand(w)
+        e.stun = 0.5
+        return
+      }
+      walk(w, e, dt, speed, free => (rand(w) < 0.6 ? towards(w, e, free) : null) ?? pick(w, free))
+      break
+
+    case 'wolf':
+      if (e.state === 'charge') {
+        if (!walk(w, e, dt, 170, free => (free.includes(e.dir) ? e.dir : null))) {
+          e.state = 'walk'
+          e.stun = 0.5
+        }
+        return
+      }
+      if (e.left === 0) {
+        const h = heroCentre(w)
+        const aligned = Math.abs(h.y - (e.y + 8)) < 8 || Math.abs(h.x - (e.x + 8)) < 8
+        const d = facing(e.x + 8, e.y + 8, h.x, h.y)
+        if (aligned && canGo(w, e, d)) { e.state = 'charge'; e.dir = d; return }
+      }
+      walk(w, e, dt, speed, free => (rand(w) < 0.5 ? towards(w, e, free) : null) ?? pick(w, free))
+      break
+
     case 'wisp': {
       const h = heroCentre(w)
       const a = Math.atan2(h.y - e.y - 8, h.x - e.x - 8) + Math.sin(e.t * 3) * 0.8
@@ -373,9 +430,15 @@ function updateBoss(w: World, e: Enemy, dt: number) {
       break
 
     case 'king':
+    case 'warden':
       switch (e.state) {
         case 'stand':
-          if (e.t <= 1.2 && e.sub === 0) { aimed(w, e, 'ember', 75, 3, 0.35, 2); e.sub = 1 }
+          if (e.t <= 1.2 && e.sub === 0) {
+            // The Warden's cold light can be thrown back with the mirror shield.
+            if (e.kind === 'warden') aimed(w, e, 'orb', 70, half ? 5 : 3, 0.3, 2)
+            else aimed(w, e, 'ember', 75, 3, 0.35, 2)
+            e.sub = 1
+          }
           if (e.t <= 0) { e.state = 'out'; e.t = 0.35 }
           break
         case 'out':
@@ -387,12 +450,84 @@ function updateBoss(w: World, e: Enemy, dt: number) {
             e.y = T + y
             e.state = 'in'
             e.t = 0.35
-            if (half && aliveCount(w, 'bat') < 2) summon(w, 'bat', e.x, e.y)
+            const minion = e.kind === 'warden' ? 'iceblob' : 'bat'
+            if (half && aliveCount(w, minion) < 2) summon(w, minion, e.x, e.y)
           }
           break
         case 'in':
           if (e.t <= 0) { e.state = 'stand'; e.t = 2.2; e.sub = 0 }
           break
+      }
+      break
+
+    case 'rimefang': {
+      // Prowls closer, crouches, then dashes straight at where the hero was.
+      const h = heroCentre(w)
+      const c = centre(e)
+      if (e.state === 'prowl') {
+        const a = Math.atan2(h.y - c.y, h.x - c.x)
+        e.x += Math.cos(a) * 40 * dt
+        e.y += Math.sin(a) * 40 * dt
+        e.dir = h.x < c.x ? 'left' : 'right'
+        clampToRoom(w, e, TILE)
+        if (e.t <= 0) { e.state = 'aim'; e.t = 0.5 }
+      } else if (e.state === 'aim') {
+        if (e.t <= 0) {
+          const a = Math.atan2(h.y - c.y, h.x - c.x)
+          e.vx = Math.cos(a) * 190
+          e.vy = Math.sin(a) * 190
+          e.state = 'dash'
+          e.t = 2
+        }
+      } else if (e.state === 'dash') {
+        e.x += e.vx * dt
+        e.y += e.vy * dt
+        if (clampToRoom(w, e, TILE) || e.t <= 0) {
+          e.state = 'dazed'
+          e.t = 1
+          emit(w, 'thud', c.x, c.y)
+          if (half && aliveCount(w, 'wolf') < 2) summon(w, 'wolf', e.x + 8, e.y + 8)
+        }
+      } else if (e.t <= 0) { e.state = 'prowl'; e.t = half ? 0.8 : 1.3 }
+      break
+    }
+
+    case 'stormcrow': {
+      // Circles high (out of reach) dropping feathers, then swoops and rests.
+      const h = heroCentre(w)
+      const c = centre(e)
+      if (e.state === 'circle') {
+        e.sub += dt
+        e.x = L + VIEW_W / 2 - 16 + Math.cos(e.sub * 1.4) * 80
+        e.y = T + VIEW_H / 2 - 20 + Math.sin(e.sub * 1.4) * 40
+        e.dir = Math.sin(e.sub * 1.4) > 0 ? 'left' : 'right'
+        if (Math.floor(e.t / 0.7) !== Math.floor((e.t + dt) / 0.7)) aimed(w, e, 'feather', 90, half ? 3 : 1, 0.3, 1)
+        if (e.t <= 0) {
+          const a = Math.atan2(h.y - c.y, h.x - c.x)
+          e.vx = Math.cos(a) * 150
+          e.vy = Math.sin(a) * 150
+          e.state = 'swoop'
+          e.t = Math.min(1.2, Math.hypot(h.x - c.x, h.y - c.y) / 150)
+        }
+      } else if (e.state === 'swoop') {
+        e.x += e.vx * dt
+        e.y += e.vy * dt
+        clampToRoom(w, e, TILE)
+        if (e.t <= 0) { e.state = 'land'; e.t = 1.4 }
+      } else if (e.t <= 0) { e.state = 'circle'; e.t = half ? 2 : 3 }
+      break
+    }
+
+    case 'glasseye':
+      // Drifts along the top of the room firing cold light.
+      e.x += e.vx * dt
+      if (e.x < L + 32) e.vx = Math.abs(e.vx)
+      if (e.x > L + VIEW_W - 32 - e.w) e.vx = -Math.abs(e.vx)
+      if (e.t <= 0) {
+        e.sub++
+        if (e.sub % 3 === 0) ring(w, e, half ? 10 : 8)
+        else aimed(w, e, 'orb', 70, half ? 3 : 1, 0.3, 1)
+        e.t = half ? 1.3 : 1.8
       }
       break
   }
@@ -415,3 +550,8 @@ function ring(w: World, e: Enemy, n: number) {
 
 /** Room origin in tiles, for spawning. */
 export const roomTile = (w: World) => ({ tx: w.rx * RW, ty: w.ry * RH })
+
+/** An ice slime shatters into two little slimes. */
+export function shatter(w: World, e: Enemy) {
+  for (const dx of [-8, 8]) summon(w, 'blob', e.x + dx, e.y)
+}

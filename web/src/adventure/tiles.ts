@@ -11,8 +11,8 @@ export const RH = 11
 export const VIEW_W = RW * TILE
 export const VIEW_H = RH * TILE
 
-// Ground: grass, path, dungeon floor, cave floor, bridge, flowers, ash, doorways.
-const WALK = new Set(['.', ',', ':', ';', '=', 'F', 'A', 'D'])
+// Ground: grass, path, dungeon floor, cave floor, bridge, flowers, ash, doorways, ice.
+const WALK = new Set(['.', ',', ':', ';', '=', 'F', 'A', 'D', 'I'])
 
 export interface Abilities {
   /** Heron boots: shallow water ('w') is walkable. */
@@ -24,5 +24,8 @@ export const walkable = (ch: string, a: Abilities): boolean => WALK.has(ch) || (
 /** Ground an enemy may walk onto: no doorways, no water. */
 export const enemyWalkable = (ch: string): boolean => WALK.has(ch) && ch !== 'D'
 
-/** Walls and scenery stop shots; water, lava and ground let them fly over. */
-export const stopsShots = (ch: string): boolean => !WALK.has(ch) && ch !== 'W' && ch !== 'w' && ch !== '~'
+/** Walls and scenery stop shots; water, lava, chasms and ground let them fly over. */
+export const stopsShots = (ch: string): boolean => !WALK.has(ch) && !GAPS.has(ch)
+
+/** What a grapple can fly across, and shots fly over. */
+export const GAPS = new Set(['W', 'w', '~', 'V'])

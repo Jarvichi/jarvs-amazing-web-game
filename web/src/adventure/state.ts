@@ -3,10 +3,10 @@
 // Plain data, so a save is just a few fields of it. Positions are in pixels
 // across the whole map; the room on screen is (rx, ry).
 
-import type { BossKind, Dir, EnemyKind, GameMap, ItemKind, Npc, Warp } from './maps'
+import { QUESTS, type BossKind, type Dir, type EnemyKind, type GameMap, type ItemKind, type Npc, type Quest, type Warp } from './maps'
 import { RH, RW, TILE, VIEW_H, VIEW_W } from './tiles'
 
-export type BItem = 'bombs' | 'rod'
+export type BItem = 'bombs' | 'rod' | 'grapple'
 
 export interface Player {
   x: number
@@ -27,6 +27,10 @@ export interface Player {
   step: number
   /** A treasure held up overhead while its message shows. */
   hold: ItemKind | null
+  /** Holding a boulder overhead (iron gloves); A throws it. */
+  carry: boolean
+  /** Stood still this tick: a mirror shield then throws shots back. */
+  still: boolean
 }
 
 export interface Inventory {
@@ -38,6 +42,10 @@ export interface Inventory {
   maxBombs: number
   coins: number
   potion: boolean
+  /** Frostreach gear. */
+  gloves: boolean
+  grapple: boolean
+  shield: boolean
   /** Keys per dungeon: they only open doors where they were found. */
   keys: Record<string, number>
   flames: number
@@ -80,7 +88,7 @@ export interface Enemy {
   bare: number
 }
 
-export type ShotKind = 'beam' | 'fire' | 'seed' | 'flame' | 'orb' | 'ember'
+export type ShotKind = 'beam' | 'fire' | 'seed' | 'flame' | 'orb' | 'ember' | 'rock' | 'snow' | 'feather'
 
 export interface Shot {
   x: number
@@ -124,8 +132,23 @@ export type EventKind =
   | 'swing' | 'beam' | 'hit' | 'kill' | 'hurt' | 'coin' | 'heal' | 'key' | 'unlock' | 'bomb' | 'blast'
   | 'secret' | 'fire' | 'burn' | 'cut' | 'item' | 'flame' | 'bossHit' | 'bossDie' | 'clang' | 'talk'
   | 'buy' | 'nope' | 'stairs' | 'door' | 'die' | 'potion' | 'shoot' | 'thud' | 'win' | 'room'
+  | 'lift' | 'throw' | 'reflect' | 'hook' | 'latch' | 'sail'
 
 export interface GameEvent { kind: EventKind; x?: number; y?: number }
+
+export interface Hook {
+  x: number
+  y: number
+  dir: Dir
+  /** Pixels flown so far. */
+  dist: number
+  state: 'out' | 'back' | 'pull'
+  /** Where the hero ends up when pulled across (map pixels, top-left). */
+  toX: number
+  toY: number
+  /** A treasure caught on the hook, dragged back with it. */
+  drop: Drop | null
+}
 
 export interface World {
   map: GameMap
@@ -150,6 +173,8 @@ export interface World {
   npcs: (Npc & { px: number; py: number })[]
   dialog: Dialog | null
   scroll: { dx: number; dy: number; t: number } | null
+  /** The grapple's hook: flying out, coming back, or reeling the hero in. */
+  hook: Hook | null
   /** Fade-in after going through a doorway. */
   fade: number
   phase: 'play' | 'dying' | 'over' | 'won'
@@ -224,10 +249,11 @@ export function tileAt(w: World, tx: number, ty: number): string {
     case 'L':
     case 'C':
     case 'X':
+    case 'O':
       if (!w.opened.has(openKey(m, tx, ty))) return ch
       return ch === 'C' && m.warps[`${tx},${ty}`] ? 'D' : m.floor
     case 'B': return w.cut.has(`${tx},${ty}`) ? m.floor : ch
-    case 'K': return w.inv.flames >= 3 ? ',' : ch
+    case 'K': return questFlames(w) >= questOf(w).dungeons.length ? ',' : ch
     case 'S': return w.roomBusy ? ch : m.floor
   }
   return ch
@@ -237,4 +263,18 @@ export const tileAtPx = (w: World, x: number, y: number) => tileAt(w, Math.floor
 
 export function emit(w: World, kind: EventKind, x?: number, y?: number) {
   w.events.push({ kind, x, y })
+}
+
+// ── Quests ──────────────────────────────────────────────────────────────────
+/** The quest of the land you're in. */
+export const questOf = (w: World): Quest => QUESTS[w.map.quest]
+
+/** Flames (or the like) relit so far in the current land's quest. */
+export const questFlames = (w: World, q: Quest = questOf(w)) =>
+  q.dungeons.filter(d => w.flags.has(`got:flame:${d}`)).length
+
+/** The first step of the current quest not yet done, or null when it's all done. */
+export function nextStep(w: World) {
+  const q = questOf(w)
+  return q.steps.find(s => ('flag' in s.need ? !w.flags.has(s.need.flag) : !w.inv[s.need.have])) ?? null
 }

@@ -6,12 +6,12 @@
 
 import { PAL, drawSprite, drawText, hash, makeSprite, textWidth, type Sprite } from '../arcade/gfx'
 import type { Dir, GameMap, Look } from './maps'
-import { GOALS, MAPS } from './maps'
+import { MAPS } from './maps'
 import { jumpHeight } from './enemies'
-import { tileAt, type Drop, type Enemy, type World } from './state'
+import { questFlames, questOf, tileAt, type Drop, type Enemy, type World } from './state'
 import { ENEMY_ART, HERO, ITEM_ART, PERSON } from './sprites'
 import { RH, RW, TILE, VIEW_H, VIEW_W } from './tiles'
-import { nextGoal, SCROLL_TIME, SWING_TIME, SWORD_REACH, swordAngle, swordPivot } from './world'
+import { goalInfo, SCROLL_TIME, SWING_TIME, SWORD_REACH, swordAngle, swordPivot } from './world'
 
 export { PAL, drawText }
 
@@ -71,6 +71,7 @@ export class Fx {
 
 // ── Tiles ───────────────────────────────────────────────────────────────────
 type Theme = 'green' | 'marsh' | 'ash' | 'barrow' | 'mine' | 'shrine' | 'keep' | 'cave'
+  | 'snow' | 'pale' | 'rimeglass' | 'spire' | 'sanctum' | 'citadel'
 
 interface Colours { ground: string; tuft: string; dark: string; path: string; wall: string; brick: string }
 
@@ -83,20 +84,27 @@ const THEMES: Record<Theme, Colours> = {
   shrine: { ground: '#223a5c', tuft: '#2c4a70', dark: '#1a2c46', path: '#223a5c', wall: '#4a78a8', brick: '#2c4f7a' },
   keep: { ground: '#2a2236', tuft: '#352c44', dark: '#1e1828', path: '#2a2236', wall: '#5a4a6e', brick: '#3a2e4a' },
   cave: { ground: '#3a2c22', tuft: '#46362a', dark: '#2a2018', path: '#3a2c22', wall: '#6a5040', brick: '#4a3628' },
+  // The Frostreach.
+  snow: { ground: '#dfe8f0', tuft: '#b9cad8', dark: '#8fa3b5', path: '#c2cfdc', wall: '#7b8fa8', brick: '#56667d' },
+  pale: { ground: '#c8c4d4', tuft: '#aaa6b8', dark: '#7d7890', path: '#b3adc2', wall: '#6d6882', brick: '#4c475c' },
+  rimeglass: { ground: '#1f3f5a', tuft: '#2b5575', dark: '#15304a', path: '#1f3f5a', wall: '#6fa8d0', brick: '#3f7aa6' },
+  spire: { ground: '#2e2a3c', tuft: '#3a3550', dark: '#221f2e', path: '#2e2a3c', wall: '#8a84a8', brick: '#5c5678' },
+  sanctum: { ground: '#123a3a', tuft: '#1c5050', dark: '#0c2a2a', path: '#123a3a', wall: '#5fc0b8', brick: '#2f8a84' },
+  citadel: { ground: '#9aa4b4', tuft: '#a8b2c2', dark: '#7a8494', path: '#9aa4b4', wall: '#d0d8e4', brick: '#8a94a6' },
 }
 
-const ASH_ROOMS = new Set(['0,0', '1,0', '2,0', '3,0', '4,0', '5,0', '2,1', '3,1', '4,1', '5,1'])
-const MARSH_ROOMS = new Set(['0,1', '1,1', '0,2'])
 
 function themeAt(m: GameMap, tx: number, ty: number): Theme {
   if (m.kind === 'cave') return 'cave'
   if (m.kind === 'dungeon') return m.id as Theme
   const room = `${Math.floor(tx / RW)},${Math.floor(ty / RH)}`
-  return ASH_ROOMS.has(room) ? 'ash' : MARSH_ROOMS.has(room) ? 'marsh' : 'green'
+  for (const [theme, rooms] of Object.entries(m.regions ?? {})) if (rooms.includes(room)) return theme as Theme
+  return (m.theme ?? 'green') as Theme
 }
 
 /** Whether the ground under a tile is outdoor grass (for trees, rocks…). */
-const outdoors = (th: Theme) => th === 'green' || th === 'marsh' || th === 'ash'
+const outdoors = (th: Theme) => th === 'green' || th === 'marsh' || th === 'ash' || th === 'snow' || th === 'pale'
+const snowy = (th: Theme) => th === 'snow' || th === 'pale'
 
 function paintGround(g: G, c: Colours, th: Theme) {
   rect(g, 0, 0, 16, 16, c.ground)
@@ -141,6 +149,13 @@ function paintTile(g: G, ch: string, th: Theme, frame: number) {
       break
     case 'T':
       paintGround(g, c, th)
+      if (snowy(th)) {
+        // A pine with snow on its boughs.
+        rect(g, 7, 12, 2, 4, '#5e3a1a')
+        for (let r = 0; r < 12; r++) rect(g, 8 - Math.floor(r / 2), 1 + r, Math.floor(r / 2) * 2 + 1, 1, '#1e4a3a')
+        for (const [x, y] of [[7, 3], [5, 7], [9, 7], [3, 11], [11, 11]]) rect(g, x, y, 3, 1, '#f4f8fc')
+        break
+      }
       rect(g, 7, 11, 3, 5, '#5e3a1a')
       disc(g, 8, 7, 7, th === 'marsh' ? '#1f4a34' : '#1e5a2a')
       disc(g, 6, 5, 3, th === 'marsh' ? '#2f6a48' : '#2f7a36')
@@ -252,6 +267,27 @@ function paintTile(g: G, ch: string, th: Theme, frame: number) {
       rect(g, 0, 0, 16, 16, c.dark)
       for (let x = 1; x < 16; x += 3) rect(g, x, 0, 2, 16, '#8a8a9a')
       break
+    case 'O':
+      if (outdoors(th)) paintGround(g, c, th)
+      else paintBricks(g, c)
+      disc(g, 8, 9, 7, '#8f9aa8'); disc(g, 6, 7, 3, '#b8c2ce'); rect(g, 3, 14, 11, 1, '#5a6270')
+      rect(g, 4, 3, 8, 2, '#f4f8fc') // a cap of snow
+      rect(g, 9, 9, 3, 1, '#5a6270'); rect(g, 5, 11, 2, 1, '#5a6270')
+      break
+    case 'V':
+      rect(g, 0, 0, 16, 16, '#07070d')
+      rect(g, 2 + frame, 5, 5, 1, '#16162a'); rect(g, 9 - frame, 11, 5, 1, '#16162a')
+      break
+    case 'P':
+      paintGround(g, c, th)
+      rect(g, 6, 2, 5, 13, '#7a4a22'); rect(g, 7, 2, 1, 13, '#a36a3a'); rect(g, 5, 14, 7, 2, '#4a2a12')
+      rect(g, 5, 4, 7, 2, PAL[10]); rect(g, 6, 5, 5, 1, '#b08a10')
+      break
+    case 'I':
+      rect(g, 0, 0, 16, 16, '#bfe3f5')
+      rect(g, 3, 4, 4, 1, '#f4fbff'); rect(g, 4, 3, 1, 1, '#f4fbff'); rect(g, 10, 11, 3, 1, '#f4fbff')
+      rect(g, 0, 15, 16, 1, '#a6d0e8')
+      break
     default:
       rect(g, 0, 0, 16, 16, PAL[0])
   }
@@ -303,6 +339,7 @@ const LOOKS: Record<Look, [string, string, string]> = {
   kid: ['9', 'c', '1'],
   sage: ['1', '1', '0'],
   merchant: ['a', 'e', '2'],
+  captain: ['5', '1', '7'],
 }
 
 function heroSprite(dir: Dir, frame: number): { s: Sprite; flip: boolean } {
@@ -343,6 +380,19 @@ function camera(w: World): [number, number] {
   return [x - w.scroll.dx * VIEW_W * (1 - e), y - w.scroll.dy * VIEW_H * (1 - e)]
 }
 
+// The Frostreach's foes are chapter one's shapes in winter colours.
+const RECOLOUR: Record<string, [string, Record<string, string>]> = {
+  iceblob: ['blob', { b: 'c', 3: '1' }],
+  wolf: ['boar', { 4: '6', f: '5', 7: '7' }],
+  yeti: ['knight', { 5: '7', 6: 'f', 8: 'c' }],
+}
+
+function enemyArt(kind: string): string[] {
+  if (ENEMY_ART[kind]) return ENEMY_ART[kind]
+  const [base, swap] = RECOLOUR[kind]
+  return ENEMY_ART[base].map(r => [...r].map(ch => swap[ch] ?? ch).join(''))
+}
+
 function drawEnemy(g: G, e: Enemy, cx: number, cy: number, t: number) {
   const x = Math.round(e.x - cx)
   const y = Math.round(e.y - cy + HUD)
@@ -356,7 +406,7 @@ function drawEnemy(g: G, e: Enemy, cx: number, cy: number, t: number) {
   if (e.boss) { drawBoss(g, e, x, y, t); return }
   const flashing = e.flash > 0 && Math.floor(t * 20) % 2 === 0
   const kind = e.kind === 'bat' && Math.floor(t * 8) % 2 ? 'bat2' : e.kind
-  const art = ENEMY_ART[kind]
+  const art = enemyArt(kind)
   const s = sprite(`${kind}${flashing ? 'w' : ''}`, () => (flashing ? white(art) : art))
   const bob = e.left > 0 && Math.floor(t * 6) % 2 ? -1 : 0
   if (e.kind === 'beetle') {
@@ -370,6 +420,9 @@ function drawEnemy(g: G, e: Enemy, cx: number, cy: number, t: number) {
   }
   drawSprite(g, s, x, y + bob, e.dir === 'left')
 }
+
+/** Where the Glass Eye looks (the hero, in screen pixels); set each frame. */
+const eyeTarget = { x: 0, y: 0 }
 
 function drawBoss(g: G, e: Enemy, x: number, y: number, t: number) {
   const hit = e.flash > 0 && Math.floor(t * 20) % 2 === 0
@@ -439,6 +492,68 @@ function drawBoss(g: G, e: Enemy, x: number, y: number, t: number) {
       }
       break
     }
+    case 'rimefang': {
+      // A great white wolf; crouching (aim) it trembles, dazed it sees stars.
+      const shake = e.state === 'aim' ? (Math.floor(t * 30) % 2 ? 1 : -1) : 0
+      const face = e.dir === 'left' ? -1 : 1
+      const bx = x + shake
+      disc(g, bx + 16, y + 14, 10, col('#9fb4c8'))
+      disc(g, bx + 13, y + 11, 6, col('#dfe8f0'))
+      disc(g, bx + 16 + face * 12, y + 9, 6, col('#dfe8f0'))
+      rect(g, bx + 16 + face * 11 - 1, y + 1, 3, 4, col('#9fb4c8'))
+      rect(g, bx + 16 + face * 14, y + 8, 2, 2, PAL[8])
+      rect(g, bx + 16 + face * 17 - 1, y + 11, 3, 2, PAL[0])
+      for (const lx of [6, 12, 20, 26]) rect(g, bx + lx, y + 20, 3, 4, col('#7b8fa8'))
+      if (e.state === 'dazed') for (let i = 0; i < 3; i++) {
+        const a = t * 6 + (i * Math.PI * 2) / 3
+        rect(g, Math.round(bx + 16 + Math.cos(a) * 10), Math.round(y - 2 + Math.sin(a) * 3), 2, 2, PAL[10])
+      }
+      break
+    }
+    case 'stormcrow': {
+      const high = e.state === 'circle'
+      if (high) rect(g, x + 8, y + 34, 16, 3, 'rgba(0,0,0,0.25)')
+      const flap = Math.floor(t * (high ? 8 : 4)) % 2 ? 4 : 0
+      g.fillStyle = col('#4a3a6a')
+      g.beginPath(); g.moveTo(x + 16, y + 10); g.lineTo(x - 4, y + 2 + flap); g.lineTo(x + 8, y + 16); g.fill()
+      g.beginPath(); g.moveTo(x + 16, y + 10); g.lineTo(x + 36, y + 2 + flap); g.lineTo(x + 24, y + 16); g.fill()
+      disc(g, x + 16, y + 13, 7, col('#6a5a92'))
+      const face = e.dir === 'left' ? -1 : 1
+      disc(g, x + 16 + face * 6, y + 7, 4, col('#6a5a92'))
+      rect(g, x + 16 + face * 10 - (face < 0 ? 3 : 0), y + 7, 4, 2, col(PAL[10]))
+      rect(g, x + 16 + face * 7, y + 5, 2, 2, PAL[8])
+      break
+    }
+    case 'glasseye': {
+      // A floating crystal; its eye follows you.
+      const cxp = x + 16
+      const cyp = y + 16
+      g.fillStyle = col('#8fe8f0')
+      g.beginPath(); g.moveTo(cxp, y); g.lineTo(x + 32, cyp); g.lineTo(cxp, y + 32); g.lineTo(x, cyp); g.fill()
+      g.fillStyle = col('#d8fbff')
+      g.beginPath(); g.moveTo(cxp, y + 5); g.lineTo(x + 27, cyp); g.lineTo(cxp, y + 27); g.lineTo(x + 5, cyp); g.fill()
+      disc(g, cxp, cyp, 6, col(PAL[7]))
+      const px = Math.max(-3, Math.min(3, Math.round((eyeTarget.x - cxp) / 20)))
+      const py = Math.max(-3, Math.min(3, Math.round((eyeTarget.y - cyp) / 20)))
+      disc(g, cxp + px, cyp + py, 3, PAL[1])
+      disc(g, cxp + px, cyp + py, 1, PAL[0])
+      break
+    }
+    case 'warden': {
+      if ((e.state === 'out' || e.state === 'in') && Math.floor(t * 30) % 2) break
+      const bare = e.bare > 0
+      const robe = bare ? (Math.floor(t * 10) % 2 ? '#3a5a8a' : '#5a7aaa') : '#c8d8f0'
+      g.fillStyle = col(robe)
+      g.beginPath(); g.moveTo(x + 12, y + 6); g.lineTo(x - 1, y + 32); g.lineTo(x + 25, y + 32); g.fill()
+      disc(g, x + 12, y + 8, 6, col(bare ? '#8aa0c0' : '#eef4fc'))
+      for (const [sx, h] of [[5, 5], [9, 7], [12, 9], [15, 7], [19, 5]]) rect(g, x + sx, y + 2 - h, 2, h, col('#8fe8f0'))
+      rect(g, x + 9, y + 7, 2, 2, PAL[12]); rect(g, x + 14, y + 7, 2, 2, PAL[12])
+      if (!bare) {
+        g.fillStyle = '#ffffff'
+        for (const [px, py] of [[8, 16], [14, 20], [10, 25], [16, 27], [6, 28]]) g.fillRect(x + px, y + py, 2, 1)
+      }
+      break
+    }
   }
   // Boss health, under the status bar.
   if (e.hp > 0) {
@@ -479,6 +594,23 @@ function drawHero(g: G, w: World, cx: number, cy: number, t: number) {
     }
   }
   drawSprite(g, s, x, y, flip)
+  if (p.carry) {
+    disc(g, x + 8, y - 5, 6, '#8f9aa8'); disc(g, x + 6, y - 7, 2, '#b8c2ce'); rect(g, x + 4, y - 11, 8, 2, '#f4f8fc')
+  }
+}
+
+function drawHook(g: G, w: World, cx: number, cy: number) {
+  const h = w.hook
+  if (!h) return
+  const p = w.player
+  const sx = p.x + 8 - cx
+  const sy = p.y + 10 - cy + HUD
+  const ex = h.x - cx
+  const ey = h.y - cy + HUD
+  const n = Math.max(1, Math.floor(Math.hypot(ex - sx, ey - sy) / 5))
+  for (let i = 1; i < n; i++) rect(g, Math.round(sx + ((ex - sx) * i) / n), Math.round(sy + ((ey - sy) * i) / n), 2, 2, i % 2 ? PAL[6] : PAL[5])
+  rect(g, Math.round(ex) - 2, Math.round(ey) - 2, 5, 5, PAL[6])
+  rect(g, Math.round(ex) - 1, Math.round(ey) - 1, 3, 3, PAL[10])
 }
 
 function drawDrop(g: G, d: Drop, cx: number, cy: number, t: number) {
@@ -505,6 +637,9 @@ function drawShots(g: G, w: World, cx: number, cy: number, t: number) {
       case 'flame': disc(g, x, y, 4, blink ? PAL[9] : PAL[10]); break
       case 'orb': disc(g, x, y, 3, blink ? PAL[12] : PAL[7]); break
       case 'ember': disc(g, x, y, 3, blink ? PAL[8] : PAL[9]); break
+      case 'rock': disc(g, x, y, 5, '#8f9aa8'); rect(g, x - 3, y - 5, 6, 2, '#f4f8fc'); break
+      case 'snow': disc(g, x, y, 3, PAL[7]); disc(g, x - 1, y - 1, 1, PAL[12]); break
+      case 'feather': rect(g, x - 1, y - 3, 2, 6, blink ? PAL[13] : PAL[2]); break
     }
   }
   for (const b of w.bombs) {
@@ -535,6 +670,8 @@ export function renderWorld(g: G, w: World, fx: Fx, t: number) {
   g.rect(0, HUD, W, VIEW_H)
   g.clip()
   drawTiles(g, w, cx, cy, t)
+  eyeTarget.x = w.player.x + 8 - cx
+  eyeTarget.y = w.player.y + 8 - cy + HUD
   for (const d of w.drops) drawDrop(g, d, cx, cy, t)
   for (const n of w.npcs) {
     const [hair, clothes, trim] = LOOKS[n.look]
@@ -545,6 +682,7 @@ export function renderWorld(g: G, w: World, fx: Fx, t: number) {
   drawHero(g, w, cx, cy, t)
   for (const e of w.enemies) if (e.boss) drawEnemy(g, e, cx, cy, t)
   drawShots(g, w, cx, cy, t)
+  drawHook(g, w, cx, cy)
   for (const p of fx.parts) rect(g, Math.round(p.x - cx), Math.round(p.y - cy + HUD), 2, 2, p.c)
   if (w.fade > 0) rect(g, 0, HUD, W, VIEW_H, `rgba(0,0,0,${Math.min(1, w.fade / 0.35)})`)
   if (fx.flash > 0) rect(g, 0, HUD, W, VIEW_H, `rgba(255,0,77,${fx.flash})`)
@@ -581,7 +719,7 @@ function drawMinimap(g: G, w: World, t: number) {
     }
   }
   // The next goal blinks on the overworld map.
-  const goal = GOALS[nextGoal(w)].room
+  const goal = goalInfo(w).room
   if (m.kind === 'overworld' && goal && Math.floor(t * 3) % 2 === 0) {
     rect(g, ox + goal[0] * cw + cw / 2 - 2, oy + goal[1] * ch + 1, 3, 2, PAL[10])
   }
@@ -617,8 +755,9 @@ function drawHud(g: G, w: World, t: number) {
   }
   // Flames relit.
   for (let i = 0; i < 3; i++) {
-    const s = sprite(i < inv.flames ? 'flame' : 'flameOut', () =>
-      i < inv.flames ? ITEM_ART.flame : ITEM_ART.flame.map(r => r.replace(/[^.]/g, '5')))
+    const lit = i < questFlames(w)
+    const s = sprite(lit ? 'flame' : 'flameOut', () =>
+      lit ? ITEM_ART.flame : ITEM_ART.flame.map(r => r.replace(/[^.]/g, '5')))
     g.drawImage(s, 148 + i * 9, 14)
   }
   centreText(g, '-LIFE-', 212, 3, PAL[8])
@@ -651,7 +790,6 @@ export function drawInventory(g: G, w: World, t: number, hint: string) {
   rect(g, 0, HUD, W, VIEW_H, 'rgba(0,0,0,0.85)')
   const inv = w.inv
   centreText(g, 'PAUSED', W / 2, HUD + 8, PAL[7], 2)
-  drawText(g, 'ITEMS', 20, HUD + 30, PAL[12])
   const items: [string, boolean, string][] = [
     ['sword', inv.sword, 'BLADE'],
     ['bomb', inv.hasBombs, `BOMBS ${inv.bombs}`],
@@ -659,10 +797,14 @@ export function drawInventory(g: G, w: World, t: number, hint: string) {
     ['boots', inv.boots, 'HERON BOOTS'],
     ['potion', inv.potion, 'POTION'],
   ]
+  // The Frostreach's gear, once you have been there.
+  if (w.flags.has('visited:frostreach')) {
+    items.push(['gloves', inv.gloves, 'IRON GLOVES'], ['grapple', inv.grapple, 'GRAPPLE'], ['shield', inv.shield, 'MIRROR SHIELD'])
+  }
   items.forEach(([item, have, name], i) => {
-    const x = 20 + (i % 3) * 76
-    const y = HUD + 42 + Math.floor(i / 3) * 28
-    const chosen = (item === 'bomb' && inv.b === 'bombs') || (item === 'rod' && inv.b === 'rod')
+    const x = 12 + (i % 3) * 80
+    const y = HUD + 28 + Math.floor(i / 3) * 24
+    const chosen = (item === 'bomb' && inv.b === 'bombs') || item === inv.b
     if (chosen && Math.floor(t * 4) % 2 === 0) {
       g.strokeStyle = PAL[10]
       g.strokeRect(x - 2.5, y - 2.5, 21, 21)
@@ -671,14 +813,14 @@ export function drawInventory(g: G, w: World, t: number, hint: string) {
     else rect(g, x + 6, y + 6, 4, 4, PAL[5])
     drawText(g, have ? name : '???', x + 20, y + 6, have ? PAL[7] : PAL[5])
   })
-  drawText(g, 'HEARTH-FLAMES', 20, HUD + 104, PAL[9])
+  drawText(g, `${questOf(w).flame}S`, 20, HUD + 106, PAL[9])
   for (let i = 0; i < 3; i++) {
-    if (i < inv.flames) drawItem(g, 'flame', 20 + i * 20, HUD + 112, t)
-    else g.drawImage(sprite('flameOut', () => ITEM_ART.flame.map(r => r.replace(/[^.]/g, '5'))), 24 + i * 20, HUD + 114)
+    if (i < questFlames(w)) drawItem(g, 'flame', 20 + i * 20, HUD + 114, t)
+    else g.drawImage(sprite('flameOut', () => ITEM_ART.flame.map(r => r.replace(/[^.]/g, '5'))), 24 + i * 20, HUD + 116)
   }
   const mins = Math.floor(w.time / 60)
-  drawText(g, `TIME ${String(Math.floor(mins / 60))}:${String(mins % 60).padStart(2, '0')}`, 150, HUD + 108, PAL[6])
-  drawText(g, `SCORE ${w.score}`, 150, HUD + 118, PAL[6])
+  drawText(g, `TIME ${String(Math.floor(mins / 60))}:${String(mins % 60).padStart(2, '0')}`, 150, HUD + 112, PAL[6])
+  drawText(g, `SCORE ${w.score}`, 150, HUD + 122, PAL[6])
   centreText(g, hint, W / 2, H - 14, PAL[6])
 }
 

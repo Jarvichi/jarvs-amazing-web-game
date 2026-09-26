@@ -4,12 +4,12 @@
 // happened (for sound and screen shake). No drawing, no DOM: tests drive it
 // directly.
 
-import { GOALS, MAPS, START, type Goal, type ItemKind, type RoomDef, type Warp } from './maps'
+import { MAPS, START, type ItemKind, type RoomDef, type Warp } from './maps'
 import {
-  VEC, body, emit, enemyBox, facing, feet, openKey, overlap, rand, roomKey, roomLeft, roomTop,
+  VEC, body, nextStep, questFlames, questOf, emit, enemyBox, facing, feet, openKey, overlap, rand, roomKey, roomLeft, roomTop,
   tileAt, type Action, type Box, type DropKind, type Enemy, type GameEvent, type World,
 } from './state'
-import { ENEMIES, harmless, knockEnemy, makeBoss, makeEnemy, updateEnemy, vulnerable } from './enemies'
+import { ENEMIES, harmless, knockEnemy, makeBoss, makeEnemy, shatter, updateEnemy, vulnerable } from './enemies'
 import { RH, RW, TILE, VIEW_H, VIEW_W, enemyWalkable, stopsShots, walkable } from './tiles'
 import { paginate } from './text'
 
@@ -20,6 +20,10 @@ export const INVULN = 1
 export const TYPE_SPEED = 45
 export const DROP_LIFE = 8
 export const START_HP = 6
+/** Sixteen hearts fill both rows of the status bar. */
+export const MAX_HP = 32
+export const HOOK_SPEED = 260
+export const HOOK_RANGE = 112
 
 export interface Controls {
   dx: number
@@ -36,15 +40,15 @@ export function createWorld(seed = 1): World {
     map: MAPS.overworld, rx: 0, ry: 0,
     player: {
       x: START.x, y: START.y, dir: START.dir, hp: START_HP, maxHp: START_HP, invuln: 0,
-      knock: 0, kx: 0, ky: 0, swing: 0, cooldown: 0, step: 0, hold: null,
+      knock: 0, kx: 0, ky: 0, swing: 0, cooldown: 0, step: 0, hold: null, carry: false, still: true,
     },
     inv: {
       sword: false, hasBombs: false, rod: false, boots: false, bombs: 0, maxBombs: 0,
-      coins: 0, potion: false, keys: {}, flames: 0, b: null,
+      coins: 0, potion: false, gloves: false, grapple: false, shield: false, keys: {}, flames: 0, b: null,
     },
     flags: new Set(), opened: new Set(), cut: new Set(), cleared: new Set(),
     enemies: [], shots: [], bombs: [], blasts: [], drops: [], npcs: [],
-    dialog: null, scroll: null, fade: 0, phase: 'play', phaseTime: 0, time: 0, score: 0, kills: 0,
+    dialog: null, scroll: null, hook: null, fade: 0, phase: 'play', phaseTime: 0, time: 0, score: 0, kills: 0,
     respawn: START, roomBusy: false, nextId: 1, swingId: 0, nope: 0, seed, events: [],
   }
   enterMap(w, START)
@@ -65,7 +69,10 @@ export function enterMap(w: World, to: Warp) {
   w.rx = Math.floor((p.x + 8) / VIEW_W)
   w.ry = Math.floor((p.y + 8) / VIEW_H)
   w.scroll = null
+  w.hook = null
+  p.carry = false
   w.fade = 0.35
+  w.flags.add(`visited:${w.map.quest}`)
   // Dungeon rooms fill up again once you have left.
   if (w.map.kind === 'overworld') w.cleared.clear()
   enterRoom(w)
@@ -75,7 +82,7 @@ function warp(w: World, to: Warp) {
   const from = w.map.kind
   enterMap(w, to)
   if (w.map.kind === 'dungeon' && from !== 'dungeon') w.respawn = to
-  if (w.map.kind === 'overworld') w.respawn = START
+  if (w.map.kind === 'overworld') w.respawn = questOf(w).start
   emit(w, 'stairs')
 }
 
@@ -154,6 +161,7 @@ function crossEdge(w: World): boolean {
   if (dy > 0) p.y = roomTop(w) - 8
   if (dy < 0) p.y = roomTop(w) + VIEW_H - 16
   p.knock = 0
+  w.hook = null
   w.scroll = { dx, dy, t: 0 }
   w.enemies = []
   w.shots = []
@@ -351,20 +359,125 @@ function useItem(w: World) {
     w.shots.push({ x: p.x + 8 + dx * 8, y: p.y + 9 + dy * 8, vx: dx * 170, vy: dy * 170, kind: 'fire', owner: 'player', dmg: 2, life: 1.2 })
     p.cooldown = 0.4
     emit(w, 'fire')
+  } else if (inv.b === 'grapple' && !w.hook) {
+    w.hook = { x: p.x + 8, y: p.y + 10, dir: p.dir, dist: 0, state: 'out', toX: 0, toY: 0, drop: null }
+    p.cooldown = 0.3
+    emit(w, 'hook')
   }
 }
 
-/** The next thing to do: fetch the blade, relight each flame in turn, then the keep. */
-export function nextGoal(w: World): Goal {
-  if (!w.inv.sword) return 'sword'
-  // Each dungeon's treasure is needed for the next leg, so fetch it if it was left behind.
-  const legs = [['barrow', w.inv.hasBombs, 'bombs'], ['mine', w.inv.rod, 'rod'], ['shrine', w.inv.boots, 'boots']] as const
-  for (const [dungeon, have, treasure] of legs) {
-    if (!w.flags.has(`got:flame:${dungeon}`)) return dungeon
-    if (!have) return treasure
+/**
+ * The grapple's hook flies out; a wooden post ('P') catches it and reels the
+ * hero across whatever lies between (chasms, water). A foe caught is stunned,
+ * a treasure caught is dragged back. Returns false once the hook is gone.
+ */
+function updateHook(w: World, dt: number) {
+  const h = w.hook!
+  const p = w.player
+  const [dx, dy] = VEC[h.dir]
+  let travel = HOOK_SPEED * dt
+  if (h.state === 'out') {
+    while (travel > 0 && h.state === 'out') {
+      const s = Math.min(4, travel)
+      travel -= s
+      h.x += dx * s
+      h.y += dy * s
+      h.dist += s
+      const tx = Math.floor(h.x / TILE)
+      const ty = Math.floor(h.y / TILE)
+      const ch = tileAt(w, tx, ty)
+      if (ch === 'P') {
+        const landX = tx - dx
+        const landY = ty - dy
+        if (walkable(tileAt(w, landX, landY), { boots: w.inv.boots })) {
+          h.state = 'pull'
+          h.toX = landX * TILE
+          h.toY = landY * TILE
+          emit(w, 'latch', h.x, h.y)
+        } else h.state = 'back'
+        break
+      }
+      const outside = h.x < roomLeft(w) || h.y < roomTop(w) || h.x >= roomLeft(w) + VIEW_W || h.y >= roomTop(w) + VIEW_H
+      if (outside || stopsShots(ch) || h.dist >= HOOK_RANGE) { h.state = 'back'; break }
+      const tip = { x: h.x - 3, y: h.y - 3, w: 6, h: 6 }
+      const e = w.enemies.find(o => o.hp > 0 && o.spawn <= 0 && overlap(tip, enemyBox(o)))
+      if (e) {
+        if (!e.boss) { e.stun = 1.5; e.flash = 0.2 }
+        emit(w, 'clang', h.x, h.y)
+        h.state = 'back'
+        break
+      }
+      const d = w.drops.find(o => o.price === undefined && overlap(tip, { x: o.x + 2, y: o.y + 2, w: 12, h: 12 }))
+      if (d) {
+        h.drop = d
+        w.drops = w.drops.filter(o => o !== d)
+        h.state = 'back'
+      }
+    }
+    return
   }
-  return w.flags.has('boss:keep') ? 'done' : 'keep'
+  if (h.state === 'back') {
+    const ax = p.x + 8 - h.x
+    const ay = p.y + 10 - h.y
+    const d = Math.hypot(ax, ay)
+    if (d <= travel + 1) {
+      if (h.drop) {
+        if (h.drop.id) w.flags.add(`got:${h.drop.id}`)
+        give(w, h.drop.item)
+      }
+      w.hook = null
+      return
+    }
+    h.x += (ax / d) * travel
+    h.y += (ay / d) * travel
+    if (h.drop) { h.drop.x = h.x - 8; h.drop.y = h.y - 8 }
+    return
+  }
+  // Reeling in: the hero flies to the tile before the post.
+  const ax = h.toX - p.x
+  const ay = h.toY - p.y
+  const d = Math.hypot(ax, ay)
+  if (d <= travel) {
+    p.x = h.toX
+    p.y = h.toY
+    w.hook = null
+    return
+  }
+  p.x += (ax / d) * travel
+  p.y += (ay / d) * travel
 }
+
+/** The tile just in front of the hero's feet. */
+function facingTile(w: World): [number, number] {
+  const p = w.player
+  const [dx, dy] = VEC[p.dir]
+  return [Math.floor((p.x + 8 + dx * 12) / TILE), Math.floor((p.y + 12 + dy * 10) / TILE)]
+}
+
+/** A: throw what's carried, else lift a boulder (iron gloves). True if it did either. */
+function liftOrThrow(w: World): boolean {
+  const p = w.player
+  const [dx, dy] = VEC[p.dir]
+  if (p.carry) {
+    p.carry = false
+    w.shots.push({ x: p.x + 8 + dx * 8, y: p.y + 4 + dy * 8, vx: dx * 170, vy: dy * 170, kind: 'rock', owner: 'player', dmg: 2, life: 0.7 })
+    emit(w, 'throw')
+    return true
+  }
+  if (!w.inv.gloves) return false
+  const [tx, ty] = facingTile(w)
+  if (tileAt(w, tx, ty) !== 'O') return false
+  w.opened.add(openKey(w.map, tx, ty))
+  p.carry = true
+  emit(w, 'lift', tx * TILE + 8, ty * TILE + 8)
+  return true
+}
+
+/** The next thing to do in this land's quest, e.g. 'barrow', or 'done'. */
+export const nextGoal = (w: World): string => nextStep(w)?.id ?? 'done'
+
+/** Where the next goal is, and what the guides say about it. */
+export const goalInfo = (w: World) => nextStep(w) ?? questOf(w).done
 
 function talk(w: World): boolean {
   const p = w.player
@@ -373,11 +486,21 @@ function talk(w: World): boolean {
   const y = p.y + 10 + dy * 12
   for (const n of w.npcs) {
     if (x >= n.px && x < n.px + TILE && y >= n.py && y < n.py + TILE) {
+      if (n.ferry) {
+        const f = n.ferry
+        if (f.needs && !w.flags.has(f.needs)) openDialog(w, f.wait ?? [])
+        else {
+          openDialog(w, n.lines, { kind: 'warp', warp: f.to })
+          emit(w, 'sail')
+        }
+        emit(w, 'talk')
+        return true
+      }
       let pages = n.lines.length ? n.lines : roomDef(w).talk ?? []
       if (n.guide) {
         // Their own story once; after that, just the way on.
         const heard = `heard:${w.map.id}:${roomKey(w)}:${n.look}`
-        pages = w.flags.has(heard) ? GOALS[nextGoal(w)].hint : [...pages, ...GOALS[nextGoal(w)].hint]
+        pages = w.flags.has(heard) ? goalInfo(w).hint : [...pages, ...goalInfo(w).hint]
         w.flags.add(heard)
       }
       openDialog(w, pages)
@@ -393,6 +516,11 @@ function updatePlayer(w: World, c: Controls, dt: number): boolean {
   const p = w.player
   p.invuln = Math.max(0, p.invuln - dt)
   p.cooldown = Math.max(0, p.cooldown - dt)
+  p.still = !c.dx && !c.dy
+  if (w.hook) {
+    updateHook(w, dt)
+    return false
+  }
   if (p.knock > 0) {
     p.knock -= dt
     move(w, 'x', p.kx * dt, false)
@@ -405,7 +533,9 @@ function updatePlayer(w: World, c: Controls, dt: number): boolean {
     return false
   }
   if (c.a) {
+    if (p.carry) { liftOrThrow(w); return false }
     if (talk(w)) return false
+    if (liftOrThrow(w)) return false
     if (w.inv.sword) { swing(w); swordHits(w); return false }
   }
   if (c.b) useItem(w)
@@ -459,13 +589,19 @@ export function hurtPlayer(w: World, dmg: number, fromX: number, fromY: number) 
 }
 
 // ── Fighting ────────────────────────────────────────────────────────────────
-export type Weapon = 'sword' | 'beam' | 'fire' | 'bomb'
+export type Weapon = 'sword' | 'beam' | 'fire' | 'bomb' | 'rock' | 'reflect'
 
 export function damage(w: World, e: Enemy, dmg: number, weapon: Weapon, dir: keyof typeof VEC): boolean {
   if (e.hp <= 0 || !vulnerable(e)) return false
-  if (e.kind === 'king') {
-    // Cold ash armour: only fire burns it away, and then only for a moment.
-    if (weapon === 'fire') {
+  // The Glass Eye only feels its own light, thrown back by the mirror shield.
+  if (e.kind === 'glasseye' && weapon !== 'reflect') {
+    emit(w, 'clang', e.x + 16, e.y + 16)
+    return false
+  }
+  if (e.kind === 'king' || e.kind === 'warden') {
+    // Armour: the Ashen King's cold ash only fire burns away; the Pale
+    // Warden's frost only her own light, reflected. Then only for a moment.
+    if (weapon === (e.kind === 'king' ? 'fire' : 'reflect')) {
       const bare = e.bare > 0
       e.bare = 3
       if (!bare) { e.flash = 0.3; emit(w, 'burn', e.x + 12, e.y + 16); return true }
@@ -489,6 +625,7 @@ export function damage(w: World, e: Enemy, dmg: number, weapon: Weapon, dir: key
     w.score += e.boss ? 500 : 10
     emit(w, e.boss ? 'bossDie' : 'kill', e.x + e.w / 2, e.y + e.h / 2)
     if (!e.boss) loot(w, e.x, e.y)
+    if (e.kind === 'iceblob') shatter(w, e)
   }
   return true
 }
@@ -527,19 +664,34 @@ function updateShots(w: World, dt: number) {
       }
       if (ch === 'B') { cutBush(w, tx, ty); s.life = 0; continue }
     }
-    if (stopsShots(ch)) { s.life = 0; continue }
+    if (stopsShots(ch)) {
+      s.life = 0
+      if (s.kind === 'rock') emit(w, 'thud', s.x, s.y)
+      continue
+    }
     const box = shotBox(s.x, s.y)
     if (s.owner === 'player') {
       const dir = Math.abs(s.vx) > Math.abs(s.vy) ? (s.vx < 0 ? 'left' : 'right') : (s.vy < 0 ? 'up' : 'down')
       const e = w.enemies.find(o => o.hp > 0 && o.hitBy !== s.swing && vulnerable(o) && overlap(box, enemyBox(o)))
       if (e) {
-        damage(w, e, s.dmg, s.kind === 'fire' ? 'fire' : 'beam', dir)
+        const weapon = s.kind === 'fire' || s.kind === 'beam' || s.kind === 'rock' ? s.kind : 'reflect'
+        damage(w, e, s.dmg, weapon, dir)
         s.life = 0
       }
     } else if (overlap(box, body(p))) {
-      // Small seeds glance off the hero's guard when walking into them.
+      // Facing a shot guards against it: seeds glance off, and the mirror
+      // shield stops anything — and, standing still, throws it back.
       const [fx, fy] = VEC[p.dir]
-      if (s.kind === 'seed' && p.swing <= 0 && fx * s.vx + fy * s.vy < 0) emit(w, 'clang', s.x, s.y)
+      const guarded = p.swing <= 0 && !p.carry && fx * s.vx + fy * s.vy < 0
+      if (guarded && w.inv.shield && p.still) {
+        s.vx = -s.vx
+        s.vy = -s.vy
+        s.owner = 'player'
+        s.life = 2
+        emit(w, 'reflect', s.x, s.y)
+        continue
+      }
+      if (guarded && (w.inv.shield || s.kind === 'seed')) emit(w, 'clang', s.x, s.y)
       else hurtPlayer(w, s.dmg, s.x - s.vx, s.y - s.vy)
       s.life = 0
     }
@@ -627,25 +779,44 @@ export function give(w: World, item: DropKind) {
       treasure(w, item, ['YOU FOUND THE HERON BOOTS! NOW YOU CAN WADE THROUGH SHALLOW WATER.'])
       break
     case 'heart':
-      p.maxHp += 2
+      p.maxHp = Math.min(MAX_HP, p.maxHp + 2)
       p.hp = p.maxHp
       w.score += 100
       treasure(w, item, ['A HEART VESSEL! YOUR LIFE GROWS BY ONE HEART.'])
+      break
+    case 'gloves':
+      inv.gloves = true
+      treasure(w, item, ['YOU FOUND THE IRON GLOVES! FACE A BOULDER AND PRESS A TO LIFT IT, THEN PRESS A AGAIN TO THROW IT.'])
+      break
+    case 'grapple':
+      inv.grapple = true
+      inv.b = 'grapple'
+      treasure(w, item, [
+        'YOU FOUND THE GRAPPLE! PRESS B TO FIRE IT. IT BITES INTO WOODEN POSTS AND PULLS YOU ACROSS, AND IT STUNS FOES.',
+        'PAUSE TO CHOOSE WHICH ITEM B USES.',
+      ])
+      break
+    case 'shield':
+      inv.shield = true
+      treasure(w, item, ['YOU FOUND THE MIRROR SHIELD! IT STOPS SHOTS THAT HIT YOU FROM THE FRONT. STAND STILL, AND IT THROWS THEM BACK.'])
       break
     case 'potion':
       inv.potion = true
       treasure(w, item, ['A RED POTION! IF YOU FALL, IT WILL LIFT YOU BACK UP.'])
       break
     case 'flame': {
+      // The flag for this flame is already set, so it counts itself.
       inv.flames++
       p.hp = p.maxHp
       w.score += 1000
-      const left = 3 - inv.flames
+      const q = questOf(w)
+      const lit = questFlames(w)
+      const left = q.dungeons.length - lit
       treasure(w, item, [
-        `THE ${ORDINAL[inv.flames - 1]} HEARTH-FLAME BURNS AGAIN!`,
-        left ? `${left === 1 ? 'ONE MORE FLAME SLEEPS' : 'TWO MORE FLAMES SLEEP'} SOMEWHERE IN EMBERFALL.`
-          : 'ALL THREE BURN! THE ASHEN GATE IN THE FAR NORTH WILL OPEN FOR YOU NOW.',
-        ...GOALS[nextGoal(w)].hint,
+        `THE ${ORDINAL[lit - 1]} ${q.flame} BURNS AGAIN!`,
+        left ? `${left === 1 ? 'ONE MORE SLEEPS' : 'TWO MORE SLEEP'} SOMEWHERE IN ${q.name}.`
+          : 'ALL THREE BURN! THE GREAT GATE IN THE FAR NORTH WILL OPEN FOR YOU NOW.',
+        ...goalInfo(w).hint,
       ], { kind: 'warp', warp: exitOf(w) })
       break
     }
@@ -684,7 +855,7 @@ function pickups(w: World, dt: number) {
 
 function bossRewards(w: World) {
   const id = w.map.id
-  if (id === 'keep') return
+  if (id === questOf(w).final.map) return
   place(w, 'heart', 112, 112, `heart:${id}`)
   place(w, 'flame', ...CENTRE, `flame:${id}`)
 }
@@ -692,12 +863,8 @@ function bossRewards(w: World) {
 function bossDefeated(w: World, e: Enemy) {
   w.flags.add(`boss:${w.map.id}`)
   emit(w, 'door')
-  if (e.kind === 'king') {
-    openDialog(w, [
-      'THE ASHEN KING CRUMBLES INTO COLD GREY DUST, AND THE WIND CARRIES HIM AWAY.',
-      'FAR TO THE SOUTH, THE THREE HEARTH-FLAMES LEAP UP BRIGHTER THAN EVER BEFORE.',
-      'EMBERFALL IS SAVED!',
-    ], { kind: 'win' })
+  if (e.kind === questOf(w).final.boss) {
+    openDialog(w, questOf(w).ending, { kind: 'win' })
     return
   }
   bossRewards(w)
@@ -765,7 +932,7 @@ export function continueGame(w: World) {
 
 /** Put the B button on the next item carried. */
 export function cycleItem(w: World) {
-  const owned = (['bombs', 'rod'] as const).filter(i => (i === 'bombs' ? w.inv.hasBombs : w.inv.rod))
+  const owned = (['bombs', 'rod', 'grapple'] as const).filter(i => (i === 'bombs' ? w.inv.hasBombs : w.inv[i]))
   if (!owned.length) return
   const i = w.inv.b ? owned.indexOf(w.inv.b) : -1
   w.inv.b = owned[(i + 1) % owned.length]
