@@ -3,7 +3,7 @@
 // Plain data, so a save is just a few fields of it. Positions are in pixels
 // across the whole map; the room on screen is (rx, ry).
 
-import type { BossKind, Dir, EnemyKind, GameMap, ItemKind, Npc, Warp } from './maps'
+import { QUESTS, type BossKind, type Dir, type EnemyKind, type GameMap, type ItemKind, type Npc, type Quest, type Warp } from './maps'
 import { RH, RW, TILE, VIEW_H, VIEW_W } from './tiles'
 
 export type BItem = 'bombs' | 'rod'
@@ -227,7 +227,7 @@ export function tileAt(w: World, tx: number, ty: number): string {
       if (!w.opened.has(openKey(m, tx, ty))) return ch
       return ch === 'C' && m.warps[`${tx},${ty}`] ? 'D' : m.floor
     case 'B': return w.cut.has(`${tx},${ty}`) ? m.floor : ch
-    case 'K': return w.inv.flames >= 3 ? ',' : ch
+    case 'K': return questFlames(w) >= questOf(w).dungeons.length ? ',' : ch
     case 'S': return w.roomBusy ? ch : m.floor
   }
   return ch
@@ -237,4 +237,18 @@ export const tileAtPx = (w: World, x: number, y: number) => tileAt(w, Math.floor
 
 export function emit(w: World, kind: EventKind, x?: number, y?: number) {
   w.events.push({ kind, x, y })
+}
+
+// ── Quests ──────────────────────────────────────────────────────────────────
+/** The quest of the land you're in. */
+export const questOf = (w: World): Quest => QUESTS[w.map.quest]
+
+/** Flames (or the like) relit so far in the current land's quest. */
+export const questFlames = (w: World, q: Quest = questOf(w)) =>
+  q.dungeons.filter(d => w.flags.has(`got:flame:${d}`)).length
+
+/** The first step of the current quest not yet done, or null when it's all done. */
+export function nextStep(w: World) {
+  const q = questOf(w)
+  return q.steps.find(s => ('flag' in s.need ? !w.flags.has(s.need.flag) : !w.inv[s.need.have])) ?? null
 }

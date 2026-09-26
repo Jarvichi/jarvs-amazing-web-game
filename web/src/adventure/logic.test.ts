@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { GOALS, MAPS, START } from './maps'
+import { ALL_HINTS, MAPS, START } from './maps'
 import { tileAt, type GameEvent, type World } from './state'
 import { makeEnemy } from './enemies'
 import {
@@ -106,7 +106,10 @@ describe('moving', () => {
   it('the ashen gate opens for three flames', () => {
     const w = createWorld()
     expect(tileAt(w, 55, 3)).toBe('K')
-    w.inv.flames = 3
+    w.flags.add('got:flame:barrow')
+    w.flags.add('got:flame:mine')
+    expect(tileAt(w, 55, 3)).toBe('K')
+    w.flags.add('got:flame:shrine')
     expect(tileAt(w, 55, 3)).toBe(',')
   })
 })
@@ -470,7 +473,7 @@ describe('dialog text', () => {
   it('every line the game says fits', () => {
     for (const m of Object.values(MAPS)) {
       for (const r of Object.values(m.rooms)) {
-        for (const page of paginate([...(r.talk ?? []), ...(r.npcs ?? []).flatMap(n => n.lines), ...Object.values(GOALS).flatMap(g => g.hint)])) {
+        for (const page of paginate([...(r.talk ?? []), ...(r.npcs ?? []).flatMap(n => n.lines), ...ALL_HINTS])) {
           for (const line of page.split('\n')) expect(line.length).toBeLessThanOrEqual(DIALOG_COLS)
         }
       }

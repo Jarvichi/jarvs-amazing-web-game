@@ -4,9 +4,9 @@
 // happened (for sound and screen shake). No drawing, no DOM: tests drive it
 // directly.
 
-import { GOALS, MAPS, START, type Goal, type ItemKind, type RoomDef, type Warp } from './maps'
+import { MAPS, START, type ItemKind, type RoomDef, type Warp } from './maps'
 import {
-  VEC, body, emit, enemyBox, facing, feet, openKey, overlap, rand, roomKey, roomLeft, roomTop,
+  VEC, body, nextStep, questFlames, questOf, emit, enemyBox, facing, feet, openKey, overlap, rand, roomKey, roomLeft, roomTop,
   tileAt, type Action, type Box, type DropKind, type Enemy, type GameEvent, type World,
 } from './state'
 import { ENEMIES, harmless, knockEnemy, makeBoss, makeEnemy, updateEnemy, vulnerable } from './enemies'
@@ -75,7 +75,7 @@ function warp(w: World, to: Warp) {
   const from = w.map.kind
   enterMap(w, to)
   if (w.map.kind === 'dungeon' && from !== 'dungeon') w.respawn = to
-  if (w.map.kind === 'overworld') w.respawn = START
+  if (w.map.kind === 'overworld') w.respawn = questOf(w).start
   emit(w, 'stairs')
 }
 
@@ -354,17 +354,11 @@ function useItem(w: World) {
   }
 }
 
-/** The next thing to do: fetch the blade, relight each flame in turn, then the keep. */
-export function nextGoal(w: World): Goal {
-  if (!w.inv.sword) return 'sword'
-  // Each dungeon's treasure is needed for the next leg, so fetch it if it was left behind.
-  const legs = [['barrow', w.inv.hasBombs, 'bombs'], ['mine', w.inv.rod, 'rod'], ['shrine', w.inv.boots, 'boots']] as const
-  for (const [dungeon, have, treasure] of legs) {
-    if (!w.flags.has(`got:flame:${dungeon}`)) return dungeon
-    if (!have) return treasure
-  }
-  return w.flags.has('boss:keep') ? 'done' : 'keep'
-}
+/** The next thing to do in this land's quest, e.g. 'barrow', or 'done'. */
+export const nextGoal = (w: World): string => nextStep(w)?.id ?? 'done'
+
+/** Where the next goal is, and what the guides say about it. */
+export const goalInfo = (w: World) => nextStep(w) ?? questOf(w).done
 
 function talk(w: World): boolean {
   const p = w.player
@@ -377,7 +371,7 @@ function talk(w: World): boolean {
       if (n.guide) {
         // Their own story once; after that, just the way on.
         const heard = `heard:${w.map.id}:${roomKey(w)}:${n.look}`
-        pages = w.flags.has(heard) ? GOALS[nextGoal(w)].hint : [...pages, ...GOALS[nextGoal(w)].hint]
+        pages = w.flags.has(heard) ? goalInfo(w).hint : [...pages, ...goalInfo(w).hint]
         w.flags.add(heard)
       }
       openDialog(w, pages)
@@ -637,15 +631,18 @@ export function give(w: World, item: DropKind) {
       treasure(w, item, ['A RED POTION! IF YOU FALL, IT WILL LIFT YOU BACK UP.'])
       break
     case 'flame': {
+      // The flag for this flame is already set, so it counts itself.
       inv.flames++
       p.hp = p.maxHp
       w.score += 1000
-      const left = 3 - inv.flames
+      const q = questOf(w)
+      const lit = questFlames(w)
+      const left = q.dungeons.length - lit
       treasure(w, item, [
-        `THE ${ORDINAL[inv.flames - 1]} HEARTH-FLAME BURNS AGAIN!`,
-        left ? `${left === 1 ? 'ONE MORE FLAME SLEEPS' : 'TWO MORE FLAMES SLEEP'} SOMEWHERE IN EMBERFALL.`
-          : 'ALL THREE BURN! THE ASHEN GATE IN THE FAR NORTH WILL OPEN FOR YOU NOW.',
-        ...GOALS[nextGoal(w)].hint,
+        `THE ${ORDINAL[lit - 1]} ${q.flame} BURNS AGAIN!`,
+        left ? `${left === 1 ? 'ONE MORE SLEEPS' : 'TWO MORE SLEEP'} SOMEWHERE IN ${q.name}.`
+          : 'ALL THREE BURN! THE GREAT GATE IN THE FAR NORTH WILL OPEN FOR YOU NOW.',
+        ...goalInfo(w).hint,
       ], { kind: 'warp', warp: exitOf(w) })
       break
     }
@@ -684,7 +681,7 @@ function pickups(w: World, dt: number) {
 
 function bossRewards(w: World) {
   const id = w.map.id
-  if (id === 'keep') return
+  if (id === questOf(w).final.map) return
   place(w, 'heart', 112, 112, `heart:${id}`)
   place(w, 'flame', ...CENTRE, `flame:${id}`)
 }
@@ -692,12 +689,8 @@ function bossRewards(w: World) {
 function bossDefeated(w: World, e: Enemy) {
   w.flags.add(`boss:${w.map.id}`)
   emit(w, 'door')
-  if (e.kind === 'king') {
-    openDialog(w, [
-      'THE ASHEN KING CRUMBLES INTO COLD GREY DUST, AND THE WIND CARRIES HIM AWAY.',
-      'FAR TO THE SOUTH, THE THREE HEARTH-FLAMES LEAP UP BRIGHTER THAN EVER BEFORE.',
-      'EMBERFALL IS SAVED!',
-    ], { kind: 'win' })
+  if (e.kind === questOf(w).final.boss) {
+    openDialog(w, questOf(w).ending, { kind: 'win' })
     return
   }
   bossRewards(w)

@@ -6,12 +6,12 @@
 
 import { PAL, drawSprite, drawText, hash, makeSprite, textWidth, type Sprite } from '../arcade/gfx'
 import type { Dir, GameMap, Look } from './maps'
-import { GOALS, MAPS } from './maps'
+import { MAPS } from './maps'
 import { jumpHeight } from './enemies'
-import { tileAt, type Drop, type Enemy, type World } from './state'
+import { questFlames, tileAt, type Drop, type Enemy, type World } from './state'
 import { ENEMY_ART, HERO, ITEM_ART, PERSON } from './sprites'
 import { RH, RW, TILE, VIEW_H, VIEW_W } from './tiles'
-import { nextGoal, SCROLL_TIME, SWING_TIME, SWORD_REACH, swordAngle, swordPivot } from './world'
+import { goalInfo, SCROLL_TIME, SWING_TIME, SWORD_REACH, swordAngle, swordPivot } from './world'
 
 export { PAL, drawText }
 
@@ -85,14 +85,13 @@ const THEMES: Record<Theme, Colours> = {
   cave: { ground: '#3a2c22', tuft: '#46362a', dark: '#2a2018', path: '#3a2c22', wall: '#6a5040', brick: '#4a3628' },
 }
 
-const ASH_ROOMS = new Set(['0,0', '1,0', '2,0', '3,0', '4,0', '5,0', '2,1', '3,1', '4,1', '5,1'])
-const MARSH_ROOMS = new Set(['0,1', '1,1', '0,2'])
 
 function themeAt(m: GameMap, tx: number, ty: number): Theme {
   if (m.kind === 'cave') return 'cave'
   if (m.kind === 'dungeon') return m.id as Theme
   const room = `${Math.floor(tx / RW)},${Math.floor(ty / RH)}`
-  return ASH_ROOMS.has(room) ? 'ash' : MARSH_ROOMS.has(room) ? 'marsh' : 'green'
+  for (const [theme, rooms] of Object.entries(m.regions ?? {})) if (rooms.includes(room)) return theme as Theme
+  return (m.theme ?? 'green') as Theme
 }
 
 /** Whether the ground under a tile is outdoor grass (for trees, rocks…). */
@@ -581,7 +580,7 @@ function drawMinimap(g: G, w: World, t: number) {
     }
   }
   // The next goal blinks on the overworld map.
-  const goal = GOALS[nextGoal(w)].room
+  const goal = goalInfo(w).room
   if (m.kind === 'overworld' && goal && Math.floor(t * 3) % 2 === 0) {
     rect(g, ox + goal[0] * cw + cw / 2 - 2, oy + goal[1] * ch + 1, 3, 2, PAL[10])
   }
@@ -617,8 +616,9 @@ function drawHud(g: G, w: World, t: number) {
   }
   // Flames relit.
   for (let i = 0; i < 3; i++) {
-    const s = sprite(i < inv.flames ? 'flame' : 'flameOut', () =>
-      i < inv.flames ? ITEM_ART.flame : ITEM_ART.flame.map(r => r.replace(/[^.]/g, '5')))
+    const lit = i < questFlames(w)
+    const s = sprite(lit ? 'flame' : 'flameOut', () =>
+      lit ? ITEM_ART.flame : ITEM_ART.flame.map(r => r.replace(/[^.]/g, '5')))
     g.drawImage(s, 148 + i * 9, 14)
   }
   centreText(g, '-LIFE-', 212, 3, PAL[8])
@@ -673,7 +673,7 @@ export function drawInventory(g: G, w: World, t: number, hint: string) {
   })
   drawText(g, 'HEARTH-FLAMES', 20, HUD + 104, PAL[9])
   for (let i = 0; i < 3; i++) {
-    if (i < inv.flames) drawItem(g, 'flame', 20 + i * 20, HUD + 112, t)
+    if (i < questFlames(w)) drawItem(g, 'flame', 20 + i * 20, HUD + 112, t)
     else g.drawImage(sprite('flameOut', () => ITEM_ART.flame.map(r => r.replace(/[^.]/g, '5'))), 24 + i * 20, HUD + 114)
   }
   const mins = Math.floor(w.time / 60)

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { MAPS, OVERWORLD_TILES, START, DUNGEON_IDS, type GameMap } from './maps'
+import { MAPS, START, DUNGEON_IDS, type GameMap } from './maps'
+import { OVERWORLD_TILES } from './emberfall'
 import { RH, RW, TILE, walkable } from './tiles'
 
 const LEGAL = new Set('.,FA=TaRMgWw~BXCDhHQK:#soLS;_')
