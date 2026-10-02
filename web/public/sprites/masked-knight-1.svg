@@ -1,12 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8" r="0.9" fill="#12141f"/>
-  <path d="M8,12 L7,25 L25,25 L24,12 Q16,18 8,12 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15" width="6" height="1.6" fill="#7A4A6B"/>
-  <circle cx="9" cy="18" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="8" y="25" width="6" height="6" fill="#2B2F3E"/>
-  <rect x="19" y="25" width="6" height="4" fill="#2B2F3E"/>
+  <!-- Velvet cloak -->
+  <path d="M8.6,13 L2.6,29 L9,26.4 L16,29.6 L23,26.4 L29.4,29 L23.4,13 Z" fill="#6B2D5C"/>
+  <!-- Crowned mask helm -->
+  <path d="M10.6,5.6 L12,2 L14,4.6 L16,1.4 L18,4.6 L20,2 L21.4,5.6 Z" fill="#E8B94A"/>
+  <path d="M10.6,10 Q10.6,5 16,5 Q21.4,5 21.4,10 L19.6,13.4 H12.4 Z" fill="#C9CBDA"/>
+  <path d="M12.4,9 q1.2,-1 2.4,0 M17.2,9 q1.2,-1 2.4,0 M14,11.8 Q16,12.8 18,11.8" stroke="#1B1424" stroke-width="0.9" fill="none"/>
+  <!-- Plate with masks hanging from the belt -->
+  <rect x="9.4" y="13.6" width="13.2" height="11" rx="1.6" fill="#7E8299"/>
+  <path d="M8,15.6 Q8.4,13.6 11,13.8 V17 H8 Z M24,15.6 Q23.6,13.6 21,13.8 V17 H24 Z" fill="#C9CBDA"/>
+  <rect x="9.4" y="21.6" width="13.2" height="1.6" fill="#E8B94A"/>
+  <ellipse cx="11.6" cy="26" rx="1.6" ry="1.8399999999999999" fill="#C9CBDA"/>
+  <path d="M10.48,25.68 q0.6400000000000001,-0.8 1.1199999999999999,0 M12.719999999999999,25.68 q-0.6400000000000001,-0.8 -1.1199999999999999,0" stroke="#1B1424" stroke-width="0.7" fill="none"/>
+  <ellipse cx="16" cy="27" rx="1.6" ry="1.8399999999999999" fill="#C9CBDA"/>
+  <path d="M14.88,26.68 q0.6400000000000001,-0.8 1.1199999999999999,0 M17.12,26.68 q-0.6400000000000001,-0.8 -1.1199999999999999,0" stroke="#1B1424" stroke-width="0.7" fill="none"/>
+  <ellipse cx="20.4" cy="26" rx="1.6" ry="1.8399999999999999" fill="#C9CBDA"/>
+  <path d="M19.279999999999998,25.68 q0.6400000000000001,-0.8 1.1199999999999999,0 M21.52,25.68 q-0.6400000000000001,-0.8 -1.1199999999999999,0" stroke="#1B1424" stroke-width="0.7" fill="none"/>
+  <!-- Rapier -->
+  <rect x="26" y="5" width="1" height="19" fill="#C9CBDA"/>
+  <path d="M24,23.6 Q26.5,26 29,23.6" stroke="#E8B94A" stroke-width="1.2" fill="none"/>
+  <rect x="25.4" y="23.6" width="2.2" height="3.4" rx="0.8" fill="#4A1F40"/>
+  <rect x="11.6" y="27" width="3.5" height="3.6" rx="1" fill="#4A1F40" transform="rotate(-16 13.35 27)"/>
+  <rect x="16.2" y="27" width="3.5" height="3.6" rx="1" fill="#4A1F40" transform="rotate(16 17.95 27)"/>
+  <rect x="8.6" y="29.400000000000002" width="5.5" height="2.8" rx="1" fill="#1B1424"/>
+  <rect x="17.7" y="29.400000000000002" width="5.5" height="2.8" rx="1" fill="#1B1424"/>
 </svg>
