@@ -1,9 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="13" y="18" width="6" height="11" fill="#5E6A8C"/>
-  <rect x="11" y="16" width="10" height="3" fill="#3F5170"/>
-  <path d="M13,16 Q16,6 19,16 Z" fill="#8A97A0"/>
-  <rect x="14.6" y="6" width="2.8" height="4" rx="1" fill="#D9F0E8"/>
-  <circle cx="16" cy="13" r="1.4" fill="#2B2F3E"/>
-  <rect x="15.3" y="13" width="1.4" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="9" ry="1.6" fill="#7FCDA0" opacity="0.3"/>
+  <ellipse cx="16" cy="29.6" rx="12" ry="1.8" fill="#D9F0E8" opacity="0.45"/>
+  <ellipse cx="16" cy="29.6" rx="7" ry="0.9" fill="#FFFFFF" opacity="0.5"/>
+  <!-- Timber frame -->
+  <path d="M5,29 V7 M27,29 V7" stroke="#6B4F3A" stroke-width="2.4" fill="none"/>
+  <path d="M3.6,7.4 H28.4" stroke="#8A6F4D" stroke-width="2.4"/>
+  <path d="M5,12 L9,7.6 M27,12 L23,7.6" stroke="#6B4F3A" stroke-width="1.4"/>
+  <!-- Bell and clapper -->
+  <rect x="15.2" y="7.4" width="1.6" height="3" fill="#8A97A0"/>
+  <path d="M10,22 Q10,11 16,10.4 Q22,11 22,22 L24,23.6 H8 Z" fill="#E8B94A"/>
+  <path d="M12,21 Q12,13 16,12.4" stroke="#FFF2B0" stroke-width="1.2" fill="none"/>
+  <rect x="15.2" y="23.4" width="1.6" height="3.4" fill="#6B4F3A"/>
+  <circle cx="16" cy="27.4" r="1.4" fill="#6B4F3A"/>
+  <!-- Reeds at the foot -->
+  <path d="M1.6,29 Q1,24 3,21 M30.4,29 Q31,24 29,21" stroke="#7FCDA0" stroke-width="1.3" fill="none"/>
 </svg>
