@@ -85,7 +85,7 @@ const ALLOWED_SPRITE_CLONES = new Map<string, string>([
   [groupKey(['court-vanguard.svg', 'envoy-vanguard.svg', 'marsh-vanguard.svg', 'orchard-vanguard.svg', 'winter-vanguard.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['crown-automaton.svg', 'procession-automaton.svg', 'rite-automaton.svg', 'ward-automaton.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['crown-guard.svg', 'crown-vanguard.svg', 'rite-guard.svg', 'rite-vanguard.svg', 'vigil-guard.svg', 'vigil-vanguard.svg', 'ward-guard.svg', 'ward-vanguard.svg']), 'pending redraw — tracked in #2333'],
-  [groupKey(['driftwood-archer.svg', 'grove-archer.svg', 'icebound-archer.svg', 'reedline-archer.svg', 'silver-archer.svg']), 'pending redraw — tracked in #2333'],
+  [groupKey(['grove-archer.svg', 'icebound-archer.svg', 'reedline-archer.svg', 'silver-archer.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['echo-caller.svg', 'hollow-chanter.svg', 'hollow-tidecaller.svg', 'rime-chanter.svg', 'root-chanter.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['frost-barricade.svg', 'reach-barricade.svg', 'reed-barricade.svg', 'road-barricade.svg', 'root-barricade.svg', 'sunken-barricade.svg', 'throne-barricade.svg', 'velvet-barricade.svg', 'ward-barricade.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['frost-runner.svg', 'masked-page.svg', 'reed-strider.svg', 'sapling-runner.svg']), 'pending redraw — tracked in #2333'],

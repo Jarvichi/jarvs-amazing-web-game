@@ -1,10 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="3.6" fill="#C9CBDA"/>
-  <circle cx="15" cy="9.3" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="9.3" r="0.6" fill="#2B2F3E"/>
-  <path d="M12.5,13 L11.5,22 L20.5,22 L19.5,13 Q16,15.2 12.5,13 Z" fill="#3F5170"/>
-  <path d="M21,10 Q26,16 21,22" stroke="#6B4F3A" stroke-width="1.2" fill="none"/>
-  <line x1="21" y1="10" x2="21" y2="22" stroke="#B8E3E6" stroke-width="0.6"/>
-  <rect x="17.5" y="22" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="12.5" y="22" width="3" height="4" fill="#2B2F3E"/>
+  <!-- Net cape and reed quiver behind -->
+  <path d="M8,14 L6,26 L14,26 L14,14 Z" fill="#8A97A0" opacity="0.9"/>
+  <path d="M7.4,17 L13.6,17 M7,20 L13.8,20 M6.6,23 L14,23 M9,14 L8,26 M12,14 L11.4,26" stroke="#3F5170" stroke-width="0.6" fill="none"/>
+  <rect x="6" y="10" width="3" height="8" rx="0.8" fill="#6B4F3A" transform="rotate(-12 7.5 13)"/>
+  <!-- Wide-brim fisher's hat -->
+  <ellipse cx="15.5" cy="8.4" rx="7.4" ry="1.7" fill="#6B4F3A"/>
+  <path d="M11.6,8.2 Q15.5,2.4 19.4,8.2 Z" fill="#8A6F4D"/>
+  <circle cx="15.6" cy="10.8" r="3" fill="#E3D9CF"/>
+  <circle cx="17" cy="10.8" r="0.6" fill="#12141f"/>
+  <!-- Torso, arm drawn to the bow -->
+  <rect x="12" y="13.6" width="7.4" height="10.4" rx="2" fill="#3F5170"/>
+  <rect x="12" y="18" width="7.4" height="1.2" fill="#6FD3D9"/>
+  <rect x="17" y="14.4" width="8" height="2.2" rx="1.1" fill="#3F5170"/>
+  <!-- Crooked driftwood bow, lashed -->
+  <path d="M25,3.6 Q30.6,10 25.4,15.5 Q31.4,21 24.6,28" stroke="#6B4F3A" stroke-width="2" fill="none"/>
+  <path d="M25.6,9.6 L27.8,10.4 M26,20 L28,20.4" stroke="#8A97A0" stroke-width="0.9" fill="none"/>
+  <path d="M25,3.6 L19.4,15.6 L24.6,28" stroke="#F2E9D8" stroke-width="0.6" fill="none"/>
+  <rect x="19.6" y="15.2" width="9" height="0.8" fill="#C9CBDA"/>
+  <path d="M28.6,15.6 L31,15.6 L28.6,14.4 Z" fill="#8A97A0"/>
+  <rect x="12.2" y="24" width="3.5" height="7" rx="1" fill="#2B2F3E" transform="rotate(16 13.95 24)"/>
+  <rect x="16.2" y="24" width="3.5" height="7" rx="1" fill="#2B2F3E" transform="rotate(-16 17.95 24)"/>
+  <rect x="12.2" y="29.8" width="5.5" height="2.8" rx="1" fill="#12141f"/>
+  <rect x="14.7" y="29.8" width="5.5" height="2.8" rx="1" fill="#12141f"/>
 </svg>
