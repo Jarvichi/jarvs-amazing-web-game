@@ -1,11 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#C9CBDA"/>
-  <path d="M12,8 Q16,2.5 20,8 L20,9.5 Q16,6.5 12,9.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M12,12 L11,22 L21,22 L20,12 Q16,14.5 12,12 Z" fill="#5E6A8C"/>
-  <rect x="21" y="11" width="1.4" height="14" fill="#6B4F3A"/>
-  <circle cx="21.7" cy="11" r="1.6" fill="#C9E8F0" opacity="0.8"/>
-  <rect x="13.5" y="22" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="16.5" y="22" width="3" height="6" fill="#2B2F3E"/>
+  <!-- Curved tusk horn with frost pennant -->
+  <path d="M15,12 Q24,12 28,3 Q27,9 22,14 Q18,15 15,14 Z" fill="#F2E9D8"/>
+  <path d="M17,13 Q23,13 27,5" stroke="#8A7A66" stroke-width="0.7" fill="none"/>
+  <path d="M26.4,4 L26.4,12.4 L30.6,10 L29,7.6 L30.6,5.4 Z" fill="#BFE6F2"/>
+  <path d="M26.80,8.20 L30.00,8.20" stroke="#2E4A66" stroke-width="0.7"/>
+  <path d="M27.60,6.81 L29.20,9.59" stroke="#2E4A66" stroke-width="0.7"/>
+  <path d="M29.20,6.81 L27.60,9.59" stroke="#2E4A66" stroke-width="0.7"/>
+  <!-- Tall fur hat -->
+  <rect x="9.6" y="1" width="8" height="6.6" rx="2" fill="#C9B8A0"/>
+  <path d="M9.6,6 H17.6" stroke="#8A7A66" stroke-width="1"/>
+  <circle cx="13.6" cy="10.4" r="3.2" fill="#E3D9CF"/>
+  <rect x="10.8" y="9.2" width="5.6" height="1.8" rx="0.8" fill="#BFE6F2" opacity="0.8"/>
+  <circle cx="12.4" cy="10" r="0.5" fill="#1A2535"/><circle cx="14.8" cy="10" r="0.5" fill="#1A2535"/>
+  <!-- Frost-blue greatcoat with epaulettes -->
+  <path d="M8,14 H19 L21,26 H6 Z" fill="#2E4A66"/>
+  <path d="M13.4,14 V26" stroke="#BFE6F2" stroke-width="1"/>
+  <circle cx="11.4" cy="17" r="0.7" fill="#BFE6F2"/><circle cx="11.4" cy="20.4" r="0.7" fill="#BFE6F2"/>
+  <rect x="6.4" y="13" width="4" height="2.4" rx="1" fill="#C9B8A0"/><rect x="16.6" y="13" width="4" height="2.4" rx="1" fill="#C9B8A0"/>
+  <rect x="14" y="13.6" width="6" height="2.4" rx="1.2" fill="#2E4A66" transform="rotate(-20 14 14.8)"/>
+  <rect x="8.4" y="26" width="3.5" height="5" rx="1" fill="#1A2535"/>
+  <rect x="13.6" y="26" width="3.5" height="5" rx="1" fill="#1A2535"/>
+  <rect x="7.4" y="29" width="5.5" height="3" rx="1" fill="#8A7A66"/>
+  <rect x="13.1" y="29" width="5.5" height="3" rx="1" fill="#8A7A66"/>
 </svg>
