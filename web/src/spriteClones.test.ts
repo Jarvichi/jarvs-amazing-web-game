@@ -65,7 +65,7 @@ const ALLOWED_SPRITE_CLONES = new Map<string, string>([
   [groupKey(['banner-chanter.svg', 'banner-herald.svg', 'choir-of-the-candles.svg', 'choir-of-the-reaches.svg', 'choir-of-the-remembered.svg', 'diadem-bearer.svg', 'diadem-chanter.svg', 'road-chanter.svg', 'road-herald.svg', 'ward-herald.svg', 'window-chanter.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['banner-foundry.svg', 'candle-foundry.svg', 'diadem-foundry.svg', 'vigil-foundry.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['candle-archer.svg', 'reach-archer.svg', 'throne-archer.svg', 'vigil-archer.svg']), 'pending redraw — tracked in #2333'],
-  [groupKey(['candle-runner.svg', 'crown-sentry.svg', 'marshal-courier.svg', 'procession-courier.svg', 'procession-runner.svg', 'reach-runner.svg', 'regalia-courier.svg', 'rite-sentry.svg', 'throne-runner.svg', 'vigil-walker.svg', 'ward-courier.svg', 'window-sentry.svg']), 'pending redraw — tracked in #2333'],
+  [groupKey(['candle-runner.svg', 'crown-sentry.svg', 'marshal-courier.svg', 'procession-runner.svg', 'reach-runner.svg', 'regalia-courier.svg', 'rite-sentry.svg', 'throne-runner.svg', 'vigil-walker.svg', 'ward-courier.svg', 'window-sentry.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['candle-sconce.svg', 'reach-sconce.svg', 'throne-sconce.svg', 'vigil-sconce.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['candle-sentry.svg', 'reach-sentry.svg', 'road-sentry.svg', 'throne-sentry.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['candle-watchtower.svg', 'reach-watchtower.svg', 'road-watchtower.svg', 'throne-watchtower.svg']), 'pending redraw — tracked in #2333'],
