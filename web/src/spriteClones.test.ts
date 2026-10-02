@@ -67,7 +67,7 @@ const ALLOWED_SPRITE_CLONES = new Map<string, string>([
   [groupKey(['bonewood-guard.svg', 'frost-guard.svg', 'marsh-guard.svg', 'masked-guard.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['blossom-foundry.svg', 'glass-foundry.svg', 'mask-foundry.svg', 'pearl-foundry.svg', 'snowmelt-foundry.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['blossom-sentry.svg', 'glass-sentry.svg', 'mask-sentry.svg', 'pearl-sentry.svg', 'snowbound-sentry.svg']), 'pending redraw — tracked in #2333'],
-  [groupKey(['bonewood-knight.svg', 'drowned-knight.svg', 'frostbound-knight.svg', 'marsh-knight.svg', 'masked-knight.svg']), 'pending redraw — tracked in #2333'],
+  [groupKey(['bonewood-knight.svg', 'frostbound-knight.svg', 'marsh-knight.svg', 'masked-knight.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['bonewood-scout.svg', 'glasswater-scout.svg', 'rime-herald.svg', 'silver-herald.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['bonewood-watchtower.svg', 'envoy-watchtower.svg', 'hollow-watchtower.svg', 'marsh-watchtower.svg', 'rime-watchtower.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['candle-archer.svg', 'reach-archer.svg', 'throne-archer.svg', 'vigil-archer.svg']), 'pending redraw — tracked in #2333'],
