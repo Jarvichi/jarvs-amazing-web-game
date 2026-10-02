@@ -1,9 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="6" y="8" width="20" height="20" fill="#3F5170"/>
-  <rect x="9" y="11" width="14" height="14" fill="#2B2F3E"/>
-  <rect x="11" y="13" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="17" y="13" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="11" y="19" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="17" y="19" width="4" height="4" fill="#5E6A8C"/>
-  <circle cx="16" cy="18" r="1.6" fill="#4C7A5E"/>
+  <ellipse cx="16" cy="29.4" rx="14.4" ry="1.8" fill="#1C1A17" opacity="0.4"/>
+  <!-- Bark cottage -->
+  <rect x="5" y="14" width="22" height="14.6" fill="#4A3A2E"/>
+  <path d="M8,14 V28.6 M12,14 V28.6 M20,14 V28.6 M24,14 V28.6" stroke="#7A5A3C" stroke-width="0.8"/>
+  <!-- Blossom-thatched roof -->
+  <path d="M2,15 L16,5 L30,15 Z" fill="#6B8F5A"/>
+  <circle cx="9" cy="12.6" r="1.4" fill="#E8A0B8"/><circle cx="14" cy="9.6" r="1.4" fill="#E8A0B8"/><circle cx="19" cy="9.4" r="1.4" fill="#E8A0B8"/><circle cx="23.6" cy="12.8" r="1.4" fill="#E8A0B8"/><circle cx="16" cy="12.6" r="1.4" fill="#F2B8CA"/>
+  <path d="M16,5 V1.6" stroke="#E8E0CC" stroke-width="1.6"/>
+  <!-- Root-tangled sealed door -->
+  <path d="M12,28.6 V19 Q12,15.6 16,15.6 Q20,15.6 20,19 V28.6 Z" fill="#1C1A17"/>
+  <path d="M12,24 Q16,21 20,24 M12,20 Q16,23.6 20,19.6 M14,28 Q16,23 18,28" stroke="#7A5A3C" stroke-width="1.6" fill="none"/>
+  <circle cx="16" cy="22" r="2.8" fill="#B53A3A"/><circle cx="16" cy="22" r="1.4" fill="#8E2A2A"/>
+  <path d="M6,28 Q3,26 3,22 M26,28 Q29,26 29,22" stroke="#6B8F5A" stroke-width="1.2" fill="none"/>
 </svg>
