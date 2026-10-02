@@ -1,7 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path d="M6,17 Q11,9 16,17 Q21,9 26,17 Q21,21 16,17 Q11,21 6,17 Z" fill="#C9E8F0" opacity="0.85"/>
-  <circle cx="12" cy="14" r="1.2" fill="#2B2F3E"/>
-  <circle cx="20" cy="14" r="1.2" fill="#2B2F3E"/>
-  <path d="M8,19 Q16,25 24,19 Q16,23 8,19 Z" fill="#8FD3E8" opacity="0.7"/>
-  <ellipse cx="16" cy="27" rx="11" ry="2.2" fill="#3F5170" opacity="0.45"/>
+  <!-- Ice-crystal wings -->
+  <path d="M10,13 L2,7.0 L4,14.0 L1,18.0 L10,17 Z" fill="#BFE6F2"/>
+  <path d="M22,13 L30,7.0 L28,14.0 L31,18.0 L22,17 Z" fill="#BFE6F2"/>
+  <path d="M9,14 L3,9.0 M23,14 L29,9.0" stroke="#F4FAFD" stroke-width="0.8"/>
+  <!-- Storm-cloud body with a gaping frost face -->
+  <circle cx="11" cy="13" r="5" fill="#8CC4DC"/><circle cx="17" cy="10" r="5.6" fill="#8CC4DC"/><circle cx="22" cy="14" r="4.6" fill="#8CC4DC"/>
+  <circle cx="14" cy="17" r="5" fill="#6FA8C8"/><circle cx="20" cy="18" r="4.2" fill="#6FA8C8"/>
+  <ellipse cx="14" cy="12" rx="1.6" ry="2" fill="#2E4A66"/><ellipse cx="20.4" cy="12.6" rx="1.6" ry="2" fill="#2E4A66"/>
+  <circle cx="14" cy="12.4" r="0.7" fill="#F4FAFD"/><circle cx="20.4" cy="13" r="0.7" fill="#F4FAFD"/>
+  <path d="M11,19 Q17,25 23,19 L21,20 L19,23 L17,20.6 L15,23 L13,20 Z" fill="#2E4A66"/>
+  <path d="M12,20 L13,22.4 L14,20.4 M16,21 L17,24 L18,21 M20,20.4 L21,22.4 L22,19.8" fill="#F4FAFD"/>
+  <!-- Icicle fringe and snow -->
+  <path d="M9,19 L9.8,24 L10.6,19 M23,20 L23.8,25 L24.6,20" fill="#F4FAFD"/>
+  <circle cx="5" cy="24" r="0.8" fill="#F4FAFD"/><circle cx="27" cy="27" r="0.8" fill="#F4FAFD"/><circle cx="16" cy="28" r="0.8" fill="#F4FAFD"/>
 </svg>
