@@ -1,7 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="8" y="16" width="16" height="12" fill="#3F5170"/>
-  <path d="M8,16 L16,7 L24,16 Z" fill="#5E6A8C"/>
-  <circle cx="16" cy="21" r="4" fill="#D9F0E8"/>
-  <circle cx="16" cy="21" r="2.2" fill="#7FCDA0"/>
-  <circle cx="16" cy="10" r="1.4" fill="#F2E9D8"/>
+  <ellipse cx="16" cy="29.4" rx="14" ry="1.8" fill="#12141f" opacity="0.4"/>
+  <!-- Workshop with slanted roof -->
+  <rect x="3" y="13" width="26" height="15.6" fill="#5E6A8C"/>
+  <path d="M1.4,14 L6,6.6 H29 L30.6,14 Z" fill="#3F5170"/>
+  <!-- Furnace mouth with glowing glass -->
+  <path d="M17,28.6 V20 Q22,14.6 27,20 V28.6 Z" fill="#12141f"/>
+  <path d="M18.6,28.6 V21 Q22,17.4 25.4,21 V28.6 Z" fill="#D9F0E8"/>
+  <path d="M20.4,28.6 V23 Q22,21 23.6,23 V28.6 Z" fill="#7FCDA0"/>
+  <!-- Blowpipe and bottles -->
+  <rect x="3.4" y="19" width="13" height="1.2" fill="#8A97A0"/>
+  <circle cx="4.2" cy="19.6" r="2.2" fill="#D9F0E8"/>
+  <path d="M6,28.6 V25 Q6,23 8,23 Q10,23 10,25 V28.6 Z M11.4,28.6 V26 Q11.4,24.4 13,24.4 Q14.6,24.4 14.6,26 V28.6 Z" fill="#7FCDA0"/>
+  <path d="M7,23.4 V21.6 M12.4,24.6 V23" stroke="#D9F0E8" stroke-width="1"/>
+  <!-- Chimney -->
+  <rect x="9" y="1.6" width="4" height="6" fill="#8A97A0"/>
+  <ellipse cx="11" cy="1.2" rx="2.6" ry="1" fill="#E8EAF4" opacity="0.6"/>
 </svg>
