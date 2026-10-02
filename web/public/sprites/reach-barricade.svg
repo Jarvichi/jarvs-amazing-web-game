@@ -1,9 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="4" y="14" width="24" height="14" fill="#5E6A8C"/>
-  <rect x="4" y="14" width="24" height="3" fill="#D4AF37"/>
-  <rect x="7" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="14" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="21" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="4" y="24" width="24" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="14" ry="1.6" fill="#D4AF37" opacity="0.3"/>
+  <ellipse cx="16" cy="29.8" rx="15" ry="1.4" fill="#14161F" opacity="0.4"/>
+  <path d="M1.4,29 V8 L3.2,4 L5.0,8 V29 Z" fill="#8A6F4D"/>
+  <path d="M3.2,4 V29" stroke="#6B4F3A" stroke-width="0.7"/>
+  <path d="M6.2,29 V8 L8.0,4 L9.8,8 V29 Z" fill="#8A6F4D"/>
+  <path d="M8.0,4 V29" stroke="#6B4F3A" stroke-width="0.7"/>
+  <path d="M11,29 V8 L12.8,4 L14.6,8 V29 Z" fill="#8A6F4D"/>
+  <path d="M12.8,4 V29" stroke="#6B4F3A" stroke-width="0.7"/>
+  <path d="M15.8,29 V8 L17.6,4 L19.400000000000002,8 V29 Z" fill="#8A6F4D"/>
+  <path d="M17.6,4 V29" stroke="#6B4F3A" stroke-width="0.7"/>
+  <path d="M20.6,29 V8 L22.400000000000002,4 L24.200000000000003,8 V29 Z" fill="#8A6F4D"/>
+  <path d="M22.400000000000002,4 V29" stroke="#6B4F3A" stroke-width="0.7"/>
+  <path d="M25.4,29 V8 L27.2,4 L29.0,8 V29 Z" fill="#8A6F4D"/>
+  <path d="M27.2,4 V29" stroke="#6B4F3A" stroke-width="0.7"/>
+  <!-- Cross beams, rope lashings and banner -->
+  <rect x="0.6" y="14" width="30.8" height="2.4" rx="0.8" fill="#6B4F3A"/><rect x="0.6" y="21.4" width="30.8" height="2.4" rx="0.8" fill="#6B4F3A"/>
+  <path d="M4.6,13.6 V16.8 M9.4,13.6 V16.8 M14.2,13.6 V16.8 M19,13.6 V16.8 M23.8,13.6 V16.8 M28.6,13.6 V16.8" stroke="#EDE6D0" stroke-width="0.9"/>
+  <path d="M13.6,2.6 H20 V10 L16.8,8 L13.6,10 Z" fill="#B03040"/>
+  <path d="M16.8,3.6 L17.4,5 L18.8,5 L17.7,5.8 L18.1,7.2 L16.8,6.4 L15.5,7.2 L15.9,5.8 L14.8,5 L16.2,5 Z" fill="#E0B040"/>
 </svg>
