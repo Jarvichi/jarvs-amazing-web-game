@@ -1,9 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="4" y="14" width="24" height="14" fill="#5E6A8C"/>
-  <rect x="4" y="14" width="24" height="3" fill="#3F5170"/>
-  <rect x="7" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="14" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="21" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="4" y="24" width="24" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="14" ry="1.6" fill="#6FD3D9" opacity="0.3"/>
+  <!-- Half-drowned tower stones -->
+  <path d="M3,26 L5,15 L12,13 L14.4,17 L19,12 L26,14.4 L29,26 Z" fill="#8A97A0"/>
+  <path d="M5,15 L12,13 L14.4,17 L19,12 L26,14.4" stroke="#5E6A8C" stroke-width="1.2" fill="none"/>
+  <path d="M7,20.6 H15 M17,19.6 H27 M9,23.6 H24" stroke="#3F5170" stroke-width="0.8"/>
+  <!-- Arrow slit and fallen spire -->
+  <rect x="10" y="16.6" width="1.8" height="4.4" fill="#12141f"/>
+  <path d="M20.6,22 L22,18.6 L23.6,22 Z" fill="#12141f"/>
+  <path d="M22,12.6 L27.6,6 L29,13.6 Z" fill="#5E6A8C"/>
+  <path d="M3,4.6 L7.6,11.4 L2.6,11.4 Z" fill="#6B4F3A" opacity="0.0"/>
+  <!-- Barnacles and kelp -->
+  <circle cx="8" cy="17.4" r="0.9" fill="#F2E9D8"/><circle cx="16" cy="15" r="0.9" fill="#F2E9D8"/><circle cx="25" cy="18" r="0.9" fill="#F2E9D8"/>
+  <path d="M5,26 Q3.6,20 6,16 M27,26 Q29,21 26.4,17" stroke="#3F8F8A" stroke-width="1.3" fill="none"/>
+  <!-- Water over the footing -->
+  <path d="M1,24.6 Q4,23 7,24.6 T13,24.6 T19,24.6 T25,24.6 T31,24.6 L31,30 L1,30 Z" fill="#3F5170"/>
+  <path d="M1,24.6 Q4,23 7,24.6 T13,24.6 T19,24.6 T25,24.6 T31,24.6" stroke="#6FD3D9" stroke-width="1.1" fill="none"/>
 </svg>
