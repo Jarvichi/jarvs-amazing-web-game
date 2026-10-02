@@ -1,7 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="14" y="16" width="4" height="14" fill="#2B2F3E"/>
-  <path d="M10,10 Q16,4 22,10 L20,16 L12,16 Z" fill="#5E6A8C"/>
-  <ellipse cx="16" cy="9" rx="4.5" ry="6" fill="#FFC94A" opacity="0.85"/>
-  <ellipse cx="16" cy="9" rx="2" ry="3.5" fill="#FFF3C4" opacity="0.9"/>
-  <ellipse cx="16" cy="29" rx="8" ry="1.4" fill="#FFC94A" opacity="0.25"/>
+  <ellipse cx="16" cy="29.6" rx="12" ry="1.6" fill="#120F1E" opacity="0.4"/>
+  <!-- Brick gatepost with iron bracket -->
+  <rect x="9" y="12" width="14" height="17.4" fill="#8A4A3A"/>
+  <path d="M9,17 H23 M9,22 H23 M9,27 H23 M16,12 V17 M12.5,17 V22 M19.5,17 V22 M16,22 V27" stroke="#5E2F25" stroke-width="0.7"/>
+  <rect x="8" y="10.4" width="16" height="2.4" fill="#4A5066"/>
+  <path d="M23,15 H29 Q31,15 31,12 M23,19 H27" stroke="#4A5066" stroke-width="1.6" fill="none"/>
+  <!-- Great candle in a cup, flame doubling as watch-light -->
+  <path d="M12,10.4 L13,7 H19 L20,10.4 Z" fill="#E8B94A"/>
+  <rect x="14.2" y="0.6" width="3.6" height="6.6" rx="0.6" fill="#F2E9D8"/>
+  <path d="M16,-3 Q19.4,0 16,2.4 Q12.6,0 16,-3 Z" fill="#FFB347"/>
+  <path d="M16,-1.6 Q17.6,0 16,1.4 Q14.4,0 16,-1.6 Z" fill="#FFF2B0"/>
+  <path d="M14.2,3 V6 M17.8,2 V5.4" stroke="#F2E9D8" stroke-width="1"/>
+  <circle cx="30.4" cy="11.6" r="1.4" fill="#F0C060"/>
+  <!-- Ward badge -->
+  <rect x="13" y="16" width="6" height="6.4" fill="#F0C060"/><path d="M16,16 V22.4 M13,19.2 H19" stroke="#8A4A3A" stroke-width="0.8"/>
 </svg>
