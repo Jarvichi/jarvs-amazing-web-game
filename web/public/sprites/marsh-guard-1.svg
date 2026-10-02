@@ -1,11 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="4.2" fill="#8A97A0"/>
-  <circle cx="15" cy="9" r="0.7" fill="#12141f"/>
-  <circle cx="17" cy="9" r="0.7" fill="#12141f"/>
-  <path d="M10,13 L9,23 L23,23 L22,13 Q16,17 10,13 Z" fill="#5E6A8C"/>
-  <circle cx="12" cy="16" r="1.4" fill="#6B4F3A"/>
-  <circle cx="20" cy="15.5" r="1.6" fill="#6B4F3A"/>
-  <circle cx="16" cy="19" r="1.3" fill="#6B4F3A"/>
-  <rect x="10" y="23" width="4" height="6" fill="#2B2F3E"/>
-  <rect x="18" y="23" width="4" height="4" fill="#2B2F3E"/>
+  <path d="M8,14 Q8.8,9 8,4" stroke="#7FCDA0" stroke-width="1.1" fill="none"/>
+  <rect x="7.1" y="3.2" width="1.8" height="3.2" rx="0.9" fill="#6B4F3A"/>
+  <path d="M11,14 Q11.8,12 11,4" stroke="#7FCDA0" stroke-width="1.1" fill="none"/>
+  <rect x="10.1" y="3.2" width="1.8" height="3.2" rx="0.9" fill="#6B4F3A"/>
+  <path d="M21,14 Q21.8,10 21,4" stroke="#7FCDA0" stroke-width="1.1" fill="none"/>
+  <rect x="20.1" y="3.2" width="1.8" height="3.2" rx="0.9" fill="#6B4F3A"/>
+  <path d="M24,14 Q24.8,8 24,4" stroke="#7FCDA0" stroke-width="1.1" fill="none"/>
+  <rect x="23.1" y="3.2" width="1.8" height="3.2" rx="0.9" fill="#6B4F3A"/>
+  <!-- Heavy stake -->
+  <rect x="27" y="7" width="2" height="22" fill="#6B4F3A"/>
+  <path d="M26,7 L28,2.6 L30,7 Z" fill="#8A97A0"/>
+  <!-- Reed-woven tower shield -->
+  <path d="M2.4,14 H10.6 V22 Q6.5,27 2.4,22 Z" fill="#8A6F4D"/>
+  <path d="M2.4,17 H10.6 M2.4,20 H10.6 M5,14 V24 M8,14 V24" stroke="#7FCDA0" stroke-width="0.8" fill="none"/>
+  <!-- Pot helm, armour grown through with reeds -->
+  <path d="M11.4,12.4 L11.4,7.4 Q16,4.6 20.6,7.4 L20.6,12.4 Z" fill="#8A97A0"/>
+  <rect x="12.6" y="9" width="6.8" height="1.8" fill="#12141f"/>
+  <rect x="11" y="12.4" width="10" height="12" rx="1.4" fill="#5E6A8C"/>
+  <path d="M12,16 H20 M12,20 H20" stroke="#3F5170" stroke-width="0.8"/>
+  <rect x="21" y="15.4" width="6.6" height="2.6" rx="1.2" fill="#8A97A0"/>
+  <rect x="11.6" y="24.4" width="3.5" height="6" rx="1" fill="#3F5170" transform="rotate(-16 13.35 24.4)"/>
+  <rect x="16.2" y="24.4" width="3.5" height="6" rx="1" fill="#3F5170" transform="rotate(16 17.95 24.4)"/>
+  <rect x="8.6" y="29.2" width="5.5" height="2.8" rx="1" fill="#12141f"/>
+  <rect x="17.7" y="29.2" width="5.5" height="2.8" rx="1" fill="#12141f"/>
 </svg>
