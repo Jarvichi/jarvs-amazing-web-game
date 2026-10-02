@@ -1,10 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#2B2F3E"/>
-  <path d="M11.5,8 Q16,1 20.5,8 L20.5,9.5 Q16,6.5 11.5,9.5 Z" fill="#5E6A8C"/>
-  <circle cx="15.3" cy="8.5" r="1" fill="#E8C468"/>
-  <circle cx="17.3" cy="8.5" r="1" fill="#E8C468"/>
-  <path d="M10,12 L9,23 L23,23 L22,12 Q16,16 10,12 Z" fill="#5E6A8C"/>
-  <path d="M16,12 L14,19 L18,19 Z" fill="#E8C468" opacity="0.8"/>
-  <rect x="12" y="23" width="4" height="6" fill="#2B2F3E"/>
-  <rect x="16" y="23" width="4" height="6" fill="#2B2F3E"/>
+  <!-- Swinging censer with smoke -->
+  <path d="M25.6,11 V16" stroke="#5C5C66" stroke-width="0.8"/>
+  <circle cx="25.6" cy="18.4" r="2.6" fill="#E8B94A"/>
+  <path d="M23.4,18.4 H27.8 M25.6,16 V20.8" stroke="#272A56" stroke-width="0.6"/>
+  <path d="M25.6,15.6 Q22,11 26,7 Q29,4 26,1" stroke="#C9CBDA" stroke-width="1.1" fill="none" opacity="0.8"/>
+  <rect x="21" y="10" width="5.4" height="2.2" rx="1.1" fill="#272A56" transform="rotate(-24 21 10)"/>
+  <!-- Cowl with open mouth -->
+  <path d="M8.6,15 Q8,3.6 15,3.4 Q22,3.6 21.4,15 Z" fill="#272A56"/>
+  <ellipse cx="15" cy="10" rx="3.6" ry="4.2" fill="#E3D9CF"/>
+  <path d="M12.6,9.2 q0.8,-0.6 1.6,0 M15.8,9.2 q0.8,-0.6 1.6,0" stroke="#14141C" stroke-width="0.6" fill="none"/>
+  <ellipse cx="15" cy="12.2" rx="1.1" ry="1.4" fill="#14141C"/>
+  <!-- Gold-hemmed robe, hymnal in other hand -->
+  <path d="M9.6,15.6 L6,28 H24 L20.4,15.6 Q15,17.4 9.6,15.6 Z" fill="#3B3F7A"/>
+  <path d="M6,28 H24 M15,17 V28" stroke="#E8B94A" stroke-width="1"/>
+  <rect x="3" y="15.6" width="7.4" height="5.2" rx="0.6" fill="#F2E9D8"/>
+  <path d="M6.7,15.6 V20.8" stroke="#272A56" stroke-width="0.5"/>
+  <rect x="11.4" y="27" width="3.5" height="3.6" rx="1" fill="#14141C" transform="rotate(-16 13.15 27)"/>
+  <rect x="15.8" y="27" width="3.5" height="3.6" rx="1" fill="#14141C" transform="rotate(16 17.55 27)"/>
+  <rect x="8.4" y="29.400000000000002" width="5.5" height="2.8" rx="1" fill="#14141C"/>
+  <rect x="17.3" y="29.400000000000002" width="5.5" height="2.8" rx="1" fill="#14141C"/>
 </svg>

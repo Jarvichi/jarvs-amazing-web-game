@@ -1,12 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8" r="0.9" fill="#12141f"/>
-  <path d="M8,12 L7,25 L25,25 L24,12 Q16,18 8,12 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15" width="6" height="1.6" fill="#6FD3D9"/>
-  <circle cx="9" cy="18" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="8" y="25" width="6" height="4" fill="#2B2F3E"/>
-  <rect x="19" y="25" width="6" height="6" fill="#2B2F3E"/>
+  <!-- Seaweed cloak -->
+  <path d="M8,13.4 L4.4,27 L7.4,25.6 L9.4,29 L12.6,26.4 L16,29 L19.4,26.4 L22.6,29 L24.6,25.6 L27.6,27 L24,13.4 Z" fill="#2B2F3E"/>
+  <!-- Anchor crest -->
+  <path d="M16,0.8 V5 M13.6,3.2 H18.4 M12.6,4.6 Q16,7.8 19.4,4.6" stroke="#8A6F4D" stroke-width="1.1" fill="none"/>
+  <!-- Rust helm, teal glow -->
+  <path d="M10.4,13.6 L10.4,7 Q16,4 21.6,7 L21.6,13.6 Z" fill="#5E6A8C"/>
+  <rect x="11.8" y="9" width="8.4" height="2" fill="#12141f"/>
+  <rect x="12.6" y="9.4" width="2.2" height="1.2" fill="#6FD3D9"/>
+  <rect x="17.2" y="9.4" width="2.2" height="1.2" fill="#6FD3D9"/>
+  <!-- Plate with hanging kelp -->
+  <path d="M8.2,16 Q8.6,13.4 11.6,13.8 L20.4,13.8 Q23.4,13.4 23.8,16 L21.6,18 L10.4,18 Z" fill="#8A97A0"/>
+  <rect x="10.6" y="17.4" width="10.8" height="8.6" rx="1" fill="#5E6A8C"/>
+  <path d="M12,18 Q10.4,22 12.6,26 M16,18 Q14.8,23 16.4,27 M20,18 Q21.6,22 19.4,26" stroke="#3F8F8A" stroke-width="1.1" fill="none"/>
+  <!-- Anchor-hammer -->
+  <rect x="25.2" y="9" width="1.8" height="20" rx="0.7" fill="#6B4F3A"/>
+  <rect x="21.4" y="7.6" width="9.4" height="2" rx="0.8" fill="#8A97A0"/>
+  <path d="M22.2,9.4 Q26.1,15 30,9.4" stroke="#8A97A0" stroke-width="1.6" fill="none"/>
+  <circle cx="26.1" cy="6.4" r="1.3" fill="none" stroke="#8A97A0" stroke-width="0.9"/>
+  <rect x="22.4" y="16.4" width="3.6" height="2.4" rx="1" fill="#8A97A0"/>
+  <rect x="11.5" y="26" width="3.5" height="5" rx="1" fill="#3F5170" transform="rotate(16 13.25 26)"/>
+  <rect x="16" y="26" width="3.5" height="5" rx="1" fill="#3F5170" transform="rotate(-16 17.75 26)"/>
+  <rect x="11.5" y="29.8" width="5.5" height="2.8" rx="1" fill="#12141f"/>
+  <rect x="14.5" y="29.8" width="5.5" height="2.8" rx="1" fill="#12141f"/>
 </svg>

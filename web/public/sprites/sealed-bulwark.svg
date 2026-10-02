@@ -1,8 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path d="M5,28 L5,13 Q16,4 27,13 L27,28 Z" fill="#5E6A8C"/>
-  <path d="M9,28 L9,16 Q16,9 23,16 L23,28 Z" fill="#1c1f2c"/>
-  <rect x="4" y="26" width="24" height="3" fill="#2B2F3E"/>
-  <circle cx="16" cy="10" r="1.6" fill="#D4AF37"/>
-  <rect x="9" y="16" width="3" height="12" fill="#D4AF37" opacity="0.5"/>
-  <rect x="20" y="16" width="3" height="12" fill="#D4AF37" opacity="0.5"/>
+  <ellipse cx="16" cy="29.6" rx="15" ry="1.6" fill="#14161F" opacity="0.4"/>
+  <!-- Twin round turrets -->
+  <rect x="1.4" y="8" width="8" height="21" fill="#8A93A6"/><rect x="22.6" y="8" width="8" height="21" fill="#8A93A6"/>
+  <path d="M0.6,8 L5.4,2 L10.2,8 Z M21.8,8 L26.6,2 L31.4,8 Z" fill="#2F4F8F"/>
+  <rect x="4" y="12" width="2.4" height="4" fill="#14161F"/><rect x="25.2" y="12" width="2.4" height="4" fill="#14161F"/>
+  <path d="M1.4,18 H9.4 M22.6,18 H30.6 M1.4,24 H9.4 M22.6,24 H30.6" stroke="#6C7488" stroke-width="0.7"/>
+  <!-- Gatehouse wall with lowered portcullis -->
+  <rect x="9.4" y="10" width="13.2" height="19" fill="#6C7488"/>
+  <path d="M9.4,10 V7 H11.6 V9 H14 V7 H16 V9 H18 V7 H20.4 V9 H22.6 V7" stroke="#8A93A6" stroke-width="1.4" fill="none"/>
+  <path d="M12,29 V18 Q12,13.4 16,13.4 Q20,13.4 20,18 V29 Z" fill="#14161F"/>
+  <path d="M13.2,29 V18.4 M16,29 V13.6 M18.8,29 V18.4 M12,19 H20 M12,24 H20" stroke="#A8B0C0" stroke-width="1"/>
+  <circle cx="16" cy="21.6" r="2.6" fill="#B03040"/><circle cx="16" cy="21.6" r="1.3" fill="#7A2028"/>
+  <path d="M16,10 V7" stroke="#E0B040" stroke-width="1.2"/>
 </svg>

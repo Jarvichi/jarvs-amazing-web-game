@@ -1,10 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#E8E4D8"/>
-  <path d="M12,8 Q16,3 20,8 L20,9.5 Q16,6 12,9.5 Z" fill="#4C7A5E"/>
-  <circle cx="15" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,12 L10.5,21 L21.5,21 L20.5,12 Q16,14.5 11.5,12 Z" fill="#3F5170"/>
-  <rect x="9" y="13" width="3" height="8" rx="1" fill="#8A97A0"/>
-  <rect x="13.5" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="21" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Sapling in a pot on the back -->
+  <rect x="3" y="14" width="6" height="5.6" rx="1" fill="#7A5A3C"/>
+  <path d="M6,14 V8 M6,11 Q3,9 3,6 M6,10 Q9,8 9.4,5" stroke="#6B8F5A" stroke-width="1.2" fill="none"/>
+  <circle cx="3" cy="5.4" r="1.4" fill="#6B8F5A"/><circle cx="9.4" cy="4.4" r="1.4" fill="#6B8F5A"/><circle cx="6" cy="7" r="1.2" fill="#E8A0B8"/>
+  <!-- Straw hat with blossoms -->
+  <ellipse cx="15.6" cy="6.6" rx="8" ry="1.8" fill="#B9903F"/>
+  <path d="M11,6.4 Q15.6,1.2 20.2,6.4 Z" fill="#D9B060"/>
+  <circle cx="12.4" cy="5.4" r="1" fill="#E8A0B8"/><circle cx="14.4" cy="3.8" r="1" fill="#E8A0B8"/>
+  <circle cx="15.8" cy="9.2" r="3" fill="#E3D9CF"/>
+  <circle cx="17" cy="9" r="0.55" fill="#1C1A17"/>
+  <!-- Stooped body with apron -->
+  <path d="M10.6,12.4 Q16,11 21,12.8 L21.6,24 H10 Z" fill="#6B8F5A"/>
+  <path d="M12,15 H20 V24 H12 Z" fill="#E8E0CC"/>
+  <rect x="13.4" y="18" width="5.2" height="2.6" rx="0.6" fill="#B9AE92"/>
+  <!-- Long shears and watering can -->
+  <rect x="20" y="13" width="7" height="2.2" rx="1.1" fill="#6B8F5A" transform="rotate(14 20 14)"/>
+  <path d="M26,16 L31,19 M26,18 L31,16.4" stroke="#C9CBDA" stroke-width="1.2"/>
+  <path d="M25.4,22 H30 V27 H25.4 Z M25.4,23 L22,21.4" fill="#8A97A0" stroke="#8A97A0" stroke-width="0.8"/>
+  <rect x="11" y="24" width="3.5" height="6" rx="1" fill="#4A3A2E"/>
+  <rect x="15.8" y="24" width="3.5" height="6" rx="1" fill="#4A3A2E"/>
+  <rect x="10" y="28" width="5.5" height="3" rx="1" fill="#1C1A17"/>
+  <rect x="15.3" y="28" width="5.5" height="3" rx="1" fill="#1C1A17"/>
 </svg>

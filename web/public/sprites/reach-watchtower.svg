@@ -1,9 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="12" y="4" width="8" height="10" fill="#5E6A8C"/>
-  <rect x="9" y="12" width="14" height="17" fill="#8A97A0"/>
-  <rect x="9" y="12" width="14" height="3" fill="#D4AF37"/>
-  <rect x="13" y="18" width="6" height="5" fill="#2B2F3E"/>
-  <rect x="8" y="3" width="2" height="4" fill="#2B2F3E"/>
-  <rect x="22" y="3" width="2" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="9" ry="1.4" fill="#D4AF37" opacity="0.25"/>
+  <ellipse cx="16" cy="29.6" rx="12" ry="1.6" fill="#14161F" opacity="0.4"/>
+  <!-- Stone keep -->
+  <path d="M8,29.6 H24 V10 H8 Z" fill="#8A93A6"/>
+  <path d="M8,15 H24 M8,20 H24 M8,25 H24 M13,10 V15 M19,10 V15 M10.6,15 V20 M16,15 V20 M21.4,15 V20 M13,20 V25 M19,20 V25" stroke="#6C7488" stroke-width="0.7"/>
+  <path d="M12.6,29.6 V24 Q16,20.6 19.4,24 V29.6 Z" fill="#14161F"/>
+  <rect x="15.2" y="13" width="1.6" height="4.6" fill="#14161F"/>
+  <!-- Timber hoarding gallery and crenellations -->
+  <path d="M5,10 H27 V6 H5 Z" fill="#8A6F4D"/>
+  <path d="M5,10 L8,6 M27,10 L24,6 M11,10 V6 M16,10 V6 M21,10 V6" stroke="#6B4F3A" stroke-width="1"/>
+  <path d="M8,6 V3 H10.6 V5 H13.4 V3 H16 V5 H18.6 V3 H21.4 V5 H24 V3 H26 V6" fill="#8A93A6"/>
+  <rect x="12" y="7" width="3" height="1.8" fill="#14161F"/><rect x="17" y="7" width="3" height="1.8" fill="#14161F"/>
+  <!-- Crown flag -->
+  <rect x="15.4" y="-0.4" width="1.2" height="4" fill="#6B4F3A"/>
+  <path d="M16.6,-0.4 L22,1 L16.6,2.6 Z" fill="#E0B040"/>
 </svg>

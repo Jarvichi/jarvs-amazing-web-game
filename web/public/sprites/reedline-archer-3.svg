@@ -1,10 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="3.6" fill="#C9CBDA"/>
-  <circle cx="15" cy="9.3" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="9.3" r="0.6" fill="#2B2F3E"/>
-  <path d="M12.5,13 L11.5,22 L20.5,22 L19.5,13 Q16,15.2 12.5,13 Z" fill="#3F5170"/>
-  <path d="M21,10 Q26,16 21,22" stroke="#6B4F3A" stroke-width="1.2" fill="none"/>
-  <line x1="21" y1="10" x2="21" y2="22" stroke="#D9F0E8" stroke-width="0.6"/>
-  <rect x="17.5" y="22" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="12.5" y="22" width="3" height="4" fill="#2B2F3E"/>
+  <!-- Tall reed bow -->
+  <path d="M5,0.6 Q-0.6,16 5,32" stroke="#7FCDA0" stroke-width="1.6" fill="none"/>
+  <path d="M5,0.6 L11,16 L5,32" stroke="#F2E9D8" stroke-width="0.5" fill="none"/>
+  <rect x="11" y="15.6" width="12" height="0.8" fill="#7FCDA0"/>
+  <path d="M11,16 L8.6,15 L8.6,17 Z" fill="#F2E9D8"/>
+  <!-- Reed-fibre headband and face -->
+  <circle cx="17" cy="9" r="3.2" fill="#E3D9CF"/>
+  <rect x="13.6" y="7.4" width="6.8" height="1.4" fill="#7FCDA0"/>
+  <path d="M20.2,7.8 L23.6,6 L22,9 Z" fill="#7FCDA0"/>
+  <circle cx="15.6" cy="9.6" r="0.5" fill="#12141f"/>
+  <!-- Long coat -->
+  <path d="M12.6,12.6 L21.4,12.6 L22.6,26 L11.4,26 Z" fill="#3F5170"/>
+  <path d="M12,19 H22" stroke="#7FCDA0" stroke-width="1"/>
+  <rect x="9" y="14" width="8" height="2.2" rx="1.1" fill="#3F5170"/>
+  <!-- Reed-arrow quiver -->
+  <rect x="21.6" y="11" width="3" height="10" rx="1" fill="#6B4F3A"/>
+  <path d="M22.2,11 V7.6 M23.4,11 V6.6 M24.2,11 V7.6" stroke="#7FCDA0" stroke-width="0.8"/>
+  <rect x="12.4" y="26" width="3.5" height="5" rx="1" fill="#2B2F3E" transform="rotate(16 14.15 26)"/>
+  <rect x="16.6" y="26" width="3.5" height="5" rx="1" fill="#2B2F3E" transform="rotate(-16 18.35 26)"/>
+  <rect x="12.4" y="29.8" width="5.5" height="2.8" rx="1" fill="#12141f"/>
+  <rect x="15.100000000000001" y="29.8" width="5.5" height="2.8" rx="1" fill="#12141f"/>
 </svg>

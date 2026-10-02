@@ -1,9 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="10" y="17" width="12" height="11" fill="#8A97A0"/>
-  <rect x="12" y="9" width="8" height="9" rx="2" fill="#5E6A8C"/>
-  <circle cx="14.5" cy="13" r="1" fill="#4C7A5E"/>
-  <circle cx="17.5" cy="13" r="1" fill="#4C7A5E"/>
-  <rect x="8" y="18" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="21" y="18" width="3" height="6" fill="#2B2F3E"/>
-  <circle cx="16" cy="21" r="1.6" fill="#E8B4C8"/>
+  <ellipse cx="16" cy="30" rx="11" ry="1.4" fill="#1C1A17" opacity="0.4"/>
+  <!-- Root legs -->
+  <path d="M12,21 Q8,25 6,29.6 M20,21 Q24,25 26,29.6" stroke="#7A5A3C" stroke-width="2.4" fill="none"/>
+  <path d="M6,29.6 L3.6,31 M6,29.6 L8.4,31 M26,29.6 L23.6,31 M26,29.6 L28.4,31" stroke="#7A5A3C" stroke-width="1.2"/>
+  <!-- Barrel torso with gear window -->
+  <rect x="8.6" y="9" width="14.8" height="13" rx="3.4" fill="#4A3A2E"/>
+  <path d="M8.6,13 H23.4 M8.6,18 H23.4" stroke="#7A5A3C" stroke-width="1.2"/>
+  <circle cx="16" cy="15.6" r="3.2" fill="#1C1A17"/><circle cx="16" cy="15.6" r="2" fill="#B9AE92"/><circle cx="16" cy="15.6" r="0.8" fill="#4A3A2E"/>
+  <path d="M16,12.4 V13.4 M16,17.8 V18.8 M12.8,15.6 H13.8 M18.2,15.6 H19.2" stroke="#4A3A2E" stroke-width="0.8"/>
+  <!-- Branch arms with a bone claw each -->
+  <path d="M8.6,13 L3,10 L1.4,13 M3,10 L3.6,6.6 M23.4,13 L29,10 L30.6,13 M29,10 L28.4,6.6" stroke="#E8E0CC" stroke-width="1.6" fill="none"/>
+  <!-- Sapling growing from the top -->
+  <path d="M16,9 V3.6 M16,6 Q12,5 11.4,2 M16,5 Q20,4 20.6,1.4" stroke="#6B8F5A" stroke-width="1.3" fill="none"/>
+  <circle cx="11.4" cy="1.6" r="1.4" fill="#6B8F5A"/><circle cx="20.6" cy="1" r="1.4" fill="#8FB070"/><circle cx="16" cy="3" r="1.2" fill="#E8A0B8"/>
 </svg>

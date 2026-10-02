@@ -1,12 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4.0" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8.0" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8.0" r="0.9" fill="#12141f"/>
-  <path d="M8,12.0 L7,25.0 L25,25.0 L24,12.0 Q16,18.0 8,12.0 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15.0" width="6" height="1.6" fill="#D4AF37"/>
-  <circle cx="9" cy="18.0" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="9" y="25.0" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="17.5" y="25.0" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Pike -->
+  <rect x="3" y="5" width="1.6" height="25" fill="#6B4F3A"/>
+  <path d="M3.8,0 L6,5.4 H1.6 Z" fill="#A8B0C0"/>
+  <path d="M3.8,5.4 L7,8 L3.8,7 L0.6,8 Z" fill="#B03040"/>
+  <!-- Kite shield -->
+  <path d="M19,12 H29 V20 Q29,26 24,29 Q19,26 19,20 Z" fill="#2F4F8F"/>
+  <path d="M19,12 H29 V20 Q29,26 24,29 Q19,26 19,20 Z" fill="none" stroke="#A8B0C0" stroke-width="1"/>
+  <path d="M21.5,21 L21.5,18.0 L22.75,19.8 L24,18.0 L25.25,19.8 L26.5,18.0 L26.5,21 Z" fill="#E0B040"/>
+  <!-- Barbute helm with crown crest -->
+  <path d="M10.4,5 L10.4,1.4000000000000004 L11.9,3.56 L13.4,1.4000000000000004 L14.9,3.56 L16.4,1.4000000000000004 L16.4,5 Z" fill="#E0B040"/>
+  <path d="M8.6,12 V7.6 Q13.4,4 18.2,7.6 V12 L16,13.4 H10.8 Z" fill="#A8B0C0"/>
+  <path d="M10.4,8.6 H16.6 M13.4,8.6 V13" stroke="#14161F" stroke-width="1.2"/>
+  <!-- Mail body and tabard -->
+  <rect x="8" y="13" width="11" height="12" rx="1.4" fill="#6C7488"/>
+  <path d="M10,13 H17 L16,25 H11 Z" fill="#2F4F8F"/>
+  <path d="M8,17 H19 M8,21 H19" stroke="#A8B0C0" stroke-width="0.6"/>
+  <rect x="17" y="15" width="4" height="2.4" rx="1.2" fill="#6C7488"/>
+  <rect x="8.8" y="24.8" width="3.5" height="5.2" rx="1" fill="#1E3463"/>
+  <rect x="14" y="24.8" width="3.5" height="5.2" rx="1" fill="#1E3463"/>
+  <rect x="7.800000000000001" y="28.0" width="5.5" height="3" rx="1" fill="#14161F"/>
+  <rect x="13.5" y="28.0" width="5.5" height="3" rx="1" fill="#14161F"/>
 </svg>

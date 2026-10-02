@@ -1,7 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="8" y="16" width="16" height="12" fill="#3F5170"/>
-  <path d="M8,16 L16,7 L24,16 Z" fill="#5E6A8C"/>
-  <circle cx="16" cy="21" r="4" fill="#C9E8F0"/>
-  <circle cx="16" cy="21" r="2.2" fill="#8FD3E8"/>
-  <circle cx="16" cy="10" r="1.4" fill="#F2E9D8"/>
+  <ellipse cx="16" cy="29.6" rx="14" ry="1.6" fill="#1A2535" opacity="0.4"/>
+  <!-- Stone foundry hut with snow roof -->
+  <rect x="4" y="14" width="24" height="14.6" fill="#6FA8C8"/>
+  <path d="M2,14.6 L16,6 L30,14.6 Z" fill="#2E4A66"/>
+  <path d="M2.6,14.2 Q16,4 29.4,14.2 Q16,10 2.6,14.2 Z" fill="#F4FAFD"/>
+  <!-- Kettle over fire with steam -->
+  <path d="M13,22 H23 L21.4,28.6 H14.6 Z" fill="#1A2535"/>
+  <path d="M15.2,28.6 Q18,25 20.8,28.6 Z" fill="#FFB347"/>
+  <path d="M12,16 H24 V22 H12 Z" fill="#8A97A0"/>
+  <ellipse cx="18" cy="16" rx="6" ry="1.4" fill="#6FD0F0"/>
+  <path d="M15,13 Q14,10 16,8 M19,13 Q20,10 18.4,7.6" stroke="#F4FAFD" stroke-width="1" fill="none" opacity="0.8"/>
+  <!-- Meltwater channel and snow pile -->
+  <path d="M4,25 Q8,23.4 8,28.6" stroke="#6FD0F0" stroke-width="1.6" fill="none"/>
+  <circle cx="6.2" cy="29" r="1" fill="#6FD0F0"/>
+  <path d="M0,29.6 Q3,24 9,24.6 Q12,27 12,29.6 Z" fill="#F4FAFD"/>
+  <rect x="24" y="3" width="3" height="6" fill="#8CC4DC"/>
 </svg>

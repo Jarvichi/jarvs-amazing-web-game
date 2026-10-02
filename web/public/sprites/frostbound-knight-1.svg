@@ -1,12 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8" r="0.9" fill="#12141f"/>
-  <path d="M8,12 L7,25 L25,25 L24,12 Q16,18 8,12 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15" width="6" height="1.6" fill="#8FD3E8"/>
-  <circle cx="9" cy="18" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="8" y="25" width="6" height="6" fill="#2B2F3E"/>
-  <rect x="19" y="25" width="6" height="4" fill="#2B2F3E"/>
+  <!-- Frost cape -->
+  <path d="M8,13 L3,28 L8,26 L11,29.4 L16,26.6 L21,29.4 L24,26 L29,28 L24,13 Z" fill="#2E4A66"/>
+  <path d="M3,28 L8,26 M11,29.4 L16,26.6" stroke="#F4FAFD" stroke-width="0.9"/>
+  <!-- Antlered helm -->
+  <path d="M10.6,8 L8,4.4 L9.6,2 M8,4.4 L6.2,4 M21.4,8 L24,4.4 L22.4,2 M24,4.4 L25.8,4" stroke="#BFE6F2" stroke-width="1.5" fill="none"/>
+  <path d="M10.4,13.6 L10.4,7.4 Q16,4.4 21.6,7.4 L21.6,13.6 Z" fill="#8CC4DC"/>
+  <rect x="12" y="9" width="8" height="2.2" fill="#1A2535"/>
+  <rect x="13" y="9.4" width="2" height="1.2" fill="#FFFFFF"/><rect x="17" y="9.4" width="2" height="1.2" fill="#FFFFFF"/>
+  <!-- Crystal pauldrons and ice plate -->
+  <path d="M10,14 L6,10 L5,16 L9,18 Z M22,14 L26,10 L27,16 L23,18 Z" fill="#BFE6F2"/>
+  <rect x="9.6" y="13.8" width="12.8" height="11.6" rx="1.4" fill="#8CC4DC"/>
+  <path d="M16,14 V25.4 M10,19 H22" stroke="#2E4A66" stroke-width="0.9"/>
+  <path d="M13.40,19.40 L18.60,19.40" stroke="#FFFFFF" stroke-width="0.9"/>
+  <path d="M14.70,17.15 L17.30,21.65" stroke="#FFFFFF" stroke-width="0.9"/>
+  <path d="M17.30,17.15 L14.70,21.65" stroke="#FFFFFF" stroke-width="0.9"/>
+  <!-- Two-handed ice greatsword -->
+  <path d="M27.6,1 L29.4,3 L29,21 H26.4 L26,3 Z" fill="#BFE6F2"/>
+  <path d="M27.7,3 V21" stroke="#F4FAFD" stroke-width="0.7"/>
+  <rect x="24.6" y="20.6" width="6.2" height="1.6" rx="0.6" fill="#2E4A66"/>
+  <rect x="27" y="22" width="1.4" height="4.4" fill="#6B4F3A"/>
+  <rect x="11.4" y="25.4" width="3.5" height="5.6" rx="1" fill="#2E4A66" transform="rotate(-16 13.15 25.4)"/>
+  <rect x="16.2" y="25.4" width="3.5" height="5.6" rx="1" fill="#2E4A66" transform="rotate(16 17.95 25.4)"/>
+  <rect x="8.4" y="29.8" width="5.5" height="2.8" rx="1" fill="#1A2535"/>
+  <rect x="17.7" y="29.8" width="5.5" height="2.8" rx="1" fill="#1A2535"/>
 </svg>

@@ -1,10 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#D4D4DC"/>
-  <path d="M12,8 Q16,3 20,8 L20,9.5 Q16,6.5 12,9.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,12 L10.5,21 L21.5,21 L20.5,12 Q16,14.5 11.5,12 Z" fill="#3F5170"/>
-  <path d="M20,12 L24,15 L20.5,18 Z" fill="#7A4A6B" opacity="0.8"/>
-  <rect x="13.5" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="21" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Sealed letter raised high -->
+  <rect x="21" y="1.4" width="9" height="6.4" rx="0.8" fill="#F2E9D8" transform="rotate(10 25 5)"/>
+  <path d="M21.4,2 L25.8,5.4 L30,2.6" stroke="#4A1F40" stroke-width="0.7" fill="none" transform="rotate(10 25 5)"/>
+  <circle cx="25.8" cy="5.4" r="1.5" fill="#B53A3A" transform="rotate(10 25 5)"/>
+  <rect x="18.6" y="6" width="2.4" height="8" rx="1.2" fill="#4A1F40" transform="rotate(-28 19.8 14)"/>
+  <!-- Tricorn and domino mask -->
+  <path d="M7.4,6.4 L13.4,1 L19.4,6.4 L13.4,4.8 Z" fill="#1B1424"/>
+  <path d="M7.4,6.4 L13.4,4.8 L19.4,6.4" stroke="#E8B94A" stroke-width="0.8" fill="none"/>
+  <circle cx="13.4" cy="8.6" r="3.2" fill="#E3D9CF"/>
+  <rect x="10.2" y="7.4" width="6.4" height="2" rx="1" fill="#C9CBDA"/>
+  <circle cx="12.2" cy="8.4" r="0.45" fill="#1B1424"/><circle cx="14.8" cy="8.4" r="0.45" fill="#1B1424"/>
+  <!-- Coat with streaming tails -->
+  <path d="M10,12 L17,12 L17,20 L9,20 Z" fill="#6B2D5C"/>
+  <path d="M10,16 L1.4,20 L2.4,23 L9.6,21 Z" fill="#4A1F40"/>
+  <path d="M13.4,12 V20" stroke="#E8B94A" stroke-width="0.8"/>
+  <rect x="5" y="12.6" width="5.4" height="2.2" rx="1.1" fill="#4A1F40" transform="rotate(30 10 13.6)"/>
+  <rect x="9.8" y="20" width="3.5" height="8.4" rx="1" fill="#1B1424"/>
+  <rect x="13.8" y="20" width="3.5" height="8.4" rx="1" fill="#1B1424"/>
+  <rect x="8.8" y="26.4" width="5.5" height="3" rx="1" fill="#4A1F40"/>
+  <rect x="13.3" y="26.4" width="5.5" height="3" rx="1" fill="#4A1F40"/>
 </svg>

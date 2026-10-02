@@ -1,9 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="4" y="14" width="24" height="14" fill="#5E6A8C"/>
-  <rect x="4" y="14" width="24" height="3" fill="#E8C468"/>
-  <rect x="7" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="14" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="21" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="4" y="24" width="24" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="14" ry="1.6" fill="#E8C468" opacity="0.3"/>
+  <ellipse cx="16" cy="29.6" rx="14.4" ry="1.6" fill="#14141C" opacity="0.4"/>
+  <!-- Cut processional blocks with distance marks -->
+  <rect x="2" y="14" width="8" height="14.6" rx="0.8" fill="#8A8A92"/>
+  <rect x="12" y="10" width="8" height="18.6" rx="0.8" fill="#8A8A92"/>
+  <rect x="22" y="14" width="8" height="14.6" rx="0.8" fill="#8A8A92"/>
+  <path d="M2,14 H10 M12,10 H20 M22,14 H30" stroke="#B8B8C2" stroke-width="1.6"/>
+  <path d="M4,19 V25 M6,19 L8,25 M8,19 V22 M14,15 V23 M16,15 L18,23 M18,15 V19 M24,19 V25 M26,19 L28,25 M28,19 V22" stroke="#14141C" stroke-width="1" fill="none"/>
+  <!-- Chain slung between and road stripe -->
+  <path d="M10,17 Q11,21 12,17 M20,17 Q21,21 22,17" stroke="#E8B94A" stroke-width="1.2" fill="none"/>
+  <path d="M0,29.6 H32" stroke="#5C5C66" stroke-width="1.4"/>
+  <path d="M3,29.6 H5 M9,29.6 H11 M15,29.6 H17 M21,29.6 H23 M27,29.6 H29" stroke="#F2E9D8" stroke-width="1"/>
 </svg>

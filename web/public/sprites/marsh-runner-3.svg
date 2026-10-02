@@ -1,10 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="4" fill="#C9CBDA"/>
-  <path d="M12,9 Q16,4 20,9 L20,10.5 Q16,7.5 12,10.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="9.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="9.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,13 L10.5,22 L21.5,22 L20.5,13 Q16,15.5 11.5,13 Z" fill="#3F5170"/>
-  <path d="M20,13 L24,16 L20.5,19 Z" fill="#7FCDA0" opacity="0.8"/>
-  <rect x="12" y="22" width="3" height="5" fill="#2B2F3E"/>
-  <rect x="18" y="22" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Dispatch tube on the back -->
+  <rect x="7" y="7" width="3.4" height="11" rx="1.4" fill="#6B4F3A" transform="rotate(-14 8.7 11)"/>
+  <circle cx="7.4" cy="7.6" r="1" fill="#E8B94A"/>
+  <!-- Rush-woven cap, lean torso -->
+  <path d="M12,7 Q16,2.6 20.4,7 Z" fill="#8A6F4D"/>
+  <circle cx="16.2" cy="9.6" r="3" fill="#E3D9CF"/>
+  <circle cx="17.6" cy="9.4" r="0.5" fill="#12141f"/>
+  <path d="M12.4,13 L20.4,13 L19.4,21 L13.4,21 Z" fill="#3F5170"/>
+  <rect x="13" y="16" width="6.6" height="1.2" fill="#7FCDA0"/>
+  <rect x="19" y="13.6" width="7" height="2.2" rx="1.1" fill="#3F5170" transform="rotate(30 19 13.6)"/>
+  <rect x="9.6" y="13.8" width="4" height="2.2" rx="1.1" fill="#3F5170" transform="rotate(-30 13 13.6)"/>
+  <rect x="13" y="21" width="1.4" height="11" fill="#6B4F3A" transform="rotate(16 13.7 21)"/>
+  <rect x="17.4" y="21" width="1.4" height="11" fill="#6B4F3A" transform="rotate(-16 18.1 21)"/>
+  <rect x="12" y="26" width="3.6" height="1.2" fill="#8A6F4D" transform="rotate(16 13.7 21)"/>
+  <rect x="16.6" y="26" width="3.6" height="1.2" fill="#8A6F4D" transform="rotate(-16 18.1 21)"/>
+  <path d="M12,31 Q14,30 16,31 T20,31" stroke="#D9F0E8" stroke-width="0.9" fill="none"/>
 </svg>

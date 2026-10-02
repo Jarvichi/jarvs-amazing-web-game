@@ -1,19 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Gallop pose B: legs extended -->
-  <path d="M5,23 L7,16 Q9,13 13,14 L21,14 Q25,14 26,17 L27,21 L25,23 Z" fill="#C9CBDA"/>
-  <path d="M24,15 L29,11 L30,13 L27,17 Z" fill="#C9CBDA"/>
-  <circle cx="27.8" cy="13" r="0.7" fill="#3A3F55"/>
-  <path d="M22,13 Q24,10 27,11 L25,14 Z" fill="#E8EAF4" opacity="0.8"/>
-  <rect x="13" y="7.5" width="6" height="8" rx="2" fill="#454E6B"/>
-  <circle cx="16" cy="6" r="3.4" fill="#E3D9CF"/>
-  <path d="M12.6,6 Q16,1.5 19.4,6 L19.4,7.4 Q16,5 12.6,7.4 Z" fill="#2B2F3E"/>
-  <rect x="19.5" y="5" width="1.2" height="14" rx="0.6" fill="#2B2F3E" transform="rotate(18 20 12)"/>
-  <path d="M24.6,3.6 L26.4,6.4 L23.2,6.6 Z" fill="#F2E9D8"/>
-  <circle cx="26.6" cy="7.8" r="1.6" fill="#E8B94A"/>
-  <!-- Legs stretched fore and aft -->
-  <rect x="5.5" y="22" width="2.4" height="8" rx="1" fill="#A6A9C0" transform="rotate(-24 6.7 26)"/>
-  <rect x="11" y="23.5" width="2.4" height="6.5" rx="1" fill="#A6A9C0" transform="rotate(10 12.2 26.75)"/>
-  <rect x="20" y="23.5" width="2.4" height="6.5" rx="1" fill="#A6A9C0" transform="rotate(-10 21.2 26.75)"/>
-  <rect x="25" y="22" width="2.4" height="8" rx="1" fill="#A6A9C0" transform="rotate(24 26.2 26)"/>
-  <path d="M5.5,17 Q2.5,19 3.5,23 Q5,21 6.5,20.5 Z" fill="#E8EAF4" opacity="0.8"/>
+  <!-- Stride B: opposite leg leads, trailing leg kicked back -->
+  <rect x="6" y="13" width="6.5" height="6" rx="1.2" fill="#5E6A8C" transform="rotate(6 9 16)"/>
+  <path d="M6,13 H12.5 L11.5,15.6 H7 Z" fill="#454E6B" transform="rotate(6 9 16)"/>
+  <circle cx="9.2" cy="16.4" r="0.8" fill="#E8B94A"/>
+  <rect x="11" y="10.5" width="7.5" height="9.5" rx="2.2" fill="#454E6B" transform="rotate(14 14.7 15.2)"/>
+  <rect x="12" y="16" width="6.5" height="1.4" fill="#E8B94A" transform="rotate(14 15 16.7)"/>
+  <circle cx="17.2" cy="8" r="3.3" fill="#E3D9CF"/>
+  <path d="M13.6,7.6 Q17.4,3 21.2,7.2 L24.2,8 L21,8.6 Q17.4,6 13.6,8.8 Z" fill="#2B2F3E"/>
+  <circle cx="18.6" cy="8.4" r="0.6" fill="#2B2F3E"/>
+  <rect x="18" y="12.4" width="7.5" height="2.2" rx="1.1" fill="#454E6B" transform="rotate(2 18 13.5)"/>
+  <circle cx="27" cy="16.2" r="4.2" fill="#FFB347" opacity="0.18"/>
+  <rect x="25.2" y="13.8" width="3.6" height="5" rx="1.4" fill="#E8B94A"/>
+  <rect x="26.2" y="12.6" width="1.6" height="1.4" fill="#2B2F3E"/>
+  <circle cx="27" cy="16.4" r="0.9" fill="#FFE08A"/>
+  <!-- Legs: wide stride, swapped -->
+  <rect x="11" y="20" width="3.2" height="9" rx="1.2" fill="#3A3F55" transform="rotate(38 12.6 20)"/>
+  <rect x="17" y="20" width="3.2" height="9" rx="1.2" fill="#2B2F3E" transform="rotate(-42 18.6 20)"/>
+  <rect x="16.4" y="26.4" width="5" height="2.6" rx="1" fill="#2B2F3E"/>
+  <rect x="9.6" y="24.8" width="5.4" height="2.6" rx="1" fill="#3A3F55"/>
 </svg>

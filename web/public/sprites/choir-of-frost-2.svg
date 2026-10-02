@@ -1,10 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#3F5170"/>
-  <path d="M11.5,8 Q16,1 20.5,8 L20.5,9.5 Q16,6.5 11.5,9.5 Z" fill="#2B2F3E"/>
-  <circle cx="15" cy="8.5" r="1" fill="#C9E8F0"/>
-  <circle cx="17" cy="8.5" r="1" fill="#C9E8F0"/>
-  <path d="M10,12 L9,23 L23,23 L22,12 Q16,16 10,12 Z" fill="#5E6A8C"/>
-  <path d="M16,12 L14,19 L18,19 Z" fill="#8FD3E8" opacity="0.8"/>
-  <rect x="12" y="23" width="4" height="6" fill="#2B2F3E"/>
-  <rect x="16" y="23" width="4" height="6" fill="#2B2F3E"/>
+  <path d="M4.4,25 L5,14.6 Q8,13.2 11,14.6 L11.6,25 Z" fill="#2E4A66"/>
+  <circle cx="8" cy="10" r="2.9" fill="#CFE8F0"/>
+  <ellipse cx="8" cy="11.2" rx="0.8" ry="1" fill="#1A2535"/>
+  <circle cx="7" cy="9.4" r="0.4" fill="#1A2535"/><circle cx="9" cy="9.4" r="0.4" fill="#1A2535"/>
+  <path d="M10.6,11 q1.6,-0.2 2,-1.2 M10.8,12.4 q1.4,0.2 2.2,-0.4" stroke="#F4FAFD" stroke-width="0.6" fill="none" opacity="0.8"/>
+  <path d="M20.4,25 L21,14.6 Q24,13.2 27,14.6 L27.6,25 Z" fill="#2E4A66"/>
+  <circle cx="24" cy="10" r="2.9" fill="#CFE8F0"/>
+  <ellipse cx="24" cy="11.2" rx="0.8" ry="1" fill="#1A2535"/>
+  <circle cx="23" cy="9.4" r="0.4" fill="#1A2535"/><circle cx="25" cy="9.4" r="0.4" fill="#1A2535"/>
+  <path d="M26.6,11 q1.6,-0.2 2,-1.2 M26.8,12.4 q1.4,0.2 2.2,-0.4" stroke="#F4FAFD" stroke-width="0.6" fill="none" opacity="0.8"/>
+  <path d="M12.4,25 L13,10.6 Q16,9.2 19,10.6 L19.6,25 Z" fill="#2E4A66"/>
+  <circle cx="16" cy="6" r="2.9" fill="#CFE8F0"/>
+  <ellipse cx="16" cy="7.2" rx="0.8" ry="1" fill="#1A2535"/>
+  <circle cx="15" cy="5.4" r="0.4" fill="#1A2535"/><circle cx="17" cy="5.4" r="0.4" fill="#1A2535"/>
+  <path d="M18.6,7 q1.6,-0.2 2,-1.2 M18.8,8.4 q1.4,0.2 2.2,-0.4" stroke="#F4FAFD" stroke-width="0.6" fill="none" opacity="0.8"/>
+  <!-- Ice block casing with icicles -->
+  <rect x="2" y="13" width="28" height="14" rx="1.6" fill="#BFE6F2" opacity="0.55"/>
+  <rect x="2" y="13" width="28" height="14" rx="1.6" fill="none" stroke="#F4FAFD" stroke-width="1"/>
+  <path d="M5,13 L6,17 L7,13 M12,13 L13,19 L14,13 M20,13 L21,18 L22,13 M26,13 L27,16 L28,13" fill="#F4FAFD"/>
+  <path d="M4,25 L10,15" stroke="#FFFFFF" stroke-width="1.2" opacity="0.7"/>
+  <g transform="translate(0 0)"><rect x="1" y="27" width="30" height="4" rx="1" fill="#8CC4DC"/><path d="M1,28 H31" stroke="#F4FAFD" stroke-width="0.8"/></g>
 </svg>

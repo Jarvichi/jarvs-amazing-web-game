@@ -1,9 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="4" y="14" width="24" height="14" fill="#5E6A8C"/>
-  <rect x="4" y="14" width="24" height="3" fill="#F5D061"/>
-  <rect x="7" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="14" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="21" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="4" y="24" width="24" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="14" ry="1.6" fill="#F5D061" opacity="0.3"/>
+  <ellipse cx="16" cy="29.6" rx="15" ry="1.6" fill="#0F0D1A" opacity="0.4"/>
+  <!-- Toppled thrones with spiked backs and stair blocks -->
+  <path d="M1,29 V12 Q1,8 4.4,8 Q7.8,8 7.8,12 V29 Z" fill="#7A2A44"/>
+  <path d="M1,12 Q1,8 4.4,8 Q7.8,8 7.8,12" stroke="#D8B84A" stroke-width="1" fill="none"/>
+  <path d="M2,8 L2.6,4 L3.6,7 M5.8,7 L6.6,4 L7.2,8" fill="#D8B84A" stroke="#D8B84A" stroke-width="0.6"/>
+  <rect x="7.8" y="20" width="10" height="9" fill="#6A6880"/><path d="M7.8,24.6 H17.8" stroke="#4A4860" stroke-width="0.8"/>
+  <rect x="9.6" y="14" width="10" height="6" fill="#9A8FC0"/>
+  <path d="M17.8,29 V15 Q17.8,11 21.4,11 Q25,11 25,15 V29 Z" fill="#7A2A44" transform="rotate(8 21.4 29)"/>
+  <path d="M17.8,15 Q17.8,11 21.4,11 Q25,11 25,15" stroke="#D8B84A" stroke-width="1" fill="none" transform="rotate(8 21.4 29)"/>
+  <rect x="24" y="20" width="7" height="9" fill="#6A6880"/>
+  <path d="M24,24.6 H31 M27.5,20 V29" stroke="#4A4860" stroke-width="0.8"/>
+  <!-- Broken diadem on top -->
+  <path d="M10,14 L11,10.6 L12.4,12.8 L14,9.6 L15.6,12.8 L17,10.6 L18,14 Z" fill="#D8B84A"/>
+  <circle cx="14" cy="11.4" r="0.8" fill="#8FD8F0"/>
 </svg>

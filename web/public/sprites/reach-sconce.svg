@@ -1,7 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="14" y="16" width="4" height="14" fill="#2B2F3E"/>
-  <path d="M10,10 Q16,4 22,10 L20,16 L12,16 Z" fill="#5E6A8C"/>
-  <ellipse cx="16" cy="9" rx="4.5" ry="6" fill="#D4AF37" opacity="0.85"/>
-  <ellipse cx="16" cy="9" rx="2" ry="3.5" fill="#FFF3C4" opacity="0.9"/>
-  <ellipse cx="16" cy="29" rx="8" ry="1.4" fill="#D4AF37" opacity="0.25"/>
+  <ellipse cx="16" cy="29.6" rx="10" ry="1.6" fill="#14161F" opacity="0.4"/>
+  <!-- Stone base with iron crown holder -->
+  <path d="M8,29.4 L9.4,20 H22.6 L24,29.4 Z" fill="#6C7488"/>
+  <path d="M9.4,24.4 H22.6" stroke="#A8B0C0" stroke-width="0.8"/>
+  <rect x="13" y="18" width="6" height="2.4" fill="#A8B0C0"/>
+  <path d="M7,18 L8,10 L11.6,13.4 L16,8 L20.4,13.4 L24,10 L25,18 Z" fill="#E0B040"/>
+  <path d="M7,18 H25" stroke="#B9903F" stroke-width="1.2"/>
+  <!-- Fire in the crown and spiked rim -->
+  <path d="M10,12 Q9,6 13,3 Q13,8 15,9 Q16,4 18,1 Q19.6,6 22,12 Z" fill="#FFB347"/>
+  <path d="M13,12 Q13,8 16,6 Q18,9 19,12 Z" fill="#FFF2B0"/>
+  <circle cx="8" cy="10" r="1" fill="#B03040"/><circle cx="16" cy="8" r="1" fill="#2F4F8F"/><circle cx="24" cy="10" r="1" fill="#B03040"/>
+  <path d="M6,29 L4,26 M26,29 L28,26" stroke="#A8B0C0" stroke-width="1.4"/>
 </svg>

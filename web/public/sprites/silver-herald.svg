@@ -1,11 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#D4D4DC"/>
-  <path d="M12,8 Q16,2.5 20,8 L20,9.5 Q16,6.5 12,9.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M12,12 L11,22 L21,22 L20,12 Q16,14.5 12,12 Z" fill="#5E6A8C"/>
-  <rect x="21" y="11" width="1.4" height="14" fill="#6B4F3A"/>
-  <circle cx="21.7" cy="11" r="1.6" fill="#D4D4DC" opacity="0.8"/>
-  <rect x="13.5" y="22" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="16.5" y="22" width="3" height="6" fill="#2B2F3E"/>
+  <!-- Long trumpet with banner -->
+  <path d="M16,11 L28,4 L31,1.4 L31,6.4 L28.4,6.4 Z" fill="#E8B94A"/>
+  <rect x="22" y="6.8" width="1.4" height="2.4" fill="#E8B94A" transform="rotate(-30 22 8)"/>
+  <path d="M23,8 L23,15 L26.4,13 L26.4,9.6 Z" fill="#6B2D5C"/>
+  <path d="M23,11 H26.4" stroke="#C9CBDA" stroke-width="0.8"/>
+  <!-- Tall plumed hat, full mask -->
+  <path d="M10,4.6 Q9,0 13,0.4 Q16,2 17,4.6 Z" fill="#B53A3A"/>
+  <ellipse cx="13.6" cy="9" rx="3.6" ry="4.2" fill="#C9CBDA"/>
+  <path d="M11.2,8 q1,-0.7 2,0 M14.2,8 q1,-0.7 2,0" stroke="#1B1424" stroke-width="0.8" fill="none"/>
+  <path d="M12.4,10.6 Q13.6,11.6 14.8,10.6" stroke="#1B1424" stroke-width="0.6" fill="none"/>
+  <!-- Striped tabard -->
+  <path d="M8.6,13.2 H18.6 L20,25 H7.2 Z" fill="#6B2D5C"/>
+  <path d="M10.6,13.2 L9.8,25 M13.6,13.2 V25 M16.6,13.2 L17.4,25" stroke="#C9CBDA" stroke-width="1.1"/>
+  <rect x="14.6" y="12" width="6.6" height="2.4" rx="1.2" fill="#4A1F40" transform="rotate(-24 15 13)"/>
+  <rect x="4.6" y="15" width="4.6" height="2.2" rx="1.1" fill="#4A1F40"/>
+  <rect x="9.4" y="25" width="3.5" height="5.4" rx="1" fill="#1B1424"/>
+  <rect x="14.2" y="25" width="3.5" height="5.4" rx="1" fill="#1B1424"/>
+  <rect x="8.4" y="28.4" width="5.5" height="3" rx="1" fill="#4A1F40"/>
+  <rect x="13.7" y="28.4" width="5.5" height="3" rx="1" fill="#4A1F40"/>
 </svg>

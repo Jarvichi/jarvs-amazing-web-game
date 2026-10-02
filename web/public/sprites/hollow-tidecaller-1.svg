@@ -1,11 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="4" fill="#3F5170"/>
-  <path d="M11.5,9 Q16,2 20.5,9 L20.5,10.5 Q16,7.5 11.5,10.5 Z" fill="#2B2F3E"/>
-  <circle cx="15" cy="9.5" r="1" fill="#6FD3D9"/>
-  <circle cx="17" cy="9.5" r="1" fill="#6FD3D9"/>
-  <path d="M11,13 L10,23 L22,23 L21,13 Q16,16 11,13 Z" fill="#5E6A8C"/>
-  <rect x="22" y="10" width="1.4" height="15" fill="#6B4F3A"/>
-  <ellipse cx="22.7" cy="10" rx="2" ry="1.2" fill="#B8E3E6"/>
-  <rect x="11" y="23" width="4" height="6" fill="#2B2F3E"/>
-  <rect x="17" y="23" width="4" height="4" fill="#2B2F3E"/>
+  <!-- Sound rings from the conch -->
+  <path d="M25.6,10 Q28,12.6 25.6,15.2 M27.6,8.4 Q31.2,12.6 27.6,16.8" stroke="#6FD3D9" stroke-width="1" fill="none"/>
+  <!-- Tall pointed hood with hollow face -->
+  <path d="M8.6,15 L16,1.4 L23.4,15 Q16,18 8.6,15 Z" fill="#2B2F3E"/>
+  <ellipse cx="16" cy="11.4" rx="3.6" ry="3.8" fill="#12141f"/>
+  <circle cx="14.6" cy="10.8" r="0.8" fill="#6FD3D9"/>
+  <circle cx="17.4" cy="10.8" r="0.8" fill="#6FD3D9"/>
+  <!-- Long wave-hem robe -->
+  <path d="M10,16 L7,27 Q9.5,25.4 12,27 T17,27 T22,27 T25,27 L22,16 Z" fill="#3F5170"/>
+  <path d="M7,27 Q9.5,25.4 12,27 T17,27 T22,27 T25,27" stroke="#6FD3D9" stroke-width="0.9" fill="none"/>
+  <rect x="11" y="19" width="10" height="1.2" fill="#5E6A8C"/>
+  <!-- Conch raised to the mouth -->
+  <path d="M17.4,15.4 L24.4,12.2 Q26.6,13.6 24.6,16.8 Z" fill="#F2E9D8"/>
+  <circle cx="25" cy="14.4" r="1.2" fill="#E3D9CF"/>
+  <path d="M19,15.4 L23,14 M20,16 L24,14.8" stroke="#8A6F4D" stroke-width="0.7" fill="none"/>
+  <rect x="14.4" y="16" width="6" height="2.4" rx="1.1" fill="#5E6A8C" transform="rotate(-12 14.4 16)"/>
+  <rect x="12" y="27" width="3.5" height="3.4" rx="1" fill="#12141f" transform="rotate(-16 13.75 27)"/>
+  <rect x="17" y="27" width="3.5" height="3.4" rx="1" fill="#12141f" transform="rotate(16 18.75 27)"/>
+  <rect x="9" y="29.2" width="5.5" height="2.8" rx="1" fill="#12141f"/>
+  <rect x="18.5" y="29.2" width="5.5" height="2.8" rx="1" fill="#12141f"/>
 </svg>

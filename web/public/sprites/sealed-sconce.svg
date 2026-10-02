@@ -1,19 +1,46 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Ground -->
-  <ellipse cx="16" cy="29.5" rx="10" ry="2" fill="#7E8299" opacity="0.5"/>
-  <!-- Stacked sealed wall-sconces -->
-  <rect x="8" y="24" width="16" height="5" rx="0.8" fill="#7E8299"/>
-  <rect x="9.5" y="18.5" width="13" height="5.5" rx="0.8" fill="#A6A9C0"/>
-  <rect x="11" y="13" width="10" height="5.5" rx="0.8" fill="#C9CBDA"/>
-  <rect x="12.5" y="8" width="7" height="5" rx="0.8" fill="#F2E9D8"/>
-  <!-- Sealing bands -->
-  <rect x="14" y="10" width="4" height="1.2" rx="0.6" fill="#2B2F3E" opacity="0.85"/>
-  <rect x="13" y="15.3" width="6" height="1.2" rx="0.6" fill="#2B2F3E" opacity="0.75"/>
-  <rect x="12" y="20.6" width="8" height="1.2" rx="0.6" fill="#2B2F3E" opacity="0.7"/>
-  <rect x="11" y="26" width="10" height="1.2" rx="0.6" fill="#2B2F3E" opacity="0.65"/>
-  <!-- Wax seals -->
-  <circle cx="16" cy="10.6" r="0.7" fill="#E8B94A"/>
-  <circle cx="16" cy="15.9" r="0.7" fill="#E8B94A"/>
-  <!-- Mist -->
-  <ellipse cx="16" cy="28.6" rx="8" ry="1.4" fill="#E8EAF4" opacity="0.45"/>
+  <ellipse cx="16" cy="29.5" rx="12" ry="1.8" fill="#2B2F3E" opacity="0.45"/>
+  <!-- Stone wall slab -->
+  <rect x="2.4" y="3.6" width="27.2" height="25.6" rx="1.4" fill="#7E8299"/>
+  <rect x="2.4" y="3.6" width="27.2" height="2.6" rx="1" fill="#9FA3BC"/>
+  <path d="M2.4,12.8 H29.6 M2.4,20.4 H29.6" stroke="#5E6A8C" stroke-width="0.7" fill="none"/>
+  <path d="M5.0,12.0 L5.0,8.4 Q7.7,5.2 10.4,8.4 L10.4,12.0 Z" fill="#2B2F3E"/>
+  <rect x="7.0" y="8.6" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="7.7" cy="8.2" r="0.9" fill="#FFB347"/>
+  <circle cx="7.7" cy="10.6" r="1.5" fill="#B53A3A"/>
+  <path d="M12.6,12.0 L12.6,8.4 Q15.3,5.2 18.0,8.4 L18.0,12.0 Z" fill="#2B2F3E"/>
+  <rect x="14.6" y="8.6" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="15.3" cy="8.2" r="0.9" fill="#FFB347"/>
+  <circle cx="15.3" cy="10.6" r="1.5" fill="#B53A3A"/>
+  <path d="M20.2,12.0 L20.2,8.4 Q22.9,5.2 25.6,8.4 L25.6,12.0 Z" fill="#2B2F3E"/>
+  <rect x="22.2" y="8.6" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="22.9" cy="8.2" r="0.9" fill="#FFB347"/>
+  <circle cx="22.9" cy="10.6" r="1.5" fill="#B53A3A"/>
+  <path d="M5.0,19.6 L5.0,16.0 Q7.7,12.799999999999999 10.4,16.0 L10.4,19.6 Z" fill="#2B2F3E"/>
+  <rect x="7.0" y="16.2" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="7.7" cy="15.8" r="0.9" fill="#FFB347"/>
+  <circle cx="7.7" cy="18.2" r="1.5" fill="#B53A3A"/>
+  <path d="M12.6,19.6 L12.6,16.0 Q15.3,12.799999999999999 18.0,16.0 L18.0,19.6 Z" fill="#2B2F3E"/>
+  <rect x="14.6" y="16.2" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="15.3" cy="15.8" r="0.9" fill="#FFB347"/>
+  <circle cx="15.3" cy="18.2" r="1.5" fill="#B53A3A"/>
+  <path d="M20.2,19.6 L20.2,16.0 Q22.9,12.799999999999999 25.6,16.0 L25.6,19.6 Z" fill="#2B2F3E"/>
+  <rect x="22.2" y="16.2" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="22.9" cy="15.8" r="0.9" fill="#FFB347"/>
+  <circle cx="22.9" cy="18.2" r="1.5" fill="#B53A3A"/>
+  <path d="M5.0,27.2 L5.0,23.599999999999998 Q7.7,20.4 10.4,23.599999999999998 L10.4,27.2 Z" fill="#2B2F3E"/>
+  <rect x="7.0" y="23.8" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="7.7" cy="23.4" r="0.9" fill="#FFB347"/>
+  <circle cx="7.7" cy="25.799999999999997" r="1.5" fill="#B53A3A"/>
+  <path d="M12.6,27.2 L12.6,23.599999999999998 Q15.3,20.4 18.0,23.599999999999998 L18.0,27.2 Z" fill="#2B2F3E"/>
+  <rect x="14.6" y="23.8" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="15.3" cy="23.4" r="0.9" fill="#FFB347"/>
+  <circle cx="15.3" cy="25.799999999999997" r="1.5" fill="#B53A3A"/>
+  <path d="M20.2,27.2 L20.2,23.599999999999998 Q22.9,20.4 25.6,23.599999999999998 L25.6,27.2 Z" fill="#2B2F3E"/>
+  <rect x="22.2" y="23.8" width="1.4" height="3" rx="0.5" fill="#F2E9D8"/>
+  <circle cx="22.9" cy="23.4" r="0.9" fill="#FFB347"/>
+  <circle cx="22.9" cy="25.799999999999997" r="1.5" fill="#B53A3A"/>
+  <!-- Iron banding -->
+  <rect x="2.4" y="26.6" width="27.2" height="2.6" rx="0.8" fill="#454E6B"/>
 </svg>

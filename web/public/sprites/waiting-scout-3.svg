@@ -1,10 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="4" fill="#C9CBDA"/>
-  <path d="M12,9 Q16,4 20,9 L20,10.5 Q16,7 12,10.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="9.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="9.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,13 L10.5,22 L21.5,22 L20.5,13 Q16,15.5 11.5,13 Z" fill="#3F5170"/>
-  <rect x="9" y="14" width="3" height="8" rx="1" fill="#8A97A0"/>
-  <rect x="11" y="22" width="3" height="5" fill="#2B2F3E"/>
-  <rect x="18" y="22" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Snow-camo cloak, hunched low -->
+  <path d="M4,28 Q4,15 12,11 Q19,9 24,15 L27,28 Z" fill="#F4FAFD"/>
+  <path d="M8,27 Q8,19 13,14 M16,27 Q15,20 18,14 M22,27 L21,19" stroke="#BFE6F2" stroke-width="1.2" fill="none"/>
+  <!-- Goggled face peeking out -->
+  <path d="M10.4,13 Q16,7.4 22,13 L21,17 H11.4 Z" fill="#8CC4DC"/>
+  <ellipse cx="16.4" cy="14.4" rx="4.4" ry="3" fill="#1A2535"/>
+  <circle cx="14.4" cy="14.4" r="1.4" fill="#BFE6F2"/><circle cx="18.6" cy="14.4" r="1.4" fill="#BFE6F2"/>
+  <circle cx="14.4" cy="14.4" r="0.5" fill="#1A2535"/><circle cx="18.6" cy="14.4" r="0.5" fill="#1A2535"/>
+  <!-- Short bone dagger -->
+  <path d="M24,23 L30,24.4 L24,26 Z" fill="#F2E9D8"/>
+  <rect x="22" y="23.4" width="2.6" height="1.6" fill="#8A7A66"/>
+  <ellipse cx="10.2" cy="30.2" rx="5" ry="1.8" fill="#8A7A66"/>
+  <ellipse cx="10.2" cy="30.2" rx="3.6" ry="1" fill="none" stroke="#C9B8A0" stroke-width="0.6"/>
+  <ellipse cx="20.8" cy="30.2" rx="5" ry="1.8" fill="#8A7A66"/>
+  <ellipse cx="20.8" cy="30.2" rx="3.6" ry="1" fill="none" stroke="#C9B8A0" stroke-width="0.6"/>
 </svg>

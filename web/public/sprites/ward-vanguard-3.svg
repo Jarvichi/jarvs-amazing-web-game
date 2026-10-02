@@ -1,12 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="6.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="3.0" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="7.0" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="7.0" r="0.9" fill="#12141f"/>
-  <path d="M8,11.0 L7,24.0 L25,24.0 L24,11.0 Q16,17.0 8,11.0 Z" fill="#5E6A8C"/>
-  <rect x="13" y="14.0" width="6" height="1.6" fill="#FFC94A"/>
-  <circle cx="9" cy="17.0" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="16.5" r="2" fill="#6B4F3A"/>
-  <rect x="10.5" y="24.0" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="16" y="24.0" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Flanged spear -->
+  <rect x="27.4" y="5" width="1.6" height="25" fill="#6B4F3A"/>
+  <path d="M28.2,0.6 L31,5.6 L28.2,7.4 L25.4,5.6 Z" fill="#C9CBDA"/>
+  <path d="M25.4,8 L28.2,9.6 L31,8" stroke="#F0C060" stroke-width="1" fill="none"/>
+  <!-- Tall tower shield -->
+  <path d="M0.6,7 H10.6 V26 Q5.6,30 0.6,26 Z" fill="#5A3A6A"/>
+  <path d="M0.6,7 H10.6 V26 Q5.6,30 0.6,26 Z" fill="none" stroke="#F0C060" stroke-width="1"/>
+  <rect x="3" y="11" width="5.2" height="6" fill="#F0C060"/>
+  <path d="M5.6,11 V17 M3,14 H8.2" stroke="#5A3A6A" stroke-width="0.7"/>
+  <path d="M5.6,21 V27" stroke="#F0C060" stroke-width="0.8"/>
+  <!-- Crested heavy helm -->
+  <path d="M14,6 Q16,0 18.6,3 Q17,4.4 17.6,6.4 Z" fill="#FFB347"/>
+  <path d="M11.4,13.6 L11.4,7 Q16,4.4 20.6,7 L20.6,13.6 Z" fill="#4A5066"/>
+  <rect x="13" y="9" width="6" height="1.8" fill="#120F1E"/><path d="M16,10.8 V13.6" stroke="#120F1E" stroke-width="1"/>
+  <!-- Armoured trunk with tassets -->
+  <path d="M8,15.6 Q8.6,13 11.4,13.6 H20.6 Q23.4,13 24,15.6 L22,18 H10 Z" fill="#4A5066"/>
+  <rect x="10.4" y="13.8" width="11.2" height="10" rx="1.4" fill="#2A2145"/>
+  <path d="M10.4,18 H21.6 M16,13.8 V23.8" stroke="#4A5066" stroke-width="0.9"/>
+  <path d="M10.4,23.8 L9.4,27 H22.6 L21.6,23.8 Z" fill="#5A3A6A"/>
+  <path d="M13,23.8 V27 M16,23.8 V27 M19,23.8 V27" stroke="#F0C060" stroke-width="0.7"/>
+  <rect x="21.4" y="16" width="6.2" height="2.4" rx="1.2" fill="#4A5066"/>
+  <rect x="11.6" y="27" width="3.5" height="4" rx="1" fill="#171230" transform="rotate(16 13.35 27)"/>
+  <rect x="16.4" y="27" width="3.5" height="4" rx="1" fill="#171230" transform="rotate(-16 18.15 27)"/>
+  <rect x="11.6" y="29.8" width="5.5" height="2.8" rx="1" fill="#120F1E"/>
+  <rect x="14.899999999999999" y="29.8" width="5.5" height="2.8" rx="1" fill="#120F1E"/>
 </svg>

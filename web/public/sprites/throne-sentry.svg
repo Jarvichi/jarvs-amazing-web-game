@@ -1,10 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="10" y="10" width="12" height="19" fill="#8A97A0"/>
-  <rect x="8" y="5" width="16" height="6" fill="#5E6A8C"/>
-  <rect x="8" y="5" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="12.5" y="5" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="17" y="5" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="21" y="5" width="3" height="6" fill="#2B2F3E"/>
-  <circle cx="16" cy="18" r="2.4" fill="#F5D061"/>
-  <ellipse cx="16" cy="29" rx="8" ry="1.3" fill="#F5D061" opacity="0.25"/>
+  <ellipse cx="16" cy="29.6" rx="14.4" ry="1.6" fill="#0F0D1A" opacity="0.4"/>
+  <!-- Short flight of stairs -->
+  <rect x="2" y="26" width="28" height="3.4" fill="#6A6880"/><rect x="6" y="22.6" width="20" height="3.4" fill="#9A8FC0"/><rect x="10" y="19.2" width="12" height="3.4" fill="#D8D4E0"/>
+  <!-- Guard booth on the top step -->
+  <rect x="9" y="8" width="14" height="11.4" fill="#4A4860"/>
+  <path d="M9,12.8 H23 M9,16.4 H23 M16,8 V12.8 M12.5,12.8 V16.4 M19.5,12.8 V16.4" stroke="#1E1A33" stroke-width="0.7"/>
+  <path d="M7,9 L16,2.6 L25,9 Z" fill="#7A2A44"/>
+  <path d="M7,9 L16,2.6 L25,9" stroke="#D8B84A" stroke-width="1" fill="none"/>
+  <!-- Arched window lit by the chamber flame, spare torches -->
+  <path d="M13,16.4 V11.6 Q16,8.6 19,11.6 V16.4 Z" fill="#8FD8F0"/>
+  <path d="M16,9.6 V16.4 M13,13.6 H19" stroke="#4A4860" stroke-width="0.7"/>
+  <rect x="26.4" y="17" width="1.4" height="9" fill="#EDE6D0"/><rect x="3.8" y="19" width="1.4" height="7" fill="#EDE6D0"/>
+  <path d="M27.1,13.6 Q28.9,15.8 27.1,17 Q25.3,15.8 27.1,13.6 Z M4.5,15.6 Q6.3,17.8 4.5,19 Q2.7,17.8 4.5,15.6 Z" fill="#8FD8F0"/>
+  <path d="M16,2.6 V0.4" stroke="#D8B84A" stroke-width="1.2"/>
 </svg>

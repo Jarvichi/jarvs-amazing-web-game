@@ -1,12 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8" r="0.9" fill="#12141f"/>
-  <path d="M8,12 L7,25 L25,25 L24,12 Q16,18 8,12 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15" width="6" height="1.6" fill="#4C7A5E"/>
-  <circle cx="9" cy="18" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="8" y="25" width="6" height="4" fill="#2B2F3E"/>
-  <rect x="19" y="25" width="6" height="6" fill="#2B2F3E"/>
+  <!-- Root cape -->
+  <path d="M8,13 L2.6,29 L7,27 L9.6,30 L13,27.4 L16,30 L19,27.4 L22.4,30 L25,27 L29.4,29 L24,13 Z" fill="#4A3A2E"/>
+  <path d="M5,28 Q6,21 9,16 M27,28 Q26,21 23,16" stroke="#7A5A3C" stroke-width="1.1" fill="none"/>
+  <!-- Skull helm with branch antlers and blossoms -->
+  <path d="M11,8 L7,3.6 L5,4.6 M7,3.6 L7.4,1 M21,8 L25,3.6 L27,4.6 M25,3.6 L24.6,1" stroke="#E8E0CC" stroke-width="1.5" fill="none"/>
+  <circle cx="8.50" cy="1.80" r="0.77" fill="#E8A0B8"/>
+  <circle cx="7.74" cy="2.85" r="0.77" fill="#E8A0B8"/>
+  <circle cx="6.51" cy="2.45" r="0.77" fill="#E8A0B8"/>
+  <circle cx="6.51" cy="1.15" r="0.77" fill="#E8A0B8"/>
+  <circle cx="7.74" cy="0.75" r="0.77" fill="#E8A0B8"/>
+  <circle cx="7.4" cy="1.8" r="0.55" fill="#F6D86A"/>
+  <circle cx="25.70" cy="1.80" r="0.77" fill="#E8A0B8"/>
+  <circle cx="24.94" cy="2.85" r="0.77" fill="#E8A0B8"/>
+  <circle cx="23.71" cy="2.45" r="0.77" fill="#E8A0B8"/>
+  <circle cx="23.71" cy="1.15" r="0.77" fill="#E8A0B8"/>
+  <circle cx="24.94" cy="0.75" r="0.77" fill="#E8A0B8"/>
+  <circle cx="24.6" cy="1.8" r="0.55" fill="#F6D86A"/>
+  <path d="M10.4,10.4 Q10.4,4.4 16,4.4 Q21.6,4.4 21.6,10.4 L20,14 H12 Z" fill="#E8E0CC"/>
+  <ellipse cx="13.4" cy="9.6" rx="1.8" ry="2.2" fill="#1C1A17"/><ellipse cx="18.6" cy="9.6" rx="1.8" ry="2.2" fill="#1C1A17"/>
+  <circle cx="13.4" cy="9.8" r="0.6" fill="#E8A0B8"/><circle cx="18.6" cy="9.8" r="0.6" fill="#E8A0B8"/>
+  <path d="M15,12 L16,11 L17,12 M13.6,13.8 V12.4 M16,13.8 V12.4 M18.4,13.8 V12.4" stroke="#1C1A17" stroke-width="0.8" fill="none"/>
+  <!-- Ribcage breastplate -->
+  <rect x="9.6" y="14" width="12.8" height="11.4" rx="1.4" fill="#4A3A2E"/>
+  <path d="M16,14 V25 M16,16 Q11,16 10.4,18.6 M16,19 Q11.4,19 10.8,21.4 M16,16 Q21,16 21.6,18.6 M16,19 Q20.6,19 21.2,21.4" stroke="#E8E0CC" stroke-width="1.2" fill="none"/>
+  <path d="M8,15.6 L6,13.4 L5.4,17 L9,18 Z M24,15.6 L26,13.4 L26.6,17 L23,18 Z" fill="#E8E0CC"/>
+  <!-- Bone greatsword with blossom pommel -->
+  <path d="M27.6,2 Q29.4,4 28.8,21 H26.4 Q25.8,4 27.6,2 Z" fill="#E8E0CC"/>
+  <rect x="24.4" y="20.6" width="6.4" height="1.6" rx="0.8" fill="#B9AE92"/>
+  <rect x="26.9" y="22" width="1.4" height="4" fill="#4A3A2E"/>
+  <circle cx="28.70" cy="27.40" r="0.77" fill="#E8A0B8"/>
+  <circle cx="27.94" cy="28.45" r="0.77" fill="#E8A0B8"/>
+  <circle cx="26.71" cy="28.05" r="0.77" fill="#E8A0B8"/>
+  <circle cx="26.71" cy="26.75" r="0.77" fill="#E8A0B8"/>
+  <circle cx="27.94" cy="26.35" r="0.77" fill="#E8A0B8"/>
+  <circle cx="27.6" cy="27.4" r="0.55" fill="#F6D86A"/>
+  <rect x="11.4" y="25.4" width="3.5" height="5.6" rx="1" fill="#3A2E24" transform="rotate(16 13.15 25.4)"/>
+  <rect x="16.2" y="25.4" width="3.5" height="5.6" rx="1" fill="#3A2E24" transform="rotate(-16 17.95 25.4)"/>
+  <rect x="11.4" y="29.8" width="5.5" height="2.8" rx="1" fill="#1C1A17"/>
+  <rect x="14.7" y="29.8" width="5.5" height="2.8" rx="1" fill="#1C1A17"/>
 </svg>

@@ -1,12 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4.5" fill="#8A97A0"/>
-  <path d="M11,8 Q16,1 21,8 L21,9.5 Q16,6.5 11,9.5 Z" fill="#2B2F3E"/>
-  <circle cx="15" cy="8.5" r="0.7" fill="#12141f"/>
-  <circle cx="17" cy="8.5" r="0.7" fill="#12141f"/>
-  <path d="M9,12 L8,24 L24,24 L23,12 Q16,17 9,12 Z" fill="#5E6A8C"/>
-  <rect x="14" y="15" width="4" height="1.4" fill="#8FD3E8"/>
-  <circle cx="10" cy="17" r="1.6" fill="#6B4F3A"/>
-  <circle cx="22" cy="16.5" r="1.8" fill="#6B4F3A"/>
-  <rect x="9" y="24" width="5" height="6" fill="#2B2F3E"/>
-  <rect x="18" y="24" width="5" height="4" fill="#2B2F3E"/>
+  <!-- Frost axe -->
+  <rect x="27" y="7" width="1.8" height="22" fill="#8A7A66"/>
+  <path d="M28,4 L32,7 L32,13 L28,14 Z" fill="#BFE6F2"/>
+  <path d="M28,4 L25,7 L26,12 L28,13 Z" fill="#8CC4DC"/>
+  <!-- Spiked round shield with war-paint stripe -->
+  <circle cx="5.6" cy="20" r="5.4" fill="#8A7A66"/>
+  <circle cx="5.6" cy="20" r="3.6" fill="#C9B8A0"/>
+  <circle cx="5.6" cy="20" r="1.3" fill="#BFE6F2"/>
+  <path d="M5.6,13.4 V11.6 M10.6,16 L12,15 M0.6,16 L-0.4,15 M5.6,26.6 V28.6" stroke="#BFE6F2" stroke-width="1.2"/>
+  <!-- Wolf-pelt helm with horns -->
+  <path d="M10.6,8 L7.4,3.6 L9.4,2.4 L12,6 Z M21.4,8 L24.6,3.6 L22.6,2.4 L20,6 Z" fill="#F2E9D8"/>
+  <path d="M10.4,13 Q10,4.6 16,4.4 Q22,4.6 21.6,13 Z" fill="#8A97A0"/>
+  <path d="M12,9 H20 V12 H12 Z" fill="#E3D9CF"/>
+  <path d="M13,10.2 H19" stroke="#8CC4DC" stroke-width="1.4"/>
+  <circle cx="14.2" cy="10.8" r="0.5" fill="#1A2535"/><circle cx="17.8" cy="10.8" r="0.5" fill="#1A2535"/>
+  <!-- Pelt-draped armour -->
+  <path d="M8,15 Q16,11.6 24,15 L22.6,17 H9.4 Z" fill="#8A97A0"/>
+  <rect x="9.6" y="15" width="12.8" height="11" rx="1.4" fill="#2E4A66"/>
+  <path d="M9.6,20 H22.4" stroke="#8CC4DC" stroke-width="1"/>
+  <path d="M9.6,15 L10.6,18 L12.2,15.6 L13.8,18.6 L15.4,15.6 L17,18.6 L18.6,15.6 L20.2,18.6 L21.8,15.6 L22.4,15" fill="#8A97A0"/>
+  <rect x="22" y="16.4" width="5.6" height="2.4" rx="1.2" fill="#C9B8A0"/>
+  <rect x="11.2" y="26" width="3.5" height="5" rx="1" fill="#2E4A66" transform="rotate(-16 12.95 26)"/>
+  <rect x="16.4" y="26" width="3.5" height="5" rx="1" fill="#2E4A66" transform="rotate(16 18.15 26)"/>
+  <rect x="8.2" y="29.8" width="5.5" height="2.8" rx="1" fill="#1A2535"/>
+  <rect x="17.9" y="29.8" width="5.5" height="2.8" rx="1" fill="#1A2535"/>
 </svg>

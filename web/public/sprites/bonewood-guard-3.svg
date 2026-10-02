@@ -1,11 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="4.2" fill="#8A97A0"/>
-  <circle cx="15" cy="9" r="0.7" fill="#12141f"/>
-  <circle cx="17" cy="9" r="0.7" fill="#12141f"/>
-  <path d="M10,13 L9,23 L23,23 L22,13 Q16,17 10,13 Z" fill="#5E6A8C"/>
-  <circle cx="12" cy="16" r="1.4" fill="#6B4F3A"/>
-  <circle cx="20" cy="15.5" r="1.6" fill="#6B4F3A"/>
-  <circle cx="16" cy="19" r="1.3" fill="#4C7A5E"/>
-  <rect x="10" y="23" width="4" height="4" fill="#2B2F3E"/>
-  <rect x="18" y="23" width="4" height="6" fill="#2B2F3E"/>
+  <!-- Femur spear -->
+  <rect x="27" y="7" width="2" height="22" fill="#E8E0CC"/>
+  <circle cx="26.2" cy="6" r="1.6" fill="#E8E0CC"/><circle cx="29.8" cy="6" r="1.6" fill="#E8E0CC"/>
+  <path d="M26,5 L28,0.6 L30,5 Z" fill="#B9AE92"/>
+  <!-- Rib-arch shield -->
+  <path d="M1.6,25 V15 Q1.6,10.4 7,10.4 Q12.4,10.4 12.4,15 V25" stroke="#E8E0CC" stroke-width="1.6" fill="#4A3A2E"/>
+  <path d="M4,25 V14 Q4,12 7,12 Q10,12 10,14 V25" stroke="#B9AE92" stroke-width="1.2" fill="none"/>
+  <path d="M7,12 V25" stroke="#B9AE92" stroke-width="1"/>
+  <!-- Branch-antlered barked helm -->
+  <path d="M11,8 L8.4,4 M8.4,4 L6.4,4.6 M21,8 L23.6,4 M23.6,4 L25.6,4.8 M16,5 V1.4" stroke="#E8E0CC" stroke-width="1.4" fill="none"/>
+  <path d="M10.6,13.4 L10.6,7.6 Q16,4.6 21.4,7.6 L21.4,13.4 Z" fill="#4A3A2E"/>
+  <path d="M12,7 V12 M15,6 V12 M18,6 V12" stroke="#7A5A3C" stroke-width="0.7"/>
+  <rect x="12.6" y="9.4" width="6.8" height="2" fill="#1C1A17"/>
+  <circle cx="14.4" cy="10.4" r="0.6" fill="#E8A0B8"/><circle cx="17.6" cy="10.4" r="0.6" fill="#E8A0B8"/>
+  <!-- Bark armour with rib pauldrons -->
+  <path d="M7.4,15.6 Q8,13.2 11,13.6 V18 H7.4 Z M24.6,15.6 Q24,13.2 21,13.6 V18 H24.6 Z" fill="#E8E0CC"/>
+  <rect x="10.2" y="13.6" width="11.6" height="12" rx="1.4" fill="#4A3A2E"/>
+  <path d="M10.4,17 H21.6 M10.4,20.6 H21.6" stroke="#B9AE92" stroke-width="1.2"/>
+  <path d="M16,13.6 V25.6" stroke="#7A5A3C" stroke-width="0.9"/>
+  <rect x="21" y="16" width="6.6" height="2.4" rx="1.2" fill="#B9AE92"/>
+  <rect x="11" y="25.6" width="3.5" height="5.4" rx="1" fill="#3A2E24" transform="rotate(16 12.75 25.6)"/>
+  <rect x="16.6" y="25.6" width="3.5" height="5.4" rx="1" fill="#3A2E24" transform="rotate(-16 18.35 25.6)"/>
+  <rect x="11" y="29.8" width="5.5" height="2.8" rx="1" fill="#1C1A17"/>
+  <rect x="15.100000000000001" y="29.8" width="5.5" height="2.8" rx="1" fill="#1C1A17"/>
 </svg>

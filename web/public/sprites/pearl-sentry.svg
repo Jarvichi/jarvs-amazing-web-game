@@ -1,9 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="10" y="18" width="12" height="10" fill="#3F5170"/>
-  <rect x="12" y="9" width="8" height="10" rx="2" fill="#5E6A8C"/>
-  <circle cx="16" cy="14" r="3" fill="#12141f"/>
-  <circle cx="16" cy="14" r="2.2" fill="#F2E9D8"/>
-  <circle cx="16" cy="14" r="1" fill="#2B2F3E"/>
-  <rect x="8" y="19" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="21" y="19" width="3" height="6" fill="#2B2F3E"/>
+  <!-- Tide pool and base -->
+  <path d="M2,28 Q5,26.4 8,28 T14,28 T20,28 T26,28 T30,28 L30,31 L2,31 Z" fill="#3F5170"/>
+  <!-- Stacked-shell spire -->
+  <path d="M9,28 Q9,22 11,22 H21 Q23,22 23,28 Z" fill="#6B4F3A"/>
+  <path d="M11,22 Q11,17 12.6,17 H19.4 Q21,17 21,22 Z" fill="#8A97A0"/>
+  <path d="M12.6,17 Q12.6,13.4 14,13.4 H18 Q19.4,13.4 19.4,17 Z" fill="#6B4F3A"/>
+  <path d="M13.4,26 V22.6 M16,26 V22.6 M18.6,26 V22.6" stroke="#3F5170" stroke-width="0.8"/>
+  <!-- Spiked cradle with black pearl -->
+  <path d="M9.4,10 L11.6,13.4 H20.4 L22.6,10 L19.6,11.4 L16,6.4 L12.4,11.4 Z" fill="#8A97A0"/>
+  <circle cx="16" cy="9.6" r="3.8" fill="#12141f"/>
+  <circle cx="16" cy="9.6" r="3" fill="#2B2F3E"/>
+  <circle cx="14.8" cy="8.4" r="1" fill="#F2E9D8"/>
+  <circle cx="16" cy="9.8" r="0.9" fill="#6FD3D9"/>
+  <path d="M5.6,18 Q4,22 6.4,26 M26.4,18 Q28,22 25.6,26" stroke="#6FD3D9" stroke-width="1" fill="none" opacity="0.8"/>
 </svg>

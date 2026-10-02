@@ -1,11 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="4.2" fill="#8A97A0"/>
-  <circle cx="15" cy="9" r="0.7" fill="#12141f"/>
-  <circle cx="17" cy="9" r="0.7" fill="#12141f"/>
-  <path d="M10,13 L9,23 L23,23 L22,13 Q16,17 10,13 Z" fill="#5E6A8C"/>
-  <rect x="13" y="16" width="6" height="1.4" fill="#D4AF37"/>
-  <circle cx="12" cy="16" r="1.4" fill="#8A97A0"/>
-  <circle cx="20" cy="15.5" r="1.6" fill="#8A97A0"/>
-  <rect x="10" y="23" width="4" height="7" fill="#2B2F3E"/>
-  <rect x="18" y="23" width="4" height="6" fill="#2B2F3E"/>
+  <!-- Wicker buckler on the back -->
+  <circle cx="7" cy="15" r="5.2" fill="#B9903F"/>
+  <circle cx="7" cy="15" r="3.4" fill="#8A6F4D"/>
+  <path d="M2,15 H12 M7,10 V20" stroke="#6B4F3A" stroke-width="0.8"/>
+  <circle cx="7" cy="15" r="1" fill="#E0B040"/>
+  <!-- Signal flag thrust ahead -->
+  <rect x="21" y="7" width="1.4" height="14" fill="#6B4F3A" transform="rotate(14 21.7 14)"/>
+  <path d="M22.4,7 L30,4.6 L30.6,10.4 L24,12 Z" fill="#B03040"/>
+  <path d="M25,8.4 L28.6,7.6" stroke="#E0B040" stroke-width="1"/>
+  <rect x="17.4" y="12.4" width="5.6" height="2.2" rx="1.1" fill="#E3D9CF" transform="rotate(-8 17.4 13.5)"/>
+  <!-- Leather coif, face -->
+  <path d="M10.6,9 Q14.6,2.6 19.4,9 L18,11.6 H11.6 Z" fill="#8A6F4D"/>
+  <circle cx="15.2" cy="9.6" r="3" fill="#E3D9CF"/>
+  <circle cx="16.4" cy="9.4" r="0.5" fill="#14161F"/>
+  <!-- Light jerkin with armband -->
+  <path d="M11.6,12.6 H18.8 L19.4,19 H10.8 Z" fill="#2F4F8F"/>
+  <rect x="10.8" y="16.6" width="8.6" height="1.4" fill="#E0B040"/>
+  <rect x="9.4" y="13" width="4" height="2.2" rx="1.1" fill="#E3D9CF" transform="rotate(34 13 14)"/>
+  <rect x="9.8" y="13.2" width="1.6" height="2" fill="#B03040" transform="rotate(34 13 14)"/>
+  <rect x="11" y="19" width="3.5" height="10.4" rx="1" fill="#6B4F3A"/>
+  <rect x="15.4" y="19" width="3.5" height="10.4" rx="1" fill="#6B4F3A"/>
+  <rect x="10" y="27.4" width="5.5" height="3" rx="1" fill="#14161F"/>
+  <rect x="14.9" y="27.4" width="5.5" height="3" rx="1" fill="#14161F"/>
 </svg>

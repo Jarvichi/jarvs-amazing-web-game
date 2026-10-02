@@ -1,12 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4.0" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8.0" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8.0" r="0.9" fill="#12141f"/>
-  <path d="M8,12.0 L7,25.0 L25,25.0 L24,12.0 Q16,18.0 8,12.0 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15.0" width="6" height="1.6" fill="#D4AF37"/>
-  <circle cx="9" cy="18.0" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="9" y="25.0" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="17.5" y="25.0" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Flanged mace -->
+  <rect x="26.6" y="8" width="1.8" height="20" fill="#6B4F3A"/>
+  <circle cx="27.5" cy="6" r="3.6" fill="#A8B0C0"/>
+  <path d="M27.5,1.6 V10.4 M23.1,6 H31.9 M24.4,2.9 L30.6,9.1 M30.6,2.9 L24.4,9.1" stroke="#6C7488" stroke-width="1.1"/>
+  <!-- Heater shield with crown -->
+  <path d="M1,11 H12 V19 Q12,25 6.5,28 Q1,25 1,19 Z" fill="#B03040"/>
+  <path d="M1,11 H12 V19 Q12,25 6.5,28 Q1,25 1,19 Z" fill="none" stroke="#E0B040" stroke-width="1"/>
+  <path d="M3.5,20 L3.5,16.4 L5.0,18.56 L6.5,16.4 L8.0,18.56 L9.5,16.4 L9.5,20 Z" fill="#E0B040"/>
+  <!-- Great helm with crown ring -->
+  <rect x="10.6" y="5" width="10.8" height="8" rx="1.2" fill="#A8B0C0"/>
+  <rect x="9.8" y="3" width="12.4" height="2.2" rx="0.6" fill="#E0B040"/>
+  <path d="M10.6,5 V3 M13,3 V1 M16,3 V0 M19,3 V1 M21.4,3 V5" stroke="#E0B040" stroke-width="1.2"/>
+  <rect x="12" y="7.6" width="8" height="1.6" fill="#14161F"/><path d="M16,9.2 V13" stroke="#14161F" stroke-width="0.9"/>
+  <!-- Trailing surcoat over plate -->
+  <path d="M8.6,13.6 H23.4 L26,28 H6 Z" fill="#2F4F8F"/>
+  <path d="M16,13.6 V28" stroke="#E0B040" stroke-width="1"/>
+  <rect x="9.6" y="14.4" width="12.8" height="10" rx="1.4" fill="#6C7488"/>
+  <path d="M9.6,19 H22.4" stroke="#A8B0C0" stroke-width="0.8"/>
+  <rect x="21" y="15.4" width="5.8" height="2.4" rx="1.2" fill="#A8B0C0"/>
+  <rect x="11.4" y="27" width="3.5" height="3.6" rx="1" fill="#1E3463"/>
+  <rect x="16.6" y="27" width="3.5" height="3.6" rx="1" fill="#1E3463"/>
+  <rect x="10.4" y="28.6" width="5.5" height="3" rx="1" fill="#14161F"/>
+  <rect x="16.1" y="28.6" width="5.5" height="3" rx="1" fill="#14161F"/>
 </svg>

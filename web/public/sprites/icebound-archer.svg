@@ -1,10 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="3.6" fill="#C9CBDA"/>
-  <circle cx="15" cy="8.3" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.3" r="0.6" fill="#2B2F3E"/>
-  <path d="M12.5,12 L11.5,21 L20.5,21 L19.5,12 Q16,14.2 12.5,12 Z" fill="#3F5170"/>
-  <path d="M21,9 Q26,15 21,21" stroke="#6B4F3A" stroke-width="1.2" fill="none"/>
-  <line x1="21" y1="9" x2="21" y2="21" stroke="#C9E8F0" stroke-width="0.6"/>
-  <rect x="14" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="17" y="21" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Icicle bow -->
+  <path d="M4,1 Q-1,15 4,29" stroke="#BFE6F2" stroke-width="2.2" fill="none"/>
+  <path d="M4,1 L10,15 L4,29" stroke="#F4FAFD" stroke-width="0.5" fill="none"/>
+  <path d="M3,3 L4,7 M2.4,23 L3.6,27" stroke="#F4FAFD" stroke-width="0.9"/>
+  <rect x="10" y="14.6" width="11" height="0.8" fill="#8CC4DC"/>
+  <path d="M10,15 L7.6,13.8 L7.6,16.2 Z" fill="#BFE6F2"/>
+  <!-- Fur hood, face wrap -->
+  <path d="M10.4,9.4 Q15,1.4 20.6,9.4 L19,12.4 H11.8 Z" fill="#C9B8A0"/>
+  <circle cx="15.2" cy="9.6" r="3" fill="#E3D9CF"/>
+  <path d="M12.2,10.8 H18.2 V12.6 H12.2 Z" fill="#2E4A66"/>
+  <circle cx="13.8" cy="9.2" r="0.5" fill="#1A2535"/><circle cx="16.8" cy="9.2" r="0.5" fill="#1A2535"/>
+  <!-- Padded coat -->
+  <path d="M10.4,12.6 L20,12.6 L21.4,25 L9,25 Z" fill="#8A7A66"/>
+  <path d="M9.6,18 H20.8" stroke="#2E4A66" stroke-width="1.1"/>
+  <rect x="8" y="13.6" width="9" height="2.2" rx="1.1" fill="#C9B8A0"/>
+  <!-- Ice-tipped quiver -->
+  <rect x="21.4" y="10" width="3.2" height="10" rx="1" fill="#2E4A66"/>
+  <path d="M22,10 L22.4,7 L22.8,10 M23.2,10 L23.6,6 L24,10" fill="#BFE6F2" stroke="#BFE6F2" stroke-width="0.6"/>
+  <rect x="10.6" y="25" width="3.5" height="5" rx="1" fill="#2E4A66"/>
+  <rect x="15.2" y="25" width="3.5" height="5" rx="1" fill="#2E4A66"/>
+  <rect x="9.6" y="28" width="5.5" height="3" rx="1" fill="#1A2535"/>
+  <rect x="14.7" y="28" width="5.5" height="3" rx="1" fill="#1A2535"/>
 </svg>
