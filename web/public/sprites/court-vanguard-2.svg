@@ -1,12 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7" r="4.5" fill="#8A97A0"/>
-  <path d="M11,7 Q16,0 21,7 L21,8.5 Q16,5.5 11,8.5 Z" fill="#2B2F3E"/>
-  <circle cx="15" cy="7.5" r="0.7" fill="#12141f"/>
-  <circle cx="17" cy="7.5" r="0.7" fill="#12141f"/>
-  <path d="M9,11 L8,23 L24,23 L23,11 Q16,16 9,11 Z" fill="#5E6A8C"/>
-  <rect x="14" y="14" width="4" height="1.4" fill="#7A4A6B"/>
-  <circle cx="10" cy="16" r="1.6" fill="#6B4F3A"/>
-  <circle cx="22" cy="15.5" r="1.8" fill="#6B4F3A"/>
-  <rect x="11" y="23" width="5" height="7" fill="#2B2F3E"/>
-  <rect x="16" y="23" width="5" height="7" fill="#2B2F3E"/>
+  <!-- Halberd -->
+  <rect x="27" y="3" width="1.6" height="25" fill="#6B4F3A"/>
+  <path d="M27.8,0 L31,4.6 L28.6,6 L27,6 L24.6,4.6 Z" fill="#C9CBDA"/>
+  <!-- Round buckler with mask emblem -->
+  <circle cx="5.6" cy="19" r="5" fill="#4A1F40"/>
+  <circle cx="5.6" cy="19" r="5" fill="none" stroke="#E8B94A" stroke-width="0.9"/>
+  <ellipse cx="5.6" cy="19" rx="2.4" ry="2.76" fill="#C9CBDA"/>
+  <path d="M3.92,18.52 q0.96,-1.2 1.68,0 M7.279999999999999,18.52 q-0.96,-1.2 -1.68,0" stroke="#1B1424" stroke-width="0.7" fill="none"/>
+  <!-- Mask-plate helm with plume -->
+  <path d="M13.6,4.4 Q16,-0.4 19.4,2 Q17.6,3.4 17,5.4 Z" fill="#B53A3A"/>
+  <path d="M11,12 L11,5.8 Q16,2.8 21,5.8 L21,12 Q16,15 11,12 Z" fill="#C9CBDA"/>
+  <path d="M13,8.6 q1,-0.8 2,0 M17,8.6 q1,-0.8 2,0" stroke="#1B1424" stroke-width="0.9" fill="none"/>
+  <path d="M14.6,11.6 Q16,12.6 17.4,11.6" stroke="#1B1424" stroke-width="0.6" fill="none"/>
+  <!-- Velvet tabard -->
+  <rect x="10.4" y="12.6" width="11.2" height="12" rx="1.4" fill="#6B2D5C"/>
+  <path d="M16,12.6 V24.6 M10.4,18 H21.6" stroke="#E8B94A" stroke-width="0.8"/>
+  <rect x="21" y="15" width="6.6" height="2.4" rx="1.2" fill="#C9CBDA"/>
+  <rect x="11.4" y="24.6" width="3.5" height="5.4" rx="1" fill="#2B2F3E"/>
+  <rect x="16.6" y="24.6" width="3.5" height="5.4" rx="1" fill="#2B2F3E"/>
+  <rect x="10.4" y="28.0" width="5.5" height="3" rx="1" fill="#1B1424"/>
+  <rect x="16.1" y="28.0" width="5.5" height="3" rx="1" fill="#1B1424"/>
 </svg>
