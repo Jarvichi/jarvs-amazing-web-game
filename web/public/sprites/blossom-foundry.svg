@@ -1,7 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="8" y="16" width="16" height="12" fill="#3F5170"/>
-  <path d="M8,16 L16,7 L24,16 Z" fill="#4C7A5E"/>
-  <circle cx="16" cy="21" r="4" fill="#E8E4D8"/>
-  <circle cx="16" cy="21" r="2.2" fill="#E8B4C8"/>
-  <circle cx="16" cy="10" r="1.4" fill="#F2E9D8"/>
+  <ellipse cx="16" cy="29.6" rx="14" ry="1.6" fill="#1C1A17" opacity="0.4"/>
+  <!-- Hollow-tree workshop -->
+  <path d="M4,29 Q3,18 6,9 Q10,4 16,4 Q22,4 26,9 Q29,18 28,29 Z" fill="#4A3A2E"/>
+  <path d="M7,27 Q6,17 8,11 M25,27 Q26,17 24,11 M16,5 V12" stroke="#7A5A3C" stroke-width="0.9" fill="none"/>
+  <path d="M10,29 V20 Q10,14.6 16,14.6 Q22,14.6 22,20 V29 Z" fill="#1C1A17"/>
+  <path d="M12,29 V20.6 Q12,16.4 16,16.4 Q20,16.4 20,20.6 V29 Z" fill="#E8A0B8"/>
+  <path d="M14,29 V22 Q16,19 18,22 V29 Z" fill="#FFE0EA"/>
+  <!-- Blossom crown and falling petals -->
+  <circle cx="9" cy="5" r="2.4" fill="#E8A0B8"/><circle cx="14" cy="2.8" r="2.4" fill="#E8A0B8"/><circle cx="19" cy="3" r="2.4" fill="#E8A0B8"/><circle cx="23.6" cy="5.4" r="2.4" fill="#E8A0B8"/>
+  <circle cx="14" cy="2.8" r="0.9" fill="#F6D86A"/><circle cx="19" cy="3" r="0.9" fill="#F6D86A"/>
+  <circle cx="3.4" cy="22" r="1" fill="#E8A0B8"/><circle cx="5" cy="27" r="1.1" fill="#E8A0B8"/><circle cx="28.6" cy="25" r="1" fill="#E8A0B8"/><circle cx="26.6" cy="28.6" r="1.1" fill="#E8A0B8"/>
+  <rect x="24" y="12" width="3" height="5" fill="#6E6A62"/>
 </svg>
