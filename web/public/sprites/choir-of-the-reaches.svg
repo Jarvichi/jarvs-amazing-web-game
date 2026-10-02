@@ -1,10 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#2B2F3E"/>
-  <path d="M11.5,8 Q16,1 20.5,8 L20.5,9.5 Q16,6.5 11.5,9.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="8.5" r="1" fill="#D4AF37"/>
-  <circle cx="17" cy="8.5" r="1" fill="#D4AF37"/>
-  <path d="M10,12 L9,23 L23,23 L22,12 Q16,16 10,12 Z" fill="#5E6A8C"/>
-  <path d="M16,12 L14,19 L18,19 Z" fill="#D4AF37" opacity="0.8"/>
-  <rect x="11.5" y="23" width="4" height="6" fill="#2B2F3E"/>
-  <rect x="16.5" y="23" width="4" height="6" fill="#2B2F3E"/>
+  <circle cx="7" cy="9" r="3" fill="#E3D9CF"/>
+  <path d="M3.8,8.4 Q7,4.6 10.2,8.4" fill="#A8B0C0"/>
+  <ellipse cx="7" cy="10.4" rx="0.8" ry="1" fill="#14161F"/>
+  <circle cx="6" cy="8.8" r="0.4" fill="#14161F"/><circle cx="8" cy="8.8" r="0.4" fill="#14161F"/>
+  <circle cx="16" cy="6" r="3" fill="#E3D9CF"/>
+  <path d="M12.8,5.4 Q16,1.5999999999999996 19.2,5.4" fill="#A8B0C0"/>
+  <ellipse cx="16" cy="7.4" rx="0.8" ry="1" fill="#14161F"/>
+  <circle cx="15" cy="5.8" r="0.4" fill="#14161F"/><circle cx="17" cy="5.8" r="0.4" fill="#14161F"/>
+  <circle cx="25" cy="9" r="3" fill="#E3D9CF"/>
+  <path d="M21.8,8.4 Q25,4.6 28.2,8.4" fill="#A8B0C0"/>
+  <ellipse cx="25" cy="10.4" rx="0.8" ry="1" fill="#14161F"/>
+  <circle cx="24" cy="8.8" r="0.4" fill="#14161F"/><circle cx="26" cy="8.8" r="0.4" fill="#14161F"/>
+  <!-- Open hymn-books raised over the parapet -->
+  <rect x="3" y="13" width="8" height="4.4" rx="0.6" fill="#EDE6D0"/><rect x="12" y="10" width="8" height="4.4" rx="0.6" fill="#EDE6D0"/><rect x="21" y="13" width="8" height="4.4" rx="0.6" fill="#EDE6D0"/>
+  <path d="M7,13 V17.4 M16,10 V14.4 M25,13 V17.4" stroke="#1E3463" stroke-width="0.5"/>
+  <!-- Crenellated field wall -->
+  <path d="M0,31 V17 H4 V19 H8 V17 H12 V19 H16 V17 H20 V19 H24 V17 H28 V19 H32 V31 Z" fill="#6C7488"/>
+  <path d="M0,23 H32 M8,23 V27 M16,23 V27 M24,23 V27 M4,27 V31 M12,27 V31 M20,27 V31 M28,27 V31 M0,27 H32" stroke="#14161F" stroke-width="0.6" opacity="0.6"/>
+  <path d="M10,17 h12" stroke="#E0B040" stroke-width="0" />
 </svg>
