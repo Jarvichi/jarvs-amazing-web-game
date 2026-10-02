@@ -1,10 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="4" fill="#E8E4D8"/>
-  <circle cx="15" cy="9" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="9" r="0.6" fill="#2B2F3E"/>
-  <path d="M12,13 L11.5,21 L20.5,21 L20,13 Q16,15.5 12,13 Z" fill="#4C7A5E"/>
-  <rect x="13" y="15" width="6" height="1" fill="#E8B4C8"/>
-  <rect x="13.5" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="28.5" rx="9.5" ry="1.8" fill="#4C7A5E" opacity="0.45"/>
+  <!-- Leafy sprout head and flutter leaves -->
+  <path d="M16,9 V4" stroke="#6B8F5A" stroke-width="1.4"/>
+  <path d="M16,5 Q9,0 7,6 Q12,7 16,5 Z" fill="#6B8F5A"/>
+  <path d="M16,5 Q23,0 25,6 Q20,7 16,5 Z" fill="#8FB070"/>
+  <path d="M16,4.6 Q8,3 7.4,5.8 M16,4.6 Q24,3 24.6,5.8" stroke="#4A6B3C" stroke-width="0.7" fill="none"/>
+  <!-- Seed-bulb body with a worried face -->
+  <ellipse cx="16" cy="15" rx="7.4" ry="7.6" fill="#B9A06A"/>
+  <path d="M10,13 Q16,9.4 22,13" stroke="#7A5A3C" stroke-width="0.9" fill="none"/>
+  <circle cx="13.2" cy="14.6" r="1.4" fill="#1C1A17"/><circle cx="18.8" cy="14.6" r="1.4" fill="#1C1A17"/>
+  <circle cx="13.6" cy="14.2" r="0.5" fill="#FFFFFF"/><circle cx="19.2" cy="14.2" r="0.5" fill="#FFFFFF"/>
+  <path d="M13.6,18.4 Q16,17 18.4,18.4" stroke="#1C1A17" stroke-width="0.8" fill="none"/>
+  <!-- Leaf arms pumping -->
+  <path d="M9,15 Q4,12 3,16 Q6,18 9,17 Z" fill="#6B8F5A"/>
+  <path d="M23,15 Q28,12 29,16 Q26,18 23,17 Z" fill="#6B8F5A"/>
+  <path d="M13,21 Q12,26 10,29.6" stroke="#7A5A3C" stroke-width="2.2" fill="none"/>
+  <path d="M19,21 Q20,26 22,29.6" stroke="#7A5A3C" stroke-width="2.2" fill="none"/>
+  <path d="M10,29.6 L8,31 M10,29.6 L12,31 M22,29.6 L20,31 M22,29.6 L24,31" stroke="#7A5A3C" stroke-width="1.1"/>
 </svg>
