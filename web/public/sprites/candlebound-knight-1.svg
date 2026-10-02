@@ -1,12 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="6" r="5.2" fill="#8A97A0"/>
-  <path d="M13,1 Q16,-5 19,1 Z" fill="#FFC94A"/>
-  <rect x="10.5" y="2" width="11" height="7" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="7" r="0.9" fill="#FFC94A"/>
-  <circle cx="18" cy="7" r="0.9" fill="#FFC94A"/>
-  <path d="M8,11 L6.5,24 L25.5,24 L24,11 Q16,17 8,11 Z" fill="#5E6A8C"/>
-  <rect x="12" y="14" width="8" height="1.8" fill="#FFC94A"/>
-  <path d="M16,14 L13,21 L19,21 Z" fill="#E8B4C8" opacity="0.7"/>
-  <rect x="10.5" y="24" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="16" y="24" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Window-shutter shield with a lit pane -->
+  <rect x="1.4" y="11" width="10" height="17" rx="1" fill="#8A4A3A"/>
+  <rect x="3" y="12.6" width="6.8" height="9" fill="#F0C060"/>
+  <path d="M6.4,12.6 V21.6 M3,17 H9.8" stroke="#8A4A3A" stroke-width="0.9"/>
+  <path d="M1.4,23 H11.4 M1.4,25.6 H11.4" stroke="#171230" stroke-width="0.8"/>
+  <!-- Giant candle-helm with dripping wax -->
+  <rect x="12" y="1.4" width="8" height="8" rx="1.6" fill="#F2E9D8"/>
+  <path d="M16,-1.8800000000000003 Q17.8,0.2799999999999999 16,2.08 Q14.2,0.2799999999999999 16,-1.8800000000000003 Z" fill="#FFB347"/>
+  <path d="M16,-0.08000000000000007 Q16.72,1 16,1.9 Q15.28,1 16,-0.08000000000000007 Z" fill="#FFF2B0"/>
+  <path d="M12,5 V11 M20,5 V12 M16,9 V12" stroke="#F2E9D8" stroke-width="1.8" fill="none"/>
+  <rect x="13" y="7.6" width="6" height="2" fill="#120F1E"/>
+  <circle cx="14.6" cy="8.6" r="0.5" fill="#FFB347"/><circle cx="17.4" cy="8.6" r="0.5" fill="#FFB347"/>
+  <!-- Wax-melted plate -->
+  <path d="M9,15 Q9.4,13 12,13.4 H20 Q22.6,13 23,15 L22,18 H10 Z" fill="#F2E9D8"/>
+  <rect x="10" y="13.8" width="12" height="12" rx="1.4" fill="#4A5066"/>
+  <path d="M10,19 H22" stroke="#171230" stroke-width="0.9"/>
+  <path d="M10.6,18 V23 M13.6,18 V25.4 M18,18 V22 M21.4,18 V24" stroke="#F2E9D8" stroke-width="1.6" fill="none"/>
+  <!-- Wax-tipped lance -->
+  <rect x="26.6" y="4" width="1.8" height="26" fill="#6B4F3A"/>
+  <path d="M27.5,0.6 L30,5 H25 Z" fill="#C9CBDA"/>
+  <path d="M25.6,5 V9 M29.4,5 V8" stroke="#F2E9D8" stroke-width="1.2"/>
+  <rect x="22" y="16.4" width="5.6" height="2.4" rx="1.2" fill="#4A5066"/>
+  <rect x="11.6" y="25.8" width="3.5" height="5.2" rx="1" fill="#2A2145" transform="rotate(-16 13.35 25.8)"/>
+  <rect x="16.4" y="25.8" width="3.5" height="5.2" rx="1" fill="#2A2145" transform="rotate(16 18.15 25.8)"/>
+  <rect x="8.6" y="29.8" width="5.5" height="2.8" rx="1" fill="#120F1E"/>
+  <rect x="17.9" y="29.8" width="5.5" height="2.8" rx="1" fill="#120F1E"/>
 </svg>
