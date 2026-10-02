@@ -1,10 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#E8E4D8"/>
-  <path d="M12,8 Q16,3 20,8 L20,9.5 Q16,6.5 12,9.5 Z" fill="#4C7A5E"/>
-  <circle cx="15" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,12 L10.5,21 L21.5,21 L20.5,12 Q16,14.5 11.5,12 Z" fill="#3F5170"/>
-  <path d="M20,12 L24,15 L20.5,18 Z" fill="#E8B4C8" opacity="0.8"/>
-  <rect x="13.5" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="21" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Leaf cloak streaming back -->
+  <path d="M12,10 Q4,10 0.6,17 Q6,15 11,18 L12,22 Z" fill="#6B8F5A"/>
+  <path d="M10,13 L3.4,15 M10,16 L5,18.4" stroke="#4A6B3C" stroke-width="0.9"/>
+  <!-- Half-skull bone mask and twig crown -->
+  <path d="M12,7 L10,3 M16,5 V1.4 M20,7 L22,3" stroke="#B9AE92" stroke-width="1.2" fill="none"/>
+  <circle cx="16" cy="9.4" r="3.6" fill="#E3D9CF"/>
+  <path d="M12.4,8.6 H19.6 V11.6 Q16,13 12.4,11.6 Z" fill="#E8E0CC"/>
+  <circle cx="14.2" cy="9.8" r="0.9" fill="#1C1A17"/><circle cx="17.8" cy="9.8" r="0.9" fill="#1C1A17"/>
+  <path d="M14.4,11.8 V10.8 M16,11.8 V10.8 M17.6,11.8 V10.8" stroke="#1C1A17" stroke-width="0.5"/>
+  <!-- Torso with hollow-bone letter tube across the chest -->
+  <path d="M12,13 H20 L19.6,21 H12.4 Z" fill="#4A3A2E"/>
+  <rect x="9" y="16" width="14" height="2.6" rx="1.3" fill="#E8E0CC" transform="rotate(30 16 17.3)"/>
+  <circle cx="21.4" cy="22" r="1.3" fill="#E8E0CC"/>
+  <!-- Reaching arm with a blossom token -->
+  <rect x="19.4" y="13" width="7" height="2.2" rx="1.1" fill="#4A3A2E" transform="rotate(-30 19.4 14)"/>
+  <circle cx="28.50" cy="8.40" r="0.77" fill="#E8A0B8"/>
+  <circle cx="27.74" cy="9.45" r="0.77" fill="#E8A0B8"/>
+  <circle cx="26.51" cy="9.05" r="0.77" fill="#E8A0B8"/>
+  <circle cx="26.51" cy="7.75" r="0.77" fill="#E8A0B8"/>
+  <circle cx="27.74" cy="7.35" r="0.77" fill="#E8A0B8"/>
+  <circle cx="27.4" cy="8.4" r="0.55" fill="#F6D86A"/>
+  <rect x="12" y="21" width="3.5" height="8.4" rx="1" fill="#3A2E24"/>
+  <rect x="15.8" y="21" width="3.5" height="8.4" rx="1" fill="#3A2E24"/>
+  <rect x="11" y="27.4" width="5.5" height="3" rx="1" fill="#1C1A17"/>
+  <rect x="15.3" y="27.4" width="5.5" height="3" rx="1" fill="#1C1A17"/>
 </svg>
