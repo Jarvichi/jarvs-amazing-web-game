@@ -1,17 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Drift phase B: mass leans right, wisps trail left -->
-  <ellipse cx="17" cy="17" rx="12" ry="7" fill="#F2E9D8" opacity="0.5"/>
-  <ellipse cx="13" cy="14" rx="7" ry="5" fill="#F2E9D8" opacity="0.65"/>
-  <ellipse cx="22" cy="13" rx="6" ry="4.5" fill="#F2E9D8" opacity="0.65"/>
-  <ellipse cx="17" cy="11" rx="8" ry="5" fill="#FBF6EA" opacity="0.8"/>
-  <ellipse cx="17" cy="14" rx="5" ry="3.6" fill="#A6A9C0" opacity="0.6"/>
-  <rect x="16.4" y="11" width="1.2" height="10" rx="0.6" fill="#2B2F3E"/>
-  <path d="M17,11 Q23,9.5 22,15.5 Q19,13.5 17,11 Z" fill="#F2E9D8"/>
-  <circle cx="14.5" cy="12" r="1.1" fill="#E8B94A"/>
-  <circle cx="19.5" cy="12" r="1.1" fill="#E8B94A"/>
-  <circle cx="14.5" cy="11.7" r="0.4" fill="#FFE08A"/>
-  <circle cx="19.5" cy="11.7" r="0.4" fill="#FFE08A"/>
-  <path d="M5,21 Q1.5,23 2,26.5 Q4,24.5 5.5,24 Z" fill="#F2E9D8" opacity="0.5"/>
-  <path d="M25,24 Q23,27 25.5,29 Q26.5,26.5 28,25.5 Z" fill="#F2E9D8" opacity="0.5"/>
-  <path d="M17,24 Q16,27.5 19,29 Q20,26.5 21,25 Z" fill="#F2E9D8" opacity="0.45"/>
+  <!-- Loose pages as wings, with index tabs -->
+  <path d="M11,13 L3,9.6 L1,17.6 L9,20 Z" fill="#EDE6D0"/>
+  <path d="M5,16.6 L10,16 M4,13.6 L9,14" stroke="#8A6F4D" stroke-width="0.5"/>
+  <path d="M21,13 L29,9.6 L31,17.6 L23,20 Z" fill="#EDE6D0"/>
+  <path d="M27,16.6 L22,16 M28,13.6 L23,14" stroke="#8A6F4D" stroke-width="0.5"/>
+  <rect x="1.4" y="20.3" width="5" height="3.4" fill="#D9C27E" transform="rotate(-18 4 20)"/><rect x="25.6" y="20.3" width="5" height="3.4" fill="#D9C27E" transform="rotate(18 28 20)"/>
+  <!-- Card-catalogue drawer body with brass pull and label -->
+  <rect x="9" y="10" width="14" height="15" rx="1.4" fill="#8A6F4D"/>
+  <rect x="10.6" y="12" width="10.8" height="5.4" fill="#EDE6D0"/>
+  <path d="M12,14 H20 M12,15.8 H17" stroke="#4A3A2E" stroke-width="0.6"/>
+  <path d="M13,19 H19 V22 Q16,24 13,22 Z" fill="#E8B94A"/>
+  <circle cx="16" cy="20.6" r="0.8" fill="#4A3A2E"/>
+  <!-- Index cards fanned out the top, hunting eyes, bookmark-ribbon tail -->
+  <path d="M10,10 L8,4 L13,6 Z M14,10 L14,3 L18,5 L17,10 Z M20,10 L24,4 L25,9 Z" fill="#F2E9D8"/>
+  <circle cx="12.6" cy="7.6" r="0.6" fill="#1B1424"/><circle cx="16" cy="7" r="0.6" fill="#1B1424"/><circle cx="22" cy="7" r="0.6" fill="#1B1424"/>
+  <path d="M16,25 Q13,28 16,30 Q19,31 17,32" stroke="#B03040" stroke-width="2" fill="none"/>
 </svg>
