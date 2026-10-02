@@ -1,9 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="13" y="18" width="6" height="11" fill="#5E6A8C"/>
-  <rect x="11" y="16" width="10" height="3" fill="#3F5170"/>
-  <path d="M13,16 Q16,6 19,16 Z" fill="#6B4F3A"/>
-  <rect x="14.6" y="6" width="2.8" height="4" rx="1" fill="#E8B4C8"/>
-  <circle cx="16" cy="13" r="1.4" fill="#2B2F3E"/>
-  <rect x="15.3" y="13" width="1.4" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="9" ry="1.6" fill="#4C7A5E" opacity="0.3"/>
+  <ellipse cx="16" cy="29.6" rx="10" ry="1.6" fill="#1C1A17" opacity="0.4"/>
+  <!-- Root-wrapped stand -->
+  <path d="M15,13 Q12,18 15,22 Q18,26 14,29.6 M17,13 Q20,18 17,22 Q14,26 18,29.6" stroke="#7A5A3C" stroke-width="2" fill="none"/>
+  <path d="M9,29.4 Q13,26 16,22 Q19,26 23,29.4" stroke="#4A3A2E" stroke-width="2.4" fill="none"/>
+  <path d="M8,29 L5.6,31 M24,29 L26.4,31" stroke="#4A3A2E" stroke-width="1.6"/>
+  <!-- Root-claw bowl with pale green flame -->
+  <path d="M7,11 Q9,16 16,16 Q23,16 25,11 Z" fill="#4A3A2E"/>
+  <path d="M7,11 L4.6,7 M25,11 L27.4,7 M11,12 L9,8 M21,12 L23,8" stroke="#7A5A3C" stroke-width="1.6" fill="none"/>
+  <path d="M10,11 Q9,5 13,2 Q13,7 15,8 Q16,4 18,1 Q19.6,6 22,11 Z" fill="#9FD88A"/>
+  <path d="M13,11 Q13,7 16,5 Q18,8 19,11 Z" fill="#E8F8D0"/>
+  <path d="M6,22 Q3,22 3,25 M26,22 Q29,22 29,25" stroke="#6B8F5A" stroke-width="1.1" fill="none"/>
 </svg>
