@@ -1,13 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="12" cy="9" r="3.6" fill="#8A97A0"/>
-  <circle cx="20" cy="8" r="3.6" fill="#8A97A0"/>
-  <circle cx="11" cy="9" r="0.6" fill="#12141f"/>
-  <circle cx="13" cy="9" r="0.6" fill="#12141f"/>
-  <circle cx="19" cy="8" r="0.6" fill="#12141f"/>
-  <circle cx="21" cy="8" r="0.6" fill="#12141f"/>
-  <path d="M6,12 L5,24 L27,24 L26,12 Q16,17 6,12 Z" fill="#5E6A8C"/>
-  <rect x="11" y="16" width="10" height="1.6" fill="#FFC94A"/>
-  <path d="M16,16 L13,22 L19,22 Z" fill="#4A5FC9" opacity="0.75"/>
-  <rect x="7.5" y="24" width="4.5" height="7" fill="#2B2F3E"/>
-  <rect x="17" y="24" width="4.5" height="7" fill="#2B2F3E"/>
+  <!-- Owl-like night wings -->
+  <path d="M10,13 Q2,8.0 1,16.0 Q4,14 3,22.0 Q8,20 11,18 Z" fill="#5A3A6A"/>
+  <path d="M22,13 Q30,8.0 31,16.0 Q28,14 29,22.0 Q24,20 21,18 Z" fill="#5A3A6A"/>
+  <path d="M3,15.0 L9,15 M4,19.0 L10,17.6 M29,15.0 L23,15 M28,19.0 L22,17.6" stroke="#F0C060" stroke-width="0.8"/>
+  <!-- Great lantern body with window-pane belly -->
+  <path d="M9,9 L11,4 H21 L23,9 Z" fill="#2A2145"/>
+  <path d="M16,4 V1 M14,1 H18" stroke="#4A5066" stroke-width="1.2"/>
+  <rect x="9" y="9" width="14" height="14" rx="1" fill="#F0C060"/>
+  <path d="M16,9 V23 M9,16 H23" stroke="#4A5066" stroke-width="1.2"/>
+  <rect x="9" y="23" width="14" height="2.6" fill="#2A2145"/>
+  <!-- Round watchful owl eyes in the glass -->
+  <circle cx="12.6" cy="12.6" r="2" fill="#120F1E"/><circle cx="19.4" cy="12.6" r="2" fill="#120F1E"/>
+  <circle cx="12.6" cy="12.6" r="0.8" fill="#FFF2B0"/><circle cx="19.4" cy="12.6" r="0.8" fill="#FFF2B0"/>
+  <path d="M16,14 L14.6,16.6 L17.4,16.6 Z" fill="#E8B94A"/>
+  <path d="M12,19 H20" stroke="#B9983A" stroke-width="0.8"/>
+  <path d="M12,25.6 L11,29 M16,25.6 V29.4 M20,25.6 L21,29" stroke="#E8B94A" stroke-width="1.2"/>
 </svg>
