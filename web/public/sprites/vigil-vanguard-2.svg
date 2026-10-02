@@ -1,12 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4.0" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8.0" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8.0" r="0.9" fill="#12141f"/>
-  <path d="M8,12.0 L7,25.0 L25,25.0 L24,12.0 Q16,18.0 8,12.0 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15.0" width="6" height="1.6" fill="#E8C468"/>
-  <circle cx="9" cy="18.0" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="9" y="25.0" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="17.5" y="25.0" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Great processional banner -->
+  <rect x="18" y="0" width="1.6" height="28" fill="#6B4F3A"/>
+  <path d="M19.6,1 H31 V14 L25.4,11 L19.6,14 Z" fill="#A8323A"/>
+  <path d="M25.3,3.6 L26.2,6 L28.6,6 L26.6,7.6 L27.4,10 L25.3,8.6 L23.2,10 L24,7.6 L22,6 L24.4,6 Z" fill="#E8B94A"/>
+  <!-- Horsehair-crested helm -->
+  <path d="M8,7 Q10,0 16,2 Q12,3 11,6 Z" fill="#A8323A"/>
+  <path d="M8.4,12.4 L8.4,6.4 Q13.4,3.4 18.4,6.4 L18.4,12.4 Z" fill="#8A8A92"/>
+  <rect x="9.8" y="8.2" width="7.2" height="1.8" fill="#14141C"/>
+  <path d="M13.4,8 V12.4" stroke="#5C5C66" stroke-width="1.2"/>
+  <!-- Heavy plate with wide pauldrons -->
+  <path d="M4,14.6 Q4.4,12 8.4,12.6 H18.4 Q22.4,12 22.8,14.6 L20.6,17 H6.4 Z" fill="#5C5C66"/>
+  <rect x="7.4" y="12.8" width="12" height="12" rx="1.4" fill="#8A8A92"/>
+  <path d="M8,17 H19 M8,21 H19 M13.4,12.8 V24.8" stroke="#5C5C66" stroke-width="0.9"/>
+  <circle cx="13.4" cy="19" r="1.4" fill="#E8B94A"/>
+  <!-- Arm to banner, sword at hip -->
+  <rect x="16.4" y="14.4" width="4" height="2.4" rx="1.2" fill="#5C5C66"/>
+  <rect x="3.4" y="19" width="1.2" height="9" fill="#C9CBDA"/><rect x="2" y="19" width="4" height="1.2" fill="#E8B94A"/>
+  <rect x="8.4" y="24.8" width="3.5" height="5.2" rx="1" fill="#272A56"/>
+  <rect x="13.4" y="24.8" width="3.5" height="5.2" rx="1" fill="#272A56"/>
+  <rect x="7.4" y="28.0" width="5.5" height="3" rx="1" fill="#14141C"/>
+  <rect x="12.9" y="28.0" width="5.5" height="3" rx="1" fill="#14141C"/>
 </svg>
