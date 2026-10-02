@@ -77,7 +77,7 @@ const ALLOWED_SPRITE_CLONES = new Map<string, string>([
   [groupKey(['candle-watchtower.svg', 'reach-watchtower.svg', 'road-watchtower.svg', 'throne-watchtower.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['candlebound-knight.svg', 'crownbound-knight.svg', 'diadembound-knight.svg', 'roadbound-knight.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['centaur-stable.svg', 'cntaur-stbl.svg']), 'pending redraw — tracked in #2333'],
-  [groupKey(['choir-of-echoes.svg', 'choir-of-frost.svg', 'choir-of-masks.svg', 'choir-of-roots.svg', 'choir-of-the-drowned.svg']), 'pending redraw — tracked in #2333'],
+  [groupKey(['choir-of-echoes.svg', 'choir-of-frost.svg', 'choir-of-masks.svg', 'choir-of-roots.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['cmd-tent.svg', 'command-tent.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['court-attendant.svg', 'grove-tender.svg', 'marsh-skulker.svg', 'waiting-scout.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['court-automaton.svg', 'drowned-automaton.svg', 'frost-automaton.svg', 'grove-automaton.svg', 'reflection-automaton.svg']), 'pending redraw — tracked in #2333'],
