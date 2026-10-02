@@ -811,16 +811,22 @@
         "outer-wall"
       ],
       "handicap": 3,
-      "opponentIntervalMs": 4000,
-      "opponentBaseHp": 50,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 110,
       "environment": "citadel",
       "enemyDeck": [
         "Executioner",
         "Executioner",
         "Gallows",
-        "Gallows",
+        "Ballista",
         "Execution Post",
-        "Execution Post"
+        "Executioner",
+        "Executioner",
+        "Crossbow",
+        "Catapult",
+        "Crossbow",
+        "Knight",
+        "Grizzled Veteran"
       ],
       "bossAI": "iron-elite"
     },
@@ -838,13 +844,14 @@
         "quartermaster"
       ],
       "environment": "ruins",
+      "opponentIntervalMs": 10000,
       "enemyDeck": [
         "Plague Rat",
         "Plague Rat",
-        "Plague Spread",
+        "Plague Shaman",
         "Plague Burrow",
         "Plague Spread",
-        "Plague Burrow"
+        "Plague Shaman"
       ]
     },
     "mem-act2-1": {

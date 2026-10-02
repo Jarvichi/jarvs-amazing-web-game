@@ -1210,12 +1210,13 @@
         "ash-crossing"
       ],
       "environment": "volcano",
+      "opponentIntervalMs": 10000,
       "enemyDeck": [
-        "Eel Trench",
-        "Eel Trench",
-        "Eel Trench",
+        "Eel Striker",
         "Eel Trench",
         "Eel Striker",
+        "Eel Striker",
+        "Eel Trench",
         "Eel Striker"
       ]
     },
