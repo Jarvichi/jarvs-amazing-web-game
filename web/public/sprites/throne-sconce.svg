@@ -1,7 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="14" y="16" width="4" height="14" fill="#2B2F3E"/>
-  <path d="M10,10 Q16,4 22,10 L20,16 L12,16 Z" fill="#5E6A8C"/>
-  <ellipse cx="16" cy="9" rx="4.5" ry="6" fill="#F5D061" opacity="0.85"/>
-  <ellipse cx="16" cy="9" rx="2" ry="3.5" fill="#FFF3C4" opacity="0.9"/>
-  <ellipse cx="16" cy="29" rx="8" ry="1.4" fill="#F5D061" opacity="0.25"/>
+  <ellipse cx="16" cy="29.6" rx="11" ry="1.6" fill="#0F0D1A" opacity="0.4"/>
+  <!-- Pale threshold pillar with draped banner -->
+  <rect x="11" y="14" width="10" height="15.4" fill="#D8D4E0"/>
+  <path d="M11,14 H21 M11,20 H21 M11,26 H21" stroke="#9A8FC0" stroke-width="0.9"/>
+  <rect x="9.6" y="12.4" width="12.8" height="2.4" rx="0.6" fill="#9A8FC0"/>
+  <path d="M12.6,15 H19.4 V23 L16,21 L12.6,23 Z" fill="#7A2A44"/>
+  <path d="M12.6,17 H19.4" stroke="#D8B84A" stroke-width="0.9"/>
+  <!-- Iron cup with the last spirit flame -->
+  <path d="M10,8 H22 L19.6,12.4 H12.4 Z" fill="#4A4860"/>
+  <path d="M10,8 H22" stroke="#D8B84A" stroke-width="1.4"/>
+  <path d="M12,8 Q10.4,2 15,-0.6 Q15,4.6 16.4,6 Q18,2 19.6,0.4 Q21.4,5 20,8 Z" fill="#8FD8F0"/>
+  <path d="M14.4,8 Q14.2,4.4 16,2.6 Q18.2,5 17.6,8 Z" fill="#FFFFFF"/>
+  <path d="M8,10 L5.6,6 M24,10 L26.4,6" stroke="#4A4860" stroke-width="1.4"/>
+  <path d="M14.4,29.4 V27 M17.6,29.4 V27" stroke="#9A8FC0" stroke-width="1"/>
 </svg>
