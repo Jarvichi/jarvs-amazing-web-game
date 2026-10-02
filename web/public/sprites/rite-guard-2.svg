@@ -1,12 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4.0" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8.0" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8.0" r="0.9" fill="#12141f"/>
-  <path d="M8,12.0 L7,25.0 L25,25.0 L24,12.0 Q16,18.0 8,12.0 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15.0" width="6" height="1.6" fill="#F5D061"/>
-  <circle cx="9" cy="18.0" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="9" y="25.0" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="17.5" y="25.0" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Spiked flail on a chain -->
+  <rect x="26.6" y="8" width="1.6" height="20" fill="#6A6880"/>
+  <path d="M27.4,8 Q30,6 28.6,3" stroke="#6A6880" stroke-width="0.9" fill="none"/>
+  <circle cx="28.6" cy="2" r="2.2" fill="#D8D4E0"/>
+  <path d="M28.6,-0.6 V4.6 M26,2 H31.2 M26.8,0.2 L30.4,3.8 M30.4,0.2 L26.8,3.8" stroke="#6A6880" stroke-width="0.9"/>
+  <!-- Great round shield with a diadem -->
+  <circle cx="5.6" cy="19" r="5.6" fill="#1E1A33"/>
+  <circle cx="5.6" cy="19" r="5.6" fill="none" stroke="#D8D4E0" stroke-width="1"/>
+  <path d="M2.6,21 L3,17 L4.4,19 L5.6,16 L6.8,19 L8.2,17 L8.6,21 Z" fill="#D8B84A"/>
+  <!-- Bucket helm with eye-cross -->
+  <rect x="11" y="4.4" width="10" height="9" rx="1.2" fill="#D8D4E0"/>
+  <path d="M16,4.4 V13.4 M11,8.4 H21" stroke="#1E1A33" stroke-width="1.2"/>
+  <rect x="12.4" y="7.6" width="2.6" height="1.6" fill="#8FD8F0"/><rect x="17" y="7.6" width="2.6" height="1.6" fill="#8FD8F0"/>
+  <!-- Heavy coat of plates -->
+  <rect x="10" y="13.6" width="12" height="12" rx="1.4" fill="#6A6880"/>
+  <path d="M10,17.6 H22 M10,21.6 H22 M16,13.6 V25.6" stroke="#D8D4E0" stroke-width="0.8"/>
+  <rect x="21" y="15.4" width="5.8" height="2.4" rx="1.2" fill="#D8D4E0"/>
+  <rect x="11.4" y="25.6" width="3.5" height="4.6" rx="1" fill="#1E1A33"/>
+  <rect x="16.4" y="25.6" width="3.5" height="4.6" rx="1" fill="#1E1A33"/>
+  <rect x="10.4" y="28.200000000000003" width="5.5" height="3" rx="1" fill="#0F0D1A"/>
+  <rect x="15.899999999999999" y="28.200000000000003" width="5.5" height="3" rx="1" fill="#0F0D1A"/>
 </svg>

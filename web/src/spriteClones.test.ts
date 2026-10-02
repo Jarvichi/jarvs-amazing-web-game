@@ -65,7 +65,6 @@ const ALLOWED_SPRITE_CLONES = new Map<string, string>([
   [groupKey(['rite-sentry.svg', 'throne-runner.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['centaur-stable.svg', 'cntaur-stbl.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['cmd-tent.svg', 'command-tent.svg']), 'pending redraw — tracked in #2333'],
-  [groupKey(['rite-guard.svg', 'rite-vanguard.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['granary.svg', 'warehouse.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['healer-hut.svg', 'healer-s-hut.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['jarv-gold.svg', 'jarv-green.svg', 'jarv-red.svg', 'jarv.svg']), 'pending redraw — tracked in #2333'],
