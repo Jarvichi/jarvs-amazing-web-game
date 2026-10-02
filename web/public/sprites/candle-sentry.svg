@@ -1,10 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="10" y="10" width="12" height="19" fill="#8A97A0"/>
-  <rect x="8" y="5" width="16" height="6" fill="#5E6A8C"/>
-  <rect x="8" y="5" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="12.5" y="5" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="17" y="5" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="21" y="5" width="3" height="6" fill="#2B2F3E"/>
-  <circle cx="16" cy="18" r="2.4" fill="#FFC94A"/>
-  <ellipse cx="16" cy="29" rx="8" ry="1.3" fill="#FFC94A" opacity="0.25"/>
+  <ellipse cx="16" cy="29.6" rx="13" ry="1.6" fill="#120F1E" opacity="0.4"/>
+  <!-- Small guard hut -->
+  <rect x="6" y="14" width="20" height="14.6" fill="#4A5066"/>
+  <path d="M6,19 H26 M6,24 H26 M16,14 V19 M11,19 V24 M21,19 V24" stroke="#2A2145" stroke-width="0.7"/>
+  <path d="M3,15 L16,6 L29,15 Z" fill="#5A3A6A"/>
+  <!-- Lit window with a candle and a shutter -->
+  <rect x="9" y="17" width="6" height="6" fill="#F0C060"/><path d="M12,17 V23 M9,20 H15" stroke="#4A5066" stroke-width="0.8"/>
+  <path d="M9,17 L7,18 V22 L9,23 Z" fill="#8A4A3A"/>
+  <path d="M12.6,28.6 V23 Q17.6,19 22.6,23 V28.6 Z" fill="#120F1E" transform="translate(1 0)"/>
+  <!-- Big roof candle and spare runner-candles in a rack -->
+  <rect x="14.6" y="-0.4" width="2.8" height="7" rx="0.6" fill="#F2E9D8"/>
+  <path d="M16,-3.4 Q18.8,-0.8 16,1.2 Q13.2,-0.8 16,-3.4 Z" fill="#FFB347"/>
+  <rect x="22.6" y="22" width="4.4" height="1.4" fill="#6B4F3A"/>
+  <path d="M23.4,22 V19 M24.8,22 V18.6 M26.2,22 V19" stroke="#F2E9D8" stroke-width="1.1"/>
+  <circle cx="23.4" cy="18.4" r="0.7" fill="#FFB347"/><circle cx="24.8" cy="18" r="0.7" fill="#FFB347"/><circle cx="26.2" cy="18.4" r="0.7" fill="#FFB347"/>
 </svg>
