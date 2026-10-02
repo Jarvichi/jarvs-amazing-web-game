@@ -1,12 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="6.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="3" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="7" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="7" r="0.9" fill="#12141f"/>
-  <path d="M8,11 L7,24 L25,24 L24,11 Q16,17 8,11 Z" fill="#5E6A8C"/>
-  <rect x="13" y="14" width="6" height="1.6" fill="#7FCDA0"/>
-  <circle cx="9" cy="17" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="16.5" r="2" fill="#6B4F3A"/>
-  <rect x="10.5" y="24" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="15.5" y="24" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Reed cloak -->
+  <path d="M9,12 L4,27 L8,25.4 L10.6,28 L16,25.6 L21.4,28 L24,25.4 L28,27 L23,12 Z" fill="#3F5170"/>
+  <path d="M7,26 Q8,20 9.6,15 M25,26 Q24,20 22.4,15" stroke="#7FCDA0" stroke-width="1" fill="none"/>
+  <!-- Horned helm with reed plume -->
+  <path d="M10.6,9.6 Q8,6 8.8,2.4 Q11,5 12.4,7 Z M21.4,9.6 Q24,6 23.2,2.4 Q21,5 19.6,7 Z" fill="#E3D9CF"/>
+  <path d="M16,3.6 Q18,0 20,1.4 Q17.6,2.6 16.8,5 Z" fill="#7FCDA0"/>
+  <path d="M10.4,12.6 L10.4,6.6 Q16,3.4 21.6,6.6 L21.6,12.6 Z" fill="#8A97A0"/>
+  <path d="M16,7 V12.6 M11,9.4 H21" stroke="#12141f" stroke-width="1.2"/>
+  <rect x="9" y="12.8" width="14" height="11.6" rx="1.6" fill="#5E6A8C"/>
+  <path d="M8,14.4 Q8.4,12.6 11,12.8 L11,16 H8 Z M24,14.4 Q23.6,12.6 21,12.8 L21,16 H24 Z" fill="#8A97A0"/>
+  <!-- Mirror shield -->
+  <circle cx="5.4" cy="19" r="5" fill="#8A97A0"/>
+  <circle cx="5.4" cy="19" r="3.8" fill="#D9F0E8"/>
+  <path d="M3,21 L7.6,16.4" stroke="#FFFFFF" stroke-width="1.2"/>
+  <!-- Glass blade -->
+  <rect x="25.4" y="3" width="2.2" height="17" fill="#D9F0E8"/>
+  <path d="M25.4,3 L26.5,0.4 L27.6,3 Z" fill="#D9F0E8"/>
+  <rect x="23.4" y="19.6" width="6.2" height="1.6" rx="0.6" fill="#6B4F3A"/>
+  <rect x="25.8" y="21" width="1.6" height="4" fill="#6B4F3A"/>
+  <rect x="11.4" y="24.4" width="3.5" height="5" rx="1" fill="#3F5170"/>
+  <rect x="16.2" y="24.4" width="3.5" height="5" rx="1" fill="#3F5170"/>
+  <rect x="10.4" y="27.4" width="5.5" height="3" rx="1" fill="#12141f"/>
+  <rect x="15.7" y="27.4" width="5.5" height="3" rx="1" fill="#12141f"/>
 </svg>
