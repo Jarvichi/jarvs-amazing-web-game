@@ -1,9 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="6" y="8" width="20" height="20" fill="#3F5170"/>
-  <rect x="9" y="11" width="14" height="14" fill="#2B2F3E"/>
-  <rect x="11" y="13" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="17" y="13" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="11" y="19" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="17" y="19" width="4" height="4" fill="#5E6A8C"/>
-  <circle cx="16" cy="18" r="1.6" fill="#7A4A6B"/>
+  <!-- Arched stone facade -->
+  <rect x="2" y="6" width="28" height="23" rx="1.2" fill="#7E8299"/>
+  <path d="M2,6 H30" stroke="#C9CBDA" stroke-width="1.6"/>
+  <path d="M6,29 V13 Q6,6.6 16,6.6 Q26,6.6 26,13 V29 Z" fill="#1B1424"/>
+  <!-- Shelves of scrolls behind lattice -->
+  <path d="M8,15 H24 M8,21 H24" stroke="#8A6F4D" stroke-width="1.2"/>
+  <rect x="9" y="11.4" width="2.4" height="3.6" rx="1" fill="#F2E9D8"/><rect x="12.4" y="11.8" width="2.4" height="3.2" rx="1" fill="#E3D9CF"/><rect x="21" y="11.4" width="2.4" height="3.6" rx="1" fill="#F2E9D8"/>
+  <rect x="9" y="17.4" width="2.4" height="3.6" rx="1" fill="#E3D9CF"/><rect x="20" y="17.6" width="2.4" height="3.4" rx="1" fill="#F2E9D8"/><rect x="23" y="17.4" width="1.8" height="3.6" rx="0.9" fill="#E3D9CF"/>
+  <path d="M7,12 L25,28 M25,12 L7,28 M16,7 V29" stroke="#4A1F40" stroke-width="0.9" fill="none" opacity="0.9"/>
+  <!-- Wax seals -->
+  <circle cx="16" cy="19" r="3" fill="#B53A3A"/><circle cx="16" cy="19" r="1.5" fill="#8E2A2A"/>
+  <circle cx="10" cy="24" r="1.8" fill="#B53A3A"/><circle cx="22" cy="24" r="1.8" fill="#B53A3A"/>
 </svg>
