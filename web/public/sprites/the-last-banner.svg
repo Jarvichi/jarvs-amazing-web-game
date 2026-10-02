@@ -1,13 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="12" cy="9" r="3.6" fill="#8A97A0"/>
-  <circle cx="20" cy="8" r="3.6" fill="#8A97A0"/>
-  <circle cx="11" cy="9" r="0.6" fill="#12141f"/>
-  <circle cx="13" cy="9" r="0.6" fill="#12141f"/>
-  <circle cx="19" cy="8" r="0.6" fill="#12141f"/>
-  <circle cx="21" cy="8" r="0.6" fill="#12141f"/>
-  <path d="M6,12 L5,24 L27,24 L26,12 Q16,17 6,12 Z" fill="#5E6A8C"/>
-  <rect x="11" y="16" width="10" height="1.6" fill="#D4AF37"/>
-  <path d="M16,16 L13,22 L19,22 Z" fill="#8B2635" opacity="0.75"/>
-  <rect x="7.5" y="24" width="4.5" height="7" fill="#2B2F3E"/>
-  <rect x="17" y="24" width="4.5" height="7" fill="#2B2F3E"/>
+  <!-- Cloth wings streaming from the pole -->
+  <path d="M15,8 Q6,4.0 1,9.0 L4,12 L2,17.0 Q9,15 15,16 Z" fill="#B03040"/>
+  <path d="M17,8 Q26,4.0 31,9.0 L28,12 L30,17.0 Q23,15 17,16 Z" fill="#B03040"/>
+  <path d="M3,10.0 L14,12 M29,10.0 L18,12" stroke="#E0B040" stroke-width="0.9"/>
+  <!-- Banner pole as the spine, spear head and tattered pennant tail -->
+  <rect x="15.2" y="2" width="1.6" height="26" rx="0.7" fill="#6B4F3A"/>
+  <path d="M16,-0.6 L18,3.4 H14 Z" fill="#A8B0C0"/>
+  <path d="M16.8,22 L22,25 L19.6,26.4 L23,29 L17,28 Z" fill="#B03040"/>
+  <!-- Torn crown standard hanging at the heart -->
+  <path d="M11,9 H21 V22 L16,19 L11,22 Z" fill="#2F4F8F"/>
+  <path d="M11,9 H21 V22 L16,19 L11,22 Z" fill="none" stroke="#E0B040" stroke-width="0.9"/>
+  <path d="M12.6,15 L13,11.6 L14.4,13.4 L16,10.6 L17.6,13.4 L19,11.6 L19.4,15 Z" fill="#E0B040"/>
+  <circle cx="14" cy="18" r="0.7" fill="#14161F"/><circle cx="18" cy="18" r="0.7" fill="#14161F"/>
 </svg>
