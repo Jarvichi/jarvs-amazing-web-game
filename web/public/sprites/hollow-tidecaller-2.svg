@@ -1,11 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#3F5170"/>
-  <path d="M11.5,8 Q16,1 20.5,8 L20.5,9.5 Q16,6.5 11.5,9.5 Z" fill="#2B2F3E"/>
-  <circle cx="15" cy="8.5" r="1" fill="#6FD3D9"/>
-  <circle cx="17" cy="8.5" r="1" fill="#6FD3D9"/>
-  <path d="M11,12 L10,22 L22,22 L21,12 Q16,15 11,12 Z" fill="#5E6A8C"/>
-  <rect x="22" y="9" width="1.4" height="15" fill="#6B4F3A"/>
-  <ellipse cx="22.7" cy="9" rx="2" ry="1.2" fill="#B8E3E6"/>
-  <rect x="12.5" y="22" width="4" height="6" fill="#2B2F3E"/>
-  <rect x="16.5" y="22" width="4" height="6" fill="#2B2F3E"/>
+  <!-- Sound rings from the conch -->
+  <path d="M25.6,9 Q28,11.6 25.6,14.2 M27.6,7.4 Q31.2,11.6 27.6,15.8" stroke="#6FD3D9" stroke-width="1" fill="none"/>
+  <!-- Tall pointed hood with hollow face -->
+  <path d="M8.6,14 L16,0.4 L23.4,14 Q16,17 8.6,14 Z" fill="#2B2F3E"/>
+  <ellipse cx="16" cy="10.4" rx="3.6" ry="3.8" fill="#12141f"/>
+  <circle cx="14.6" cy="9.8" r="0.8" fill="#6FD3D9"/>
+  <circle cx="17.4" cy="9.8" r="0.8" fill="#6FD3D9"/>
+  <!-- Long wave-hem robe -->
+  <path d="M10,15 L7,26 Q9.5,24.4 12,26 T17,26 T22,26 T25,26 L22,15 Z" fill="#3F5170"/>
+  <path d="M7,26 Q9.5,24.4 12,26 T17,26 T22,26 T25,26" stroke="#6FD3D9" stroke-width="0.9" fill="none"/>
+  <rect x="11" y="18" width="10" height="1.2" fill="#5E6A8C"/>
+  <!-- Conch raised to the mouth -->
+  <path d="M17.4,14.4 L24.4,11.2 Q26.6,12.6 24.6,15.8 Z" fill="#F2E9D8"/>
+  <circle cx="25" cy="13.4" r="1.2" fill="#E3D9CF"/>
+  <path d="M19,14.4 L23,13 M20,15 L24,13.8" stroke="#8A6F4D" stroke-width="0.7" fill="none"/>
+  <rect x="14.4" y="15" width="6" height="2.4" rx="1.1" fill="#5E6A8C" transform="rotate(-12 14.4 16)"/>
+  <rect x="12" y="26" width="3.5" height="3.4" rx="1" fill="#12141f"/>
+  <rect x="17" y="26" width="3.5" height="3.4" rx="1" fill="#12141f"/>
+  <rect x="11" y="27.4" width="5.5" height="3" rx="1" fill="#12141f"/>
+  <rect x="16.5" y="27.4" width="5.5" height="3" rx="1" fill="#12141f"/>
 </svg>
