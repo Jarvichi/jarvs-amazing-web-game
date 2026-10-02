@@ -1,10 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="10" r="4" fill="#C9CBDA"/>
-  <circle cx="15" cy="10" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="10" r="0.6" fill="#2B2F3E"/>
-  <path d="M12,14 L11,22 L21,22 L20,14 Q16,16.5 12,14 Z" fill="#5E6A8C"/>
-  <rect x="13" y="16" width="6" height="1" fill="#8FD3E8"/>
-  <rect x="12" y="22" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="18" y="22" width="3" height="5" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="9" ry="1.6" fill="#8FD3E8" opacity="0.4"/>
+  <!-- Ski poles -->
+  <path d="M22,12 L28,29 M10,13 L4,29" stroke="#8A7A66" stroke-width="1" fill="none"/>
+  <circle cx="28" cy="29" r="1" fill="none" stroke="#F4FAFD" stroke-width="0.7"/><circle cx="4" cy="29" r="1" fill="none" stroke="#F4FAFD" stroke-width="0.7"/>
+  <!-- Bobble cap, goggles, scarf streaming back -->
+  <path d="M10.4,7 Q15.6,1.6 20.4,7 Z" fill="#B53A3A"/>
+  <circle cx="15.4" cy="1.8" r="1.3" fill="#F4FAFD"/>
+  <circle cx="15.4" cy="9.4" r="3.2" fill="#E3D9CF"/>
+  <rect x="12.6" y="8.2" width="6.4" height="2.2" rx="1" fill="#1A2535"/>
+  <circle cx="14.2" cy="9.3" r="0.7" fill="#BFE6F2"/><circle cx="17.4" cy="9.3" r="0.7" fill="#BFE6F2"/>
+  <path d="M12.6,12.4 Q6,12 2,15 L3,17.6 Q8,15 13.4,14.6 Z" fill="#B53A3A"/>
+  <!-- Crouched tuck -->
+  <path d="M11,13.6 L19.6,13 L20,21 L11,22.6 Z" fill="#2E4A66"/>
+  <path d="M11,17 H20" stroke="#BFE6F2" stroke-width="1"/>
+  <path d="M12,22.4 L10.6,28 M18,22 L19.6,28" stroke="#1A2535" stroke-width="3" fill="none"/>
+  <rect x="0" y="28" width="14" height="1.6" rx="0.8" fill="#BFE6F2"/>
+  <rect x="16" y="28" width="14" height="1.6" rx="0.8" fill="#8CC4DC"/>
+  <path d="M2,31 H30" stroke="#F4FAFD" stroke-width="0.8" opacity="0.6"/>
 </svg>
