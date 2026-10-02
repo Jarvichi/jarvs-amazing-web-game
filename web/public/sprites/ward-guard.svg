@@ -1,12 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="7.5" r="5" fill="#8A97A0"/>
-  <rect x="10.5" y="4.0" width="11" height="6" rx="2" fill="#2B2F3E"/>
-  <circle cx="14" cy="8.0" r="0.9" fill="#12141f"/>
-  <circle cx="18" cy="8.0" r="0.9" fill="#12141f"/>
-  <path d="M8,12.0 L7,25.0 L25,25.0 L24,12.0 Q16,18.0 8,12.0 Z" fill="#5E6A8C"/>
-  <rect x="13" y="15.0" width="6" height="1.6" fill="#FFC94A"/>
-  <circle cx="9" cy="18.0" r="1.8" fill="#6B4F3A"/>
-  <circle cx="23" cy="17.5" r="2" fill="#6B4F3A"/>
-  <rect x="9" y="25.0" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="17.5" y="25.0" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Halberd and keyring -->
+  <rect x="26.6" y="5" width="1.6" height="24" fill="#6B4F3A"/>
+  <path d="M27.4,-0.4 L30.4,4.4 L27.4,6 L24.4,4.4 Z" fill="#C9CBDA"/>
+  <path d="M27.4,6 L31,9.4 L27.4,9 Z" fill="#C9CBDA"/>
+  <circle cx="22" cy="21" r="1.8" fill="none" stroke="#F0C060" stroke-width="0.9"/>
+  <path d="M22,22.8 V25.6 M20.6,24.8 H22 M23.4,24.2 H22" stroke="#F0C060" stroke-width="0.9"/>
+  <!-- Door-shaped shield -->
+  <path d="M1,26 V12 Q1,8 5.4,8 Q9.8,8 9.8,12 V26 Z" fill="#8A4A3A"/>
+  <path d="M1,26 V12 Q1,8 5.4,8 Q9.8,8 9.8,12 V26" fill="none" stroke="#4A5066" stroke-width="0.9"/>
+  <rect x="2.4" y="12" width="6" height="1.4" fill="#171230"/><rect x="2.4" y="20" width="6" height="1.4" fill="#171230"/>
+  <circle cx="8" cy="17.4" r="0.9" fill="#F0C060"/>
+  <!-- Grille-faced helm -->
+  <path d="M10.6,12.6 V6.6 Q16,3.6 21.4,6.6 V12.6 Z" fill="#4A5066"/>
+  <rect x="12" y="8" width="8" height="4" fill="#120F1E"/>
+  <path d="M14,8 V12 M16,8 V12 M18,8 V12" stroke="#4A5066" stroke-width="0.7"/>
+  <path d="M16,3.6 V1" stroke="#F0C060" stroke-width="1.6"/>
+  <!-- Stout gate-keeper's coat -->
+  <rect x="10" y="12.8" width="12" height="12.4" rx="1.4" fill="#2A2145"/>
+  <path d="M10,17 H22 M16,12.8 V25.2" stroke="#4A5066" stroke-width="0.9"/>
+  <rect x="21" y="15" width="5.8" height="2.4" rx="1.2" fill="#4A5066"/>
+  <rect x="11.4" y="25.2" width="3.5" height="4.8" rx="1" fill="#171230"/>
+  <rect x="16.4" y="25.2" width="3.5" height="4.8" rx="1" fill="#171230"/>
+  <rect x="10.4" y="28.0" width="5.5" height="3" rx="1" fill="#120F1E"/>
+  <rect x="15.899999999999999" y="28.0" width="5.5" height="3" rx="1" fill="#120F1E"/>
 </svg>
