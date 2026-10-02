@@ -1,7 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="14" y="16" width="4" height="14" fill="#2B2F3E"/>
-  <path d="M10,10 Q16,4 22,10 L20,16 L12,16 Z" fill="#5E6A8C"/>
-  <ellipse cx="16" cy="9" rx="4.5" ry="6" fill="#E8C468" opacity="0.85"/>
-  <ellipse cx="16" cy="9" rx="2" ry="3.5" fill="#FFF3C4" opacity="0.9"/>
-  <ellipse cx="16" cy="29" rx="8" ry="1.4" fill="#E8C468" opacity="0.25"/>
+  <ellipse cx="16" cy="29.6" rx="9" ry="1.6" fill="#14141C" opacity="0.4"/>
+  <!-- Iron lamp-post on a spiked foot -->
+  <path d="M10,29.4 L16,23 L22,29.4 Z" fill="#272A56"/>
+  <rect x="15" y="12" width="2" height="12" fill="#8A8A92"/>
+  <path d="M9,29 L7,25.4 M23,29 L25,25.4 M16,29.4 V31" stroke="#8A8A92" stroke-width="1.4"/>
+  <path d="M11,18 Q16,21 21,18" stroke="#E8B94A" stroke-width="1.2" fill="none"/>
+  <!-- Glass lantern with flame and spiked cap -->
+  <path d="M10,12 L11.4,4.4 H20.6 L22,12 Z" fill="#E8B94A" opacity="0.9"/>
+  <path d="M12,11.4 L13,5.4 H19 L20,11.4 Z" fill="#FFF2B0"/>
+  <path d="M16,10.6 Q18,8 16,5.6 Q14,8 16,10.6 Z" fill="#FFB347"/>
+  <path d="M10,12 H22 M16,4.4 V12" stroke="#5C5C66" stroke-width="1"/>
+  <path d="M9.6,4.4 H22.4 L16,0.4 Z" fill="#3B3F7A"/>
+  <path d="M16,0.4 V-1.4" stroke="#8A8A92" stroke-width="1.2"/>
+  <path d="M5,12 L2.4,9 M27,12 L29.6,9" stroke="#8A8A92" stroke-width="1.4"/>
 </svg>
