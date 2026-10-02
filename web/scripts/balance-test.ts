@@ -4,6 +4,11 @@
  *
  * Run: npx tsx scripts/balance-test.ts   (BALANCE_RUNS=N to set depth)
  *
+ * To tune one fight, restrict the sweep to specific node ids:
+ *   BALANCE_NODES=kragg,last-stand npx tsx scripts/balance-test.ts
+ * An id that matches no battle node is an error, so a typo can't silently
+ * report a clean empty run.
+ *
  * The three strategies bracket the skill range, and the GAP between them is
  * the interesting output:
  *   - passive   — plays nothing. Should lose; if it doesn't, the node is free.
@@ -412,11 +417,17 @@ else {
   const CONCURRENCY  = ((os.cpus().length) - 2 ) > 0 ? ((os.cpus().length) - 2 ) : 1 // leave 2 cores free for system responsiveness; worker threads can be CPU-intensive
   const PROGRESS_EVERY = Math.max(50, Math.floor(RUNS / 10))
 
+  // Optional node filter, for tuning one fight at a time
+  const nodeFilter = process.env.BALANCE_NODES
+    ? new Set(process.env.BALANCE_NODES.split(',').map(s => s.trim()).filter(Boolean))
+    : null
+
   // Collect all tasks in act order
   const tasks: WorkerInput[] = []
   for (const [actName, actData] of acts) {
     for (const [nodeId, node] of Object.entries(actData.nodes)) {
       if (!BATTLE_TYPES.has(node.type)) continue
+      if (nodeFilter && !nodeFilter.has(nodeId)) continue
       tasks.push({
         actName, nodeId, nodeType: node.type,
         handicap: node.handicap ?? 0,
@@ -428,6 +439,15 @@ else {
         progressEvery: PROGRESS_EVERY,
         deckBand: DECK_BAND,
       })
+    }
+  }
+
+  if (nodeFilter) {
+    const found = new Set(tasks.map(x => x.nodeId))
+    const missing = [...nodeFilter].filter(id => !found.has(id))
+    if (missing.length > 0) {
+      console.error(`\nBALANCE_NODES: no battle/elite/boss node named ${missing.join(', ')}.`)
+      process.exit(1)
     }
   }
 
