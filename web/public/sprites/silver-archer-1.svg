@@ -1,10 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="3.6" fill="#D4D4DC"/>
-  <circle cx="15" cy="9.3" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="9.3" r="0.6" fill="#2B2F3E"/>
-  <path d="M12.5,13 L11.5,22 L20.5,22 L19.5,13 Q16,15.2 12.5,13 Z" fill="#3F5170"/>
-  <path d="M21,10 Q26,16 21,22" stroke="#6B4F3A" stroke-width="1.2" fill="none"/>
-  <line x1="21" y1="10" x2="21" y2="22" stroke="#D4D4DC" stroke-width="0.6"/>
-  <rect x="12.5" y="22" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="17.5" y="22" width="3" height="4" fill="#2B2F3E"/>
+  <!-- Recurve silver bow, side-on -->
+  <path d="M25,3 Q31,10 27,16 Q31,22 25,29" stroke="#C9CBDA" stroke-width="2.2" fill="none"/>
+  <path d="M25,3 L19.4,16 L25,29" stroke="#E8B94A" stroke-width="0.6" fill="none"/>
+  <rect x="19.4" y="15.6" width="9.6" height="0.8" fill="#C9CBDA"/>
+  <path d="M29,16 L31.4,16 L29,14.8 Z" fill="#E8B94A"/>
+  <!-- Velvet hood and half-mask -->
+  <path d="M8.6,10 Q13,2 18,10 L17,13 H9.6 Z" fill="#6B2D5C"/>
+  <circle cx="13.6" cy="10.4" r="3" fill="#E3D9CF"/>
+  <path d="M10.6,10 H16.6 V11.6 Q13.6,12.6 10.6,11.6 Z" fill="#C9CBDA"/>
+  <circle cx="12.6" cy="10.8" r="0.45" fill="#1B1424"/><circle cx="15" cy="10.8" r="0.45" fill="#1B1424"/>
+  <!-- Body, drawing arm -->
+  <path d="M9.4,13.4 L17.8,13.4 L19,25 L8.6,25 Z" fill="#4A1F40"/>
+  <path d="M9,20 H18.6" stroke="#E8B94A" stroke-width="0.8"/>
+  <rect x="16.4" y="14.4" width="8" height="2.2" rx="1.1" fill="#6B2D5C"/>
+  <!-- Silver-arrow quiver -->
+  <rect x="5.6" y="12" width="3.2" height="10" rx="1" fill="#1B1424"/>
+  <path d="M6.2,12 V9 M7.2,12 V8 M8.2,12 V9" stroke="#C9CBDA" stroke-width="0.8"/>
+  <rect x="9.8" y="25" width="3.5" height="6" rx="1" fill="#1B1424" transform="rotate(-16 11.55 25)"/>
+  <rect x="14.2" y="25" width="3.5" height="6" rx="1" fill="#1B1424" transform="rotate(16 15.95 25)"/>
+  <rect x="6.800000000000001" y="29.8" width="5.5" height="2.8" rx="1" fill="#1B1424"/>
+  <rect x="15.7" y="29.8" width="5.5" height="2.8" rx="1" fill="#1B1424"/>
 </svg>
