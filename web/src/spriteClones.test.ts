@@ -70,7 +70,6 @@ const ALLOWED_SPRITE_CLONES = new Map<string, string>([
   [groupKey(['pattern-cat-calico-white-sleep.svg', 'pattern-cat-tuxedo-white-sleep.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['pattern-cat-calico-white.svg', 'pattern-cat-tuxedo-white.svg']), 'pending redraw — tracked in #2333'],
   [groupKey(['shadow-acad.svg', 'shadow-academy.svg']), 'pending redraw — tracked in #2333'],
-  [groupKey(['the-pale-marshal.svg', 'the-procession-master.svg']), 'pending redraw — tracked in #2333'],
 ])
 
 describe('no two base sprites share a colour-stripped silhouette', () => {
