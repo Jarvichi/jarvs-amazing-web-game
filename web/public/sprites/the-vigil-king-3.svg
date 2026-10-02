@@ -1,14 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path d="M9,3 Q16,-2 23,3 L21,7 Q16,4 11,7 Z" fill="#5B3A8E"/>
-  <circle cx="13" cy="1.5" r="1" fill="#F5D061"/>
-  <circle cx="16" cy="0" r="1" fill="#F5D061"/>
-  <circle cx="19" cy="1.5" r="1" fill="#F5D061"/>
-  <circle cx="16" cy="8" r="5" fill="#E8E4D8"/>
-  <circle cx="14.5" cy="8.3" r="0.7" fill="#12141f"/>
-  <circle cx="17.5" cy="8.3" r="0.7" fill="#12141f"/>
-  <path d="M8,13 L6.5,25 L25.5,25 L24,13 Q16,18 8,13 Z" fill="#5E6A8C"/>
-  <rect x="12" y="16" width="8" height="1.8" fill="#F5D061"/>
-  <path d="M16,16 L13,23 L19,23 Z" fill="#5B3A8E" opacity="0.7"/>
-  <rect x="9.5" y="25" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="25" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Ghost-cape wings -->
+  <path d="M12,11 Q2,9.8 0.6,17.8 Q4,13 3,25.8 Q9,21 12,23 Z" fill="#1E1A33"/>
+  <path d="M20,11 Q30,9.8 31.4,17.8 Q28,13 29,25.8 Q23,21 20,23 Z" fill="#1E1A33"/>
+  <path d="M3,16.8 L11,15 M29,16.8 L21,15" stroke="#8FD8F0" stroke-width="0.9"/>
+  <!-- Tall ghost-flame crown -->
+  <path d="M10,7 L10.6,2 L13,5 L16,1 L19,5 L21.4,2 L22,7 Z" fill="#D8B84A"/>
+  <circle cx="16" cy="4.4" r="1" fill="#8FD8F0"/>
+  <path d="M13,3 Q14,-0.6000000000000001 15,2 M17,2 Q18,-0.6000000000000001 19,3" stroke="#8FD8F0" stroke-width="1" fill="none"/>
+  <!-- Gaunt face and ermine mantle -->
+  <ellipse cx="16" cy="11.4" rx="4.6" ry="5" fill="#D8D4E0"/>
+  <ellipse cx="14" cy="11" rx="1.2" ry="1.6" fill="#1E1A33"/><ellipse cx="18" cy="11" rx="1.2" ry="1.6" fill="#1E1A33"/>
+  <circle cx="14" cy="11.2" r="0.5" fill="#8FD8F0"/><circle cx="18" cy="11.2" r="0.5" fill="#8FD8F0"/>
+  <path d="M13,14.6 Q16,16.6 19,14.6" stroke="#1E1A33" stroke-width="0.9" fill="none"/>
+  <path d="M9,17 Q16,14.6 23,17 L24,21 H8 Z" fill="#F4F0F8"/>
+  <path d="M10,19 V21 M13,19 V21 M19,19 V21 M22,19 V21" stroke="#1E1A33" stroke-width="0.8"/>
+  <!-- Long royal robe fading to wisps, scepter -->
+  <path d="M9,21 L11,31 L14,28 L16,32 L18,28 L21,31 L23,21 Z" fill="#7A2A44"/>
+  <path d="M16,21 V30" stroke="#D8B84A" stroke-width="1"/>
+  <rect x="26.4" y="10" width="1.4" height="19" fill="#D8B84A"/>
+  <circle cx="27.1" cy="9" r="2.2" fill="#D8B84A"/><circle cx="27.1" cy="9" r="1" fill="#8FD8F0"/>
+  <rect x="22" y="17" width="5.4" height="2.2" rx="1.1" fill="#D8D4E0"/>
 </svg>

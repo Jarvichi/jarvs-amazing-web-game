@@ -1,14 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <path d="M9,3 Q16,-2 23,3 L21,7 Q16,4 11,7 Z" fill="#8B2635"/>
-  <circle cx="13" cy="1.5" r="1" fill="#D4AF37"/>
-  <circle cx="16" cy="0" r="1" fill="#D4AF37"/>
-  <circle cx="19" cy="1.5" r="1" fill="#D4AF37"/>
-  <circle cx="16" cy="8" r="5" fill="#E8E4D8"/>
-  <circle cx="14.5" cy="8.3" r="0.7" fill="#12141f"/>
-  <circle cx="17.5" cy="8.3" r="0.7" fill="#12141f"/>
-  <path d="M8,13 L6.5,25 L25.5,25 L24,13 Q16,18 8,13 Z" fill="#5E6A8C"/>
-  <rect x="12" y="16" width="8" height="1.8" fill="#D4AF37"/>
-  <path d="M16,16 L13,23 L19,23 Z" fill="#8B2635" opacity="0.7"/>
-  <rect x="9.5" y="25" width="6" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="25" width="6" height="7" fill="#2B2F3E"/>
+  <!-- Baton raised, pointing the line forward -->
+  <rect x="22.6" y="8" width="1.6" height="10" fill="#B03040" transform="rotate(26 23.4 17)"/>
+  <rect x="26.2" y="5" width="1.6" height="1.6" fill="#E0B040" transform="rotate(26 27 5)"/>
+  <rect x="18.8" y="14" width="6.6" height="2.4" rx="1.2" fill="#D8D4E0" transform="rotate(-36 18.8 14)"/>
+  <!-- Greatcoat tails, sash and sabre -->
+  <path d="M8,13 L5,28 H27 L24,13 Z" fill="#EDEAF2"/>
+  <path d="M11.6,13.4 L22,27" stroke="#2F4F8F" stroke-width="2.6"/>
+  <path d="M16,13 V28" stroke="#A8B0C0" stroke-width="0.8"/>
+  <circle cx="13.6" cy="17" r="0.7" fill="#E0B040"/><circle cx="13.6" cy="21" r="0.7" fill="#E0B040"/>
+  <rect x="3.4" y="20" width="1.2" height="10" fill="#C9CBDA" transform="rotate(10 4 24)"/>
+  <rect x="2" y="19.6" width="4" height="1.2" fill="#E0B040" transform="rotate(10 4 24)"/>
+  <!-- Huge epaulettes -->
+  <path d="M6,15 Q6.4,12.6 10.6,13 V16 H6 Z M26,15 Q25.6,12.6 21.4,13 V16 H26 Z" fill="#E0B040"/>
+  <path d="M6.4,16 V19 M8,16 V19.4 M9.6,16 V19 M25.6,16 V19 M24,16 V19.4 M22.4,16 V19" stroke="#E0B040" stroke-width="0.7"/>
+  <!-- Pale stern face under a plumed bicorne -->
+  <path d="M5,9 Q16,0.4 27,9 Q16,6.6 5,9 Z" fill="#2F4F8F"/>
+  <path d="M5,9 Q16,6.6 27,9" stroke="#E0B040" stroke-width="0.9" fill="none"/>
+  <path d="M16,3 Q22,-0.6000000000000001 25,2 Q21,2.4 18.4,5.6 Z" fill="#F4F0F8"/>
+  <circle cx="16" cy="11.4" r="3.6" fill="#E3D9CF"/>
+  <path d="M13.6,10.6 h1.8 M16.8,10.6 h1.8" stroke="#14161F" stroke-width="0.8"/>
+  <path d="M14,13.4 H18" stroke="#14161F" stroke-width="0.7"/>
+  <rect x="11.2" y="28" width="3.5" height="3.6" rx="1" fill="#2F4F8F" transform="rotate(16 12.95 28)"/>
+  <rect x="16.6" y="28" width="3.5" height="3.6" rx="1" fill="#2F4F8F" transform="rotate(-16 18.35 28)"/>
+  <rect x="11.2" y="30.400000000000002" width="5.5" height="2.8" rx="1" fill="#14161F"/>
+  <rect x="15.100000000000001" y="30.400000000000002" width="5.5" height="2.8" rx="1" fill="#14161F"/>
 </svg>

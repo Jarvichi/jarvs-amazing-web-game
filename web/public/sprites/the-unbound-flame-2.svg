@@ -1,17 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Drifting cloud of unbound embers -->
-  <ellipse cx="16" cy="18" rx="12" ry="7" fill="#FFD27A" opacity="0.5"/>
-  <ellipse cx="12" cy="15" rx="7" ry="5" fill="#FFD27A" opacity="0.65"/>
-  <ellipse cx="21" cy="14" rx="6" ry="4.5" fill="#FFD27A" opacity="0.65"/>
-  <ellipse cx="16" cy="12" rx="8" ry="5" fill="#FFE9B0" opacity="0.8"/>
-  <ellipse cx="16" cy="15" rx="5" ry="3.6" fill="#E8B94A" opacity="0.6"/>
-  <rect x="15.4" y="12" width="1.2" height="10" rx="0.6" fill="#2B2F3E"/>
-  <path d="M16,12 Q22,10.5 21,16.5 Q18,14.5 16,12 Z" fill="#FFD27A"/>
-  <circle cx="13.5" cy="13" r="1.1" fill="#E8B94A"/>
-  <circle cx="18.5" cy="13" r="1.1" fill="#E8B94A"/>
-  <circle cx="13.5" cy="12.7" r="0.4" fill="#FFE08A"/>
-  <circle cx="18.5" cy="12.7" r="0.4" fill="#FFE08A"/>
-  <path d="M6,22 Q4,25 6.5,27 Q7.5,24.5 9,23.5 Z" fill="#FFD27A" opacity="0.5"/>
-  <path d="M26,22 Q28,25 25.5,27 Q24.5,24.5 23,23.5 Z" fill="#FFD27A" opacity="0.5"/>
-  <path d="M14,24 Q13,27.5 16,29 Q17,26.5 18,25 Z" fill="#FFD27A" opacity="0.45"/>
+  <!-- Flame-tongue wings -->
+  <path d="M11,14 Q3,8.0 1,14.0 Q5,13 4,19.0 Q9,18 11,18 Z" fill="#FF8A2A"/>
+  <path d="M21,14 Q29,8.0 31,14.0 Q27,13 28,19.0 Q23,18 21,18 Z" fill="#FF8A2A"/>
+  <!-- Spiral comet tail -->
+  <path d="M16,20 Q10,23 14,26 Q20,28 15,31" stroke="#FFB347" stroke-width="2.4" fill="none"/>
+  <path d="M16,20 Q10,23 14,26 Q20,28 15,31" stroke="#FFF2B0" stroke-width="0.9" fill="none"/>
+  <!-- Teardrop flame body with a sly face -->
+  <path d="M16,0 Q25,8 22,16 Q20,22 16,22 Q12,22 10,16 Q7,8 16,0 Z" fill="#FFB347"/>
+  <path d="M16,5 Q21,10 19.4,16 Q18,20 16,20 Q14,20 12.6,16 Q11,10 16,5 Z" fill="#FFE08A"/>
+  <ellipse cx="13.6" cy="13" rx="1.1" ry="1.6" fill="#2B2F3E"/><ellipse cx="18.4" cy="13" rx="1.1" ry="1.6" fill="#2B2F3E"/>
+  <path d="M13,17 Q16,19.6 19,17" stroke="#2B2F3E" stroke-width="1" fill="none"/>
+  <circle cx="4" cy="6" r="0.9" fill="#FFF2B0"/><circle cx="28" cy="4" r="0.9" fill="#FFF2B0"/><circle cx="26" cy="26" r="0.8" fill="#FFB347"/>
 </svg>

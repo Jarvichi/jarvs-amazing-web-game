@@ -1,13 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="12" cy="9" r="3.6" fill="#8A97A0"/>
-  <circle cx="20" cy="8" r="3.6" fill="#8A97A0"/>
-  <circle cx="11" cy="9" r="0.6" fill="#12141f"/>
-  <circle cx="13" cy="9" r="0.6" fill="#12141f"/>
-  <circle cx="19" cy="8" r="0.6" fill="#12141f"/>
-  <circle cx="21" cy="8" r="0.6" fill="#12141f"/>
-  <path d="M6,12 L5,24 L27,24 L26,12 Q16,17 6,12 Z" fill="#5E6A8C"/>
-  <rect x="11" y="16" width="10" height="1.6" fill="#E8C468"/>
-  <path d="M16,16 L13,22 L19,22 Z" fill="#8A97A0" opacity="0.75"/>
-  <rect x="9" y="24" width="4.5" height="7" fill="#2B2F3E"/>
-  <rect x="18.5" y="24" width="4.5" height="7" fill="#2B2F3E"/>
+  <!-- Winding road under the line -->
+  <path d="M1,30 Q10,24 16,23 T31,14" stroke="#8A8A92" stroke-width="2.6" fill="none"/>
+  <path d="M1,30 Q10,24 16,23 T31,14" stroke="#F2E9D8" stroke-width="0.7" stroke-dasharray="1.6 1.6" fill="none"/>
+  <path d="M3.0199999999999996,28.86 L3.5599999999999996,25.8 Q5,24.9 6.44,25.8 L6.98,28.86 Z" fill="#3B3F7A"/>
+  <circle cx="5" cy="24.36" r="1.4400000000000002" fill="#E3D9CF"/>
+  <path d="M3.38,24.18 Q5,21.84 6.62,24.18" fill="#272A56"/>
+  <rect x="6.8" y="26.16" width="1.08" height="1.62" fill="#E8B94A"/>
+  <path d="M7.8,26.6 L8.4,23.200000000000003 Q10,22.200000000000003 11.6,23.200000000000003 L12.2,26.6 Z" fill="#3B3F7A"/>
+  <circle cx="10" cy="21.6" r="1.6" fill="#E3D9CF"/>
+  <path d="M8.2,21.400000000000002 Q10,18.8 11.8,21.400000000000002" fill="#272A56"/>
+  <rect x="12.0" y="23.6" width="1.2" height="1.8" fill="#E8B94A"/>
+  <path d="M13.58,22.5 L14.24,18.76 Q16,17.66 17.76,18.76 L18.42,22.5 Z" fill="#3B3F7A"/>
+  <circle cx="16" cy="17" r="1.7600000000000002" fill="#E3D9CF"/>
+  <path d="M14.02,16.78 Q16,13.92 17.98,16.78" fill="#272A56"/>
+  <rect x="18.2" y="19.2" width="1.32" height="1.9800000000000002" fill="#E8B94A"/>
+  <path d="M19.36,17.4 L20.08,13.32 Q22,12.120000000000001 23.92,13.32 L24.64,17.4 Z" fill="#3B3F7A"/>
+  <circle cx="22" cy="11.4" r="1.92" fill="#E3D9CF"/>
+  <path d="M19.84,11.16 Q22,8.040000000000001 24.16,11.16" fill="#272A56"/>
+  <rect x="24.4" y="13.8" width="1.44" height="2.16" fill="#E8B94A"/>
+  <path d="M24.03,14.75 L24.84,10.16 Q27,8.81 29.16,10.16 L29.97,14.75 Z" fill="#3B3F7A"/>
+  <circle cx="27" cy="8" r="2.16" fill="#E3D9CF"/>
+  <path d="M24.57,7.73 Q27,4.220000000000001 29.43,7.73" fill="#272A56"/>
+  <rect x="29.7" y="10.7" width="1.62" height="2.43" fill="#E8B94A"/>
+  <!-- Lantern at the head and gauzy wings of mist -->
+  <path d="M26,5 Q22,0.6 19,4 Q23,4.4 24,8 Z" fill="#E8EAF4" opacity="0.75"/>
+  <path d="M29,6 Q31,1 32,4 Z" fill="#E8EAF4" opacity="0.6"/>
 </svg>
