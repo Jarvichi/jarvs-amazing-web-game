@@ -1,9 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="4" y="14" width="24" height="14" fill="#5E6A8C"/>
-  <rect x="4" y="14" width="24" height="3" fill="#FFC94A"/>
-  <rect x="7" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="14" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="21" y="18" width="4" height="4" fill="#3F5170"/>
-  <rect x="4" y="24" width="24" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="14" ry="1.6" fill="#FFC94A" opacity="0.3"/>
+  <ellipse cx="16" cy="29.6" rx="15" ry="1.6" fill="#120F1E" opacity="0.4"/>
+  <!-- Overturned cart and stacked crates -->
+  <circle cx="7.4" cy="21" r="6" fill="#6B4F3A"/><circle cx="7.4" cy="21" r="4" fill="#8A6F4D"/><circle cx="7.4" cy="21" r="1.2" fill="#2A2145"/>
+  <path d="M7.4,15 V27 M1.4,21 H13.4 M3.2,16.8 L11.6,25.2 M11.6,16.8 L3.2,25.2" stroke="#4A3A2E" stroke-width="0.9"/>
+  <rect x="12" y="16" width="9" height="12.6" fill="#8A6F4D"/><path d="M12,22 H21 M16.5,16 V28.6" stroke="#6B4F3A" stroke-width="1"/>
+  <rect x="21" y="18" width="9.6" height="10.6" fill="#6B4F3A"/><path d="M21,23 H30.6 M25.8,18 V28.6" stroke="#4A3A2E" stroke-width="1"/>
+  <rect x="12.8" y="10" width="7.4" height="6" fill="#4A5066"/>
+  <!-- Barrels, spikes and a hung lantern -->
+  <ellipse cx="26" cy="13.4" rx="4" ry="4.6" fill="#8A4A3A"/><path d="M22,12 H30 M22.4,15 H29.6" stroke="#2A2145" stroke-width="0.8"/>
+  <path d="M3,12 L4,6 L5.4,11 M9,8 L10,3 L11.4,8 M15,10 L16,4 L17.4,10" fill="#C9CBDA" stroke="#C9CBDA" stroke-width="0.6"/>
+  <path d="M30,10 V8" stroke="#4A5066" stroke-width="0.8"/><rect x="28.8" y="4" width="2.8" height="4" rx="0.8" fill="#F0C060"/>
 </svg>
