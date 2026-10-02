@@ -1,9 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="12" y="4" width="8" height="10" fill="#5E6A8C"/>
-  <rect x="9" y="12" width="14" height="17" fill="#8A97A0"/>
-  <rect x="9" y="12" width="14" height="3" fill="#E8C468"/>
-  <rect x="13" y="18" width="6" height="5" fill="#2B2F3E"/>
-  <rect x="8" y="3" width="2" height="4" fill="#2B2F3E"/>
-  <rect x="22" y="3" width="2" height="4" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="9" ry="1.4" fill="#E8C468" opacity="0.25"/>
+  <ellipse cx="16" cy="29.6" rx="12" ry="1.6" fill="#14141C" opacity="0.4"/>
+  <!-- Stone tower with gate arch -->
+  <path d="M8,29.6 H24 L22,10 H10 Z" fill="#8A8A92"/>
+  <path d="M9,22 H23 M8.4,26 H23.6 M9.6,16 H22.4 M12,10 V16 M20,10 V16 M16,16 V22 M12,22 V26 M20,22 V26" stroke="#5C5C66" stroke-width="0.8"/>
+  <path d="M12.6,29.6 V24 Q16,20 19.4,24 V29.6 Z" fill="#14141C"/>
+  <path d="M14,29.6 V25 Q16,22.6 18,25 V29.6 Z" fill="#E8B94A" opacity="0.8"/>
+  <!-- Beacon platform and brazier -->
+  <rect x="6" y="7" width="20" height="3.4" rx="0.8" fill="#5C5C66"/>
+  <path d="M6,7 V4 H8.6 V6 H11 V4 H13.6 V6 H18.4 V4 H21 V6 H23.4 V4 H26 V7 Z" fill="#8A8A92"/>
+  <path d="M12,4 L13,0 H19 L20,4 Z" fill="#3B3F7A"/>
+  <path d="M13,0 Q12,-2 16,-3 Q20,-2 19,0 Z" fill="#FFB347"/>
+  <path d="M10.6,10.4 V12.6 M21.4,10.4 V12.6" stroke="#E8B94A" stroke-width="1.4"/>
+  <path d="M3,29.6 H29" stroke="#5C5C66" stroke-width="1"/>
 </svg>
