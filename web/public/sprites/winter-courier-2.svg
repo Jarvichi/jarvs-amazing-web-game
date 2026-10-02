@@ -1,10 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#C9CBDA"/>
-  <path d="M12,8 Q16,3 20,8 L20,9.5 Q16,6.5 12,9.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,12 L10.5,21 L21.5,21 L20.5,12 Q16,14.5 11.5,12 Z" fill="#3F5170"/>
-  <path d="M20,12 L24,15 L20.5,18 Z" fill="#8FD3E8" opacity="0.8"/>
-  <rect x="13.5" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="21" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Scarf streaming back -->
+  <path d="M12,10.4 Q5,8.6 1,12.6 L2.4,15.4 Q7,12.4 13,13 Z" fill="#3F8FB0"/>
+  <path d="M4,11 L3.6,14.4 M7,10 L6.6,13.4" stroke="#F4FAFD" stroke-width="0.7"/>
+  <!-- Earflap cap -->
+  <path d="M11.4,6.6 Q16,1.4 20.6,6.6 L21,10 L19,9 V6.8 H13 V9 L11,10 Z" fill="#C9B8A0"/>
+  <circle cx="16" cy="8.8" r="3" fill="#E3D9CF"/>
+  <circle cx="17.2" cy="8.6" r="0.5" fill="#1A2535"/>
+  <!-- Padded jacket, scroll tube slung across -->
+  <path d="M11.6,12.4 H20.4 L21,21 H11 Z" fill="#3F8FB0"/>
+  <path d="M11.6,12.4 L21,21" stroke="#8A7A66" stroke-width="2"/>
+  <rect x="6" y="9.6" width="3.4" height="11" rx="1.4" fill="#8A7A66" transform="rotate(-18 7.7 15)"/>
+  <circle cx="7" cy="10.4" r="1" fill="#F4FAFD"/>
+  <rect x="19.6" y="12.8" width="7.4" height="2.2" rx="1.1" fill="#3F8FB0" transform="rotate(-24 19.6 13.8)"/>
+  <circle cx="27.4" cy="9.2" r="1.6" fill="#E3D9CF"/>
+  <rect x="11.2" y="21" width="3.5" height="8.4" rx="1" fill="#2E4A66"/>
+  <rect x="16" y="21" width="3.5" height="8.4" rx="1" fill="#2E4A66"/>
+  <rect x="10.2" y="27.4" width="5.5" height="3" rx="1" fill="#6B4F3A"/>
+  <rect x="15.5" y="27.4" width="5.5" height="3" rx="1" fill="#6B4F3A"/>
 </svg>
