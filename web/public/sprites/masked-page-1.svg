@@ -1,10 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="10" r="4" fill="#D4D4DC"/>
-  <circle cx="15" cy="10" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="10" r="0.6" fill="#2B2F3E"/>
-  <path d="M12,14 L11,22 L21,22 L20,14 Q16,16.5 12,14 Z" fill="#5E6A8C"/>
-  <rect x="13" y="16" width="6" height="1" fill="#7A4A6B"/>
-  <rect x="12" y="22" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="18" y="22" width="3" height="5" fill="#2B2F3E"/>
-  <ellipse cx="16" cy="29" rx="9" ry="1.6" fill="#7A4A6B" opacity="0.4"/>
+  <!-- Candle -->
+  <rect x="23.6" y="15" width="1.6" height="6" fill="#F2E9D8"/>
+  <path d="M24.4,12.6 Q26,14.6 24.4,15.6 Q22.8,14.6 24.4,12.6 Z" fill="#FFB347"/>
+  <rect x="19" y="17.6" width="5.6" height="2" rx="1" fill="#4A1F40"/>
+  <!-- Mask two sizes too big, slipping -->
+  <ellipse cx="14.6" cy="11.6" rx="7.6" ry="8.2" fill="#C9CBDA" transform="rotate(-8 14.6 10.6)"/>
+  <path d="M9.6,9.4 q2,-1.6 4,0 M15.6,9.4 q2,-1.6 4,0" stroke="#1B1424" stroke-width="1.3" fill="none"/>
+  <path d="M11.2,15 Q14.6,17.6 18,15" stroke="#1B1424" stroke-width="1" fill="none"/>
+  <circle cx="12" cy="10.8" r="1.3" fill="#1B1424"/><circle cx="17.4" cy="10.8" r="1.3" fill="#1B1424"/>
+  <!-- Short coat -->
+  <rect x="10.4" y="19" width="8.4" height="7" rx="1.6" fill="#6B2D5C"/>
+  <path d="M14.6,19 V26" stroke="#E8B94A" stroke-width="0.7"/>
+  <rect x="6.6" y="20" width="4.2" height="2" rx="1" fill="#4A1F40" transform="rotate(-24 10.8 20)"/>
+  <rect x="10.6" y="26" width="3.5" height="5" rx="1" fill="#E3D9CF" transform="rotate(-16 12.35 26)"/>
+  <rect x="14.8" y="26" width="3.5" height="5" rx="1" fill="#E3D9CF" transform="rotate(16 16.55 26)"/>
+  <rect x="7.6" y="29.8" width="5.5" height="2.8" rx="1" fill="#1B1424"/>
+  <rect x="16.3" y="29.8" width="5.5" height="2.8" rx="1" fill="#1B1424"/>
 </svg>
