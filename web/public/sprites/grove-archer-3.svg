@@ -1,10 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="3.6" fill="#E8E4D8"/>
-  <circle cx="15" cy="9.3" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="9.3" r="0.6" fill="#2B2F3E"/>
-  <path d="M12.5,13 L11.5,22 L20.5,22 L19.5,13 Q16,15.2 12.5,13 Z" fill="#3F5170"/>
-  <path d="M21,10 Q26,16 21,22" stroke="#6B4F3A" stroke-width="1.2" fill="none"/>
-  <line x1="21" y1="10" x2="21" y2="22" stroke="#E8E4D8" stroke-width="0.6"/>
-  <rect x="17.5" y="22" width="3" height="6" fill="#2B2F3E"/>
-  <rect x="12.5" y="22" width="3" height="4" fill="#2B2F3E"/>
+  <!-- Gnarled blossoming bow aimed upward -->
+  <g transform="rotate(-24 20 14)">
+  <path d="M24,0 Q31,10 26,16 Q31,22 24,32" stroke="#4A3A2E" stroke-width="2.2" fill="none"/>
+  <path d="M26,7 L29,5 M27,21 L30,23" stroke="#4A3A2E" stroke-width="1.2"/>
+  <path d="M24,0 L18,16 L24,32" stroke="#E8E0CC" stroke-width="0.6" fill="none"/>
+  <rect x="18" y="15.6" width="9" height="0.8" fill="#B9AE92"/>
+  <path d="M27,16 L29.6,16 L27,14.8 Z" fill="#E8E0CC"/>
+  </g>
+  <circle cx="30.50" cy="6.00" r="0.77" fill="#E8A0B8"/>
+  <circle cx="29.74" cy="7.05" r="0.77" fill="#E8A0B8"/>
+  <circle cx="28.51" cy="6.65" r="0.77" fill="#E8A0B8"/>
+  <circle cx="28.51" cy="5.35" r="0.77" fill="#E8A0B8"/>
+  <circle cx="29.74" cy="4.95" r="0.77" fill="#E8A0B8"/>
+  <circle cx="29.4" cy="6" r="0.55" fill="#F6D86A"/>
+  <circle cx="31.00" cy="22.60" r="0.70" fill="#E8A0B8"/>
+  <circle cx="30.31" cy="23.55" r="0.70" fill="#E8A0B8"/>
+  <circle cx="29.19" cy="23.19" r="0.70" fill="#E8A0B8"/>
+  <circle cx="29.19" cy="22.01" r="0.70" fill="#E8A0B8"/>
+  <circle cx="30.31" cy="21.65" r="0.70" fill="#E8A0B8"/>
+  <circle cx="30" cy="22.6" r="0.50" fill="#F6D86A"/>
+  <!-- Leaf hat and face -->
+  <path d="M8.4,8.6 Q14,1.4 20,8.6 Z" fill="#6B8F5A"/>
+  <path d="M10,6 L8,3.6 M14,3.6 L14,1.4" stroke="#4A6B3C" stroke-width="1"/>
+  <circle cx="14.4" cy="10.8" r="3.2" fill="#E3D9CF"/>
+  <circle cx="15.8" cy="10.4" r="0.6" fill="#1C1A17"/>
+  <!-- Patched coat and bone quiver -->
+  <path d="M9.6,14 L19.2,14 L20.4,26 L8.4,26 Z" fill="#4A3A2E"/>
+  <path d="M9,20 H20" stroke="#B9AE92" stroke-width="1.2"/>
+  <rect x="16.4" y="15" width="8" height="2.2" rx="1.1" fill="#4A3A2E"/>
+  <rect x="5.4" y="11" width="3.4" height="10" rx="1.2" fill="#E8E0CC" transform="rotate(-10 7 15)"/>
+  <path d="M6.2,11 V8 M7.4,11 V7" stroke="#B9AE92" stroke-width="0.8"/>
+  <rect x="10" y="26" width="3.5" height="5" rx="1" fill="#3A2E24" transform="rotate(16 11.75 26)"/>
+  <rect x="14.4" y="26" width="3.5" height="5" rx="1" fill="#3A2E24" transform="rotate(-16 16.15 26)"/>
+  <rect x="10" y="29.8" width="5.5" height="2.8" rx="1" fill="#1C1A17"/>
+  <rect x="12.9" y="29.8" width="5.5" height="2.8" rx="1" fill="#1C1A17"/>
 </svg>
