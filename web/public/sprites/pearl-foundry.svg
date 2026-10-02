@@ -1,7 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="8" y="16" width="16" height="12" fill="#3F5170"/>
-  <path d="M8,16 L16,7 L24,16 Z" fill="#5E6A8C"/>
-  <circle cx="16" cy="21" r="4" fill="#B8E3E6"/>
-  <circle cx="16" cy="21" r="2.2" fill="#6FD3D9"/>
-  <circle cx="16" cy="10" r="1.4" fill="#F2E9D8"/>
+  <!-- Ground and spill of pearls -->
+  <ellipse cx="16" cy="29.4" rx="14" ry="1.8" fill="#12141f" opacity="0.4"/>
+  <circle cx="5" cy="28" r="1.4" fill="#F2E9D8"/><circle cx="8" cy="29" r="1.2" fill="#E3D9CF"/>
+  <circle cx="26.4" cy="28.6" r="1.4" fill="#F2E9D8"/><circle cx="29" cy="29" r="1" fill="#E3D9CF"/>
+  <!-- Low brick kiln -->
+  <rect x="5" y="14" width="22" height="14" rx="2" fill="#6B4F3A"/>
+  <path d="M5,18.6 H27 M5,23.2 H27 M11,14 V18.6 M20,14 V18.6 M8,18.6 V23.2 M15.5,18.6 V23.2 M23,18.6 V23.2" stroke="#3F5170" stroke-width="0.7"/>
+  <path d="M12.6,28 V21.6 Q16,17.4 19.4,21.6 V28 Z" fill="#12141f"/>
+  <path d="M14,28 V22.4 Q16,19.8 18,22.4 V28 Z" fill="#6FD3D9"/>
+  <!-- Pearl hopper on the roof -->
+  <path d="M8,14 L11.4,6.6 H20.6 L24,14 Z" fill="#8A97A0"/>
+  <circle cx="13.6" cy="5.6" r="2.1" fill="#F2E9D8"/><circle cx="18.4" cy="5.6" r="2.1" fill="#F2E9D8"/><circle cx="16" cy="3.4" r="2.1" fill="#E3D9CF"/>
+  <!-- Steam stack -->
+  <rect x="22.4" y="7.4" width="3.2" height="6.8" fill="#5E6A8C"/>
+  <ellipse cx="24" cy="5.6" rx="2.4" ry="1.2" fill="#E8EAF4" opacity="0.6"/>
 </svg>
