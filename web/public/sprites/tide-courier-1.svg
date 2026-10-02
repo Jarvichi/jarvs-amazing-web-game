@@ -1,10 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="9" r="4" fill="#C9CBDA"/>
-  <path d="M12,9 Q16,4 20,9 L20,10.5 Q16,7.5 12,10.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="9.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="9.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,13 L10.5,22 L21.5,22 L20.5,13 Q16,15.5 11.5,13 Z" fill="#3F5170"/>
-  <path d="M20,13 L24,16 L20.5,19 Z" fill="#6FD3D9" opacity="0.8"/>
-  <rect x="12" y="22" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="18" y="22" width="3" height="5" fill="#2B2F3E"/>
+  <!-- Splash at the feet -->
+  <ellipse cx="16" cy="30" rx="10" ry="1.6" fill="#6FD3D9" opacity="0.4"/>
+  <ellipse cx="16" cy="30" rx="6" ry="0.9" fill="#F2E9D8" opacity="0.5"/>
+  <!-- Scroll bundle held overhead -->
+  <rect x="9" y="2.2" width="14" height="4.4" rx="2.2" fill="#F2E9D8"/>
+  <circle cx="9.6" cy="4.4" r="2.4" fill="#E3D9CF"/>
+  <circle cx="22.4" cy="4.4" r="2.4" fill="#E3D9CF"/>
+  <rect x="15" y="1.8" width="2" height="5.2" fill="#B53A3A"/>
+  <!-- Raised arms -->
+  <rect x="10.4" y="6" width="2.6" height="8.4" rx="1.2" fill="#3F5170" transform="rotate(8 11.7 13)"/>
+  <rect x="19" y="6" width="2.6" height="8.4" rx="1.2" fill="#3F5170" transform="rotate(-8 20.3 13)"/>
+  <!-- Fin cap and face -->
+  <path d="M13.4,10.4 L16,6.8 L18.6,10.4 Z" fill="#6FD3D9"/>
+  <circle cx="16" cy="12.6" r="3.2" fill="#E3D9CF"/>
+  <circle cx="14.8" cy="12.4" r="0.55" fill="#12141f"/>
+  <circle cx="17.2" cy="12.4" r="0.55" fill="#12141f"/>
+  <path d="M14.8,14.2 Q16,15 17.2,14.2" stroke="#12141f" stroke-width="0.5" fill="none"/>
+  <!-- Oilskin tabard, order-pouch strap -->
+  <path d="M11.4,15.6 L20.6,15.6 L21.6,25.4 L10.4,25.4 Z" fill="#5E6A8C"/>
+  <path d="M11.4,15.6 L21,25" stroke="#6B4F3A" stroke-width="1.4"/>
+  <rect x="17.6" y="21" width="4" height="3.4" rx="0.8" fill="#6B4F3A"/>
+  <rect x="11.8" y="25.4" width="3.5" height="5.6" rx="1" fill="#2B2F3E" transform="rotate(-16 13.55 25.4)"/>
+  <rect x="16.6" y="25.4" width="3.5" height="5.6" rx="1" fill="#2B2F3E" transform="rotate(16 18.35 25.4)"/>
+  <rect x="8.8" y="29.8" width="5.5" height="2.8" rx="1" fill="#12141f"/>
+  <rect x="18.1" y="29.8" width="5.5" height="2.8" rx="1" fill="#12141f"/>
 </svg>

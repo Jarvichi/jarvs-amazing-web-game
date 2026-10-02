@@ -1,10 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#C9CBDA"/>
-  <path d="M12,8 Q16,3 20,8 L20,9.5 Q16,6.5 12,9.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,12 L10.5,21 L21.5,21 L20.5,12 Q16,14.5 11.5,12 Z" fill="#3F5170"/>
-  <path d="M20,12 L24,15 L20.5,18 Z" fill="#6FD3D9" opacity="0.8"/>
-  <rect x="13.5" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="21" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Splash at the feet -->
+  <ellipse cx="16" cy="30" rx="10" ry="1.6" fill="#6FD3D9" opacity="0.4"/>
+  <ellipse cx="16" cy="30" rx="6" ry="0.9" fill="#F2E9D8" opacity="0.5"/>
+  <!-- Scroll bundle held overhead -->
+  <rect x="9" y="1.2" width="14" height="4.4" rx="2.2" fill="#F2E9D8"/>
+  <circle cx="9.6" cy="3.4" r="2.4" fill="#E3D9CF"/>
+  <circle cx="22.4" cy="3.4" r="2.4" fill="#E3D9CF"/>
+  <rect x="15" y="0.8" width="2" height="5.2" fill="#B53A3A"/>
+  <!-- Raised arms -->
+  <rect x="10.4" y="5" width="2.6" height="8.4" rx="1.2" fill="#3F5170" transform="rotate(8 11.7 13)"/>
+  <rect x="19" y="5" width="2.6" height="8.4" rx="1.2" fill="#3F5170" transform="rotate(-8 20.3 13)"/>
+  <!-- Fin cap and face -->
+  <path d="M13.4,9.4 L16,5.8 L18.6,9.4 Z" fill="#6FD3D9"/>
+  <circle cx="16" cy="11.6" r="3.2" fill="#E3D9CF"/>
+  <circle cx="14.8" cy="11.4" r="0.55" fill="#12141f"/>
+  <circle cx="17.2" cy="11.4" r="0.55" fill="#12141f"/>
+  <path d="M14.8,13.2 Q16,14 17.2,13.2" stroke="#12141f" stroke-width="0.5" fill="none"/>
+  <!-- Oilskin tabard, order-pouch strap -->
+  <path d="M11.4,14.6 L20.6,14.6 L21.6,24.4 L10.4,24.4 Z" fill="#5E6A8C"/>
+  <path d="M11.4,14.6 L21,24" stroke="#6B4F3A" stroke-width="1.4"/>
+  <rect x="17.6" y="20" width="4" height="3.4" rx="0.8" fill="#6B4F3A"/>
+  <rect x="11.8" y="24.4" width="3.5" height="5.6" rx="1" fill="#2B2F3E"/>
+  <rect x="16.6" y="24.4" width="3.5" height="5.6" rx="1" fill="#2B2F3E"/>
+  <rect x="10.8" y="28.0" width="5.5" height="3" rx="1" fill="#12141f"/>
+  <rect x="16.1" y="28.0" width="5.5" height="3" rx="1" fill="#12141f"/>
 </svg>
