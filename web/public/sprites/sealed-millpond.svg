@@ -1,9 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="6" y="8" width="20" height="20" fill="#3F5170"/>
-  <rect x="9" y="11" width="14" height="14" fill="#2B2F3E"/>
-  <rect x="11" y="13" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="17" y="13" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="11" y="19" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="17" y="19" width="4" height="4" fill="#5E6A8C"/>
-  <circle cx="16" cy="18" r="1.6" fill="#7FCDA0"/>
+  <!-- Stone basin with glassy water -->
+  <ellipse cx="17" cy="21" rx="14.4" ry="7.4" fill="#5E6A8C"/>
+  <ellipse cx="17" cy="20" rx="12.4" ry="5.8" fill="#D9F0E8"/>
+  <path d="M8,19.6 Q11,17.6 14,19.6 M16,22 Q20,20 24,22" stroke="#7FCDA0" stroke-width="0.8" fill="none"/>
+  <!-- Mill wheel -->
+  <circle cx="5.4" cy="14" r="5.4" fill="#6B4F3A"/>
+  <circle cx="5.4" cy="14" r="3.6" fill="#8A6F4D"/>
+  <path d="M5.4,8.6 V19.4 M0,14 H10.8 M1.6,10.2 L9.2,17.8 M9.2,10.2 L1.6,17.8" stroke="#3F5170" stroke-width="0.8"/>
+  <circle cx="5.4" cy="14" r="1.2" fill="#12141f"/>
+  <!-- Sealing planks and wax seal -->
+  <rect x="9" y="14.4" width="22" height="3.2" rx="0.8" fill="#8A6F4D" transform="rotate(14 20 16)"/>
+  <rect x="11" y="23.4" width="20" height="3.2" rx="0.8" fill="#8A6F4D" transform="rotate(-12 21 25)"/>
+  <circle cx="20" cy="20.4" r="3.2" fill="#B53A3A"/>
+  <circle cx="20" cy="20.4" r="1.7" fill="#8E2A2A"/>
+  <path d="M1,28 Q4,26.6 7,28 T13,28 T19,28 T25,28 T31,28 V31 H1 Z" fill="#3F5170"/>
 </svg>
