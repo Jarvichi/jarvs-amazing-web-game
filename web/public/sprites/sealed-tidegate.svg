@@ -1,9 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="6" y="8" width="20" height="20" fill="#3F5170"/>
-  <rect x="9" y="11" width="14" height="14" fill="#2B2F3E"/>
-  <rect x="11" y="13" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="17" y="13" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="11" y="19" width="4" height="4" fill="#5E6A8C"/>
-  <rect x="17" y="19" width="4" height="4" fill="#5E6A8C"/>
-  <circle cx="16" cy="18" r="1.6" fill="#6FD3D9"/>
+  <!-- Stone sluice wall -->
+  <rect x="1.6" y="5" width="28.8" height="24" rx="1.2" fill="#5E6A8C"/>
+  <path d="M1.6,11 H30.4 M1.6,17 H30.4 M1.6,23 H30.4" stroke="#3F5170" stroke-width="0.7"/>
+  <!-- Arch with plank gate -->
+  <path d="M7,29 V14 Q7,6.4 16,6.4 Q25,6.4 25,14 V29 Z" fill="#12141f"/>
+  <path d="M8.8,29 V14.4 Q8.8,8.4 16,8.4 Q23.2,8.4 23.2,14.4 V29 Z" fill="#6B4F3A"/>
+  <path d="M12,9 V29 M16,8.4 V29 M20,9 V29" stroke="#3F5170" stroke-width="0.7"/>
+  <rect x="8.8" y="16" width="14.4" height="1.6" fill="#2B2F3E"/>
+  <rect x="8.8" y="22.6" width="14.4" height="1.6" fill="#2B2F3E"/>
+  <!-- Wax seal and chain -->
+  <circle cx="16" cy="19.6" r="3.4" fill="#B53A3A"/>
+  <circle cx="16" cy="19.6" r="1.8" fill="#8E2A2A"/>
+  <path d="M16,6.4 V2.6 M14.6,2.6 h2.8 M14.6,4 h2.8" stroke="#8A97A0" stroke-width="0.9" fill="none"/>
+  <!-- Waterline stain -->
+  <path d="M1.6,26 Q4.5,24.6 7.4,26 T13,26 T18.6,26 T24.2,26 T30.4,26 V29 H1.6 Z" fill="#3F5170" opacity="0.7"/>
 </svg>
