@@ -1,23 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Watch-cap helm (body 1px lower mid-stride) -->
-  <circle cx="15" cy="10" r="5" fill="#FFE08A"/>
-  <path d="M9,10 Q15,2.5 21,10 L22,11 L8,11 Z" fill="#C9CBDA"/>
-  <circle cx="13.5" cy="11.5" r="0.7" fill="#2B2F3E"/>
-  <circle cx="16.5" cy="11.5" r="0.7" fill="#2B2F3E"/>
-  <!-- Armoured body -->
-  <path d="M11,15 L11,24 L20,24 L20,15 Q15.5,17 11,15 Z" fill="#C9CBDA"/>
-  <rect x="11" y="17" width="9" height="1.2" fill="#7E8299"/>
-  <rect x="11" y="20" width="9" height="1.2" fill="#7E8299"/>
-  <!-- Wax-lantern shield on left -->
-  <path d="M6,15 L11,15 L11,22 Q8.5,24 6,22 Z" fill="#2B2F3E"/>
-  <circle cx="8.5" cy="18.5" r="1.4" fill="#FFE08A"/>
-  <!-- Company snuffer-rod -->
-  <rect x="22" y="15" width="3" height="6" rx="1" fill="#C9CBDA"/>
-  <rect x="23.5" y="8" width="1.4" height="9" rx="0.7" fill="#C9CBDA"/>
-  <rect x="21.6" y="14" width="3.8" height="1.6" rx="0.4" fill="#E8B94A"/>
-  <!-- Legs stride A -->
-  <rect x="10" y="24" width="3.5" height="7" rx="1" fill="#454E6B"/>
-  <rect x="18" y="24" width="3.5" height="5.5" rx="1" fill="#454E6B"/>
-  <rect x="9" y="29" width="5.5" height="2.6" rx="1" fill="#3A3F55"/>
-  <rect x="18" y="27.5" width="5" height="2.6" rx="1" fill="#3A3F55"/>
+  <!-- Lamplighter's pole with hook and flame -->
+  <rect x="24" y="4" width="1.2" height="23" rx="0.6" fill="#8A6F4D"/>
+  <path d="M24.6,4 Q21.4,3 21.6,6.2" stroke="#8A6F4D" stroke-width="1.1" fill="none"/>
+  <circle cx="21.6" cy="7" r="1.5" fill="#FFB347"/>
+  <circle cx="21.6" cy="7.2" r="0.7" fill="#FFE08A"/>
+  <!-- Visor cap -->
+  <circle cx="15" cy="10" r="4.2" fill="#E3D9CF"/>
+  <path d="M10.4,9.6 Q15,4 19.6,9.6 L22.6,10.2 L10.4,10.8 Z" fill="#5E6A8C"/>
+  <circle cx="13.6" cy="11.4" r="0.7" fill="#2B2F3E"/>
+  <circle cx="16.8" cy="11.4" r="0.7" fill="#2B2F3E"/>
+  <!-- Scarf -->
+  <rect x="11.4" y="14" width="7.6" height="2.2" rx="1" fill="#E8B94A"/>
+  <rect x="17.4" y="15" width="2.2" height="5" rx="0.8" fill="#E8B94A"/>
+  <!-- Long slim coat -->
+  <path d="M12,16 L10.6,26 L19.4,26 L18,16 Z" fill="#5E6A8C"/>
+  <rect x="14.6" y="16" width="0.9" height="10" fill="#2B2F3E"/>
+  <circle cx="13.4" cy="20" r="0.6" fill="#E8B94A"/>
+  <circle cx="13.4" cy="23" r="0.6" fill="#E8B94A"/>
+  <!-- Arm to pole -->
+  <rect x="17.5" y="16" width="7" height="2.2" rx="1.1" fill="#454E6B"/>
+  <!-- Belt lantern -->
+  <rect x="8" y="18" width="3.4" height="4.4" rx="1" fill="#E8B94A"/>
+  <circle cx="9.7" cy="20.2" r="0.9" fill="#FFE08A"/>
+  <rect x="12" y="26" width="3.5" height="5.5" rx="1" fill="#2B2F3E" transform="rotate(-16 13.75 26)"/>
+  <rect x="16" y="26" width="3.5" height="5.5" rx="1" fill="#2B2F3E" transform="rotate(16 17.75 26)"/>
+  <rect x="9" y="30.3" width="5.5" height="2.8" rx="1" fill="#3A3F55"/>
+  <rect x="17.5" y="30.3" width="5.5" height="2.8" rx="1" fill="#3A3F55"/>
 </svg>
