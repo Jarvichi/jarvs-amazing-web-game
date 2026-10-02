@@ -1,10 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="8" r="4" fill="#C9CBDA"/>
-  <path d="M12,8 Q16,3 20,8 L20,9.5 Q16,6 12,9.5 Z" fill="#5E6A8C"/>
-  <circle cx="15" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <circle cx="17" cy="8.5" r="0.6" fill="#2B2F3E"/>
-  <path d="M11.5,12 L10.5,21 L21.5,21 L20.5,12 Q16,14.5 11.5,12 Z" fill="#3F5170"/>
-  <rect x="9" y="13" width="3" height="8" rx="1" fill="#8A97A0"/>
-  <rect x="13.5" y="21" width="3" height="7" fill="#2B2F3E"/>
-  <rect x="16.5" y="21" width="3" height="7" fill="#2B2F3E"/>
+  <!-- Ripple rings -->
+  <ellipse cx="16" cy="30" rx="11" ry="1.4" fill="#D9F0E8" opacity="0.35"/>
+  <!-- Hunched reed-bundle cloak -->
+  <path d="M3,29 L7,14 L11,9 L17,7.6 L23,10 L28,20 L29,29 Z" fill="#3F8F4F"/>
+  <path d="M9,28 L10,15 M13,28 L13.6,11 M17,28 L17.4,10 M21,28 L21,12 M25,28 L24.4,18" stroke="#7FCDA0" stroke-width="1.2" fill="none"/>
+  <!-- Peering eyes under the hood -->
+  <path d="M12.4,12 Q17,9 22.6,12.4 L22,16 H13 Z" fill="#12141f"/>
+  <circle cx="15.4" cy="13.6" r="0.9" fill="#D9F0E8"/>
+  <circle cx="19.6" cy="13.6" r="0.9" fill="#D9F0E8"/>
+  <!-- Dagger held low -->
+  <path d="M26,22 L31,23 L26,24.6 Z" fill="#C9CBDA"/>
+  <rect x="24" y="22.6" width="2.4" height="1.4" fill="#6B4F3A"/>
+  <g transform="translate(0 0)"><rect x="9" y="28.4" width="4" height="2.4" rx="1" fill="#2B2F3E"/><rect x="18" y="28.4" width="4" height="2.4" rx="1" fill="#2B2F3E"/></g>
 </svg>
