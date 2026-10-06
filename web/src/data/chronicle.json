@@ -205,5 +205,38 @@
     },
     "challenge": { "type": "win_with_tag", "tag": "archive", "count": 2 },
     "reward": { "type": "crystals", "amount": 75 }
+  },
+  {
+    "id": "ch10",
+    "title": "What Was Left Behind",
+    "availableFrom": "2026-10-20",
+    "teaser": "The lantern-boat came back. The three who sailed it did not — and they left their boots behind them, in a neat row, like they'd stepped out of their own shoes on purpose.",
+    "lore": "No single answer carried the telling, any more than one had carried the heading before it. On the shards that chose restraint, the bare fact went out and nothing more: a boat, overdue, a line gone silent. On the shards that chose disclosure, every province got the whole account, relay-line and all, and argued over it in the open. And on at least one shard, a crew had already stopped arguing and gone looking — retracing the lantern-boat's own heading, four days out, to the relay-line itself.\n\nThey found the boat. It was not wreckage. It sat swamped but upright, sails furled with the same careless competence the volunteers had left harbor with, nothing holed, nothing burned, nothing dragged. No blood on the boards. No sign of a struggle, or a storm, or anything that fights back. What the crew found instead, set along the gunwale in a neat, deliberate row, were three pairs of boots — laced, paired, placed as if their owners had simply stepped out of them and kept walking into something that did not require feet.\n\nRen asked to see them before anyone thought to ask her. She crouched over the row for a long time, touching nothing, and when she finally spoke it was not to the boots. 'It didn't take them,' she said. 'It asked them something, the way it asked me, and they walked toward the answer instead of away from it. That isn't drowning. I would know drowning.' Pressed on where three living people go when they walk out of their boots and off the edge of a chart, she gave the only honest thing she has offered since the raft: 'I don't know. I know the question has a door in it. I didn't choose to be the one who came back through.'\n\n{align:vigil}You have spent nine chapters arguing for caution, and the boots do not feel like vindication — they feel like a bill finally come due for an argument you were right to make and still couldn't make loud enough. You are done watching this particular door from a safe distance; you want every remaining boat called home before it, too, comes back short three pairs of feet.{/align}{align:accord}You have spent nine chapters arguing that the Dominion should do this together, openly, or not at all, and the empty boat is exactly the proof you didn't want to be right about: three people went without a charter, a crew, or anyone answerable for them, and the mist took the gap between a plan and an impulse as its toll. You want the next crossing built so there is no gap left to take.{/align}{align:unbinding}You have spent nine chapters pushing past councils and caution both, and you will not pretend the boots don't shake you — but you read them differently than the others do: not a warning to stay back, a confirmation that the door answers people who walk straight at it. Someone is going to have to walk at it again, on purpose this time, with their eyes open.{/align}{align:default}You have not settled, in nine chapters, on what any of this means, and three empty boots in a neat row do not settle it for you — they only make plain that whatever is on the other side of that question does not consider taking three lives at once to be cruelty. You are starting to suspect it does not think in those terms at all.{/align}\n\nBy evening three camps have formed, and none of them are arguing about what to say anymore — that argument is over, and the boots won it for silence not working as a strategy. They are arguing about what to spend. The watch captains want every boat called back to harbor and the whole venture shelved until the mist, not the Dominion, decides to explain itself. The envoys want what should have existed from the start: a real expedition, hulls and provisions and a crew drawn openly from all four provinces, built slowly enough to survive its own going. And Ren, who has not asked for anything in nine chapters, finally asks for one thing — to be trusted off her leash entirely, unescorted, and allowed to guide a crew across herself, tonight, on the theory that the door already knows her and might open gentler for a second knock from the same hand.",
+    "decision": {
+      "id": "d-ch10-cost",
+      "prompt": "The boat came back without its crew, and three camps are already forming around what the Dominion is willing to spend to learn what crossed. Someone has to decide which price gets paid.",
+      "options": [
+        {
+          "id": "vigil",
+          "label": "Call every crew home",
+          "consequence": "You argue for restraint of a different kind now: no more boats go out chasing a heading that returns footwear instead of people. What's left gets spent keeping the shards that are still whole, whole, until the door decides to explain itself unasked.",
+          "alignment": { "vigil": 2 }
+        },
+        {
+          "id": "accord",
+          "label": "Build the rescue properly",
+          "consequence": "You argue the lantern-boat's mistake was never the crossing — it was going alone. A real expedition, provisioned openly by all four provinces and crewed in the light of day, costs weeks to assemble and far less to lose than three more people guessing alone in the dark.",
+          "alignment": { "accord": 2 }
+        },
+        {
+          "id": "unbinding",
+          "label": "Let Ren lead them through",
+          "consequence": "Councils and convoys both cost time the mist hasn't promised anyone still out there. You back Ren's offer outright — unescorted, fully trusted, guiding a crew across herself tonight — the price she finally named for an answer sooner than a season.",
+          "alignment": { "unbinding": 2 }
+        }
+      ]
+    },
+    "challenge": { "type": "win_with_tag", "tag": "wreck", "count": 2 },
+    "reward": { "type": "consumable", "itemId": "health_potion", "count": 2 }
   }
 ]
