@@ -1,7 +1,7 @@
 # The Fracture Chronicle — Season 2 Story Bible
 
 > Authoritative design doc for Season 2 of the Fracture Chronicle (the
-> biweekly meta-narrative layer — not the Act/campaign system). Read this
+> quarterly meta-narrative layer — not the Act/campaign system). Read this
 > before authoring any Season 2 chapter in `chronicle.json`, or before
 > touching `chronicle.ts` / `ChronicleScreen.tsx` for Season 2 work.
 > Mirrors the role `docs/campaign2.md` plays for Campaign 2 — this is the
@@ -10,7 +10,7 @@
 >
 > **Season 2 is seed-and-grow.** The prologue (`s2prologue`) is the only
 > hand-authored chapter; every chapter after it is written by an automated
-> Routine, fortnightly, from the community's votes. §6.4 is the operative
+> Routine, quarterly, from the community's votes. §6.4 is the operative
 > section — most of this doc exists so that Routine (and anyone replacing it)
 > writes chapters that stay consistent.
 
@@ -251,28 +251,29 @@ Its gates, which any replacement must keep:
   decided** — not simply the newest. The newest may not have unlocked yet, so
   nobody could have voted on it, and its empty tally would silently override
   real votes cast on an earlier one.
-- **Author only once the newest chapter is LIVE** (`availableFrom` on or
-  before today). If the newest is still in the future, stop quietly.
+- **Author only once the newest chapter has been LIVE for 77 days**
+  (`availableFrom` + 77 on or before today). Otherwise stop quietly.
 - **Under 10 total votes → write the chapter neutrally.** A handful of votes
   is not a mandate; the chapter still ships on cadence, but must not claim
   the Dominion chose a side.
 - **Each decision must differ in KIND from the previous chapter's** — see
   §9.1.
 
-New chapters are dated 14 days after the newest existing chapter, so merging
-one does not expose it to players immediately — that gap is the review
-window. If runs were missed and that date is not in the future, date it 14
+New chapters are dated 91 days (13 weeks) after the newest existing chapter.
+Authored on the 77-day gate, that lands them 14 days out, so merging one does
+not expose it to players immediately — that gap is the review window. If runs were missed and that date is not in the future, date it 14
 days from today instead, so a backlog can never dump a chapter live on
 arrival.
 
-**Why "once the newest is live" and not "within N days":** the Routine fires
-weekly but chapters land fortnightly, so the gate has to reject the
-in-between week. A threshold like "latest is no more than 10 days out"
-fails — after authoring, the new chapter sits 14 days out, and a week later
-it is only 7 days out, which passes the threshold and authors again. That
-produces three chapters in the first three weeks and then an irregular
-drift. Keying on *live* is exact (the in-between week always has a future
-chapter), needs no magic number, and self-corrects after missed runs.
+**Why "newest live for 77 days" and not "newest within N days":** the
+Routine fires weekly but chapters land quarterly, so the gate has to reject
+the other twelve weeks. A threshold measured towards a future date ("latest
+is no more than 10 days out") passes again the week after authoring and
+writes twice. Measuring how long the newest chapter has been *live* cannot:
+right after authoring, the newest is in the future, so the gate fails until it
+has been live 77 days. The 77-day wait also means the signal tally is read
+after ~11 weeks of voting, not on the day the chapter unlocks. It
+self-corrects after missed runs (the next weekly run picks it up).
 
 ## 7. UI changes (`ChronicleScreen.tsx`)
 

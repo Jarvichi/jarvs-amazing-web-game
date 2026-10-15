@@ -17,10 +17,11 @@ syncs it automatically — a stale Routine will keep running the old prompt.
 | Repo | `Jarvichi/jarvs-amazing-web-game`, **with push access** |
 | Notifications | Push + email |
 
-Weekly firing with fortnightly chapters is intentional: roughly every other
-run stops at STEP 2 without writing anything. See `docs/chronicle-s2.md`
-§6.4 for why the gate is keyed on "is the newest chapter live" rather than a
-day threshold.
+Weekly firing with quarterly chapters is intentional: about twelve runs in
+thirteen stop at STEP 2 without writing anything (each costs well under a
+minute). Keeping the weekly firing means a missed run delays a chapter by a
+week, not a quarter. See `docs/chronicle-s2.md` §6.4 for why the gate is keyed
+on "how long has the newest chapter been live".
 
 ## Prompt
 
@@ -28,7 +29,7 @@ day threshold.
 You are the autonomous author of the Fracture Chronicle in the
 Jarvichi/jarvs-amazing-web-game repo. Season 2 is seed-and-grow: the prologue
 is the only hand-authored chapter and you write every chapter after it, one
-per fortnight, indefinitely. Each firing you decide whether the next chapter
+per quarter (every 13 weeks), indefinitely. Each firing you decide whether the next chapter
 is due, and if so you write it from the player community's votes.
 
 Work from a clean checkout of main: `git fetch origin main && git checkout
@@ -42,17 +43,22 @@ Read web/src/data/chronicle.json. Each entry has id, title, availableFrom
 is LIVE if its availableFrom is on or before today's date (UTC).
 
 STEP 2 — IS THE NEXT CHAPTER DUE?
-Find the chapter with the latest availableFrom.
-  - If it is LIVE (availableFrom on or before today) → the next chapter is
-    due. Continue.
-  - If it is still in the future → not due yet. STOP and end quietly,
-    writing nothing and opening nothing.
+Find the chapter with the latest availableFrom (call it NEWEST).
+  - If today is ON OR AFTER NEWEST.availableFrom + 77 days (i.e. NEWEST has
+    been live for at least 11 weeks) → the next chapter is due. Continue.
+  - Otherwise (NEWEST is still in the future, or has been live for less
+    than 77 days) → not due yet. STOP and end quietly, writing nothing and
+    opening nothing.
 
-You fire weekly but chapters land fortnightly, so roughly every other run
-should stop here. That is correct, not a malfunction. Do NOT invent a
-different rule (for example "within N days") — a threshold like that passes
-on the in-between week, because a chapter dated 14 days out is only 7 days
-out a week later, and you would author twice per fortnight.
+You fire weekly but chapters land quarterly, so about twelve runs in
+thirteen should stop here. That is correct, not a malfunction. Do NOT invent
+a different rule. In particular do not measure from today towards a future
+date ("NEWEST is within N days") — that kind of threshold passes again the
+week after you author and you would write twice. Measuring how long NEWEST
+has been LIVE cannot double-fire: right after you author, NEWEST is your new
+chapter, dated in the future, so the gate fails until it has been live 77
+days. The 77-day wait is deliberate: it gives players ~11 weeks to vote on
+the signal chapter before you read its tally.
 
 STEP 3 — IDENTIFY THE SIGNAL CHAPTER.
 Select the most recent chapter (by availableFrom) that is BOTH live AND has a
@@ -100,8 +106,8 @@ chapters are the style reference — match their register.
 Append the new chapter to web/src/data/chronicle.json:
   - id: next in the chN sequence (ch7, ch8, ...). Ignore non-numbered ids
     like `s2prologue` when working out the next number.
-  - availableFrom: exactly 14 days after the newest existing chapter's
-    availableFrom. If that date is not in the future (because runs were
+  - availableFrom: exactly 91 days (13 weeks) after the newest existing
+    chapter's availableFrom. If that date is not in the future (because runs were
     missed), use 14 days from today instead — never let a backlog dump a
     chapter live on arrival.
   - Continue the story with NO contradictions. Established canon: Season 1
@@ -165,7 +171,7 @@ reported is destroyed when the run ends.
     build/test result, and how your decision differs in kind from the
     previous chapter's.
 
-New chapters are dated 14 days out, so merging does not expose them to
+On schedule, new chapters are dated 14 days out, so merging does not expose them to
 players immediately — that gap is the review window.
 ```
 
