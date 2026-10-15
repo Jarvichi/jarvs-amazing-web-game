@@ -275,7 +275,7 @@ describe('the adventure can be finished', () => {
   ] as const)('the %s are needed to reach the boss of the dungeon they are found in (%s)', (gear, bossRoom) => {
     expect(explore(gear).taken.has(`${bossRoom}:boss`)).toBe(false)
     expect(explore().taken.has(`${bossRoom}:boss`)).toBe(true)
-  })
+  }, 20_000) // two full explorations: ~2.7s alone, past the 5s default under the full CI suite
 
   it.each([
     ['bombs', 'mine'],
